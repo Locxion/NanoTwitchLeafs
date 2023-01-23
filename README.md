@@ -1,4 +1,6 @@
 # NanoTwitchLeafs
+![nanotwitchleafs_logo](https://user-images.githubusercontent.com/16882079/214092102-4447d44f-807b-4bbb-a85c-2d295643ee6b.png)
+
 ![Platform](https://img.shields.io/badge/Platform-.NET-blueviolet)
 ![netFramework4.7.2](https://img.shields.io/badge/.NET%20Framework-4.7.2-blueviolet)
 ![Windows10/11](https://img.shields.io/badge/Windows-10%2F11-blueviolet)
@@ -37,6 +39,7 @@ Maybe someone will take the Task and submit a Pullrequest!
 # Where to Start?
 ## Basic Todo
 
+- [ ] Project Documentation ( Docs and Code Comments are pretty non existent at this Point)
 - [ ] Rewrite the AutoUpdate Code to search for a new Version on Github and download/install from it.
 - [ ] Rewrite DataType "Amount" from Int to double to make a Trigger for a 6,66 € Donation possible.
 - [ ] Add some Color or a Darkmode to the Software
@@ -45,8 +48,19 @@ Maybe someone will take the Task and submit a Pullrequest!
 - [ ] TipeeeStream
 - [ ] Others?
 
+# Dependencies
+
+- [Extended Wpf Toolkit](https://github.com/xceedsoftware/wpftoolkit)
+- [FontAwesome5](https://github.com/MartinTopfstedt/FontAwesome5)
+- [Log4Net](https://logging.apache.org/log4net/)
+- [Serilog](https://serilog.net/)
+- [Sqlite-net-pcl](https://github.com/praeclarum/sqlite-net)
+- [TwitchLib](https://github.com/TwitchLib/TwitchLib)
 
 
+# Misc
+
+Special Thanks to Daniel Hottmeyer (@Silverdark) and Denis Freund (@revin112}
 
 
 

@@ -7,7 +7,9 @@
 ![Version](https://img.shields.io/badge/Current%20Version-2.9.9-blueviolet)
 
 ## Socials
-![Web](https://img.shields.io/badge/Web-www.nanotwitchleafs.de-blueviolet)
+![Homepage](https://img.shields.io/badge/Web-www.nanotwitchleafs.de-blueviolet)
+<a href="https://discord.gg/w92xZKd"><img src="https://img.shields.io/discord/230485530691895296?color=blueviolet&style=plastic"></a>
+
 
 # About
 

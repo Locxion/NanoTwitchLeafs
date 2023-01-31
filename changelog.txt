@@ -1,0 +1,332 @@
+Changelog for NanoTwitchLeafs - App/Bot
+Please report Bugs and Erros to the Discord! Dont forget to provide nanotwitchleafs.log File!
+
+Version 2.0.0 - 03.09.2021
+---------------
+[System] + Added Language System for future Translations. Translations currently available: English/German. To help with Translations join the Discord!
+[System] * Changed Log Upload mechanics. Log uploads now to own Server on Locxserv.de. (No third Party Services anymore)
+[System] + Added general Error handling and Catch for App-crashing Bugs. Removed Exception Handler Sentry. (No third Party Services anymore)
+[System] * Changed Analytics from Google Analytics to own Server on Locxserv.de. (No third Party Services anymore)
+[System] - Removed Volume Option from Settings. Every Trigger has his own Volume Value now.
+[System] - Removed Phantombot functions and Points System.
+[System] + Added Repeating Messages. You can choose a Timespan in the Response Settings. (Default 60 Minutes)
+[System] + Added License System. You can buy a License and deactivate the Startmessage and the new Repeating Message. You can also use the whole App without buying a License!
+[Twitch] * Complete rewrite of Twitch Link functions. Added own Link Wizard to make Twitch linking easy and fast.
+[Nano] + Added functions to refresh the IP Adress of your Nanoleaf Device to the Device Manager. Auto-Refresh Option in the Settings.
+[Nano] + App can now read and write Single Colors. Single Colors for Triggers Available.
+[Trigger] * Complete rewrite of the Trigger Window.
+[Trigger] + You can now Switch off individual Triggers instead of deleting them.
+[Trigger] + Added Trigger Detail Window. All Options for all Triggers in one Organized Window.
+[Trigger] + Added Single Color Support. You can now choose between Effect or Single Color mode. You can also have a Single Color as Base Effect.
+[Trigger] + New Trigger "Donations". Currently only usable with Streamlabs connection.
+[Trigger] + New Trigger "HeartRate". Connect to your HypeRate.io ID and Trigger Nanoleafs based on your HeartRate.
+[Trigger] + New Trigger "Username Color". Takes the Twitch Color of the User and paints on Random Nanoleaf Panel in this Color for each Chat Message.
+[Trigger] * Changed Channelpoints Reward Link. You can now Create/Edit a Trigger and choose Channelpoints. Then simply go to your Chat and use the Reward to link it to the Trigger.
+
+Version 1.9.1.0 - 08.07.2020
+---------------
+[System] * Fixed check for Startup Message.
+
+Version 1.9.0.0 - 08.07.2020
+---------------
+[System] + Added Error Message for blocked Startup Analytics.
+[System] + Added Check for Startup Chat Message if it contains "Powered by NanoTwitchLeafs.com"
+[Nano] + Added compatibility for new Shapes Series (Hexagons).
+[Nano] * Fixed Device Info processing for Canvas.
+[System] * Fixed Device Info Window with Multiple Nanoleafs.
+[Trigger] + Added "Stages" functinallity for Hosts. (Similar to Bits)
+[Twitch] + Added Blacklist check for Host and Bits Events.
+
+Version 1.8.11.1 - 13.06.2020
+---------------
+[HOTIFX]
+[Trigger] * Fixed Check for missing Effectbox Selection and/or Missing Commands/Keywords Text.
+[Nano] * Fixed Nanoleaf Infobox Displaying multiple Sets.
+[System] + Added more Debug Messages for Twitch Events.
+[Trigger] * Fixed missing Link between Twitch Events and Queue.
+
+Version 1.8.11 - 11.06.2020
+---------------
+[System] + Changed Blacklist Function. Now Everything will be filtered. Commands, Keywords and Twitch Events.
+[Trigger] * Fixed Missaligned Amount Box.
+[System] * Fixed some Debug Functions and Messages.
+[System] + Added Volume Slider to Settings.
+
+Version 1.8.10 - 17.05.2020
+--------------- 
+[Trigger] * Changed Points to Amount in Trigger Window.
+[Twitch] + Added Debug Messages for Twitch Events.
+[Twitch] + Added New Twitchlib Versions to fix GiftSub Events.
+[System] + Added Debug/Dev functionallity for !nano help
+[System] + Added "Powered by NanoTwitchLeafs.com" to Startup Message.
+[Trigger] + Added Vip Only Checkbox for Command and Keyword Trigger.
+[Trigger] + Added Warning for Points Checkbox Channelpoints.
+
+Version 1.8.9.1 - 12.05.2020
+---------------
+[System] * Fixed a Bug with the Save File where Username and Channel where not saved on first Connect.
+
+Version 1.8.9 - 08.05.2020
+--------------- 
+[Twitch] * Fixed Client Handling, Auth Process and Reauth Process. (Little Loading Window indicates Login Process)
+[System] + Added Auto Updater for Release and Beta Version. Updating NTL should now be much easier!
+[Trigger] + Added Twitch Channel Points integration. For Help click the ? on the Top Right of the Trigger Window.
+[Trigger] + Added Soundplayer for each Trigger. NTL can now play Soundfiles on each Trigger.  Use Duration to "cut" the File.
+[System] - Removed the # in Front of the Channel Box.
+[Twitch] * Fixed Chat Response for Twitch Events.
+
+Version 1.7.1 - 06.03.2020
+--------------- 
+[System] + Added little Cooldown for nano help Command to prevent Spam
+[Twitch] + Added own Auth Token generation to fix PubSub issue. Users need to re-generate Login Credentials.
+[Triggers] * Follower and Bits Events should work correctly again. \o/
+
+Version 1.7.0.0 - 04.03.2020
+--------------- 
+[System] * Complete Rewrite of the Logsystem. (Implement of Log4View)
+[System] + Added Warning if Command Prefix Box is empty.
+[System] + Added Multiple Instance Check. You can not longer start NanoTwitchLeafs twice.
+[Nano] + Added Check and Warning for Solid Color Effects on Nanoleaf.
+[Triggers] + Added Bits Stages. You can now define Multiple Bits Trigger and create Stages like 0-50, 51-100 etc ...
+[Triggers] + Added Warning if you add Command Prefix to Command or Keyword Box.
+[System] + Added Username Blacklist. You can now add Twitch Usernames to a Blacklist. Messages from these Users will be ignored.
+[Streamlabs] - Disabled all Streamlabs Points functionallities cause of API Problems. Will be reactivated when they fix their Stuff.
+[Debug] * Changed some Debug Commands.
+
+Version 1.6.9.5 - 17.11.2019
+--------------- 
+* [System] Fixed Icon Loading.
+
+Version 1.6.9.4 - 17.11.2019
+--------------- 
++ [System] NTL gets now Minimized to the SystemTray with the NTL Icon.
+
+Version 1.6.9.3 - 15.09.2019
+--------------- 
++ [System] Added Discord Link to Appinfo Window
++ [System] Added AutoSave for System Settings. You still have to use the Save Button in the Trigger Window!
+/ [System] Disabled Update Check for Debug and Beta Versions.
++ [Nano] Added Brightness Functions.
++ [Trigger] Added Input Fields for Brightness for each Trigger. You can now specify the Brightness for each Trigger!
+* [System] Changed the "No Active Commands" Error Messages in Chat.
++ [System] Added Error Messages for failed Subonly Command.
+* [System] Fixed Mod only Triggers blocking other Commands/Keywords.
++ [System] Added "Reset Brightness" Button to Reset Brightness to desired Value without using your Phone.
++ [System] Added and Rearraged some Live Debug Functions.
+* [Points] Fixed Error Message from Streamlabs "You dont have enough Points!"
+
+
+Version 1.6.8.1 - 09.08.2019
+--------------- 
++ [System] Added Message Boxed for clicking on Save Buttons.
+* [Trigger] Fixed a Bug where a Moderator or Broadcaster is not recognized as such.
+
+Version 1.6.8.0 - 08.08.2019
+--------------- 
+* [Nano] Fixed Error on Saving Device Parameters.
++ [Trigger] Added Mod-Only Checkbox for Triggers.
++ [System] Added last AppVersion to AppSettings.
+
+Version 1.6.7.0 - 06.08.2019
+--------------- 
+* [Debug] Fixed Debug Command "set effect" for Effects with whitespaces.
++ [Trigger] Finally added Scrollbar to Trigger Window.
+* [Nano] Added Timeout Timespan for HTTP Requests. (Should hopefully fix the Restore Bug)
+* [System] Fixed a Bug where a to big Logfile cause freeze of the App. Added Logrotate.
+* [Nano] Manual Pairing is now available by default.
+   You don't have to use Autodetect at start anymore.
++ [System] Main Window is now resizable.
+* [System] Changed Raw Twitch Output in Log from System to Debug.
++ [System] Added Duplicate Window Check.
+* [Nano] Automatic force Lowercase the Command Text in Textbox.
+
+Version 1.6.6.3 - 13.07.2019
+--------------- 
+* [Nano] Fixed Firmware 3.1.2 "Set Effect Bug"
+* [System] Better Queue Handling - Reset
+
+Version 1.6.6 - 22.06.2019
+--------------- 
+* [Nano] Multi Device Support! - You can now connect more NanoLeafs!
+  You have to Re-Pair your Devices! BIG THANKS to https://www.twitch.tv/mind1 !
+* [System] Settings-, Trigger Database- and Logfile will be moved from Programfolder to Appdata/Roaming.
++ [Debug] New Buttons for "Open File Dir" and "Upload Logfile to Pastebin".
+  If you have a Problem: Send me the Pastebin URL on Discord!
++ [Debug] Live debugging Commands for me to help you during your Stream!
+  For fast Help and Error identification!
+* [System] NanoTwichLeafs App don't need Administrator Rights anymore!
+* [Misc] Fixed some Twitch Message formatting and typos!
+* [Streamlabs] Fixed Streamlabs Token Exchange! Handling with Points working again!
+
+Version 1.5.1 - 05.04.2019
+--------------- 
+* [Trigger] Hotfix for "Change Back" Method only Output 0 Seconds.
+
+Version 1.5.0 - 05.04.2019
+--------------- 
++ [System] New AutoConnect Feature!
++ [System] Changed some UI Stuff. Moved some Settings into the new "Settings"-Tab.
++ [Twitch] Added possibility to configure your Own Startup Message & Chat Responses!
++ [Twitch] Cooldown Messages now send via Whisper if active.
++ [Twitch] Your can Mods ignore Cooldowns for Commands and Keywords (if you wish).
++ [Trigger] Commands and Keywords can now be "Sub-Only".
++ [Analytics] You can now share your Channel for Analytics. Default ON! (Maybe i will give you a visit :D)
+* [Twitch] Fixed "No Caps sensitivity" for Commands and Keywords.
+* [Trigger] "New Follower" Trigger should now work way better and get detected faster.
+
+Version 1.4.5 - 24.02.2019
+--------------- 
+* [Trigger] Fixed Queue Handling.
+* [System] Fixed Remaining Queue Events - Display.
+* [System] Fixed Cooldown Timing.
+
+Version 1.4.4 - 23.02.2019
+--------------- HOTFIX
+* [System] Fixed Changing Cooldown Textbox Content before Loading Settings.
+
+Version 1.4.4 - 23.02.2019
+---------------
+- [Twitch] Removed the "I'm a Bot" Response on Whisper.
++ [Twitch] Added Twitch Credentials Nullcheck.
++ [Trigger] Changed Buffer to Queue and added "Reset Queue"-Button.
++ [System] Added Clickable Twitter Link in InfoWindow.
+* [System] Changed Cooldown Text Box Handler for better Saving.
+* [System] Reworked and Tested Cooldown Mechanic.
+* [Twitch] Changed Prefix Handling for incoming Messages.
+* [Twitch] Fixed the "" has changed the Effect - Message on Twitch Events.
+
+
+Version 1.4.3 - 18.02.2019
+---------------
+* [System] Changed Label "Botname" to "Username".
+* [Nano] Fixed Exception if you tried to enable Nano Cooldown but Bot was not yet connected to Twitch.
+* [Twitch] !nano help - Command now includes the Prefix in front of the Commands.
+* [Twitch] PubSub Auth should now work. Missed some steps in the Auth and Subscribe Process.
+* [Twitch] Sub Events should now work without disconnecting from the Twitch Servers. (Exept AnonGiftSub - Currently deactivated - WIP)
+
+Version 1.4.2 - 10.02.2019
+---------------
+* [System] Changed Sentry Exception Handling.
++ [Twitch] Added new Username, Channel, Auth null Checks.
++ [Nano] Added more Checks for HTTP-Status Response.
+
+Version 1.4.1 - 10.02.2019
+---------------
++ [System] Added Sentry Integration for Exception and Program Crash Info Collection
+
+Version 1.4.0 - 08.02.2019
+---------------
++ [Nano] Added Auto Detect for Pairing a new Nanoleaf Device.
++ [Trigger] Added Queue for incoming Events.
+
+Version 1.3.5 - 03.02.2019
+---------------
+* [Analytics] Fixed Analytics Guid Generation.
++ [Analytics] Added KeepAlive Hit.
++ [System] Added Help ? Button to Restore previous Effect Options.
+
+Version 1.3.4 - 01.02.2019
+---------------
+* [Twitch] Fixed Bug with Twitch Moderator List (thanks to tmocs!)
+* [System] Changed Details on AppInfo to match with new Website
++ [Nano] Added "Restore previous Effect" Options for Keyword and Command
+
+Version 1.3.3 - 01.02.2019
+---------------
+* [Twitch] Fixed Bot connection with Data from Config not from UI.
+* [System] Fixed some another Typos.
+* [Analytics] Fixed Analytics StopSession Endpoint.
+
+Version 1.3.2 - 30.01.2019
+--------------- 
++ [System] Streamer and Channel Moderators are now not effected by Cooldown or Points.
+* [System] Fixed more Typos.
+* [Analytics] Fixed Bug for Exception Message.
+* [Analytics] Changed Session GUID to Client GUID.
+
+
+Version 1.3.1 - 29.01.2019
+--------------- 
+* [System] Fixed some Typos.
+* [System] Fixed Message Feedback Form Delivery
+* [Trigger] Fixed Bug in Keyword Handler.
+* [Analytics] Fixed Bug for Exception Message.
+* [Integration] Fixed Bug on Phantombot MySql Handling.
+
+Version 1.3.0 - 28.01.2019
+--------------- 
++ [System] Added "View Full Changelog" on Announcement Window.
++ [System] Added Twitter Tag to Info Window.
++ [Twitch] Added Customizable Command Prefix.
++ [Twitch] Added Checkbox to toggle on/off the Response Message on Effect Change.
++ [Trigger] Added Keyword Trigger and Multi-Keyword Support.
++ [Trigger] Added Help/Tutorial on Trigger Window.
++ [Integration] Streamlabs Loyalty Points.
+
+
+Version 1.2.4.2 - 20.01.2019
+--------------- 
++ [System] Added Phantombot SQLite Integration.
++ [System] Added AppLogo on Info Window.
++ [System] Added "Show Start Announcement" CheckBox to Misc Tab.
++ [Twitch] Added Chat Message if User successfull changes Effect on NanoLeaf Controller.
++ [Installer] Added new AppLogo and Banner.
+* [Analytics] Fixed String Builder for Exit EventHandler.
+* [NanoLeaf] Fixed UI for Cooldown and Duration. Values should now loaded properly.
+* [NanoLeaf] Fixed Cooldown Handling. 
+
+Version 1.2.3 - 15.01.2019
+--------------- 
++ [System] Added Analytics Controller and Options.
++ [System] Added Feedback Option on Info Window.
+
+Version 1.2.2.1 - 15.01.2019
+--------------- 
++ [Installer] Added EULA to the Installer.
+
+
+Version 1.2.2 - 13.01.2019
+--------------- 
++ [System] Auto Enable/Disable Text Box and Button for sending Messages into Chat on connect/disconnect
++ [System] Chat and Console Window now have Autoscroll
++ [Twitch] Added PubSub Controller for Follower and Bits/Cheering Events
++ [NanoLeaf] Added Seperate Triggers for Resub, GiftSub and Anonymous GiftSub
++ [NanoLeaf] Added new Triggers for Follower and Bits/Cheering Events
+
+
+Version 1.2.1 - 11.01.2019
+--------------- 
++ [System] Added Error Messages if Pairing or Test Connection to NanoLeaf Device fails
+* [Twitch] Fixed Creating API Endpoint Adress generation
+* [Twitch] Fixed EventHandler for Subs
+* [NanoLeaf] Fixed Duration Handling for switching Effects
+
+
+Version 1.2.0 - 11.01.2019
+--------------- 
++ [System] MOAR Debug Messages!
++ [Twitch] New EventHandler for Subs, Hosts and Raids
++ [NanoLeaf] Reworked Command Controller - Now Trigger Controller
+			 Redesign of the "Commands" Window - Now Trigger Window
+			 You can now define a "Trigger" + Duration in Seconds or a Command and a Point Variable
+- [NanoLeaf] Removed Unfinished Color Logic (Simple Colors are boring eh?!)
+
+Version 1.0.1 - 11.01.2019
+---------------
++ [System] Microsoft Installer
++ [System] Logfile Output for better Remote Debugging
++ [System] Versions Check
+
+Version 1.0.0 - 10.01.2019
+---------------
++ [System] First "working" Build - \o/ YaY
++ [Twitch] Client Login
++ [Twitch] Chat Command Controller
++ [Twitch] Chat Whisper Mode
++ [Twitch] Basic !nano help Command to get a List of available Commands and their Costs
++ [Phantombot] MySql Database Connector
++ [NanoLeaf] Pairing Logic
++ [NanoLeaf] Command Logic
++ [NanoLeaf] Effect Logic
++ [NanoLeaf] Color Logic (WIP)
+

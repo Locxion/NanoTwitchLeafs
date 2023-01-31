@@ -1,0 +1,268 @@
+{
+  "TwitchClientId": "rgf4rgkizh81qoiltpsvmfhwy71igw",
+  "TwitchClientSecret": "9a1hp3iow1ffeyfcoukm415mr2naaz",
+  "StreamlabsClientId": "",
+  "StreamlabsClientSecret": "",
+  "StreamlabsInformation": {
+    "StreamlabsAToken": null,
+    "StreamlabsUser": null,
+    "StreamlabsSocketToken": null
+  },
+  "LastValidation": "2022-06-16T20:58:35.8838328+00:00",
+  "BotAvatarUrl": "https://static-cdn.jtvnw.net/jtv_user_pictures/locxion-profile_image-519ae39db2eb7b4b-300x300.jpeg",
+  "BroadcasterAvatarUrl": "https://static-cdn.jtvnw.net/jtv_user_pictures/locxion-profile_image-519ae39db2eb7b4b-300x300.jpeg",
+  "BotName": "locxion",
+  "BotAuthObject": {
+    "Access_Token": "s6kjc17kiero9otyfhvctwk5lps25l",
+    "Refresh_Token": "wuxuni3wcgs4zqupgmqiev2xfqs8w7f2e94at39usgxxf95vrx",
+    "Expires_In": 15146
+  },
+  "ChannelName": "locxion",
+  "BroadcasterAuthObject": {
+    "Access_Token": "s6kjc17kiero9otyfhvctwk5lps25l",
+    "Refresh_Token": "wuxuni3wcgs4zqupgmqiev2xfqs8w7f2e94at39usgxxf95vrx",
+    "Expires_In": 15146
+  },
+  "WhisperMode": false,
+  "ChatResponse": false,
+  "Responses": {
+    "StartupMessageActive": true,
+    "StartupResponse": "Hey Leute! Ich bin ein Bot und ich steuere die Nanoleaf Lichter! Für Hilfe benutze '!nano help'. Powered by www.NanoTwitchLeafs.com",
+    "CommandResponse": "{username} wechselt den Effekt zu {effect}.",
+    "CommandDurationResponse": "{username} wechselte den Effekt zu {effect} für {duration} Sekunden.",
+    "KeywordResponse": "{username} sagt ein magisches Wort und wechselt den Effekt zu {effect}."
+  },
+  "CommandPrefix": "!",
+  "NanoSettings": {
+    "NanoLeafDevices": [
+      {
+        "PublicName": "Schreibtisch",
+        "DeviceName": "Nanoleaf Light Panels 56:bf:1b",
+        "Token": "mxniGfRKJOPP6rgZEMtKhsJB7vhUjdx0",
+        "Address": "192.168.178.44",
+        "Port": 16021,
+        "NanoleafControllerInfo": {
+          "name": "Nanoleaf Light Panels 56:bf:1b",
+          "serialNo": "S19262A2428",
+          "manufacturer": "Nanoleaf",
+          "firmwareVersion": "5.1.0",
+          "hardwareVersion": "1.6-2",
+          "model": "Aurora/Lightpanels",
+          "cloudHash": {},
+          "discovery": {},
+          "effects": {
+            "effectsList": [
+              "Color Burst",
+              "Color Waves",
+              "Cops",
+              "Disco Color",
+              "Fireworks",
+              "Flames",
+              "Forest",
+              "Inner Peace",
+              "Knight Rider",
+              "Matrix",
+              "Meteor Shower",
+              "Nemo",
+              "Northern Lights",
+              "Paint Splatter",
+              "Pulse Pop Beats",
+              "Rhythmic Northern Lights",
+              "Ripple",
+              "Romantic",
+              "Snowfall",
+              "Sound Bar",
+              "Streaking Notes",
+              "Strobe Blue",
+              "Strobe Light",
+              "Strobe Nemo"
+            ],
+            "select": "Color Waves"
+          },
+          "firmwareUpgrade": {},
+          "panelLayout": {
+            "globalOrientation": {
+              "value": 268,
+              "max": 360,
+              "min": 0
+            },
+            "layout": {
+              "numPanels": 15,
+              "sideLength": 150,
+              "positionData": [
+                {
+                  "panelId": 239,
+                  "x": 149,
+                  "y": 129,
+                  "o": 180,
+                  "shapeType": 0
+                },
+                {
+                  "panelId": 104,
+                  "x": 149,
+                  "y": 216,
+                  "o": 0,
+                  "shapeType": 0
+                },
+                {
+                  "panelId": 189,
+                  "x": 224,
+                  "y": 259,
+                  "o": 180,
+                  "shapeType": 0
+                },
+                {
+                  "panelId": 95,
+                  "x": 299,
+                  "y": 216,
+                  "o": 120,
+                  "shapeType": 0
+                },
+                {
+                  "panelId": 146,
+                  "x": 374,
+                  "y": 259,
+                  "o": 180,
+                  "shapeType": 0
+                },
+                {
+                  "panelId": 190,
+                  "x": 449,
+                  "y": 216,
+                  "o": 0,
+                  "shapeType": 0
+                },
+                {
+                  "panelId": 191,
+                  "x": 449,
+                  "y": 129,
+                  "o": 180,
+                  "shapeType": 0
+                },
+                {
+                  "panelId": 102,
+                  "x": 524,
+                  "y": 86,
+                  "o": 240,
+                  "shapeType": 0
+                },
+                {
+                  "panelId": 160,
+                  "x": 524,
+                  "y": 0,
+                  "o": 180,
+                  "shapeType": 0
+                },
+                {
+                  "panelId": 33,
+                  "x": 224,
+                  "y": 346,
+                  "o": 120,
+                  "shapeType": 0
+                },
+                {
+                  "panelId": 106,
+                  "x": 149,
+                  "y": 389,
+                  "o": 300,
+                  "shapeType": 0
+                },
+                {
+                  "panelId": 54,
+                  "x": 149,
+                  "y": 476,
+                  "o": 0,
+                  "shapeType": 0
+                },
+                {
+                  "panelId": 161,
+                  "x": 74,
+                  "y": 519,
+                  "o": 180,
+                  "shapeType": 0
+                },
+                {
+                  "panelId": 87,
+                  "x": 0,
+                  "y": 476,
+                  "o": 120,
+                  "shapeType": 0
+                },
+                {
+                  "panelId": 145,
+                  "x": 0,
+                  "y": 389,
+                  "o": 60,
+                  "shapeType": 0
+                }
+              ]
+            }
+          },
+          "rhythm": {
+            "auxAvailable": true,
+            "firmwareVersion": "2.4.3",
+            "hardwareVersion": "2.0",
+            "rhythmActive": false,
+            "rhythmConnected": true,
+            "rhythmId": 198,
+            "rhythmMode": 1,
+            "rhythmPos": {
+              "x": 74.998478677946281,
+              "y": 259.80644557413825,
+              "o": 180.0
+            }
+          },
+          "schedules": {},
+          "state": {
+            "brightness": {
+              "value": 50,
+              "max": 100,
+              "min": 0
+            },
+            "colorMode": "effect",
+            "ct": {
+              "value": 5000,
+              "max": 6500,
+              "min": 1200
+            },
+            "hue": {
+              "value": 0,
+              "max": 360,
+              "min": 0
+            },
+            "on": {
+              "value": true
+            },
+            "sat": {
+              "value": 0,
+              "max": 100,
+              "min": 0
+            }
+          }
+        }
+      }
+    ],
+    "TriggerEnabled": true,
+    "CooldownEnabled": false,
+    "CooldownIgnore": false,
+    "Cooldown": 0,
+    "ChangeBackOnCommand": true,
+    "ChangeBackOnKeyword": true
+  },
+  "DebugEnabled": true,
+  "AutoConnect": false,
+  "InstanceID": "2de9a908-5476-46f8-b973-0b5fbfc0d099",
+  "AppVersion": {
+    "Major": 2,
+    "Minor": 1,
+    "Build": 5,
+    "Revision": 0,
+    "MajorRevision": 0,
+    "MinorRevision": 0
+  },
+  "BlacklistEnabled": false,
+  "Blacklist": [],
+  "AutoIpRefresh": true,
+  "Language": "en-US",
+  "HypeRateId": "1d8ee0"
+}

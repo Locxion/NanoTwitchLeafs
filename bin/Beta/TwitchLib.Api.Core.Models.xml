@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TwitchLib.Api.Core.Models</name>
+    </assembly>
+    <members>
+        <member name="P:TwitchLib.Api.Core.Models.Root.Root.Token">
+            <summary>Property representing token object.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.Core.Models.Root.RootAuthorization.CreatedAt">
+            <summary>Property representing the date time of channel creation.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.Core.Models.Root.RootAuthorization.Scopes">
+            <summary>Property representing the scopes.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.Core.Models.Root.RootAuthorization.UpdatedAt">
+            <summary>Property representing the date time of last channel update.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.Core.Models.Root.RootToken.Auth">
+            <summary>Property representing authorization object.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.Core.Models.Root.RootToken.ClientId">
+            <summary>Property representing the Client ID.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.Core.Models.Root.RootToken.UserId">
+            <summary>Property representing the userId.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.Core.Models.Root.RootToken.Username">
+            <summary>Property representing the username.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.Core.Models.Root.RootToken.Valid">
+            <summary>Property representing if the auth token is valid.</summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,237 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TwitchLib.Api.Core.Enums</name>
+    </assembly>
+    <members>
+        <member name="T:TwitchLib.Api.Core.Enums.BadgeColor">
+            <summary>Color enum representing color based on cheer amount.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.BadgeColor.Red">
+            <summary>Red = 10000+</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.BadgeColor.Blue">
+            <summary>Blue = 5000 -> 9999</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.BadgeColor.Green">
+            <summary>Green = 1000 -> 4999</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.BadgeColor.Purple">
+            <summary>Purple = 100 -> 999</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.BadgeColor.Gray">
+            <summary>Gray = 1 -> 99</summary>
+        </member>
+        <member name="T:TwitchLib.Api.Core.Enums.ChatColorPresets">
+            <summary>Enum representing the available chat name color presets.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.ChatColorPresets.Blue">
+            <summary>Chat color name.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.ChatColorPresets.Coral">
+            <summary>Chat color name.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.ChatColorPresets.DodgerBlue">
+            <summary>Chat color name.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.ChatColorPresets.SpringGreen">
+            <summary>Chat color name.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.ChatColorPresets.YellowGreen">
+            <summary>Chat color name.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.ChatColorPresets.Green">
+            <summary>Chat color name.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.ChatColorPresets.OrangeRed">
+            <summary>Chat color name.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.ChatColorPresets.Red">
+            <summary>Chat color name.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.ChatColorPresets.GoldenRod">
+            <summary>Chat color name.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.ChatColorPresets.HotPink">
+            <summary>Chat color name.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.ChatColorPresets.CadetBlue">
+            <summary>Chat color name.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.ChatColorPresets.SeaGreen">
+            <summary>Chat color name.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.ChatColorPresets.Chocolate">
+            <summary>Chat color name.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.ChatColorPresets.BlueViolet">
+            <summary>Chat color name.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.ChatColorPresets.Firebrick">
+            <summary>Chat color name.</summary>
+        </member>
+        <member name="T:TwitchLib.Api.Core.Enums.CommercialLength">
+            <summary>A list of valid commercial lengths.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.CommercialLength.Seconds30">
+            <summary>30 second commercial</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.CommercialLength.Seconds60">
+            <summary>60 second commercial</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.CommercialLength.Seconds90">
+            <summary>90 second commercial</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.CommercialLength.Seconds120">
+            <summary>120 second commercial</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.CommercialLength.Seconds150">
+            <summary>150 second commercial</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.CommercialLength.Seconds180">
+            <summary>180 second commercial</summary>
+        </member>
+        <member name="T:TwitchLib.Api.Core.Enums.LogType">
+            <summary>Enum to alter color effects in log</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.LogType.Normal">
+            <summary>White</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.LogType.Failure">
+            <summary>Red</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.LogType.Success">
+            <summary>Green</summary>
+        </member>
+        <member name="T:TwitchLib.Api.Core.Enums.Period">
+            <summary>Period value used to specify time frame for clips.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.Period.Day">
+            <summary>Represents a single day.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.Period.Week">
+            <summary>Represents a single week.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.Period.Month">
+            <summary>Represents a single month.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.Period.All">
+            <summary>Represents a all time frames.</summary>
+        </member>
+        <member name="T:TwitchLib.Api.Core.Enums.PubSubRequestType">
+            <summary>Enum representing various request types for PubSub service</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.PubSubRequestType.ListenToTopic">
+            <summary>Type of request to listen to a specific topic</summary>
+        </member>
+        <member name="T:TwitchLib.Api.Core.Enums.SendReceiveDirection">
+            <summary>Enum to show which direction the message was detected from.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.SendReceiveDirection.Sent">
+            <summary>Used for logging, direction of data.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.SendReceiveDirection.Received">
+            <summary>Used for logging, direction of data.</summary>
+        </member>
+        <member name="T:TwitchLib.Api.Core.Enums.SortDirection">
+            <summary>A list of valid sorting directions.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.SortDirection.Descending">
+            <summary>Descending sort direction.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.SortDirection.Ascending">
+            <summary>Ascending sort direction.</summary>
+        </member>
+        <member name="T:TwitchLib.Api.Core.Enums.SortKey">
+            <summary>Enum representing sort keys available for /follows/channels/</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.SortKey.CreatedAt">
+            <summary>SortKey representing the date/time of account creation</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.SortKey.LastBroadcaster">
+            <summary>SortKey representing the date/time of the last broadcast of a channel</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.SortKey.Login">
+            <summary>SortKey representing the alphabetical sort based on usernames</summary>
+        </member>
+        <member name="T:TwitchLib.Api.Core.Enums.StreamIdentifierType">
+            <summary>Enum representing various ways to represent a stream id.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.StreamIdentifierType.Usernames">
+            <summary></summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.StreamIdentifierType.UserIds">
+            <summary></summary>
+        </member>
+        <member name="T:TwitchLib.Api.Core.Enums.StreamType">
+            <summary>Types of a stream</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.StreamType.Live">
+            <summary>Live stream</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.StreamType.Playlist">
+            <summary>Preset playlist</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.StreamType.All">
+            <summary>"All"</summary>
+        </member>
+        <member name="T:TwitchLib.Api.Core.Enums.StringEnum">
+            <summary>Really cool way of doing string enums, credits to RogueException (https://github.com/RogueException)</summary>
+        </member>
+        <member name="P:TwitchLib.Api.Core.Enums.StringEnum.Value">
+            <summary>Value of enum</summary>
+        </member>
+        <member name="M:TwitchLib.Api.Core.Enums.StringEnum.#ctor(System.String)">
+            <summary>StringEnum constructor.</summary>
+        </member>
+        <member name="M:TwitchLib.Api.Core.Enums.StringEnum.ToString">
+            <summary>Returns string value for overriden ToString()</summary>
+            <returns>Enum value</returns>
+        </member>
+        <member name="T:TwitchLib.Api.Core.Enums.ThrottleType">
+            <summary>Enum representing the available throttle types.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.ThrottleType.MessageTooShort">
+            <summary>Throttle based on message being too short.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.ThrottleType.MessageTooLong">
+            <summary>Throttle based on message being too long.</summary>
+        </member>
+        <member name="T:TwitchLib.Api.Core.Enums.UserType">
+            <summary>Enum representing various user-types.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.UserType.Viewer">
+            <summary>The standard user-type representing a standard viewer.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.UserType.VIP">
+            <summary>User-type representing viewers with channel-specific vip powers.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.UserType.Moderator">
+            <summary>User-type representing viewers with channel-specific moderation powers.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.UserType.GlobalModerator">
+            <summary>User-type representing viewers with Twitch-wide moderation powers.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.UserType.Broadcaster">
+            <summary>User-type representing the broadcaster of the channel</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.UserType.Admin">
+            <summary>User-type representing viewers with Twitch-wide moderation powers that are paid.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.UserType.Staff">
+            <summary>User-type representing viewers that are Twitch employees.</summary>
+        </member>
+        <member name="T:TwitchLib.Api.Core.Enums.VideoPlaybackType">
+            <summary>Valid playback types.</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.VideoPlaybackType.StreamUp">
+            <summary>On stream up</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.VideoPlaybackType.StreamDown">
+            <summary>On stream down</summary>
+        </member>
+        <member name="F:TwitchLib.Api.Core.Enums.VideoPlaybackType.ViewCount">
+            <summary>On view count</summary>
+        </member>
+    </members>
+</doc>

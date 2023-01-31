@@ -1,0 +1,23 @@
+﻿<Window x:Name="Blacklist" x:Class="NanoTwitchLeafs.Windows.BlacklistWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Blocklist" Height="450" Width="275" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+    <Grid x:Name="Blacklist_Grid">
+        <ListBox x:Name="blacklist_ListBox" Margin="10,35,10,10" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Auto" RenderTransformOrigin="0.5,0.5" FontSize="14">
+            <ListBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform />
+                    <SkewTransform AngleY="-0.076" />
+                    <RotateTransform />
+                    <TranslateTransform Y="-0.466" />
+                </TransformGroup>
+            </ListBox.RenderTransform>
+        </ListBox>
+        <Button x:Name="blacklist_Add_Button" Content="+" HorizontalAlignment="Right" Margin="0,7,47,0" VerticalAlignment="Top" Width="30" Height="23" Click="blacklist_Add_Button_Click" />
+        <Button x:Name="blacklist_Remove_Button" Content="-" Margin="0,7,10,0" VerticalAlignment="Top" Height="23" Click="blacklist_Remove_Button_Click" HorizontalAlignment="Right" Width="30" />
+        <TextBox x:Name="blackbox_Input_Textbox" HorizontalAlignment="Left" Height="23" Margin="10,7,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" VerticalContentAlignment="Center" />
+    </Grid>
+</Window>

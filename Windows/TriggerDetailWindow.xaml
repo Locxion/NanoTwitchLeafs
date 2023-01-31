@@ -1,0 +1,65 @@
+﻿<Window x:Class="NanoTwitchLeafs.Windows.TriggerDetailWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:p="clr-namespace:NanoTwitchLeafs.Properties"
+        mc:Ignorable="d"
+        Title="{x:Static p:Resources.Window_TriggerDetail_Title}" Height="570" Width="555" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+    <Grid>
+        <Slider x:Name="OnOff_Slider" HorizontalAlignment="Left" Margin="95,5,0,0" VerticalAlignment="Top" Width="30" Minimum="0" Maximum="1" SmallChange="1" BorderBrush="#FFAEAEAE" BorderThickness="0" ValueChanged="Slider_ValueChanged" Background="#FF33E433" />
+        <Label Content="{x:Static p:Resources.Window_TriggerDetail_Slider_Text}" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <Border Height="1" Margin="2,33,2,0" Background="#88000000" VerticalAlignment="Top" />
+        <Button x:Name="TriggerHelp_Button" Content="{x:Static p:Resources.General_Button_Help}" Margin="460,4,10,0" VerticalAlignment="Top" Click="TriggerHelp_Button_Click" />
+        <Label Content="{x:Static p:Resources.Window_TriggerDetail_Label_TriggerType}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,34,0,0" />
+        <RadioButton x:Name="Cmd_RadioButton" GroupName="Trigger" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_Command}" HorizontalAlignment="Left" Margin="10,65,0,0" VerticalAlignment="Top" IsChecked="True" Click="TriggerRadioButton_Click" />
+        <RadioButton x:Name="Follower_RadioButton" GroupName="Trigger" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_NewFollower}" HorizontalAlignment="Left" Margin="115,65,0,0" VerticalAlignment="Top" Click="TriggerRadioButton_Click" />
+        <RadioButton x:Name="NewSub_RadioButton" GroupName="Trigger" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_NewSubscriber}" HorizontalAlignment="Left" Margin="231,105,0,0" VerticalAlignment="Top" Click="TriggerRadioButton_Click" />
+        <RadioButton x:Name="Keyword_RadioButton" GroupName="Trigger" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_Keyword}" HorizontalAlignment="Left" Margin="10,85,0,0" VerticalAlignment="Top" Click="TriggerRadioButton_Click" />
+        <RadioButton x:Name="Host_RadioButton" GroupName="Trigger" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_Host}" HorizontalAlignment="Left" Margin="115,85,0,0" VerticalAlignment="Top" Click="TriggerRadioButton_Click" />
+        <RadioButton x:Name="Raid_RadioButton" GroupName="Trigger" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_Raid}" HorizontalAlignment="Left" Margin="115,105,0,0" VerticalAlignment="Top" Click="TriggerRadioButton_Click" />
+        <RadioButton x:Name="Resub_RadioButton" GroupName="Trigger" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_Resub}" HorizontalAlignment="Left" Margin="231,125,0,0" VerticalAlignment="Top" Click="TriggerRadioButton_Click" />
+        <RadioButton x:Name="Bits_RadioButton" GroupName="Trigger" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_Bits}" HorizontalAlignment="Left" Margin="115,125,0,0" VerticalAlignment="Top" Click="TriggerRadioButton_Click" />
+        <RadioButton x:Name="Channelpoints_RadioButton" GroupName="Trigger" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_ChannelPoints}" HorizontalAlignment="Left" Margin="231,65,0,0" VerticalAlignment="Top" Click="TriggerRadioButton_Click" />
+        <RadioButton x:Name="Giftsub_RadioButton" GroupName="Trigger" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_GiftSub}" HorizontalAlignment="Left" Margin="360,65,0,0" VerticalAlignment="Top" Click="TriggerRadioButton_Click" />
+        <RadioButton x:Name="AnonGiftSub_RadioButton" GroupName="Trigger" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_AnonGiftSub}" HorizontalAlignment="Left" Margin="360,105,0,0" VerticalAlignment="Top" Click="TriggerRadioButton_Click" />
+        <Border Height="1" Margin="2,164,2,0" Background="#88000000" VerticalAlignment="Top" />
+        <ComboBox x:Name="Effect_ComboBox" Margin="10,190,250,0" VerticalAlignment="Top" />
+        <Border Height="1" Margin="2,223,2,0" Background="#88000000" VerticalAlignment="Top" />
+        <Label Content="{x:Static p:Resources.Window_TriggerDetail_Label_SoundEffect}" HorizontalAlignment="Left" Margin="5,299,0,0" VerticalAlignment="Top" />
+        <TextBox x:Name="SoundFilePath_Textbox" Height="24" Margin="12,327,146,0" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" TextChanged="SoundFilePath_Textbox_TextChanged" IsEnabled="False" />
+        <Button x:Name="SelectSoundFilePath_Button" Content="{x:Static p:Resources.Window_TriggerDetail_Button_SelectFile}" Margin="0,329,65,0" VerticalAlignment="Top" HorizontalAlignment="Right" Click="SelectSoundFilePath_Button_Click" Padding="5,1" />
+        <Border Height="1" Margin="2,361,2,0" Background="#88000000" VerticalAlignment="Top" />
+        <Label Content="{x:Static p:Resources.Window_TriggerDetail_Label_Options}" HorizontalAlignment="Left" Margin="2,363,0,0" VerticalAlignment="Top" />
+        <TextBox x:Name="Amount_Textbox" HorizontalAlignment="Left" Height="23" Margin="81,419,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="50" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsEnabled="False" />
+        <Label Content="{x:Static p:Resources.Window_TriggerDetail_Label_Amount}" HorizontalAlignment="Left" Margin="8,418,0,0" VerticalAlignment="Top" />
+        <TextBox x:Name="Duration_Textbox" HorizontalAlignment="Left" Height="23" Margin="81,388,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="50" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+        <Label Content="{x:Static p:Resources.Window_TriggerDetail_Label_Duration}" HorizontalAlignment="Left" Margin="8,387,0,0" VerticalAlignment="Top" />
+        <TextBox x:Name="Brightness_Textbox" HorizontalAlignment="Left" Height="23" Margin="81,451,0,0" TextWrapping="Wrap" Text="50" VerticalAlignment="Top" Width="50" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+        <Label Content="{x:Static p:Resources.Window_TriggerDetail_Label_Brightness}" HorizontalAlignment="Left" Margin="7,450,0,0" VerticalAlignment="Top" />
+        <TextBox x:Name="Cooldown_Textbox" HorizontalAlignment="Left" Height="23" Margin="81,482,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="50" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+        <Label Content="{x:Static p:Resources.Window_TriggerDetail_Label_Cooldown}" HorizontalAlignment="Left" Margin="8,481,0,0" VerticalAlignment="Top" />
+        <CheckBox x:Name="Viponly_Checkbox" Content="{x:Static p:Resources.Window_TriggerDetail_Checkbox_Vip}" HorizontalAlignment="Left" Margin="159,393,0,0" VerticalAlignment="Top" Click="Checkbox_Click" />
+        <CheckBox x:Name="Subonly_Checkbox" Content="{x:Static p:Resources.Window_TriggerDetail_Checkbox_Sub}" HorizontalAlignment="Left" Margin="255,393,0,0" VerticalAlignment="Top" Click="Checkbox_Click" />
+        <CheckBox x:Name="Modonly_Checkbox" Content="{x:Static p:Resources.Window_TriggerDetail_Checkbox_Mod}" HorizontalAlignment="Left" Margin="345,393,0,0" VerticalAlignment="Top" Click="Checkbox_Click" />
+        <TextBox x:Name="CommandKeyword_Textbox" Height="23" Margin="10,259,10,0" TextWrapping="Wrap" VerticalAlignment="Top" AutomationProperties.HelpText="Command or Keyword" Text="" />
+        <Label Content="{x:Static p:Resources.Window_TriggerDetail_Label_CmdKeyword}" HorizontalAlignment="Left" Margin="5,227,0,0" VerticalAlignment="Top" />
+        <Border Height="1" Margin="2,297,2,0" Background="#88000000" VerticalAlignment="Top" />
+        <TextBlock x:Name="Vipsubmod_Textbox" HorizontalAlignment="Left" Margin="162,426,0,0" TextWrapping="Wrap" Text="{x:Static p:Resources.Window_TriggerDetail_VipSubMod_Label_Text}" VerticalAlignment="Top" Height="64" Width="323" />
+        <Button x:Name="Save_Button" Content="{x:Static p:Resources.Window_Responses_Button_Save}" Margin="0,0,0,20" Height="25" VerticalAlignment="Bottom" Click="Save_Button_Click" HorizontalAlignment="Center" Padding="5,1" />
+        <TextBox x:Name="Volume_Textbox" Height="24" Margin="0,327,15,0" TextWrapping="Wrap" Text="50" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsEnabled="False" HorizontalAlignment="Right" Width="42" />
+        <Label Content="{x:Static p:Resources.Window_TriggerDetail_Label_Volume}" Margin="0,299,5,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="75" />
+        <Grid x:Name="Channelpoints_Grid" HorizontalAlignment="Center" Height="63" Margin="0,227,0,0" VerticalAlignment="Top" Background="White" Visibility="Hidden" Width="545">
+            <Label x:Name="channelPointsDetection_Label" Content="{x:Static p:Resources.Window_TriggerDetail_Label_NoRewardDetected}" HorizontalAlignment="Left" VerticalAlignment="Center" Height="63" VerticalContentAlignment="Center" Background="White" Foreground="Red" />
+        </Grid>
+        <RadioButton x:Name="Effect_RadioButton" GroupName="Effect" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_Effect}" HorizontalAlignment="Left" Margin="10,170,0,0" VerticalAlignment="Top" Click="EffectRadioButton_Click" IsChecked="True" />
+        <RadioButton x:Name="Color_RadioButton" GroupName="Effect" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_Color}" HorizontalAlignment="Left" Margin="298,173,0,0" VerticalAlignment="Top" Click="EffectRadioButton_Click" RenderTransformOrigin="-0.511,0.622" />
+        <xctk:ColorPicker x:Name="ColorPicker" Margin="305,190,10,0" IsEnabled="False" Height="22" VerticalAlignment="Top" />
+        <RadioButton x:Name="HypeRate_RadioButton" GroupName="Trigger" Content="HypeRate" HorizontalAlignment="Left" Margin="10,125,0,0" VerticalAlignment="Top" Click="TriggerRadioButton_Click" />
+        <RadioButton x:Name="Donation_RadioButton" GroupName="Trigger" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_Donation}" HorizontalAlignment="Left" Margin="231,85,0,0" VerticalAlignment="Top" Click="TriggerRadioButton_Click" />
+        <RadioButton x:Name="UserColor_RadioButton" GroupName="Trigger" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_UserColor}" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" Click="TriggerRadioButton_Click" />
+        <RadioButton x:Name="GiftBomb_RadioButton" GroupName="Trigger" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_GiftBomb}" HorizontalAlignment="Left" Margin="360,85,0,0" VerticalAlignment="Top" Click="TriggerRadioButton_Click" IsEnabled="False" />
+        <RadioButton x:Name="AnonGiftBomb_RadioButton" GroupName="Trigger" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_AnonGiftBomb}" HorizontalAlignment="Left" Margin="360,125,0,0" VerticalAlignment="Top" Click="TriggerRadioButton_Click" IsEnabled="False" />
+    </Grid>
+</Window>

@@ -1,0 +1,437 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TwitchLib.Api.V5.Models</name>
+    </assembly>
+    <members>
+        <member name="T:TwitchLib.Api.V5.Models.Channels.Channel">
+            <summary>Class representing a channel object from Twitch API.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.Channel.Id">
+            <summary>Property representing the channel ID.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.Channel.BroadcasterLanguage">
+            <summary>Property representing the broadcasters language.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.Channel.CreatedAt">
+            <summary>Property representing the date time of channel creation.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.Channel.DisplayName">
+            <summary>Property representing the case sensitive display name of the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.Channel.Followers">
+            <summary>Property representing the followers count of the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.Channel.BroadcasterType">
+            <summary>Property representing broadcaster type. Can be partner, affiliate or ''</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.Channel.Game">
+            <summary>Property representing the currently played game.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.Channel.Language">
+            <summary>Property representing the signed language.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.Channel.Logo">
+            <summary>Property representing the logo of the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.Channel.Mature">
+            <summary>Property representing wether the channel is for mature audience or not.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.Channel.Name">
+            <summary>Property representing the name of the channel (always in lowercase).</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.Channel.Partner">
+            <summary>Property representing wether the channel is partnered or not.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.Channel.ProfileBanner">
+            <summary>Property representing the profile banner of the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.Channel.ProfileBannerBackgroundColor">
+            <summary>Property representing the profile banner background color of the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.Channel.Status">
+            <summary>Property representing the status of the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.Channel.UpdatedAt">
+            <summary>Property representing the date time of last channel update.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.Channel.Url">
+            <summary>Property representing the url to the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.Channel.VideoBanner">
+            <summary>Property representing the video banner of the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.Channel.Views">
+            <summary>Property representing the number of views the channel has.</summary>
+        </member>
+        <member name="T:TwitchLib.Api.V5.Models.Channels.ChannelAuthed">
+            <summary>
+            Class representing a privileged channel object from Twitch API.
+            This class contains more data than the Channel class because the channel object is based on a specified oauth token.
+            </summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelAuthed.Id">
+            <summary>Property representing the channel ID.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelAuthed.BroadcasterLanguage">
+            <summary>Property representing the broadcasters language.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelAuthed.CreatedAt">
+            <summary>Property representing the date time of channel creation.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelAuthed.DisplayName">
+            <summary>Property representing the case sensitive display name of the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelAuthed.Email">
+            <summary>Property representing the registration email address of the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelAuthed.Followers">
+            <summary>Property representing the followers count of the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelAuthed.Game">
+            <summary>Property representing the currently played game.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelAuthed.Language">
+            <summary>Property representing the signed language.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelAuthed.Logo">
+            <summary>Property representing the logo of the channel</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelAuthed.Mature">
+            <summary>Property representing wether the channel is for mature audience or not.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelAuthed.Name">
+            <summary>Property representing the name of the channel (always in lowercase).</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelAuthed.Partner">
+            <summary>Property representing wether the channel is partnered or not.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelAuthed.ProfileBanner">
+            <summary>Property representing the profile banner of the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelAuthed.ProfileBannerBackgroundColor">
+            <summary>Property representing the profile banner background color of the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelAuthed.Status">
+            <summary>Property representing the status of the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelAuthed.StreamKey">
+            <summary>Property representing the stream key of the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelAuthed.UpdatedAt">
+            <summary>Property representing the date time of last channel update.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelAuthed.Url">
+            <summary>Property representing the url to the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelAuthed.VideoBanner">
+            <summary>Property representing the video banner of the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelAuthed.Views">
+            <summary>Property representing the number of views the channel has.</summary>
+        </member>
+        <member name="T:TwitchLib.Api.V5.Models.Channels.ChannelCommercial">
+            <summary>Class representing a commercial object from Twitch API.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelCommercial.Duration">
+            <summary>Property representing the duration of the commercial.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelCommercial.Message">
+            <summary>Property representing the commercial message.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelCommercial.RetryAfter">
+            <summary>Property representing the retryafter response.</summary>
+        </member>
+        <member name="T:TwitchLib.Api.V5.Models.Channels.ChannelEditors">
+            <summary>Class representing an array of Users able to edit the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelEditors.Editors">
+            <summary></summary>
+        </member>
+        <member name="T:TwitchLib.Api.V5.Models.Channels.ChannelFollow">
+            <summary>Class representing a follow object from Twitch API.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelFollow.CreatedAt">
+            <summary>Property representing the date time of follow creation.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelFollow.Notifications">
+            <summary>Property representing wether notifications are activated or not.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelFollow.User">
+            <summary>Property representing the User that follows.</summary>
+        </member>
+        <member name="T:TwitchLib.Api.V5.Models.Channels.ChannelFollowers">
+            <summary>Class representing the Channel Followers response from Twitch API.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelFollowers.Cursor">
+            <summary>Property representing the cursor.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelFollowers.Total">
+            <summary>Property representing the total amount of followers.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelFollowers.Follows">
+            <summary>Property representing the Follow collection.</summary>
+        </member>
+        <member name="T:TwitchLib.Api.V5.Models.Channels.ChannelSubscribers">
+            <summary>Class representing the channel subscribers response from Twitch API.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelSubscribers.Total">
+            <summary>Property representing the subscriber count of the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelSubscribers.Subscriptions">
+            <summary>Property representing the subscriptions collection of the channel.</summary>
+        </member>
+        <member name="T:TwitchLib.Api.V5.Models.Channels.ChannelTeams">
+            <summary>Class representing the teams response of a channel from Twitch API.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Channels.ChannelTeams.Teams">
+            <summary>Property representing the channel teams.</summary>
+        </member>
+        <member name="T:TwitchLib.Api.V5.Models.Chat.Badge">
+            <summary>Class representing a Badge from Twitch chat.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Chat.Badge.Alpha">
+            <summary>Property representing the link to the alpha of the badge.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Chat.Badge.Image">
+            <summary>Property representing the link to the image of the badge.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Chat.Badge.SVG">
+            <summary>Property representing the link to the svg of the badge.</summary>
+        </member>
+        <member name="T:TwitchLib.Api.V5.Models.Chat.ChannelBadges">
+            <summary>[deprecated] Class representing the channel badges response from Twitch API.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Chat.ChannelBadges.Admin">
+            <summary>Property representing the admin badge.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Chat.ChannelBadges.Broadcaster">
+            <summary>Property representing the broadcaster badge.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Chat.ChannelBadges.GlobalMod">
+            <summary>Property representing the global moderator badge.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Chat.ChannelBadges.Mod">
+            <summary>Property representing the moderator badge.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Chat.ChannelBadges.Staff">
+            <summary>Property representing the staff badge.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Chat.ChannelBadges.Subscriber">
+            <summary>Property representing the subscriber badge.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Chat.ChannelBadges.Turbo">
+            <summary>Property representing the turbo badge.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Collections.Collection.Id">
+            <summary>Property representing the Collection Id.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Collections.Collection.Items">
+            <summary>Property representing the Collection items.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Collections.CollectionMetadata.Id">
+            <summary>Property representing the CollectionMetadata object Id.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Collections.CollectionMetadata.CreatedAt">
+            <summary>Property representing the date time of Collection creation.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Collections.CollectionMetadata.ItemsCount">
+            <summary>Property representing the count of items in the Collection.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Collections.CollectionMetadata.Owner">
+            <summary>Property representing the owner of the collection.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Collections.CollectionMetadata.Thumbnails">
+            <summary>Property representing the thumbnails of the collection.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Collections.CollectionMetadata.Title">
+            <summary>Property representing the title of the collection.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Collections.CollectionMetadata.TotalDuration">
+            <summary>Property representing the total duration of the collection in seconds.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Collections.CollectionMetadata.UpdatedAt">
+            <summary>Property representing the date time of last collection update.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Collections.CollectionMetadata.Views">
+            <summary>Property representing the total views of the collection.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.FollowedStreams.Total">
+            <summary>Property representing the followed Streams count.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.FollowedStreams.Streams">
+            <summary>Property representing the followed Streams.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.Stream.Id">
+            <summary>Property representing the Stream ID.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.Stream.AverageFps">
+            <summary>Property representing the average fps count of the stream.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.Stream.Channel">
+            <summary>Property representing the channel ID.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.Stream.CreatedAt">
+            <summary>Property representing the date time of channel creation.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.Stream.Delay">
+            <summary>Property representing the Stream delay.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.Stream.Game">
+            <summary>Property representing the Stream game.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.Stream.IsPlaylist">
+            <summary>Property representing wether the Stream is a Playlist or not.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.Stream.StreamType">
+            <summary>Property representing the type of stream (live, watch_party, etc)</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.Stream.Preview">
+            <summary>Property representing wether the Stream is a Playlist or not.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.Stream.VideoHeight">
+            <summary>Property representing the Stream video height.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.Stream.Viewers">
+            <summary>Property representing the Stream viewer count.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.StreamChannel.Id">
+            <summary>Property representing the channel ID.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.StreamChannel.BroadcasterLanguage">
+            <summary>Property representing the broadcasters language.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.StreamChannel.CreatedAt">
+            <summary>Property representing the date time of channel creation.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.StreamChannel.DisplayName">
+            <summary>Property representing the case sensitive display name of the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.StreamChannel.Followers">
+            <summary>Property representing the followers count of the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.StreamChannel.Game">
+            <summary>Property representing the currently played game.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.StreamChannel.Language">
+            <summary>Property representing the signed language.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.StreamChannel.Logo">
+            <summary>Property representing the logo of the channel</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.StreamChannel.Mature">
+            <summary>Property representing wether the channel is for mature audience or not.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.StreamChannel.Name">
+            <summary>Property representing the name of the channel (always in lowercase).</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.StreamChannel.Partner">
+            <summary>Property representing wether the channel is partnered or not.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.StreamChannel.ProfileBanner">
+            <summary>Property representing the profile banner of the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.StreamChannel.ProfileBannerBackgroundColor">
+            <summary>Property representing the profile banner background color of the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.StreamChannel.Status">
+            <summary>Property representing the status of the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.StreamChannel.UpdatedAt">
+            <summary>Property representing the date time of last channel update.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.StreamChannel.Url">
+            <summary>Property representing the url to the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.StreamChannel.VideoBanner">
+            <summary>Property representing the video banner of the channel.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.StreamChannel.Views">
+            <summary>Property representing the number of views the channel has.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.StreamPreview.Large">
+            <summary>Property representing the large preview image of the stream.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.StreamPreview.Medium">
+            <summary>Property representing the medium preview image of the stream.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.StreamPreview.Small">
+            <summary>Property representing the small preview image of the stream.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Streams.StreamPreview.Template">
+            <summary>Property representing the template preview image of the stream.</summary>
+        </member>
+        <member name="T:TwitchLib.Api.V5.Models.Subscriptions.Subscription">
+            <summary>Class representing a subscription object from Twitch API.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Subscriptions.Subscription.Id">
+            <summary>Property representing the subscription ID.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Subscriptions.Subscription.CreatedAt">
+            <summary>Property representing the date time of subscription creation.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Subscriptions.Subscription.User">
+            <summary>Property representing the user that subscribed.</summary>
+        </member>
+        <member name="T:TwitchLib.Api.V5.Models.Teams.Team">
+            <summary>Class representing a more detailed team object from Twitch API</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Teams.Team.Id">
+            <summary>Property representing the team ID.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Teams.Team.Background">
+            <summary>Property representing the background.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Teams.Team.Banner">
+            <summary>Property representing the banner.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Teams.Team.CreatedAt">
+            <summary>Property representing the date time of team creation.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Teams.Team.DisplayName">
+            <summary>Property representing the case sensitive display name of the team.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Teams.Team.Info">
+            <summary>Property representing the information of the team.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Teams.Team.Logo">
+            <summary>Property representing the logo of the team.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Teams.Team.Name">
+            <summary>Property representing the name of the team (always in lowercase).</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Teams.Team.UpdatedAt">
+            <summary>Property representing the date time of last team update.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Teams.Team.Users">
+            <summary>Property representing the users in the team.</summary>
+        </member>
+        <member name="T:TwitchLib.Api.V5.Models.Users.User">
+            <summary>Class representing a User object from Twitch API.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Users.User.Id">
+            <summary>Property representing the user ID.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Users.User.Bio">
+            <summary>Property representing the bio.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Users.User.CreatedAt">
+            <summary>Property representing the date time of user creation.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Users.User.DisplayName">
+            <summary>Property representing the case sensitive display name of the user.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Users.User.Logo">
+            <summary>Property representing the logo of the channel</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Users.User.Name">
+            <summary>Property representing the name of the user (always in lowercase).</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Users.User.Type">
+            <summary>Property representing the type of the user.</summary>
+        </member>
+        <member name="P:TwitchLib.Api.V5.Models.Users.User.UpdatedAt">
+            <summary>Property representing the date time of last user update.</summary>
+        </member>
+    </members>
+</doc>

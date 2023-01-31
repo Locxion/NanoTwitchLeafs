@@ -65,4 +65,4 @@ Maybe someone will take the Task and submit a Pullrequest!
 
 # Misc
 
-Special Thanks to Daniel Hottmeyer (@Silverdark) and Denis Freund (@revin112)
+Special Thanks to Daniel Hottmeyer (@Silverdark) and Denis Freund (@revyn112)

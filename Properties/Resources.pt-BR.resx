@@ -1,0 +1,1013 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="General_Button_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Window_Announcement_Title" xml:space="preserve">
+    <value>Novidades</value>
+  </data>
+  <data name="General_Button_Changelog" xml:space="preserve">
+    <value>Ver Changelog</value>
+  </data>
+  <data name="Window_AppInfo_Title" xml:space="preserve">
+    <value>Informações do Programa</value>
+  </data>
+  <data name="Window_AppInfo_Label_Version" xml:space="preserve">
+    <value>Versão:</value>
+  </data>
+  <data name="Window_AppInfo_Label_Creator" xml:space="preserve">
+    <value>Criador:</value>
+  </data>
+  <data name="Window_AppInfo_Button_Feedback" xml:space="preserve">
+    <value>Enviar feedback</value>
+  </data>
+  <data name="General_MessageBox_Error_Title" xml:space="preserve">
+    <value>Erro!</value>
+  </data>
+  <data name="General_MessageBox_EnterUsername" xml:space="preserve">
+    <value>Insira um nome de usuário da Twitch!</value>
+  </data>
+  <data name="General_MessageBox_UsernameExists" xml:space="preserve">
+    <value>Este nome de usuário já existe!</value>
+  </data>
+  <data name="General_MessageBox_NoUserSelected" xml:space="preserve">
+    <value>Selecione um nome de usuário da lista!</value>
+  </data>
+  <data name="General_MessageBox_AddDev" xml:space="preserve">
+    <value>Você não pode adicionar o desenvolvedor na sua lista negra.
+Nós estamos te observando... Kappa!</value>
+  </data>
+  <data name="General_Blacklist_MessageBox_AddedUserX" xml:space="preserve">
+    <value>Usuário '{0}' adicionado para a lista negra!</value>
+    <comment>Need context</comment>
+  </data>
+  <data name="General_Blacklist_MessageBox_RemovedUserX" xml:space="preserve">
+    <value>Usuário '{0}' removido da lista negra!</value>
+  </data>
+  <data name="Window_Devices_Title" xml:space="preserve">
+    <value>Dispositivos conectados</value>
+  </data>
+  <data name="Window_Devices_Button_RemoveDevice" xml:space="preserve">
+    <value>Remover dispositivo</value>
+  </data>
+  <data name="Window_Devices_Button_Close" xml:space="preserve">
+    <value>Fechar</value>
+  </data>
+  <data name="Window_Devices_Button_RenameButton" xml:space="preserve">
+    <value>Renomear dispositivo</value>
+  </data>
+  <data name="Window_Devices_Button_UpdateDevices" xml:space="preserve">
+    <value>Atualizar todos os dispositivos</value>
+  </data>
+  <data name="Code_Devices_MessageBox_RemoveConfirm" xml:space="preserve">
+    <value>Vocë deseja remover {0}?</value>
+  </data>
+  <data name="Code_Devices_MessageBox_RemoveConfirm_Title" xml:space="preserve">
+    <value>Remover Dispositivo Nanoleaf</value>
+  </data>
+  <data name="General_MessageBox_Sucess_Title" xml:space="preserve">
+    <value>Yay!</value>
+  </data>
+  <data name="Code_Devices_Messagebox_UpdateDevices_Succes" xml:space="preserve">
+    <value>Dispositivos atualizados!</value>
+  </data>
+  <data name="Window_NanoDeviceInput_Title" xml:space="preserve">
+    <value>Nomeie o seu dispositivo</value>
+  </data>
+  <data name="Window_NanoDeviceInput_Text" xml:space="preserve">
+    <value>Nomeie o seu dispositivo como 'Sala' ou 'Parede do quarto'</value>
+  </data>
+  <data name="Window_Loading_Title" xml:space="preserve">
+    <value>Carregando...</value>
+    <comment>I'm suppressing the space between "Loading" and "..." because it's more usual in portuguese</comment>
+  </data>
+  <data name="Window_Loading_Text" xml:space="preserve">
+    <value>Carregando... Por favor, aguarde</value>
+    <comment>Same here</comment>
+  </data>
+  <data name="Window_Main_Title" xml:space="preserve">
+    <value>NanoTwitchLeafs</value>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_Title" xml:space="preserve">
+    <value>Twitch</value>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_Button_Connect" xml:space="preserve">
+    <value>Conectar</value>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_Button_Disconnect" xml:space="preserve">
+    <value>Disconectar</value>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_Label_Prefix" xml:space="preserve">
+    <value>Prefixo do comando:</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Title" xml:space="preserve">
+    <value>Nano</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Button_Pairing" xml:space="preserve">
+    <value>Pareando</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Button_Test" xml:space="preserve">
+    <value>Testar conexão</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Label_Status" xml:space="preserve">
+    <value>Status:</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Checkbox_EnableTrigger" xml:space="preserve">
+    <value>Habilitar Trigger</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Button_EditTrigger" xml:space="preserve">
+    <value>Editar Trigger</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Textbox_Text" xml:space="preserve">
+    <value>Pareie os seus dispositivos ou teste a conexão</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Checkbox_EnableCooldown" xml:space="preserve">
+    <value>Habilite Cooldown</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Label_Seconds" xml:space="preserve">
+    <value>Segundos</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Button_ResetQueue" xml:space="preserve">
+    <value>Resetar fila</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Label_EventsInQueue" xml:space="preserve">
+    <value>Eventos na fila:</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Label_AutoRestore" xml:space="preserve">
+    <value>Voltar automaticamente para o efeito anterior:</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Checkbox_onCommand" xml:space="preserve">
+    <value>por comando</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Checkbox_onKeyword" xml:space="preserve">
+    <value>por palavra-chave</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Checkbox_ModeratorIgnorCooldown" xml:space="preserve">
+    <value>Moderador pode ignorar o Cooldown</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Button_ManageDevices" xml:space="preserve">
+    <value>Gerenciar dispositivos</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Button_RestartQueue" xml:space="preserve">
+    <value>Reiniciar a fila</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Title" xml:space="preserve">
+    <value>Configurações</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_Debug" xml:space="preserve">
+    <value>Habilitar Debug</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_Analytics" xml:space="preserve">
+    <value>Habilitar análises anonimas</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_Responses" xml:space="preserve">
+    <value>Habilitar resposta no chat</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_Whisper" xml:space="preserve">
+    <value>Modo Sussurro</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_Chat" xml:space="preserve">
+    <value>Chat:</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_General" xml:space="preserve">
+    <value>Geral:</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_Misc" xml:space="preserve">
+    <value>Diversos:</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Button_Edit" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_Autoconnect" xml:space="preserve">
+    <value>Conectar automaticamente ao iniciar</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_Analytics" xml:space="preserve">
+    <value>Análises:</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_AnalyticsChannel" xml:space="preserve">
+    <value>Compartilhar nome do canal</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Button_OpenDebugDir" xml:space="preserve">
+    <value>Abrir pasta de Debug</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_ResetBrightness" xml:space="preserve">
+    <value>Resetar brilho para</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_Blocklist" xml:space="preserve">
+    <value>Habilitar bloqueio de usuário</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Button_UpdateCheck" xml:space="preserve">
+    <value>Verificando atualizações</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_SetEffect" xml:space="preserve">
+    <value>Definir efeito base</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Button_LoadEffects" xml:space="preserve">
+    <value>Carregar</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_AutoIPRefresh" xml:space="preserve">
+    <value>Atualizar automaticamente o IP da Nano ao iniciar</value>
+  </data>
+  <data name="Window_Main_Tabs_Chat_Title" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="Window_Main_Tabs_Chat_Button_Send" xml:space="preserve">
+    <value>Enviar</value>
+  </data>
+  <data name="Window_Main_Tabs_Console_Title" xml:space="preserve">
+    <value>Console</value>
+  </data>
+  <data name="Window_Main_Button_Save" xml:space="preserve">
+    <value>Salvar</value>
+  </data>
+  <data name="Window_Main_Tabs_Chat_Button_Info" xml:space="preserve">
+    <value>Informações</value>
+  </data>
+  <data name="Code_Main_MessageBox_AnalyticsError" xml:space="preserve">
+    <value>Falha ao enviar análises! Verifique se a comunicação com o Google Analytics não está bloqueado e tente novamente!</value>
+  </data>
+  <data name="Code_Main_MessageBox_BetaTitle" xml:space="preserve">
+    <value>Isso é uma versão Beta!</value>
+  </data>
+  <data name="Code_Main_MessageBox_Beta" xml:space="preserve">
+    <value>Tenha em mente que você está usando uma versão Beta! Dê feedbacks e relate bugs do programa no canal Beta no Discord!</value>
+  </data>
+  <data name="Code_Main_MessageBox_InstanceCheck" xml:space="preserve">
+    <value>NanoTwitchLeafs já está sendo executado! Verifique na System Tray (próximo ao relógio) na sua barra de tarefas!</value>
+  </data>
+  <data name="General_MessageBox_SettingsSaved" xml:space="preserve">
+    <value>Configurações salvas!</value>
+  </data>
+  <data name="General_MessageBox_Hint_Title" xml:space="preserve">
+    <value>Dicas</value>
+  </data>
+  <data name="Code_Main_MessageBox_PairDevice" xml:space="preserve">
+    <value>Pareie um dispositivo antes de habilitar Triggers!</value>
+  </data>
+  <data name="Code_Main_MessageBox_StreamerAccount" xml:space="preserve">
+    <value>Verifique se você está utilizando o sua propria conta de Streamer da Twitch!</value>
+  </data>
+  <data name="General_MessageBox_SomethingWrong" xml:space="preserve">
+    <value>Algo deu errado! 
+Verifique os logs para mais informações!</value>
+  </data>
+  <data name="General_MessageBox_Thanks_Title" xml:space="preserve">
+    <value>Valeu &lt;3</value>
+  </data>
+  <data name="Code_Main_MessageBox_AnalyticsRestart" xml:space="preserve">
+    <value>As análises começarão após reiniciar o app! Obrigado pela sua ajuda!</value>
+  </data>
+  <data name="General_MessageBox_Aw_Title" xml:space="preserve">
+    <value>Vish...</value>
+    <comment>Like a sad Aw...</comment>
+  </data>
+  <data name="Code_Main_MessageBox_AnalyticsDecision" xml:space="preserve">
+    <value>Nós entendemos a sua decisão. Mesmo assim, obrigado!</value>
+  </data>
+  <data name="Code_Main_ChatMessage_CooldownON" xml:space="preserve">
+    <value>Cooldown da NanoLeaf foi habilitado! Cooldown foi definido para {0} segundos!</value>
+  </data>
+  <data name="Code_Main_ChatMessage_CooldownOFF" xml:space="preserve">
+    <value>Cooldown da NanoLeaf foi desabilitado!</value>
+  </data>
+  <data name="Code_Main_MessageBox_AutoRestore" xml:space="preserve">
+    <value>Se você marcar essas caixas, o programa vai voltar ao efeito anterior depois de X segundos, configurado na janela dos Triggers.</value>
+  </data>
+  <data name="Code_Main_MessageBox_Value0100" xml:space="preserve">
+    <value>Valor deve estar entre 0 e 100!</value>
+  </data>
+  <data name="Code_Main_MessageBox_EmptyPrefix" xml:space="preserve">
+    <value>Esta caixa não pode estar vazia!</value>
+  </data>
+  <data name="Code_Main_MessageBox_AnalyticsStartError" xml:space="preserve">
+    <value>Não foi possivel enviar a mensagem de inicio ao servidor de análise! Verifique o arquivo de log para mais informações!</value>
+  </data>
+  <data name="Code_Main_Label_NanoHelpText" xml:space="preserve">
+    <value>Digite '{0}nano help' para a lista de comandos!</value>
+  </data>
+  <data name="Code_Main_MessageBox_EmptyFields" xml:space="preserve">
+    <value>Preencha todos os campos!</value>
+  </data>
+  <data name="Code_Main_MessageBox_WrongFormatChannel" xml:space="preserve">
+    <value>Preencha somente o nome do canal da Twitch, sem https://twitch.tv/ !</value>
+  </data>
+  <data name="Code_Main_MessageBox_ConTestFail" xml:space="preserve">
+    <value>Teste de conexão falhou!</value>
+  </data>
+  <data name="Code_Main_MessageBox_AdressNull" xml:space="preserve">
+    <value>Endereço do dispositivo não encontrado!</value>
+  </data>
+  <data name="Code_Main_MessageBox_UpdateOrRepair" xml:space="preserve">
+    <value>Atualize ou pareie novamente o seu dispositivo!</value>
+  </data>
+  <data name="Code_Main_MessageBox_ControllerInfoNull" xml:space="preserve">
+    <value>Não foi possível pegar informações do dispositivo {0}!</value>
+    <comment>context - fom?
+{0} = Device Name</comment>
+  </data>
+  <data name="Code_Main_MessageBox_UndefinedEffect_Title" xml:space="preserve">
+    <value>Efeito indefinido foi detectado!</value>
+  </data>
+  <data name="Code_Main_MessageBox_UndefinedEffect" xml:space="preserve">
+    <value>Certifique-se de não usar 'Dinâmico' ou 'Aleatório' como efeito base!</value>
+  </data>
+  <data name="Code_Main_MessageBox_ConFail" xml:space="preserve">
+    <value>Não foi possível se conectar ao dispositivo! Veja o Console ou o arquivo de log para mais informações!</value>
+    <comment>context</comment>
+  </data>
+  <data name="Code_Main_MessageBox_NoDevice" xml:space="preserve">
+    <value>Certifique-se de que você pareou com pelo menos um dispositivo Nanoleaf.</value>
+  </data>
+  <data name="Code_Main_MessageBox_SelectEffect" xml:space="preserve">
+    <value>Selecione um efeito do Menu Dropdown.</value>
+  </data>
+  <data name="Window_Pairing_Button_AutoDetect" xml:space="preserve">
+    <value>Detectar automaticamente</value>
+  </data>
+  <data name="Window_Pairing_Label_IpAdress" xml:space="preserve">
+    <value>Endereço de IP:</value>
+  </data>
+  <data name="Window_Pairing_Button_Manual" xml:space="preserve">
+    <value>Conectar manualmente</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_Pairing_Title" xml:space="preserve">
+    <value>Parear</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_Pairing" xml:space="preserve">
+    <value>Segure o botão de ligar/desligar do controlador da Nanoleaf por 5-7 segundos até o LED estar piscando - então, clique em OK</value>
+    <comment>?</comment>
+  </data>
+  <data name="Code_Pairing_DeviceList_Paired" xml:space="preserve">
+    <value>pareado</value>
+  </data>
+  <data name="Code_Pairing_DeviceList_NotPaired" xml:space="preserve">
+    <value>não pareado</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_DeviceNotFound" xml:space="preserve">
+    <value>Não foi possível encontrar o dispositivo! Tente novamente ou use conecte manualmente!</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_PairingError" xml:space="preserve">
+    <value>Não foi possível parear o dispositivo! Veja o console ou o arquivo de log para mais informações!</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_MultiDeviceDetected" xml:space="preserve">
+    <value>Mais de um dispositivo Nanoleaf encontrado. Selecione o dispositivo desejado na lista e conecte manualmente!</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_ValidIP" xml:space="preserve">
+    <value>Entre com um endereço IP válido!</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_AlreadyCon" xml:space="preserve">
+    <value>Este dispositivo já está conectado com o programa!</value>
+  </data>
+  <data name="General_Label_NanoleafDevice" xml:space="preserve">
+    <value>Dispositivo Nanoleaf</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_PairingSucessfull" xml:space="preserve">
+    <value>Pareado com sucesso!</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_PairingEffects" xml:space="preserve">
+    <value>Certifique-se que todos os dispositivos Nanoleaf conectados possuem os mesmos efeitos instalados! De outra forma, pode haver erros na troca de efeitos!</value>
+  </data>
+  <data name="Window_Responses_Title" xml:space="preserve">
+    <value>Respostas do chat</value>
+  </data>
+  <data name="Window_Responses_Label_ConnectMessage" xml:space="preserve">
+    <value>Mensagem ao se conectar:</value>
+  </data>
+  <data name="Window_Responses_Label_CommandResponse" xml:space="preserve">
+    <value>Resposta ao comando:</value>
+  </data>
+  <data name="Window_Responses_Label_CommandxResponse" xml:space="preserve">
+    <value>Resposta ao comando em X segundos:</value>
+  </data>
+  <data name="Window_Response_Label_KeywordResponse" xml:space="preserve">
+    <value>Resposta à palavra-chave:</value>
+  </data>
+  <data name="Window_Pairing_Title" xml:space="preserve">
+    <value>Parear novo dispositivo</value>
+  </data>
+  <data name="Window_Responses_Button_Save" xml:space="preserve">
+    <value>Salvar e fechar</value>
+  </data>
+  <data name="Window_Responses_Button_Reset" xml:space="preserve">
+    <value>Resetar para configuração padrão</value>
+  </data>
+  <data name="General_Button_Help" xml:space="preserve">
+    <value>Ajuda</value>
+  </data>
+  <data name="Code_Responses_ComboBox_Times_Off" xml:space="preserve">
+    <value>desligado</value>
+  </data>
+  <data name="Code_Responses_ComboBox_Times_Minutes" xml:space="preserve">
+    <value>Minutos</value>
+  </data>
+  <data name="Code_Responses_ConnectMessage" xml:space="preserve">
+    <value>Olá pessoal! Eu sou o bot que vai controlar suas luzes Nanoleaf! Para ajuda, digite '!nano help'.</value>
+  </data>
+  <data name="Code_Responses_CommandResponse" xml:space="preserve">
+    <value>{username} trocou o efeito NanoLeaf para {effect}.</value>
+  </data>
+  <data name="Code_Responses_CommandDurationResponse" xml:space="preserve">
+    <value>{username} trocou o efeito Nanoleaf para {effect} por {duration} segundos.</value>
+  </data>
+  <data name="Code_Responses_KeywordResponse" xml:space="preserve">
+    <value>{username} falou uma palavra mágica e trocou o efeito NanoLeaf para {effect}.</value>
+  </data>
+  <data name="Window_ResponsesHelp_Title" xml:space="preserve">
+    <value>Ajuda para respostas</value>
+    <comment>???</comment>
+  </data>
+  <data name="Window_ResponsesHelp_Text" xml:space="preserve">
+    <value>Você pode usar diferentes variáveis de placeholder para suas mensagens de respostas:
+
+Você pode escolher um temporizador entre 10 e 60 minutos para as mensagens repetidas.
+Na última versão, você pode desabilita-lo completamente.
+
+{username}
+Isso vai substituir o nome de usuário que fez a troca de efeito.
+
+{effect}
+Isso vai substituir o nome do efeito que será mostrado na Nanoleaf.
+
+{duration} - Só funciona com "Voltar automaticamente para o efeito anterior por comando"
+Isso vai substituir o tempo em segundos - por quanto tempo o efeito é exibido na Nanoleaf.</value>
+  </data>
+  <data name="Window_TriggerDetail_Title" xml:space="preserve">
+    <value>Detalhes de Trigger</value>
+  </data>
+  <data name="Window_TriggerDetail_Slider_Text" xml:space="preserve">
+    <value>Habilitar Trigger</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_TriggerType" xml:space="preserve">
+    <value>Tipo de Trigger</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Command" xml:space="preserve">
+    <value>Comando</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Keyword" xml:space="preserve">
+    <value>Palavra-chave</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_NewFollower" xml:space="preserve">
+    <value>Novo seguidor</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_NewSubscriber" xml:space="preserve">
+    <value>Novo inscrito</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Host" xml:space="preserve">
+    <value>Host</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Raid" xml:space="preserve">
+    <value>Raid</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Resub" xml:space="preserve">
+    <value>ReInscrito</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Bits" xml:space="preserve">
+    <value>Bits</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_ChannelPoints" xml:space="preserve">
+    <value>Pontos do Canal</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_GiftSub" xml:space="preserve">
+    <value>Inscrição de Presente</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_AnonGiftSub" xml:space="preserve">
+    <value>Inscrição de Presente Anonimo</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_Effect" xml:space="preserve">
+    <value>Efeito</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_SoundEffect" xml:space="preserve">
+    <value>Efeito de som</value>
+  </data>
+  <data name="Window_TriggerDetail_Button_SelectFile" xml:space="preserve">
+    <value>Selecione um arquivo</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_Options" xml:space="preserve">
+    <value>Opções</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_Amount" xml:space="preserve">
+    <value>Quantidade</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_Duration" xml:space="preserve">
+    <value>Duração</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_Brightness" xml:space="preserve">
+    <value>Brilho</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_Cooldown" xml:space="preserve">
+    <value>Cooldown</value>
+  </data>
+  <data name="Window_TriggerDetail_Checkbox_Vip" xml:space="preserve">
+    <value>Somente VIPs</value>
+  </data>
+  <data name="Window_TriggerDetail_Checkbox_Sub" xml:space="preserve">
+    <value>Somente inscritos</value>
+  </data>
+  <data name="Window_TriggerDetail_Checkbox_Mod" xml:space="preserve">
+    <value>Somente moderadores</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_CmdKeyword" xml:space="preserve">
+    <value>Comando/Palavra-chave</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_Volume" xml:space="preserve">
+    <value>Volume</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_NoRewardDetected" xml:space="preserve">
+    <value>Não foi detectado recompensas por Pontos de Canal!
+Resgate sua recompensa desejada agora!</value>
+  </data>
+  <data name="Code_TriggerDetail_Label_CPGuid" xml:space="preserve">
+    <value>Recompensa por pontos de canal com ID
+{0}
+detectado. Resgate novamente para trocar/atualizar a recompensa!</value>
+  </data>
+  <data name="Code_TriggerDetail_Label_CPGuidSet" xml:space="preserve">
+    <value>Recompensa com ID {0} foi definida.
+Resgate novamente para trocar/atualizar a recompensa!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_NoRewardDetected" xml:space="preserve">
+    <value>Resgate uma recompensa por Pontos de Canal através do chat da Twitch com a sua conta de Streamer antes de salvar!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_NoEffectSelected" xml:space="preserve">
+    <value>Selecione um efeito para o seu Trigger! Ele não pode ser vazio!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_CmdBoxEmpty" xml:space="preserve">
+    <value>Digite um Comando/Palavra-chave para o seu Trigger! Ele não pode ser vazio!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_BrightnessValue" xml:space="preserve">
+    <value>Digite um valor de brilho entre 0 e 100! Ele não pode ser vazio!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_VolumeValue" xml:space="preserve">
+    <value>Digite um valor de volume entre 0 e 100! Ele não pode ser vazio!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_AmountValue" xml:space="preserve">
+    <value>Digite um valor de quantidade, mesmo se você não o utilizar! Ele não pode ser vazio ou negativo!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_DurationValue" xml:space="preserve">
+    <value>Digite um valor de duração, mesmo se você não o utilizar! Ele não pode ser vazio ou negativo!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_CooldownValue" xml:space="preserve">
+    <value>Digite um valor de cooldown! Digite 0 para desabilitar o cooldown de Trigger! Ele não pode ser vazio!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_SoundfileFormat" xml:space="preserve">
+    <value>Você só pode usar arquivos .wav ou .mp3!</value>
+  </data>
+  <data name="Code_TriggerDetail_Label_VipSubMod" xml:space="preserve">
+    <value>Usuário deve ser {0} para usar este Trigger.</value>
+  </data>
+  <data name="Code_TriggerDetail_Label_NothingSpecial" xml:space="preserve">
+    <value>nada especial</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_CPNoConnection" xml:space="preserve">
+    <value>Se você quer criar/editar Triggers com Pontos de Canal, se conecte com o chat da Twitch antes!</value>
+  </data>
+  <data name="Window_TriggerHelp_Title" xml:space="preserve">
+    <value>Ajuda de Trigger</value>
+  </data>
+  <data name="Window_TriggerHelp_Text" xml:space="preserve">
+    <value>Trigger:
+
+Este é o tipo de evento que seta gatilhos (Trigger).
+Eventos da Twitch como "novo seguidor" ou "novo inscrito" requer uma duração em segundos.
+Se você receber, por exemplo, um novo seguidor e você tem um Trigger definido com 10 segundos: A Nanoleaf vai trocar para o efeito desejado e trocará automaticamente para o efeito anterior depois de 10 segundos. Os campos "comando" e "custo" ficam desabilitados nesse tipo de Trigger.
+Para usar os Pontos de Canal da Twitch você precisa ir até o painel de controle do criador (Dashboard) da twitch (https://dashboard.twitch.tv/u/seuNomeDaTwitch/community/channel-points) e criar recompensas personalizadas. Para ativar a recompensa com o Trigger, simplesmente resgate a recompensa desejada com a sua conta de Streamer!
+Comando/Palavra-chave:
+Se você escolher deixar os seus viewers brincar com a suas luzes Nanoleaf, tente adicionar um Trigger por "comando" ou "palavra-chave"!
+Comando:
+Um comando aparece assim: !comando
+Você tem um prefixo como ! e um comando. Você pode mudar o prefixo na aba Login do Bot.
+A mensagem do viewer deve ser exatamente como o comando. Se você define !teste como um comando, e o viewer escreve !teste123 ou até !teste 123 no chat, o Trigger não será ativado! (Escreva o comando SEM o prefixo no campo.)
+Palavra-chave:
+A diferença da palavra-chave para o comando é que a palavra chave pode ser uma pequena pensagem, parte de uma palavra ou até mesmo uma frase inteira.
+Se você definir a palavra-chave "teste". O Trigger será ativado em "teste", "teste123", "olatestesoueu" ou até mesmo em "Isso é um Teste"!
+Você pode até mesmo adicionar várias palavras-chave para 1 efeito. Só separe eles com virgula: "fogo,chamas,inferno" ou "agua,rio,oceano"
+Efeito:
+Isso é a lista de efeitos carregados diretamente do seu dispositivo Nanoleaf. Se você criar novos efeitos com o App de celular da Nanoleaf, os novos efeitos serão carregados no momento que você abrir a tela de detalhe de Triggers!
+Arquivo de som:
+Clique no botão para procurar por um arquivo de som que deve ser tocado com este Trigger. (somente .mp3 e .wav são permitidos)
+Para remover, delete o caminho do arquivo no campo.
+Quantidade:
+Você pode definir vários Triggers com um limite mínimo.
+Se você criar um Trigger de bits com 100 por exemplo: Um cheer de 99 Bits não acontecerá nada. Se alguém der 100+ Bits, o efeito será ativado.
+Então você pode fazer vários Triggers para 50+, 100+, 200+ etc Bits e Hosts.
+Duração e Cooldown:
+Duração e Cooldown em segundos. Cooldown conta para cara Trigger individualmente
+Brilho:
+Você pode especificar o brilho em % para cara Trigger. Valores devem estar entre 0 e 100.
+Somente VIP|Sub|Mod:
+Se você quiser dar somente para VIPs, inscritos ou moderadores a possibilidade de usar um comando ou palavra-chave!</value>
+    <comment>The link on the dashboard is in german even in the english locale. It should be something like: https://dashboard.twitch.tv/u/yourtwitchname/community/channel-points
+I tried to change myself but I couldn't :P</comment>
+  </data>
+  <data name="Window_Trigger_Title" xml:space="preserve">
+    <value>Trigger</value>
+  </data>
+  <data name="Window_Trigger_Header_On" xml:space="preserve">
+    <value>Ativo</value>
+  </data>
+  <data name="Window_Trigger_Header_Trigger" xml:space="preserve">
+    <value>Trigger</value>
+  </data>
+  <data name="Window_Trigger_Header_Effect" xml:space="preserve">
+    <value>Efeito</value>
+  </data>
+  <data name="Window_Trigger_Header_Sound" xml:space="preserve">
+    <value>Som?</value>
+  </data>
+  <data name="Window_Trigger_Header_Duration" xml:space="preserve">
+    <value>Duração</value>
+  </data>
+  <data name="Window_Trigger_Header_Brightness" xml:space="preserve">
+    <value>Brilho</value>
+  </data>
+  <data name="Window_Trigger_Header_Amount" xml:space="preserve">
+    <value>Quantidade</value>
+  </data>
+  <data name="Window_Trigger_Header_Cooldown" xml:space="preserve">
+    <value>Cooldown</value>
+  </data>
+  <data name="Window_Trigger_Header_Flags" xml:space="preserve">
+    <value>Bandeiras (Flags)</value>
+  </data>
+  <data name="Window_Trigger_Button_Edit" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="Window_Trigger_Button_Delete" xml:space="preserve">
+    <value>Deletar</value>
+  </data>
+  <data name="Window_Trigger_Button_New" xml:space="preserve">
+    <value>Novo</value>
+  </data>
+  <data name="Window_Trigger_Button_Clear" xml:space="preserve">
+    <value>Limpar</value>
+  </data>
+  <data name="Code_Trigger_MessageBox_EffectList" xml:space="preserve">
+    <value>Conexão falhou! Não foi possível carregar a lista de efeitos!</value>
+  </data>
+  <data name="Code_Nano_MessageBox_PairingError" xml:space="preserve">
+    <value>Erro ao parear um dispositivo!</value>
+  </data>
+  <data name="Code_Nano_MessageBox_DeviceNotFound" xml:space="preserve">
+    <value>O Dispositivo com o nome {0} não foi encontrado na sua rede!
+Tenha certesa que este dispositivo está ligado e online.
+Verifique o console e o arquivo de log para mais informações.</value>
+  </data>
+  <data name="Code_Nano_MessageBox_UniqueName" xml:space="preserve">
+    <value>Escolha um nome unico para seu dispositivo Nanoleaf!</value>
+  </data>
+  <data name="Code_Nano_MessageBox_CurrentEffect" xml:space="preserve">
+    <value>Erro ao pegar o efeito atual de '{0}'!</value>
+  </data>
+  <data name="Code_Nano_MessageBox_CurrentHue" xml:space="preserve">
+    <value>Erro ao pegar o matiz atual de '{0}'!</value>
+  </data>
+  <data name="Code_Nano_MessageBox_CurrentSaturation" xml:space="preserve">
+    <value>Erro ao pegar o saturação atual de '{0}'!</value>
+  </data>
+  <data name="Code_Nano_MessageBox_CurrentColorTemp" xml:space="preserve">
+    <value>Erro ao pegar a temperatura de cor atual de '{0}'!</value>
+  </data>
+  <data name="Code_Nano_MessageBox_CurrentBrightness" xml:space="preserve">
+    <value>Erro ao pegar o brilho atual de '{0}'!</value>
+  </data>
+  <data name="Code_Nano_MessageBox_CurrentState" xml:space="preserve">
+    <value>Erro ao pegar o estado atual de '{0}'!</value>
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_TriggerNotActive" xml:space="preserve">
+    <value>Desculpe! Trigger não está habilitado no momento!</value>
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_ModOnly" xml:space="preserve">
+    <value>Desculpe! Este é um comando só para moderadores!</value>
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_Cooldown" xml:space="preserve">
+    <value>Desculpe! Ele está no cooldown!</value>
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_VipOnly" xml:space="preserve">
+    <value>Desculpe! Este é um comando só para VIPs!</value>
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_SubOnly" xml:space="preserve">
+    <value>Desculpe! Este é um comando só para inscritos!</value>
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_ActiveCommands" xml:space="preserve">
+    <value>Comandos ativos:</value>
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_NoActiveCommands" xml:space="preserve">
+    <value>Não há comandos ativos no momento!</value>
+  </data>
+  <data name="Code_Twitch_MessageBox_LoginIncorrect" xml:space="preserve">
+    <value>Verifique se o nome de usuário, canal e AuthToken estão corretos.</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_Language" xml:space="preserve">
+    <value>Idioma:</value>
+  </data>
+  <data name="Code_Main_MessageBox_Restart_Title" xml:space="preserve">
+    <value>Reiniciar agora?</value>
+  </data>
+  <data name="Code_Main_MessageBox_Restart" xml:space="preserve">
+    <value>As mudanças necessiram que você reinicie o programa. Reiniciar agora?</value>
+  </data>
+  <data name="General_Label_Translator" xml:space="preserve">
+    <value>Traduzido por BrunoBorta</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Effect" xml:space="preserve">
+    <value>Efeito</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Color" xml:space="preserve">
+    <value>Cor</value>
+  </data>
+  <data name="Window_TriggerDetail_ColorPicker_Error" xml:space="preserve">
+    <value>Escolha uma cor com o seletor de cores!</value>
+  </data>
+  <data name="Code_License_MessageBox_Confirm_RemoveLicense" xml:space="preserve">
+    <value>Você realmente deseja remover sua licença?</value>
+  </data>
+  <data name="Code_License_MessageBox_Confirm_RemoveLicenseFile" xml:space="preserve">
+    <value>O arquivo de licença também deve ser excluído?</value>
+  </data>
+  <data name="Window_AppInfo_Button_License" xml:space="preserve">
+    <value>Informação de licença</value>
+  </data>
+  <data name="Window_License_Button_Activate" xml:space="preserve">
+    <value>Ativar licença</value>
+  </data>
+  <data name="Window_License_Button_Deactivate" xml:space="preserve">
+    <value>Desativar licença</value>
+  </data>
+  <data name="Window_License_MessageBox_Error_CouldNotValidateKey" xml:space="preserve">
+    <value>A chave de licença não pôde ser validada!</value>
+  </data>
+  <data name="Window_License_MessageBox_Error_NoKey" xml:space="preserve">
+    <value>Por favor, insira uma chave de licença válida!</value>
+  </data>
+  <data name="Window_TwitchLink_Title" xml:space="preserve">
+    <value>Vincule sua conta do Twitch</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Window_TwitchLink_Tab_Setup" xml:space="preserve">
+    <value>Opções de configuração</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Window_TwitchLink_Single_Help" xml:space="preserve">
+    <value>
+Conta única - configuração do transmissor
+(Recomendado)
+
+Use sua conta Twitch Broadcaster
+para se conectar ao chat e ouvir
+para as mensagens e eventos Twitch.
+
+Pró:
+- Configuração fácil e rápida.
+Vigarista:
+- Sua conta será postada automatizada
+Mensagens no chat.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Window_TwitchLink_Double_Help" xml:space="preserve">
+    <value>
+Conta dupla - configuração do bot
+(Avançado)
+
+Use uma conta de bot separada para gerenciar o bate-papo
+Mensagens e conecte sua emissora
+Conta em segundo plano para os eventos do Twitch.
+
+Pró:
+- Separe as mensagens automáticas para uma conta extra.
+Vigarista:
+- Você precisa de uma conta Twitch extra.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Window_TwitchLink_Tab_Broadcaster" xml:space="preserve">
+    <value>Locutor de rádio</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Window_TwitchLink_Button_Link" xml:space="preserve">
+    <value>Link da conta</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Window_TwitchLink_Broadcaster_Permissions_Text" xml:space="preserve">
+    <value>Com sua conta do Broadcaster, precisamos de algumas permissões:
+- Leia e escreva em seu Twitch Chat.
+- Leia e escreva em seus sussurros.
+- Leia informações de bits para o seu canal.
+- Leia as informações do assinante para o seu canal.
+- Leia e escreva resgates de Channelpoint para seu canal.
+- Leia as informações do Hypetrain para o seu canal.
+
+
+Para conectar sua conta do Broadcaster:
+
+Certifique-se de que você está conectado ao Twitch com sua conta do Broadcaster
+e clique no botão abaixo.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Window_TwitchLink_Textbox_Broadcaster" xml:space="preserve">
+    <value>Nome de usuário da emissora</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Window_TwitchLink_Tab_Bot" xml:space="preserve">
+    <value>Robô</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Window_TwitchLink_Label_ClickNext" xml:space="preserve">
+    <value>Link bem-sucedido! Clique em Próximo &gt;&gt;&gt;</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Window_TwitchLink_Bot_Permissions_Text" xml:space="preserve">
+    <value>om sua conta de bot, precisamos de algumas permissões:
+- Leia e escreva em seu Twitch Chat.
+- Leia e escreva em seus sussurros.
+
+
+
+Para conectar sua conta de bot:
+
+Por favor, digite o nome de usuário Twitch do bot, certifique-se de que você está conectado
+Twitch com sua conta de bot e clique no botão abaixo.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="General_Button_Next" xml:space="preserve">
+    <value>Next</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="General_Button_Back" xml:space="preserve">
+    <value>Voltar</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Window_TwitchLink_Tab_ConnectionTest" xml:space="preserve">
+    <value>Teste de Conexão</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Window_TwitchLink_Test_Text" xml:space="preserve">
+    <value>Quase pronto!
+
+Agora testamos sua conexão com os serviços de chat e Twitch!</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Window_TwitchLink_Progress_1" xml:space="preserve">
+    <value>Conecte-se ao Twitch</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Window_TwitchLink_Progress_2" xml:space="preserve">
+    <value>Entrar no canal</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Window_TwitchLink_Progress_3" xml:space="preserve">
+    <value>Enviar mensagem</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Window_TwitchLink_Progress_4" xml:space="preserve">
+    <value>Desconectar</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Window_TwitchLink_Progress_5" xml:space="preserve">
+    <value>Feito</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Window_TwitchLink_Finished_Text" xml:space="preserve">
+    <value>Eba \ o / você concluiu a configuração do Twitch!
+Agora você pode salvar as configurações e começar
+fazendo seu primeiro Trigger!</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_AccountLabel_Text" xml:space="preserve">
+    <value>Nenhuma conta Twitch conectada!</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_LinkButton_Text" xml:space="preserve">
+    <value>Vincular conta do Twitch</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_UnlinkButton_Text" xml:space="preserve">
+    <value>Desvincular conta Twitch</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_AccountLabel_Text2" xml:space="preserve">
+    <value>Conectado ao Twitch Channel </value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Button_UploadLogfile" xml:space="preserve">
+    <value>Carregar arquivo de log</value>
+  </data>
+  <data name="Window_Responses_StartupMessage_CheckBox" xml:space="preserve">
+    <value>Mensagem de inicialização ativa</value>
+  </data>
+</root>

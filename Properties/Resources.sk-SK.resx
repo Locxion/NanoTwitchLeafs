@@ -1,0 +1,1025 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="General_Button_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Window_Announcement_Title" xml:space="preserve">
+    <value>Oznámenia</value>
+  </data>
+  <data name="General_Button_Changelog" xml:space="preserve">
+    <value>Zoznam zmien</value>
+  </data>
+  <data name="Window_AppInfo_Title" xml:space="preserve">
+    <value>O aplikácií</value>
+  </data>
+  <data name="Window_AppInfo_Label_Version" xml:space="preserve">
+    <value>Verzia:</value>
+  </data>
+  <data name="Window_AppInfo_Label_Creator" xml:space="preserve">
+    <value>Tvorca:</value>
+  </data>
+  <data name="Window_AppInfo_Button_Feedback" xml:space="preserve">
+    <value>Poslať odozvu</value>
+  </data>
+  <data name="General_MessageBox_Error_Title" xml:space="preserve">
+    <value>Chyba!</value>
+  </data>
+  <data name="General_MessageBox_EnterUsername" xml:space="preserve">
+    <value>Prosím zadaj Twitch uživateľské meno!</value>
+  </data>
+  <data name="General_MessageBox_UsernameExists" xml:space="preserve">
+    <value>Uživateľské meno už existuje!</value>
+  </data>
+  <data name="General_MessageBox_NoUserSelected" xml:space="preserve">
+    <value>Prosím vyber zo zoznamu nižšie uživateľské meno!</value>
+  </data>
+  <data name="General_MessageBox_AddDev" xml:space="preserve">
+    <value>Vývojára nemôžeš pridať na čiernu listinu.
+Odteraz ťa sledujeme... Kappa!</value>
+  </data>
+  <data name="General_Blacklist_MessageBox_AddedUserX" xml:space="preserve">
+    <value>Uživateľské meno '{0}' pridané na čiernu listinu!</value>
+    <comment>Need context</comment>
+  </data>
+  <data name="General_Blacklist_MessageBox_RemovedUserX" xml:space="preserve">
+    <value>Uživateľské meno '{0}' odstránené z čiernej listiny!</value>
+  </data>
+  <data name="Window_Devices_Title" xml:space="preserve">
+    <value>Pripojené zariadenia</value>
+  </data>
+  <data name="Window_Devices_Button_RemoveDevice" xml:space="preserve">
+    <value>Odstrániť zariadenie</value>
+  </data>
+  <data name="Window_Devices_Button_Close" xml:space="preserve">
+    <value>Zavrieť</value>
+  </data>
+  <data name="Window_Devices_Button_RenameButton" xml:space="preserve">
+    <value>Premenovať zariadenie</value>
+  </data>
+  <data name="Window_Devices_Button_UpdateDevices" xml:space="preserve">
+    <value>Aktualizovať všetky zariadenia</value>
+  </data>
+  <data name="Code_Devices_MessageBox_RemoveConfirm" xml:space="preserve">
+    <value>Chceš naozaj odstrániť '{0}'?</value>
+  </data>
+  <data name="Code_Devices_MessageBox_RemoveConfirm_Title" xml:space="preserve">
+    <value>Odstrániť Nanoleaf</value>
+  </data>
+  <data name="General_MessageBox_Sucess_Title" xml:space="preserve">
+    <value>Áno!</value>
+  </data>
+  <data name="Code_Devices_Messagebox_UpdateDevices_Succes" xml:space="preserve">
+    <value>Zariadenia aktualizované!</value>
+  </data>
+  <data name="Window_NanoDeviceInput_Title" xml:space="preserve">
+    <value>Názov zariadenia</value>
+  </data>
+  <data name="Window_NanoDeviceInput_Text" xml:space="preserve">
+    <value>Názov zariadenia napr. "Obývačka" alebo "Stena naľavo"</value>
+  </data>
+  <data name="Window_Loading_Title" xml:space="preserve">
+    <value>Nahrávanie ...</value>
+    <comment>I'm suppressing the space between "Loading" and "..." because it's more usual in portuguese</comment>
+  </data>
+  <data name="Window_Loading_Text" xml:space="preserve">
+    <value>Nahrávanie ... Prosím čakaj</value>
+    <comment>Same here</comment>
+  </data>
+  <data name="Window_Main_Title" xml:space="preserve">
+    <value>NanoTwitchLeafs</value>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_Title" xml:space="preserve">
+    <value>Twitch</value>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_Button_Connect" xml:space="preserve">
+    <value>Pripojenie</value>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_Button_Disconnect" xml:space="preserve">
+    <value>Odpojenie</value>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_Label_Prefix" xml:space="preserve">
+    <value>Predpona príkazu:</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Title" xml:space="preserve">
+    <value>Nano</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Button_Pairing" xml:space="preserve">
+    <value>Párovať</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Button_Test" xml:space="preserve">
+    <value>Skúsiť spojenie</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Label_Status" xml:space="preserve">
+    <value>Stav:</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Checkbox_EnableTrigger" xml:space="preserve">
+    <value>Zapnúť spúšťač</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Button_EditTrigger" xml:space="preserve">
+    <value>Upraviť spúšťač</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Textbox_Text" xml:space="preserve">
+    <value>Prosím spáruj tvoje zariadenie alebo vyskúšaj spojenie</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Checkbox_EnableCooldown" xml:space="preserve">
+    <value>Zapnúť časovač</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Label_Seconds" xml:space="preserve">
+    <value>Sekundy</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Button_ResetQueue" xml:space="preserve">
+    <value>Resetovať frontu</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Label_EventsInQueue" xml:space="preserve">
+    <value>Udalosti vo fronte:</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Label_AutoRestore" xml:space="preserve">
+    <value>Automaticky obnoviť predošlý efekt:</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Checkbox_onCommand" xml:space="preserve">
+    <value>na príkaz</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Checkbox_onKeyword" xml:space="preserve">
+    <value>na kľúčové slovo</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Checkbox_ModeratorIgnorCooldown" xml:space="preserve">
+    <value>Moderátor môže ignorovať časovač</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Button_ManageDevices" xml:space="preserve">
+    <value>Spravovať zariadenia</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Button_RestartQueue" xml:space="preserve">
+    <value>Reštartovať frontu</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Title" xml:space="preserve">
+    <value>Nastavenia</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_Debug" xml:space="preserve">
+    <value>Zapnúť debug</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_Analytics" xml:space="preserve">
+    <value>Zapnúť anonymnú Analýzu</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_Responses" xml:space="preserve">
+    <value>Zapnúť odpovede z chatu</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_Whisper" xml:space="preserve">
+    <value>Mód šepkania</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_Chat" xml:space="preserve">
+    <value>Chat:</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_General" xml:space="preserve">
+    <value>Obecné:</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_Misc" xml:space="preserve">
+    <value>Rôzne:</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Button_Edit" xml:space="preserve">
+    <value>Upraviť</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_Autoconnect" xml:space="preserve">
+    <value>Auto pripojiť po štarte</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_Analytics" xml:space="preserve">
+    <value>Analýza:</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_AnalyticsChannel" xml:space="preserve">
+    <value>Zdieľať názov kanála</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Button_OpenDebugDir" xml:space="preserve">
+    <value>Priečinok pre debug</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_ResetBrightness" xml:space="preserve">
+    <value>Resetovať jas na</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_Blocklist" xml:space="preserve">
+    <value>Zapnúť Blocklist</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Button_UpdateCheck" xml:space="preserve">
+    <value>Skontrolovať aktualizácie</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_SetEffect" xml:space="preserve">
+    <value>Základný efekt</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Button_LoadEffects" xml:space="preserve">
+    <value>Nahrať</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_AutoIPRefresh" xml:space="preserve">
+    <value>Automatická obnova IP adries po štarte</value>
+  </data>
+  <data name="Window_Main_Tabs_Chat_Title" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="Window_Main_Tabs_Chat_Button_Send" xml:space="preserve">
+    <value>Poslať</value>
+  </data>
+  <data name="Window_Main_Tabs_Console_Title" xml:space="preserve">
+    <value>Konzola</value>
+  </data>
+  <data name="Window_Main_Button_Save" xml:space="preserve">
+    <value>Uložiť</value>
+  </data>
+  <data name="Window_Main_Tabs_Chat_Button_Info" xml:space="preserve">
+    <value>Informácie</value>
+  </data>
+  <data name="Code_Main_MessageBox_AnalyticsError" xml:space="preserve">
+    <value>Poslanie Analýzy zlyhalo!
+Prosím uisti sa, že nemáš zablokované 
+Google Analytics a skús znova!</value>
+  </data>
+  <data name="Code_Main_MessageBox_BetaTitle" xml:space="preserve">
+    <value>Toto je Beta verzia!</value>
+  </data>
+  <data name="Code_Main_MessageBox_Beta" xml:space="preserve">
+    <value>Prosím nezabúdaj, že používaš Beta verziu!
+Poskytni spätnú väzbu o dojmoch z používania a prípadné bugy na našom Discorde v sekcií Beta!</value>
+  </data>
+  <data name="Code_Main_MessageBox_InstanceCheck" xml:space="preserve">
+    <value>Aplikácia NanoTwitchLeafs už beží!
+Pozri sa do System Tray na hlavnom paneli!</value>
+  </data>
+  <data name="General_MessageBox_SettingsSaved" xml:space="preserve">
+    <value>Nastavenia uložené!</value>
+  </data>
+  <data name="General_MessageBox_Hint_Title" xml:space="preserve">
+    <value>Nápoveda</value>
+  </data>
+  <data name="Code_Main_MessageBox_PairDevice" xml:space="preserve">
+    <value>Pred zapnutím spúšťačov prosím najprv spáruj zariadenie!</value>
+  </data>
+  <data name="Code_Main_MessageBox_StreamerAccount" xml:space="preserve">
+    <value>Uisti sa, že používaš tvoj "Streamer" Twitch účet!</value>
+  </data>
+  <data name="General_MessageBox_SomethingWrong" xml:space="preserve">
+    <value>Niečo sa pokazilo!
+Prosím skontroluj log, kde nastala chyba!</value>
+  </data>
+  <data name="General_MessageBox_Thanks_Title" xml:space="preserve">
+    <value>Ďakujem &lt;3</value>
+  </data>
+  <data name="Code_Main_MessageBox_AnalyticsRestart" xml:space="preserve">
+    <value>Zber dát pre analýzu začne po reštarte aplikácie! Ďakujeme za tvoju pomoc!</value>
+  </data>
+  <data name="General_MessageBox_Aw_Title" xml:space="preserve">
+    <value>Joj ...</value>
+    <comment>Like a sad Aw...</comment>
+  </data>
+  <data name="Code_Main_MessageBox_AnalyticsDecision" xml:space="preserve">
+    <value>Chápeme tvoje rozhodnutie. Aj tak ďakujeme!</value>
+  </data>
+  <data name="Code_Main_ChatMessage_CooldownON" xml:space="preserve">
+    <value>Časovač NanoLeaf je spustený! Je nastavený na {0} sekúnd!</value>
+  </data>
+  <data name="Code_Main_ChatMessage_CooldownOFF" xml:space="preserve">
+    <value>Časovač NanoLeaf je vypnutý!</value>
+  </data>
+  <data name="Code_Main_MessageBox_AutoRestore" xml:space="preserve">
+    <value>Po označení nastaví aplikácia po X sekundách predošlý efekt, ktorý je nastavený v okne spúšťača.</value>
+  </data>
+  <data name="Code_Main_MessageBox_Value0100" xml:space="preserve">
+    <value>Hodnota musí byť medzi 0 a 100!</value>
+  </data>
+  <data name="Code_Main_MessageBox_EmptyPrefix" xml:space="preserve">
+    <value>Toto pole nesmie ostať prázdne!</value>
+  </data>
+  <data name="Code_Main_MessageBox_AnalyticsStartError" xml:space="preserve">
+    <value>Serveru pre analýzy nebolo možné poslať štartovaciu správu! Prosím prezri log súbor pre viac informácií!</value>
+  </data>
+  <data name="Code_Main_Label_NanoHelpText" xml:space="preserve">
+    <value>Napíš '{0}nano help' pre výpis príkazov!</value>
+  </data>
+  <data name="Code_Main_MessageBox_EmptyFields" xml:space="preserve">
+    <value>Prosím vyplň všetky vstupné informácie!</value>
+  </data>
+  <data name="Code_Main_MessageBox_WrongFormatChannel" xml:space="preserve">
+    <value>Prosím zadaj názov Twitch kanála bez https://twitch.tv/ !</value>
+  </data>
+  <data name="Code_Main_MessageBox_ConTestFail" xml:space="preserve">
+    <value>Skúška spojenia zlyhala!</value>
+  </data>
+  <data name="Code_Main_MessageBox_AdressNull" xml:space="preserve">
+    <value>Adresa ovládača nebola nájdená!</value>
+  </data>
+  <data name="Code_Main_MessageBox_UpdateOrRepair" xml:space="preserve">
+    <value>Prosím aktualizuj alebo prepáruj zariadenie!</value>
+  </data>
+  <data name="Code_Main_MessageBox_ControllerInfoNull" xml:space="preserve">
+    <value>Informácie ovládača {0} nebolo možné získať!</value>
+    <comment>context - fom?
+{0} = Device Name</comment>
+  </data>
+  <data name="Code_Main_MessageBox_UndefinedEffect_Title" xml:space="preserve">
+    <value>Zistený nedefinovný efekt!</value>
+  </data>
+  <data name="Code_Main_MessageBox_UndefinedEffect" xml:space="preserve">
+    <value>Prosím uisti sa, že nepoužívaš 'Dynamic' alebo 'Shuffle' ako základný efekt!</value>
+  </data>
+  <data name="Code_Main_MessageBox_ConFail" xml:space="preserve">
+    <value>Nepodarilo sa pripojiť zariadenie! Prezri konzolu alebo log súbor pre viac informácií!</value>
+    <comment>context</comment>
+  </data>
+  <data name="Code_Main_MessageBox_NoDevice" xml:space="preserve">
+    <value>Prosím uisti sa, že je spárované aspoň jedno NanoLeaf zariadenie.</value>
+  </data>
+  <data name="Code_Main_MessageBox_SelectEffect" xml:space="preserve">
+    <value>Prosím vyber efekt z rozbaľovacej ponuky.</value>
+  </data>
+  <data name="Window_Pairing_Button_AutoDetect" xml:space="preserve">
+    <value>Autodetekcia</value>
+  </data>
+  <data name="Window_Pairing_Label_IpAdress" xml:space="preserve">
+    <value>IP adresa:</value>
+  </data>
+  <data name="Window_Pairing_Button_Manual" xml:space="preserve">
+    <value>Manuálne pripojenie</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_Pairing_Title" xml:space="preserve">
+    <value>Párovať</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_Pairing" xml:space="preserve">
+    <value>Prosím podrž tlačidlo ON/OFF na NanoLeaf ovládači 5 až 7 sekúnd pokiaľ nezačne blikať stavová LED - potom stlač OK</value>
+    <comment>?</comment>
+  </data>
+  <data name="Code_Pairing_DeviceList_Paired" xml:space="preserve">
+    <value>spárované</value>
+  </data>
+  <data name="Code_Pairing_DeviceList_NotPaired" xml:space="preserve">
+    <value>nespárované</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_DeviceNotFound" xml:space="preserve">
+    <value>Zariadenie sa nenašlo! Skús znova alebo použi Manuálne pripojenie!</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_PairingError" xml:space="preserve">
+    <value>Zariadenie sa nespárovalo! Prezri konzolu alebo log súbor pre viac informácií!</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_MultiDeviceDetected" xml:space="preserve">
+    <value>Nájdených viac než jedno NanoLeaf zariadenie. Prosím vyber požadované zo zoznamu a použi Manuálne pripojenie!</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_ValidIP" xml:space="preserve">
+    <value>Prosím zadaj platnú IP adresu!</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_AlreadyCon" xml:space="preserve">
+    <value>Toto zariadenie je už pripojené k aplikácií!</value>
+  </data>
+  <data name="General_Label_NanoleafDevice" xml:space="preserve">
+    <value>Nanoleaf zariadenie</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_PairingSucessfull" xml:space="preserve">
+    <value>Úspešne spárované!</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_PairingEffects" xml:space="preserve">
+    <value>Prosím uisti sa, že všetky pripojené Nanoleaf zariadenia obsahujú rovnaké efekty! V opačnom prípade sa môžu vyskytnúť chyby pri zmene efektov!</value>
+  </data>
+  <data name="Window_Responses_Title" xml:space="preserve">
+    <value>Odpovede z chatu</value>
+  </data>
+  <data name="Window_Responses_Label_ConnectMessage" xml:space="preserve">
+    <value>Správa po pripojení:</value>
+  </data>
+  <data name="Window_Responses_Label_CommandResponse" xml:space="preserve">
+    <value>Odpoveď na príkaz:</value>
+  </data>
+  <data name="Window_Responses_Label_CommandxResponse" xml:space="preserve">
+    <value>Odpoveď na príkaz po X sekundách:</value>
+  </data>
+  <data name="Window_Response_Label_KeywordResponse" xml:space="preserve">
+    <value>Odpoveď na kľúčové slovo:</value>
+  </data>
+  <data name="Window_Pairing_Title" xml:space="preserve">
+    <value>Spárovať nové zariadenie</value>
+  </data>
+  <data name="Window_Responses_Button_Save" xml:space="preserve">
+    <value>Uložiť a Zavrieť</value>
+  </data>
+  <data name="Window_Responses_Button_Reset" xml:space="preserve">
+    <value>Resetovať nastavenia</value>
+  </data>
+  <data name="General_Button_Help" xml:space="preserve">
+    <value>Pomoc</value>
+  </data>
+  <data name="Code_Responses_ComboBox_Times_Off" xml:space="preserve">
+    <value>vypnúť</value>
+  </data>
+  <data name="Code_Responses_ComboBox_Times_Minutes" xml:space="preserve">
+    <value>Minúty</value>
+  </data>
+  <data name="Code_Responses_ConnectMessage" xml:space="preserve">
+    <value>Ahoj všetci! Som Bot, ktorý ovláda tvoje Nanoleaf svetlá! Pre pomoc napíš '!nano help'.</value>
+  </data>
+  <data name="Code_Responses_CommandResponse" xml:space="preserve">
+    <value>{username} zmenil(a) NanoLeaf efekt na {effect}.</value>
+  </data>
+  <data name="Code_Responses_CommandDurationResponse" xml:space="preserve">
+    <value>{username} zmenil(a) NanoLeaf efekt na {effect} po dobu {duration} sekúnd.</value>
+  </data>
+  <data name="Code_Responses_KeywordResponse" xml:space="preserve">
+    <value>{username} povedal(a) magické slovo a zmenil(a) NanoLeaf efekt na {effect}.</value>
+  </data>
+  <data name="Window_ResponsesHelp_Title" xml:space="preserve">
+    <value>Pomoc pre odpovede</value>
+    <comment>???</comment>
+  </data>
+  <data name="Window_ResponsesHelp_Text" xml:space="preserve">
+    <value>Môžeš použiť rôzne zástupné premenné pre odpovedajúce správy :
+
+Pre opakujúcu sa správu si môžeš zvoliť časovač medzi 10 a 60 minútami.
+V pripravovanej verzií ju budeš môcť úplne vypnúť.
+
+{username}
+Táto hodnota bude zmenená menom uživateľa, ktorý vyvolal zmenu.
+
+{effect}
+Táto hodnota bude zmenená názvom efektu, ktorý sa zobrazí na NanoLeafs.
+
+{duration} - Použiteľné len s "Automaticky obnov efekt na príkaz"
+Táto hodnota bude zmenená počtom sekúnd na ako dlho bude efekt zmenený na NanoLeafs.</value>
+  </data>
+  <data name="Window_TriggerDetail_Title" xml:space="preserve">
+    <value>Detaily spúšťača</value>
+  </data>
+  <data name="Window_TriggerDetail_Slider_Text" xml:space="preserve">
+    <value>Zapnúť spúšťač</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_TriggerType" xml:space="preserve">
+    <value>Typ spúšťača</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Command" xml:space="preserve">
+    <value>Príkaz</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Keyword" xml:space="preserve">
+    <value>Kľúčové slovo</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_NewFollower" xml:space="preserve">
+    <value>Nový nasledovník</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_NewSubscriber" xml:space="preserve">
+    <value>Nový predplatiteľ</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Host" xml:space="preserve">
+    <value>Hosťovanie</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Raid" xml:space="preserve">
+    <value>Nájazd</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Resub" xml:space="preserve">
+    <value>Znovu predplatiteľ</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Bits" xml:space="preserve">
+    <value>Bits</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_ChannelPoints" xml:space="preserve">
+    <value>Body kanála</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_GiftSub" xml:space="preserve">
+    <value>Darca predplatného</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_AnonGiftSub" xml:space="preserve">
+    <value>Anonoymný darca predplatného</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_Effect" xml:space="preserve">
+    <value>Efekt</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_SoundEffect" xml:space="preserve">
+    <value>Zvukový efekt</value>
+  </data>
+  <data name="Window_TriggerDetail_Button_SelectFile" xml:space="preserve">
+    <value>Vybrať súbor</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_Options" xml:space="preserve">
+    <value>Možnosti</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_Amount" xml:space="preserve">
+    <value>Množstvo</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_Duration" xml:space="preserve">
+    <value>Trvanie</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_Brightness" xml:space="preserve">
+    <value>Jas</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_Cooldown" xml:space="preserve">
+    <value>Časovač</value>
+  </data>
+  <data name="Window_TriggerDetail_Checkbox_Vip" xml:space="preserve">
+    <value>iba VIP</value>
+  </data>
+  <data name="Window_TriggerDetail_Checkbox_Sub" xml:space="preserve">
+    <value>iba Predplatitelia</value>
+  </data>
+  <data name="Window_TriggerDetail_Checkbox_Mod" xml:space="preserve">
+    <value>iba Moderátori</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_CmdKeyword" xml:space="preserve">
+    <value>Príkaz / Kľúčové slovo</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_Volume" xml:space="preserve">
+    <value>Hlasitosť</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_NoRewardDetected" xml:space="preserve">
+    <value>Žiadna odmena za body kanála nebola zistená!
+Prosím uplatni požadovanú odmenu teraz!</value>
+  </data>
+  <data name="Code_TriggerDetail_Label_CPGuid" xml:space="preserve">
+    <value>Zistená odmena za body kanála s ID
+{0}
+Uplatni znova pre úpravu/aktualizáciu odmeny!</value>
+  </data>
+  <data name="Code_TriggerDetail_Label_CPGuidSet" xml:space="preserve">
+    <value>Odmena s ID {0} je nastavená.
+Uplatni znova pre úpravu/aktualizáciu odmeny!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_NoRewardDetected" xml:space="preserve">
+    <value>Pred uložením prosím uplatni jednu z odmien za body kanála cez tvoj Twitch chat s tvojim "Streamer" účtom!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_NoEffectSelected" xml:space="preserve">
+    <value>Prosím vyber efekt pre svoj časovač!
+Pole nesmie byť prázdne!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_CmdBoxEmpty" xml:space="preserve">
+    <value>Prosím zadaj príkaz/kľúčové slovo pre svoj časovač! Pole nesmie byť prázdne!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_BrightnessValue" xml:space="preserve">
+    <value>Prosím zadaj hodnotu jasu medzi 0 a 100!\nPole nesmie byť prázdne!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_VolumeValue" xml:space="preserve">
+    <value>Prosím zadaj výšku hlasitosti medzi 0 a 100! Pole nesmie byť prázdne!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_AmountValue" xml:space="preserve">
+    <value>Prosím zadaj hodnotu množstva aj keď sa nepoužije! Pole nesmie byť prázdne alebo obsahovať zápornú hodnotu!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_DurationValue" xml:space="preserve">
+    <value>Prosím zadaj hodnotu dĺžky aj keď sa nepoužije! Pole nesmie byť prázdne alebo obsahovať zápornú hodnotu!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_CooldownValue" xml:space="preserve">
+    <value>Prosím zadaj hodnotu časovača! Zadaj 0 pre vypnutie časovača pre spúšťač! Pole nesmie byť prázdne!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_SoundfileFormat" xml:space="preserve">
+    <value>Môžeš použiť len hudobné súbory .wav alebo .mp3!</value>
+  </data>
+  <data name="Code_TriggerDetail_Label_VipSubMod" xml:space="preserve">
+    <value>Pre použitie tohto časovača musí byť uživateľ {0}.</value>
+  </data>
+  <data name="Code_TriggerDetail_Label_NothingSpecial" xml:space="preserve">
+    <value>nič špeciálne</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_CPNoConnection" xml:space="preserve">
+    <value>Najprv sa pripoj do Twitch chatu, ak chceš vytvoriť alebo upraviť spúšťač za body kanála!</value>
+  </data>
+  <data name="Window_TriggerHelp_Title" xml:space="preserve">
+    <value>Pomoc pre spúšťač</value>
+  </data>
+  <data name="Window_TriggerHelp_Text" xml:space="preserve">
+    <value>Spúšťač:
+
+Je to "typ" udalosti, ktorá spúšťa, no... spúšťač.
+Twitch udalosť ako "Nový nasledovník" alebo "Nový predplatiteľ" vyžaduje trvanie v sekundách.
+Napríklad, ak získaš nového sledujúceho a spúšťač je nastavený na 10 sekúnd, tak NanoLeaf zmení efekt nastavený pre túto udalosť a po desiatich sekundách vráti efekt na predošlý. Polia "Príkaz" a "Cena" sú pre tento typ spúšťača vypnuté.
+Ak chceš použiť body kanála, musíš ísť na svoju Twitch nástenku (https://dashboard.twitch.tv/u/yourtwitchname/community/channel-points) a vytvoriť si vlastnú odmenu. Pre prepojenie odmeny so spúšťačom jednoducho uplatni názov požadovanej odmeny vytvorenej cez Twitch nástenku.
+Príkaz/Kľúčové slovo:
+Ak chceš umožniť divákom sa hrať s tvojími NanoLeafs panelmi, skús typ spúšťača "príkaz" alebo "kľúčové slovo"!
+Príkaz:
+Príkaz vyzerá takto: !príkaz (predpona ! a názov príkazu)
+Predpona "!" pred názvom príkazu môže byť zmenená za inú v záložke príhlásenia Bota.
+Správa diváka sa musí teda zhodovať s názvom príkazu. Ak nastavíš príkaz pre chat napr. !test a divák napíše !test123 alebo !test 123 tak sa Spúšťač neaktivuje!
+(Pozor ale, názov príkazového slova sa zadáva do poľa príkazu BEZ predpony)
+Kľúčové slovo:
+Na rozdiel od príkazu, kľúčové slovo môže byť jediná správa, časť slova alebo len časť celej vety.
+Ak nastavíš "test" ako kľúčové slovo, Spúšťač sa aktivuje pri napísaní všetkého obsahujúce toto slovo, napríklad "test", "test123", "ahojtesttosomja" alebo dokonca aj "Toto je len test"!
+Dokonca je možné nastaviť viacero kľúčových slov pre jeden efekt. Stačí ich len oddeliť čiarkou - "oheň,plamene,peklo" - "voda,more,oceán".
+Efekt:
+Je to zoznam efektov stiahnutý priamo z tvojho NanoLeaf zariadenia. Ak vytvoríš v mobilnej aplikácií NanoLeafs nové efekty a potom otvoríš detaily spúšťačov, nové efekty sa okamžite stiahnú.
+Zvukový súbor:
+Klikni na tlačidlo Vybrať a vyber zvukový súbor, ktorý by sa mal prehrať s týmto Spúšťačom. (povolené sú .mp3 a .wav)
+Pre odstránenie len zmaž cestu k súboru v textovom poli.
+Množstvo:
+Môžeš nastaviť niekoľko Spúšťačov s rôznymi minimálnimi limitmi.
+Ak napríklad vytvoríš spúšťač pre Bits s hodnotou 100, tak cheer s 99 Bits neurobí nič. Ale ak niekto pošle 100+ Bits, tak sa spustí zvolený efekt.
+Takže môžeš nastaviť viacero spúšťačov pre 50+, 100+, 200+ atď... Bits alebo počet ľudí v Hosťovaní.
+Trvanie a Časovač:
+Trvanie a Časovač sa udávajú v sekundách. Časovač sa počíta každému spúšťaču samostatne.
+Jas:
+Môžeš špecifikovať Jas v % pre každý spúšťač. Hodnoty môžu byť v rozmedzí 0 a 100.
+Len VIP|Sub|Mod:
+Ak chceš dovoliť používanie príkazov a kľúčových slov LEN pre VIP, Predplatiteľov a Moderátorov!</value>
+    <comment>The link on the dashboard is in german even in the english locale. It should be something like: https://dashboard.twitch.tv/u/yourtwitchname/community/channel-points
+I tried to change myself but I couldn't :P</comment>
+  </data>
+  <data name="Window_Trigger_Title" xml:space="preserve">
+    <value>Spúšťač</value>
+  </data>
+  <data name="Window_Trigger_Header_On" xml:space="preserve">
+    <value>Aktívne</value>
+  </data>
+  <data name="Window_Trigger_Header_Trigger" xml:space="preserve">
+    <value>Spúšťač</value>
+  </data>
+  <data name="Window_Trigger_Header_Effect" xml:space="preserve">
+    <value>Efekt</value>
+  </data>
+  <data name="Window_Trigger_Header_Sound" xml:space="preserve">
+    <value>Zvuk?</value>
+  </data>
+  <data name="Window_Trigger_Header_Duration" xml:space="preserve">
+    <value>Trvanie</value>
+  </data>
+  <data name="Window_Trigger_Header_Brightness" xml:space="preserve">
+    <value>Jas</value>
+  </data>
+  <data name="Window_Trigger_Header_Amount" xml:space="preserve">
+    <value>Množstvo</value>
+  </data>
+  <data name="Window_Trigger_Header_Cooldown" xml:space="preserve">
+    <value>Časovač</value>
+  </data>
+  <data name="Window_Trigger_Header_Flags" xml:space="preserve">
+    <value>Indikátory</value>
+  </data>
+  <data name="Window_Trigger_Button_Edit" xml:space="preserve">
+    <value>Upraviť</value>
+  </data>
+  <data name="Window_Trigger_Button_Delete" xml:space="preserve">
+    <value>Zmazať</value>
+  </data>
+  <data name="Window_Trigger_Button_New" xml:space="preserve">
+    <value>Nový</value>
+  </data>
+  <data name="Window_Trigger_Button_Clear" xml:space="preserve">
+    <value>Vymazať</value>
+  </data>
+  <data name="Code_Trigger_MessageBox_EffectList" xml:space="preserve">
+    <value>Spojenie zlyhalo! Zoznamov efektov sa nezistil!</value>
+  </data>
+  <data name="Code_Nano_MessageBox_PairingError" xml:space="preserve">
+    <value>Chyba pri párovaní zariadenia!</value>
+  </data>
+  <data name="Code_Nano_MessageBox_DeviceNotFound" xml:space="preserve">
+    <value>Zariadenie s názvom {0} nebolo nájdené na tvojej sieti!
+Prosím uisti sa, že tvoje zariadenie je zapnuté a online!
+Prosím skontroluj konzolu alebo log súbor kvôli IP adrese.</value>
+  </data>
+  <data name="Code_Nano_MessageBox_UniqueName" xml:space="preserve">
+    <value>Prosím zvoľ si unikátny názov pre svoje NanoLeaf zariadenie!</value>
+  </data>
+  <data name="Code_Nano_MessageBox_CurrentEffect" xml:space="preserve">
+    <value>Pri zisťovaní aktuálneho efektu z '{0}' nastala chyba!</value>
+  </data>
+  <data name="Code_Nano_MessageBox_CurrentHue" xml:space="preserve">
+    <value>Pri zisťovaní aktuálneho Hue z '{0}' nastala chyba!</value>
+  </data>
+  <data name="Code_Nano_MessageBox_CurrentSaturation" xml:space="preserve">
+    <value>Pri zisťovaní aktuálnej sýtosti z '{0}' nastala chyba!</value>
+  </data>
+  <data name="Code_Nano_MessageBox_CurrentColorTemp" xml:space="preserve">
+    <value>Pri zisťovaní aktuálnej teploty farby z '{0}' nastala chyba!</value>
+  </data>
+  <data name="Code_Nano_MessageBox_CurrentBrightness" xml:space="preserve">
+    <value>Pri zisťovaní aktuálneho jasu z '{0}' nastala chyba!</value>
+  </data>
+  <data name="Code_Nano_MessageBox_CurrentState" xml:space="preserve">
+    <value>Pri zisťovaní aktuálneho stavu '{0}' nastala chyba!</value>
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_TriggerNotActive" xml:space="preserve">
+    <value>Prepáč, spúšťače nie sú momentálne zapnuté!</value>
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_ModOnly" xml:space="preserve">
+    <value>Prepáč, tento príkaz môže použiť iba Moderátor!</value>
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_Cooldown" xml:space="preserve">
+    <value>Prepáč! Skús znova o chvíľu!</value>
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_VipOnly" xml:space="preserve">
+    <value>Prepáč, tento príkaz môže použiť iba VIP!</value>
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_SubOnly" xml:space="preserve">
+    <value>Prepáč, tento príkaz môže použiť iba Predplatiteľ!</value>
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_ActiveCommands" xml:space="preserve">
+    <value>Aktívne príkazy:</value>
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_NoActiveCommands" xml:space="preserve">
+    <value>Momentálne nie sú aktívne žiadne príkazy!</value>
+  </data>
+  <data name="Code_Twitch_MessageBox_LoginIncorrect" xml:space="preserve">
+    <value>Prosím uisti sa, že uživateľské meno, kanál a autorizačný Token sú správne.</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_Language" xml:space="preserve">
+    <value>Jazyk:</value>
+  </data>
+  <data name="Code_Main_MessageBox_Restart_Title" xml:space="preserve">
+    <value>Reštartovať hneď?</value>
+  </data>
+  <data name="Code_Main_MessageBox_Restart" xml:space="preserve">
+    <value>Zmeny vyžadujú reštart aplikácie... Reštartovať teraz?</value>
+  </data>
+  <data name="General_Label_Translator" xml:space="preserve">
+    <value>Preložil fat^boy</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Effect" xml:space="preserve">
+    <value>Efekt</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Color" xml:space="preserve">
+    <value>Farba</value>
+  </data>
+  <data name="Window_TriggerDetail_ColorPicker_Error" xml:space="preserve">
+    <value>Prosím vyber farbu z farebnej palety!</value>
+  </data>
+  <data name="Code_License_MessageBox_Confirm_RemoveLicense" xml:space="preserve">
+    <value>Chceš naozaj odstrániť tvoju licenciu?</value>
+  </data>
+  <data name="Code_License_MessageBox_Confirm_RemoveLicenseFile" xml:space="preserve">
+    <value>Vymazať tiež licenčný súbor?</value>
+  </data>
+  <data name="Window_AppInfo_Button_License" xml:space="preserve">
+    <value>Informácie o licencií</value>
+  </data>
+  <data name="Window_License_Button_Activate" xml:space="preserve">
+    <value>Aktivovať licenciu</value>
+  </data>
+  <data name="Window_License_Button_Deactivate" xml:space="preserve">
+    <value>Deaktivovať licenciu</value>
+  </data>
+  <data name="Window_License_MessageBox_Error_CouldNotValidateKey" xml:space="preserve">
+    <value>Licenčný kľúč sa nepodarilo overiť!</value>
+  </data>
+  <data name="Window_License_MessageBox_Error_NoKey" xml:space="preserve">
+    <value>Prosím zadaj platný licenčný kľúč!</value>
+  </data>
+  <data name="Window_TwitchLink_Title" xml:space="preserve">
+    <value>Prepojiť Twitch účet</value>
+  </data>
+  <data name="Window_TwitchLink_Tab_Setup" xml:space="preserve">
+    <value>Možnosti nastavenia</value>
+  </data>
+  <data name="Window_TwitchLink_Single_Help" xml:space="preserve">
+    <value>
+Jeden účet - nastavenie vysielateľa
+(Doporučené)
+
+Použi svoj účet Twitch Vysielateľa
+k pripojeniu sa na Chat pre sledovanie
+správ a Twitch udalostí.
+
+Výhody:
+- Rýchle a jednoduché nastavenie.
+
+Nevýhody:
+- Tvoj účet bude uverejňovať automatické správy do chatu.</value>
+  </data>
+  <data name="Window_TwitchLink_Double_Help" xml:space="preserve">
+    <value>
+Dva účty - nastavenie Bota
+(Pre pokročilých)
+
+Použi oddelený účet Bota k spravovaniu správ z chatu
+a pripoj svoj účet Vysielateľa ako pozadie pre sledovanie Twitch udalostí.
+
+Výhody:
+- Oddelenie automatických správ do samostatného účtu.
+
+Nevýhody:
+- Je potrebný ďalší Twitch účet.</value>
+  </data>
+  <data name="Window_TwitchLink_Tab_Broadcaster" xml:space="preserve">
+    <value>Vysielateľ</value>
+  </data>
+  <data name="Window_TwitchLink_Button_Link" xml:space="preserve">
+    <value>Prepoj účet</value>
+  </data>
+  <data name="Window_TwitchLink_Broadcaster_Permissions_Text" xml:space="preserve">
+    <value>Potrebujeme tieto povolenia pre tvoj účet Vysielateľa:
+- Čítanie a zápis tvojho Twitch chatu.
+- Čítanie a zápis tvojich súkromných správ.
+- Čítanie informácií o Bits tvojho kanála.
+- Čítanie informácií o Predplatiteľoch tvojho kanála.
+- Čítanie a zápis uplatňovania odmien za body tvojho kanála.
+- Čítanie informácií o Hypetrain tvojho kanála.
+
+
+
+K pripojeniu tvojho Vysielateľského účtu:
+
+Prosím zadaj meno bota na Twitchi, uisti sa, že si prihlásený(á) cez účet Vysielateľa a potom klikni na tlačidlo, ktoré je pod týmto textom.</value>
+  </data>
+  <data name="Window_TwitchLink_Textbox_Broadcaster" xml:space="preserve">
+    <value>Uživateľské meno Vysielateľa</value>
+  </data>
+  <data name="Window_TwitchLink_Tab_Bot" xml:space="preserve">
+    <value>Bot</value>
+  </data>
+  <data name="Window_TwitchLink_Label_ClickNext" xml:space="preserve">
+    <value>Prepojenie úspešné! Klikni na Ďalej &gt;&gt;&gt;</value>
+  </data>
+  <data name="Window_TwitchLink_Bot_Permissions_Text" xml:space="preserve">
+    <value>Potrebujeme tieto povolenia pre tvoj Bot účet:
+- Čítanie a zápis tvojho Twitch chatu.
+- Čítanie a zápis tvojich súkromných správ.
+
+
+
+
+K pripojeniu tvojho Bot účtu:
+
+Prosím zadaj meno Bota na Twitchi, uisti sa, že si prihlásený(á) cez účet Bota a potom klikni na tlačidlo, ktoré je pod týmto textom.</value>
+  </data>
+  <data name="General_Button_Next" xml:space="preserve">
+    <value>Ďalej</value>
+  </data>
+  <data name="General_Button_Back" xml:space="preserve">
+    <value>Naspäť</value>
+  </data>
+  <data name="Window_TwitchLink_Tab_ConnectionTest" xml:space="preserve">
+    <value>Skúška spojenia</value>
+  </data>
+  <data name="Window_TwitchLink_Test_Text" xml:space="preserve">
+    <value>Takmer hotovo!
+
+Teraz otestujeme tvoje spojenie s chatom a službami Twitchu!</value>
+  </data>
+  <data name="Window_TwitchLink_Progress_1" xml:space="preserve">
+    <value>Pripojiť na Twitch</value>
+  </data>
+  <data name="Window_TwitchLink_Progress_2" xml:space="preserve">
+    <value>Pripojiť do kanála</value>
+  </data>
+  <data name="Window_TwitchLink_Progress_3" xml:space="preserve">
+    <value>Poslať správu</value>
+  </data>
+  <data name="Window_TwitchLink_Progress_4" xml:space="preserve">
+    <value>Odpojiť</value>
+  </data>
+  <data name="Window_TwitchLink_Progress_5" xml:space="preserve">
+    <value>Hotovo</value>
+  </data>
+  <data name="Window_TwitchLink_Finished_Text" xml:space="preserve">
+    <value>Jéééj! \o/ Dokončil si nastavenie Twitchu!
+Teraz môžeš uložiť nastavenia
+a začať vytvárať svoj prvý spúšťač!</value>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_AccountLabel_Text" xml:space="preserve">
+    <value>Nie je pripojený žiadny Twitch účet!</value>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_LinkButton_Text" xml:space="preserve">
+    <value>Pripojiť Twitch účet</value>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_UnlinkButton_Text" xml:space="preserve">
+    <value>Odpojiť Twitch účet</value>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_AccountLabel_Text2" xml:space="preserve">
+    <value>Pripojené do Twitch kanála </value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Button_UploadLogfile" xml:space="preserve">
+    <value>Nahrať protokolový súbor</value>
+  </data>
+  <data name="Window_Responses_StartupMessage_CheckBox" xml:space="preserve">
+    <value>Správa pri spustení aktívna</value>
+  </data>
+  <data name="Window_Main_Tabs_Streamlabs_Title" xml:space="preserve">
+    <value>Streamlabs</value>
+  </data>
+  <data name="Windows_Main_Tabs_Streamlabs_LinkStreamlabs_Label" xml:space="preserve">
+    <value>Pripojiť účet Streamlabs</value>
+  </data>
+  <data name="Windows_Main_Tabs_Streamlabs_UnLinkStreamlabs_Label" xml:space="preserve">
+    <value>Odpojiť účet Streamlabs</value>
+  </data>
+  <data name="Windows_Main_Tabs_Streamlabs_Linktext_Textblock1" xml:space="preserve">
+    <value>Nie je pripojený žiadny Streamlabs účet!</value>
+  </data>
+  <data name="Windows_Main_Tabs_Streamlabs_Linktext_Textblock2" xml:space="preserve">
+    <value>Spojené s účtom</value>
+  </data>
+  <data name="Window_Main_Tabs_Streamlabs_BottomText_Texblock" xml:space="preserve">
+    <value>Spojiť Streamlabs účet
+pre použitie Donate spúšťača</value>
+  </data>
+  <data name="Windows_Main_Tabs_Hyperate_Heartrate_Label" xml:space="preserve">
+    <value>Srdečný tep:</value>
+  </data>
+  <data name="Windows_Main_Tabs_Hyperate_Title" xml:space="preserve">
+    <value>HypeTep</value>
+  </data>
+  <data name="Windows_Main_Tabs_Hyperate_Disconnect_Button" xml:space="preserve">
+    <value>Odpojiť</value>
+  </data>
+  <data name="Window_AppInfo_Associated_Label" xml:space="preserve">
+    <value>NanoTwitchLeaf nie je spojený s Twitchom alebo s Nanoleaf</value>
+  </data>
+</root>

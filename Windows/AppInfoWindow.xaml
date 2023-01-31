@@ -1,0 +1,34 @@
+﻿<Window x:Name="App_Info_Window" x:Class="NanoTwitchLeafs.Windows.AppInfoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:fa="http://schemas.fontawesome.com/icons/"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:p="clr-namespace:NanoTwitchLeafs.Properties"
+        mc:Ignorable="d"
+        Title="{x:Static p:Resources.Window_AppInfo_Title}" Height="415.435" Width="343.334" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+    <Canvas Margin="10">
+        <Label Content="{x:Static p:Resources.Window_AppInfo_Label_Version}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="227" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="87" Canvas.Top="5" />
+        <Label x:Name="version_Label" Content="x.x.x" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="31" Width="227" VerticalContentAlignment="Center" Canvas.Left="87" />
+        <Label Content="{x:Static p:Resources.Window_AppInfo_Label_Creator}" Canvas.Top="57" HorizontalAlignment="Center" VerticalAlignment="Top" Width="227" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="87" />
+        <Label x:Name="author_Label" Content="Markus Bender" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="83" Width="227" VerticalContentAlignment="Center" Canvas.Left="87" />
+        <Label x:Name="thanks_label" Content="special Thanks to Eric Bach &lt;3" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="253" Width="227" Canvas.Left="87" />
+        <Button Content="{x:Static p:Resources.Window_AppInfo_Button_Feedback}" Height="20" Canvas.Left="100" Canvas.Top="228" Width="207" HorizontalAlignment="Center" Click="Feedback_Button_Click" VerticalAlignment="Top" />
+        <Image Height="133" Canvas.Left="-137" Canvas.Top="104" Width="361" Source="/NanoTwitchLeafs;component/Assets/nanotwitchleafs_logo.png" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform />
+                    <SkewTransform />
+                    <RotateTransform Angle="-90" />
+                    <TranslateTransform />
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Label x:Name="discord_Label" Content="NTL - Discord" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="119" Width="227" VerticalContentAlignment="Center" Canvas.Left="87" MouseDown="Discord_Label_MouseDown" Foreground="#FF0C3BDA" />
+        <fa:ImageAwesome Icon="Brands_Discord" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="#FF8B9BD4" Canvas.Left="116" Canvas.Top="119" Height="25" Width="25" />
+        <Label x:Name="translator_label" Content="{x:Static p:Resources.General_Label_Translator}" Canvas.Left="100" Canvas.Top="197" Width="207" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" />
+        <TextBlock Text="{x:Static p:Resources.Window_AppInfo_Associated_Label}" Canvas.Top="288.92" VerticalAlignment="Top" HorizontalAlignment="Center" Canvas.Left="100" Width="207" Height="73" UseLayoutRounding="False" ScrollViewer.VerticalScrollBarVisibility="Disabled" Padding="5,5,5,5" TextWrapping="WrapWithOverflow" />
+        <Label x:Name="Github_Label" Content="Github" HorizontalContentAlignment="Center" Canvas.Top="146" Width="227" VerticalContentAlignment="Center" Canvas.Left="87" MouseDown="Github_Label_MouseDown" Foreground="#FF0C3BDA" HorizontalAlignment="Center" VerticalAlignment="Top" />
+        <fa:ImageAwesome Icon="Brands_Github" Foreground="#FF8B9BD4" Canvas.Left="116" Canvas.Top="146" Height="25" Width="25" HorizontalAlignment="Center" VerticalAlignment="Top" />
+    </Canvas>
+</Window>

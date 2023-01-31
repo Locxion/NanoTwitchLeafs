@@ -1,0 +1,13 @@
+﻿<Window x:Class="NanoTwitchLeafs.Windows.ResponsesHelpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:p="clr-namespace:NanoTwitchLeafs.Properties"
+        xmlns:local="clr-namespace:NanoTwitchLeafs.Windows"
+        mc:Ignorable="d"
+        Title="{x:Static p:Resources.Window_ResponsesHelp_Title}" Height="281.121" Width="577.193" ResizeMode="NoResize">
+    <Grid>
+        <TextBlock Margin="10,0" TextWrapping="Wrap"><Label Content="{x:Static p:Resources.Window_ResponsesHelp_Text}" Height="247"></Label></TextBlock>
+    </Grid>
+</Window>

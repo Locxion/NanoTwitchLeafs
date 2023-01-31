@@ -1,0 +1,877 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="General_Button_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Window_Announcement_Title" xml:space="preserve">
+    <value>Bekendtgørelse</value>
+  </data>
+  <data name="General_Button_Changelog" xml:space="preserve">
+    <value>Se Changelog</value>
+  </data>
+  <data name="Window_AppInfo_Title" xml:space="preserve">
+    <value>Program Information</value>
+  </data>
+  <data name="Window_AppInfo_Label_Version" xml:space="preserve">
+    <value>Version:</value>
+  </data>
+  <data name="Window_AppInfo_Label_Creator" xml:space="preserve">
+    <value>Skaber:</value>
+  </data>
+  <data name="Window_AppInfo_Button_Feedback" xml:space="preserve">
+    <value>Send Feedback</value>
+  </data>
+  <data name="General_MessageBox_Error_Title" xml:space="preserve">
+    <value>Fejl!</value>
+  </data>
+  <data name="General_MessageBox_EnterUsername" xml:space="preserve">
+    <value>Venligst indtast et Twitch brugernavn!</value>
+  </data>
+  <data name="General_MessageBox_UsernameExists" xml:space="preserve">
+    <value>Brugernavnet eksisterer allerede!</value>
+  </data>
+  <data name="General_MessageBox_NoUserSelected" xml:space="preserve">
+    <value>Venligst vælg et brugernavn fra listen nedenunder!</value>
+  </data>
+  <data name="General_MessageBox_AddDev" xml:space="preserve">
+    <value>Du kan ikke tilføje en udvikler til blacklisten.
+Vi holder øje med dig ... Kappa!</value>
+  </data>
+  <data name="General_Blacklist_MessageBox_AddedUserX" xml:space="preserve">
+    <value>Tilføjede bruger '{0}' til blacklisten!</value>
+    <comment>Need context</comment>
+  </data>
+  <data name="General_Blacklist_MessageBox_RemovedUserX" xml:space="preserve">
+    <value>Fjernede bruger '{0}' fra blacklisten!</value>
+  </data>
+  <data name="Window_Devices_Title" xml:space="preserve">
+    <value>Forbind enheder</value>
+  </data>
+  <data name="Window_Devices_Button_RemoveDevice" xml:space="preserve">
+    <value>Fjern enheder</value>
+  </data>
+  <data name="Window_Devices_Button_Close" xml:space="preserve">
+    <value>Luk</value>
+  </data>
+  <data name="Window_Devices_Button_RenameButton" xml:space="preserve">
+    <value>Omdøb enheder</value>
+  </data>
+  <data name="Window_Devices_Button_UpdateDevices" xml:space="preserve">
+    <value>Opdater alle enheder</value>
+  </data>
+  <data name="Code_Devices_MessageBox_RemoveConfirm" xml:space="preserve">
+    <value>Vil du virkelig fjerne {0}?</value>
+  </data>
+  <data name="Code_Devices_MessageBox_RemoveConfirm_Title" xml:space="preserve">
+    <value>Fjern Nanoleaf enhed</value>
+  </data>
+  <data name="General_MessageBox_Sucess_Title" xml:space="preserve">
+    <value>Jubii!</value>
+  </data>
+  <data name="Code_Devices_Messagebox_UpdateDevices_Succes" xml:space="preserve">
+    <value>Enheder opdateret!</value>
+  </data>
+  <data name="Window_NanoDeviceInput_Title" xml:space="preserve">
+    <value>Navngiv din enhed</value>
+  </data>
+  <data name="Window_NanoDeviceInput_Text" xml:space="preserve">
+    <value>Navngiv din enhed. F.eks. 'Stue' eller 'Venstre Væg'</value>
+  </data>
+  <data name="Window_Loading_Title" xml:space="preserve">
+    <value>Indlæser ...</value>
+    <comment>I'm suppressing the space between "Loading" and "..." because it's more usual in portuguese</comment>
+  </data>
+  <data name="Window_Loading_Text" xml:space="preserve">
+    <value>Indlæser ... Vent venligst</value>
+    <comment>Same here</comment>
+  </data>
+  <data name="Window_Main_Title" xml:space="preserve">
+    <value>NanoTwitchLeafs</value>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_Title" xml:space="preserve">
+    <value>Twitch</value>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_Button_Connect" xml:space="preserve">
+    <value>Forbind</value>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_Button_Disconnect" xml:space="preserve">
+    <value>Afbryd</value>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_Label_Prefix" xml:space="preserve">
+    <value>Kommando præfiks:</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Title" xml:space="preserve">
+    <value>Nano</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Button_Pairing" xml:space="preserve">
+    <value>Forbinder</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Button_Test" xml:space="preserve">
+    <value>Test forbindelse</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Label_Status" xml:space="preserve">
+    <value>Status:</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Checkbox_EnableTrigger" xml:space="preserve">
+    <value>Aktiver Trigger</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Button_EditTrigger" xml:space="preserve">
+    <value>Rediger Trigger</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Textbox_Text" xml:space="preserve">
+    <value>Venligst forbind din enhed og test forbindelsen</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Checkbox_EnableCooldown" xml:space="preserve">
+    <value>Aktiver Cooldown</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Label_Seconds" xml:space="preserve">
+    <value>Sekunder</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Button_ResetQueue" xml:space="preserve">
+    <value>Nulstil kø</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Label_EventsInQueue" xml:space="preserve">
+    <value>Begivenheder i kø:</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Label_AutoRestore" xml:space="preserve">
+    <value>Auto gendanne tidligere effekt:</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Checkbox_onCommand" xml:space="preserve">
+    <value>på Command</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Checkbox_onKeyword" xml:space="preserve">
+    <value>på Nøgleord</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Checkbox_ModeratorIgnorCooldown" xml:space="preserve">
+    <value>Moderator kan ignorere Cooldown</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Button_ManageDevices" xml:space="preserve">
+    <value>Styr enheder</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Button_RestartQueue" xml:space="preserve">
+    <value>Genstart kø</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Title" xml:space="preserve">
+    <value>Indstillinger</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_Debug" xml:space="preserve">
+    <value>Aktiver Debug</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_Analytics" xml:space="preserve">
+    <value>Aktiver anonym analyse</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_Responses" xml:space="preserve">
+    <value>Altiver Chat svar</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_Whisper" xml:space="preserve">
+    <value>Whisper Mode</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_Chat" xml:space="preserve">
+    <value>Chat:</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_General" xml:space="preserve">
+    <value>Generelt:</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_Misc" xml:space="preserve">
+    <value>Diverse:</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Button_Edit" xml:space="preserve">
+    <value>Rediger</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_Autoconnect" xml:space="preserve">
+    <value>Auto forbind ved opstart</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_Analytics" xml:space="preserve">
+    <value>Analyse:</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_AnalyticsChannel" xml:space="preserve">
+    <value>Del kanalnavn</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Button_OpenDebugDir" xml:space="preserve">
+    <value>Åben Debug mappe</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_ResetBrightness" xml:space="preserve">
+    <value>Nulstil lysstyrke til</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_Blocklist" xml:space="preserve">
+    <value>Aktiver bruger blockliste</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Button_UpdateCheck" xml:space="preserve">
+    <value>Tjek for opdateringer</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_SetEffect" xml:space="preserve">
+    <value>Sæt basis effekt</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Button_LoadEffects" xml:space="preserve">
+    <value>Indlæs</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_AutoIPRefresh" xml:space="preserve">
+    <value>Auto opdater Nano IP'er ved opstart</value>
+  </data>
+  <data name="Window_Main_Tabs_Chat_Title" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="Window_Main_Tabs_Chat_Button_Send" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="Window_Main_Tabs_Console_Title" xml:space="preserve">
+    <value>Konsol</value>
+  </data>
+  <data name="Window_Main_Button_Save" xml:space="preserve">
+    <value>Gem</value>
+  </data>
+  <data name="Window_Main_Tabs_Chat_Button_Info" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="Code_Main_MessageBox_AnalyticsError" xml:space="preserve">
+    <value>Kommunikationen med Google Analytics mislykkedes!
+Sørg for, at forbindelsen til Google Analytics
+ikke er blokeret, og prøv igen!</value>
+  </data>
+  <data name="Code_Main_MessageBox_BetaTitle" xml:space="preserve">
+    <value>Dette er en Beta Version!</value>
+  </data>
+  <data name="Code_Main_MessageBox_Beta" xml:space="preserve">
+    <value>Venligst husk at du kører en Beta Version!
+Giv feedback omkring din bruger oplevelse og fejl på Discord under Beta kanalen!</value>
+  </data>
+  <data name="Code_Main_MessageBox_InstanceCheck" xml:space="preserve">
+    <value>NanoTwitchLeafs kører allerede!
+Tjek joblisten på proceslinjen!</value>
+    <comment>Not sure how they translated System Tray to portuguese, so I kept in english and added "(next to the clock)"</comment>
+  </data>
+  <data name="General_MessageBox_SettingsSaved" xml:space="preserve">
+    <value>Indstillinger gemt!</value>
+  </data>
+  <data name="General_MessageBox_Hint_Title" xml:space="preserve">
+    <value>Tips</value>
+  </data>
+  <data name="Code_Main_MessageBox_PairDevice" xml:space="preserve">
+    <value>Forbind venligst enheder før triggers aktiveres!</value>
+  </data>
+  <data name="Code_Main_MessageBox_StreamerAccount" xml:space="preserve">
+    <value>Sørg venligst for at bruge din streamer twitch konto!</value>
+  </data>
+  <data name="General_MessageBox_SomethingWrong" xml:space="preserve">
+    <value>Noget gik galt!
+Venligst tjek Log for fejl!</value>
+  </data>
+  <data name="General_MessageBox_Thanks_Title" xml:space="preserve">
+    <value>Tak &lt;3</value>
+  </data>
+  <data name="Code_Main_MessageBox_AnalyticsRestart" xml:space="preserve">
+    <value>Analyse samlingen starter efter genstart af programmet. Tak for hjælpen!</value>
+  </data>
+  <data name="General_MessageBox_Aw_Title" xml:space="preserve">
+    <value>Øv ...</value>
+    <comment>Like a sad Aw...</comment>
+  </data>
+  <data name="Code_Main_MessageBox_AnalyticsDecision" xml:space="preserve">
+    <value>Vi forstår din beslutning. Tak alligevel!</value>
+  </data>
+  <data name="Code_Main_ChatMessage_CooldownON" xml:space="preserve">
+    <value>NanoLeaf Cooldown aktiveret! Cooldown sat til {0} sekunder!</value>
+  </data>
+  <data name="Code_Main_ChatMessage_CooldownOFF" xml:space="preserve">
+    <value>NanoLeaf Cooldown deaktiveret!</value>
+  </data>
+  <data name="Code_Main_MessageBox_AutoRestore" xml:space="preserve">
+    <value>Hvis du markerer disse, skifter appen tilbage til den forrige effekt efter X sekunder, konfigureret i udløservinduet.</value>
+  </data>
+  <data name="Code_Main_MessageBox_Value0100" xml:space="preserve">
+    <value>Værdien skal være mellem 0 og 100!</value>
+  </data>
+  <data name="Code_Main_MessageBox_EmptyPrefix" xml:space="preserve">
+    <value>Denne boks må ikke være tom!</value>
+  </data>
+  <data name="Code_Main_MessageBox_AnalyticsStartError" xml:space="preserve">
+    <value>Kunne ikke sende opstart meddelelse til analyse server. Venligst se logfilen for mere information!</value>
+  </data>
+  <data name="Code_Main_Label_NanoHelpText" xml:space="preserve">
+    <value>Skriv '{0}nano help' for en liste over kommandoer!</value>
+  </data>
+  <data name="Code_Main_MessageBox_EmptyFields" xml:space="preserve">
+    <value>Udfyld venligst alle felter!</value>
+  </data>
+  <data name="Code_Main_MessageBox_WrongFormatChannel" xml:space="preserve">
+    <value>Udfyld venligst kun Twitch Kanal Navnet uden https://twitch.tv/ !</value>
+  </data>
+  <data name="Code_Main_MessageBox_ConTestFail" xml:space="preserve">
+    <value>Forbindelses test mislykkedes!</value>
+  </data>
+  <data name="Code_Main_MessageBox_AdressNull" xml:space="preserve">
+    <value>Ingen controller adresse fundet!</value>
+    <comment>context</comment>
+  </data>
+  <data name="Code_Main_MessageBox_UpdateOrRepair" xml:space="preserve">
+    <value>Venligst opdater eller genforbind enhed!</value>
+  </data>
+  <data name="Code_Main_MessageBox_ControllerInfoNull" xml:space="preserve">
+    <value>Kunne ikke få controller info fom {0}!</value>
+    <comment>context - fom?
+{0} = Device Name</comment>
+  </data>
+  <data name="Code_Main_MessageBox_UndefinedEffect_Title" xml:space="preserve">
+    <value>Udefineret effekt opdaget!</value>
+  </data>
+  <data name="Code_Main_MessageBox_UndefinedEffect" xml:space="preserve">
+    <value>Sørg for, at du ikke bruger 'Dynamisk' eller 'Bland' som basiseffekt!</value>
+  </data>
+  <data name="Code_Main_MessageBox_ConFail" xml:space="preserve">
+    <value>Kunne ikke forbinde enhed! Se konsol eller logfil for information!</value>
+    <comment>context</comment>
+  </data>
+  <data name="Code_Main_MessageBox_NoDevice" xml:space="preserve">
+    <value>Sørg venligt for at du har forbundet med mindst en NanoLeaf enhed.</value>
+  </data>
+  <data name="Code_Main_MessageBox_SelectEffect" xml:space="preserve">
+    <value>Venligst vælg en effekt fra dropdown menuen.</value>
+  </data>
+  <data name="Window_Pairing_Button_AutoDetect" xml:space="preserve">
+    <value>Find automatisk</value>
+  </data>
+  <data name="Window_Pairing_Label_IpAdress" xml:space="preserve">
+    <value>Ip Adresse:</value>
+  </data>
+  <data name="Window_Pairing_Button_Manual" xml:space="preserve">
+    <value>Forbind manuelt</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_Pairing_Title" xml:space="preserve">
+    <value>Forbinder</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_Pairing" xml:space="preserve">
+    <value>Hold venligst tænd/sluk knappen inde i 5-7 sekunder på NanoLeaf Controlleren indtil status-LED starter med at blinke - Derefter tryk OK</value>
+    <comment>?</comment>
+  </data>
+  <data name="Code_Pairing_DeviceList_Paired" xml:space="preserve">
+    <value>forbundet</value>
+  </data>
+  <data name="Code_Pairing_DeviceList_NotPaired" xml:space="preserve">
+    <value>ikke forbundet</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_DeviceNotFound" xml:space="preserve">
+    <value>Kunne ikke finde enhed! Prøv igen eller forbind manuelt!</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_PairingError" xml:space="preserve">
+    <value>Kunne ikke forbinde enhed! Se konsol eller logfil for information!</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_MultiDeviceDetected" xml:space="preserve">
+    <value>Mere end en NanoLeaf enhed fundet. Vælg fra listen eller forbind manuelt!</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_ValidIP" xml:space="preserve">
+    <value>Venligst indtast gyldig IP adresse!</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_AlreadyCon" xml:space="preserve">
+    <value>Denne enhed er allerede forbundet til programmet!</value>
+  </data>
+  <data name="General_Label_NanoleafDevice" xml:space="preserve">
+    <value>Nanoleaf Enhed</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_PairingSucessfull" xml:space="preserve">
+    <value>Forbundet med succes!</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_PairingEffects" xml:space="preserve">
+    <value>Sørg venligst for at alle tilsluttede NanoLeaf enheder har den samme effekt installeret! Ellers kan der opstå fejl ved skiftende effekt!</value>
+  </data>
+  <data name="Window_Responses_Title" xml:space="preserve">
+    <value>Chat svar</value>
+  </data>
+  <data name="Window_Responses_Label_ConnectMessage" xml:space="preserve">
+    <value>Forbind besked:</value>
+  </data>
+  <data name="Window_Responses_Label_CommandResponse" xml:space="preserve">
+    <value>Svar på kommando:</value>
+  </data>
+  <data name="Window_Responses_Label_CommandxResponse" xml:space="preserve">
+    <value>Svar på kommando i X sekunder:</value>
+  </data>
+  <data name="Window_Response_Label_KeywordResponse" xml:space="preserve">
+    <value>Svar på nøgleord:</value>
+  </data>
+  <data name="Window_Pairing_Title" xml:space="preserve">
+    <value>Forbind ny enhed</value>
+  </data>
+  <data name="Window_Responses_Button_Save" xml:space="preserve">
+    <value>Gem &amp; Luk</value>
+  </data>
+  <data name="Window_Responses_Button_Reset" xml:space="preserve">
+    <value>Nulstil til Standard</value>
+  </data>
+  <data name="General_Button_Help" xml:space="preserve">
+    <value>Hjælp</value>
+  </data>
+  <data name="Code_Responses_ComboBox_Times_Off" xml:space="preserve">
+    <value>slukket</value>
+  </data>
+  <data name="Code_Responses_ComboBox_Times_Minutes" xml:space="preserve">
+    <value>Minutter</value>
+  </data>
+  <data name="Code_Responses_ConnectMessage" xml:space="preserve">
+    <value>Hey allesammen! Jeg er en Bot og kan kontrollere dine NanoLeaf Lights! For at få hjælp skriv 'nano help'.</value>
+  </data>
+  <data name="Code_Responses_CommandResponse" xml:space="preserve">
+    <value>{username} skiftede NanoLeaf effekten til {effect}.</value>
+  </data>
+  <data name="Code_Responses_CommandDurationResponse" xml:space="preserve">
+    <value>{username} skiftede NanoLeaf effekten til {effect} i {duration} sekunder.</value>
+  </data>
+  <data name="Code_Responses_KeywordResponse" xml:space="preserve">
+    <value>{username} sagde et magisk ord og skiftede NanoLeaf effekten til {effect}.</value>
+  </data>
+  <data name="Window_ResponsesHelp_Title" xml:space="preserve">
+    <value>Hjælp til chat svar</value>
+    <comment>???</comment>
+  </data>
+  <data name="Window_ResponsesHelp_Text" xml:space="preserve">
+    <value>Du kan bruge forskellige pladsholdervariabler til dine svarbeskeder:
+
+Du kan vælge mellem en 10 og 60 minutters timer til den gentagne besked.
+I en senere version kan du deaktivere den fuldstændigt.
+
+{brugernavn}
+Dette erstattes med navnet på den bruger, der forårsagede ændringen.
+
+{effekt}
+Dette erstattes med navnet på den effekt, der vises på NanoLeafs.
+
+{duration} - Arbejder kun med "Auto Restore Effect on Command"
+Dette erstattes med Time in Seconds - hvor længe effekten ændres på Nanoleafs.</value>
+  </data>
+  <data name="Window_TriggerDetail_Title" xml:space="preserve">
+    <value>Trigger detaljer</value>
+  </data>
+  <data name="Window_TriggerDetail_Slider_Text" xml:space="preserve">
+    <value>Aktiver Trigger</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_TriggerType" xml:space="preserve">
+    <value>Trigger Type</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Command" xml:space="preserve">
+    <value>Kommando</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Keyword" xml:space="preserve">
+    <value>Nøgleord</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_NewFollower" xml:space="preserve">
+    <value>Ny Følger</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_NewSubscriber" xml:space="preserve">
+    <value>Ny Subscriber</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Host" xml:space="preserve">
+    <value>Host</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Raid" xml:space="preserve">
+    <value>Raid</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Resub" xml:space="preserve">
+    <value>ReSubscriber</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Bits" xml:space="preserve">
+    <value>Bits</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_ChannelPoints" xml:space="preserve">
+    <value>Kanalpoint</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_GiftSub" xml:space="preserve">
+    <value>Gave Subscriber</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_AnonGiftSub" xml:space="preserve">
+    <value>Anonym Gave Subscriber</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_Effect" xml:space="preserve">
+    <value>Effekt</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_SoundEffect" xml:space="preserve">
+    <value>Lyd Effekt</value>
+  </data>
+  <data name="Window_TriggerDetail_Button_SelectFile" xml:space="preserve">
+    <value>Vælg Fil</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_Options" xml:space="preserve">
+    <value>Valgmuligheder</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_Amount" xml:space="preserve">
+    <value>Mængde</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_Duration" xml:space="preserve">
+    <value>Varighed</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_Brightness" xml:space="preserve">
+    <value>Lysstyrke</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_Cooldown" xml:space="preserve">
+    <value>Cooldown</value>
+  </data>
+  <data name="Window_TriggerDetail_Checkbox_Vip" xml:space="preserve">
+    <value>kun Vips</value>
+  </data>
+  <data name="Window_TriggerDetail_Checkbox_Sub" xml:space="preserve">
+    <value>kun Abonnenter</value>
+  </data>
+  <data name="Window_TriggerDetail_Checkbox_Mod" xml:space="preserve">
+    <value>kun Moderatorer</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_CmdKeyword" xml:space="preserve">
+    <value>Kommando / Nøgleord</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_Volume" xml:space="preserve">
+    <value>Lydstyrke</value>
+  </data>
+  <data name="Window_TriggerDetail_Label_NoRewardDetected" xml:space="preserve">
+    <value>Ingen Kanal Point belønning fundet! Venligst indløs dine ønskede belønninger nu!</value>
+  </data>
+  <data name="Code_TriggerDetail_Label_CPGuid" xml:space="preserve">
+    <value>Kanalpoint belønning fundet med ID
+{0}
+Indløs igen for at ændre/opdatere belønningen!</value>
+  </data>
+  <data name="Code_TriggerDetail_Label_CPGuidSet" xml:space="preserve">
+    <value>Belønning med id {0} er angivet.
+Genindløs igen for at ændre / opdatere belønningen!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_NoRewardDetected" xml:space="preserve">
+    <value>Indløs en Channel Points-belønning via din Twitch Chat med din Streamer-konto, før du gemmer!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_NoEffectSelected" xml:space="preserve">
+    <value>Vælg en effekt til din trigger!
+Kan ikke være tom!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_CmdBoxEmpty" xml:space="preserve">
+    <value>Indtast et kommando / nøgleord til din udløser! Kan ikke være tom!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_BrightnessValue" xml:space="preserve">
+    <value>Indtast venligst en lysstyrkeværdi mellem 0 og 100!
+Kan ikke være tom!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_VolumeValue" xml:space="preserve">
+    <value>Indtast en volumenværdi mellem 0 og 100! Kan ikke være tom!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_AmountValue" xml:space="preserve">
+    <value>Indtast venligst en mængde, selvom du ikke bruger den! Kan ikke være tom eller negativ!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_DurationValue" xml:space="preserve">
+    <value>Indtast venligst en varighedsværdi, selvom du ikke bruger den! Kan ikke være tom eller negativ!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_CooldownValue" xml:space="preserve">
+    <value>Indtast en Cooldown-værdi! Indtast 0 for at deaktivere Trigger Cooldown! Kan ikke være tom!</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_SoundfileFormat" xml:space="preserve">
+    <value>Du kan kun bruge .wav eller .mp3 Soundfiles!</value>
+  </data>
+  <data name="Code_TriggerDetail_Label_VipSubMod" xml:space="preserve">
+    <value>Brugeren skal være {0} for at bruge denne udløser.</value>
+  </data>
+  <data name="Code_TriggerDetail_Label_NothingSpecial" xml:space="preserve">
+    <value>ikke noget specielt</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_CPNoConnection" xml:space="preserve">
+    <value>Hvis du vil oprette / redigere kanaludløser, skal du først oprette forbindelse til Twitch Chat!</value>
+  </data>
+  <data name="Window_TriggerHelp_Title" xml:space="preserve">
+    <value>Udløsningshjælp</value>
+  </data>
+  <data name="Window_TriggerHelp_Text" xml:space="preserve">
+    <value>Udløser:
+
+Dette er den "begivenhedstype", der ... udløser udløseren.
+Twitch-begivenheder som "ny tilhænger" eller "ny abonnent" kræver en varighed i sekunder.
+Hvis du f.eks. Får en ny tilhænger, og du har en udløser defineret med 10 sekunder: NanoLeaf ændres til det ønskede
+Effekt og skift tilbage til den forrige effekt efter 10 sekunder. Feltet "Kommando" og "Omkostninger" er deaktiveret på denne type udløser.
+For at bruge Twitch Channel Points skal du gå til dit Twitch Dashboard (https://dashboard.twitch.tv/u/yourtwitchname/community/channel-points)
+og opret egne belønninger. For at linke belønningen til udløseren skal du blot indløse din ønskede belønning med din Streamer-konto!
+Kommando / nøgleord:
+Hvis du vælger at lade dig seere lege med dine NanoLeaf Lights, skal du prøve med Trigger Type "Command" eller "Keyword!
+Kommando:
+En kommando ser sådan ud:! Kommando
+Du har et præfiks som! og en kommando. Du kan ændre præfikset på fanen Bot-login.
+Beskeden fra fremviseren skal være nøjagtig som kommandoen. Hvis du definerer! Test som Command og Viewer
+skriv! test123 eller endda! test 123 i Chat, udløseren aktiveres ikke!
+(Skriv venligst kommandonavnet UDEN præfiks i boksen.)
+Nøgleord:
+I forskel på en kommando kan nøgleordet være en enkelt besked, en del af et ord eller endda en del af en hel sætning.
+Hvis du definerer nøgleordet "test". Triggeren aktiveres ved "test", "test123", "hellotestitsme" eller endda "Dette er en test"!
+Du kan endda tilføje flere nøgleord for en effekt. Bare adskil dem med et komma - "ild, flammer, helvede" - "vand, hav, hav"
+Effekt:
+Dette er effektlisten trukket direkte fra din NanoLeaf-enhed. Hvis du opretter nye effekter med NanoLeafs Mobile App,
+de nye effekter bliver trukket i det øjeblik du åbner Trigger Detail Window!
+Soundfile:
+Klik på knappen Vælg, og find et lydfil, der skal afspilles med denne udløser. (.mp3 og .wav er tilladt)
+For at fjerne skal du bare slette stien i tekstboksen.
+Beløb:
+Du kan definere flere udløsere med forskellige minimale grænser.
+Hvis du opretter en Bits Trigger med 100 for eksempel ... vil en 99 Bits cheer ikke gøre noget. Hvis nogen hepper på 100+ biter ... bliver effekten udløst.
+Så du kan gøre flere udløsere for ligesom 50+, 100+, 200+ osv ... Bits og værter.
+Varighed og nedkøling:
+Varighed og nedkøling i sekunder. Nedkøling tæller for hver udløser individuelt
+Lysstyrke:
+Du kan angive lysstyrken i% for hver udløser. Værdier kan være mellem 0 og 100.
+VIP | Sub | Kun mod:
+Hvis du ønsker at give KUN VIP'er, abonnenter eller moderatorer muligheden for at bruge denne kommando eller nøgleord!</value>
+    <comment>The link on the dashboard is in german even in the english locale. It should be something like: https://dashboard.twitch.tv/u/yourtwitchname/community/channel-points
+I tried to change myself but I couldn't :P</comment>
+  </data>
+  <data name="Window_Trigger_Title" xml:space="preserve">
+    <value>Udløser</value>
+  </data>
+  <data name="Window_Trigger_Header_On" xml:space="preserve">
+    <value>Aktiv</value>
+  </data>
+  <data name="Window_Trigger_Header_Trigger" xml:space="preserve">
+    <value>Udløser</value>
+  </data>
+  <data name="Window_Trigger_Header_Effect" xml:space="preserve">
+    <value>Effekt</value>
+  </data>
+  <data name="Window_Trigger_Header_Sound" xml:space="preserve">
+    <value>Lyd?</value>
+  </data>
+  <data name="Window_Trigger_Header_Duration" xml:space="preserve">
+    <value>Varighed</value>
+  </data>
+  <data name="Window_Trigger_Header_Brightness" xml:space="preserve">
+    <value>Lysstyrke</value>
+  </data>
+  <data name="Window_Trigger_Header_Amount" xml:space="preserve">
+    <value>Beløb</value>
+  </data>
+  <data name="Window_Trigger_Header_Cooldown" xml:space="preserve">
+    <value>Køl ned</value>
+  </data>
+  <data name="Window_Trigger_Header_Flags" xml:space="preserve">
+    <value>Flag</value>
+  </data>
+  <data name="Window_Trigger_Button_Edit" xml:space="preserve">
+    <value>Redigere</value>
+  </data>
+  <data name="Window_Trigger_Button_Delete" xml:space="preserve">
+    <value>Slet</value>
+  </data>
+  <data name="Window_Trigger_Button_New" xml:space="preserve">
+    <value>Ny</value>
+  </data>
+  <data name="Window_Trigger_Button_Clear" xml:space="preserve">
+    <value>Klar</value>
+  </data>
+  <data name="Code_Trigger_MessageBox_EffectList" xml:space="preserve">
+    <value>Forbindelsen mislykkedes! Kunne ikke få effektliste!</value>
+  </data>
+  <data name="Code_Nano_MessageBox_PairingError" xml:space="preserve">
+    <value>Fejl ved parring med enhed!</value>
+  </data>
+  <data name="Code_Nano_MessageBox_DeviceNotFound" xml:space="preserve">
+    <value>Enheden med navnet {0} blev ikke fundet på dit netværk!
+Sørg for, at enheden er tændt og online!
+Kontroller konsollen eller logfilen for IP-adressen.</value>
+  </data>
+  <data name="Code_Nano_MessageBox_UniqueName" xml:space="preserve">
+    <value>Vælg et unikt navn til din Nanoleaf-enhed!</value>
+  </data>
+  <data name="Code_Nano_MessageBox_CurrentEffect" xml:space="preserve">
+    <value>Fejl ved hentning af den aktuelle effekt fra '{0}'!</value>
+  </data>
+  <data name="Code_Nano_MessageBox_CurrentHue" xml:space="preserve">
+    <value>Fejl ved hentning af nuværende farvetone fra '{0}'!</value>
+  </data>
+  <data name="Code_Nano_MessageBox_CurrentSaturation" xml:space="preserve">
+    <value>Fejl ved hentning af den aktuelle mætning fra '{0}'!</value>
+  </data>
+  <data name="Code_Nano_MessageBox_CurrentColorTemp" xml:space="preserve">
+    <value>Fejl ved hentning af det aktuelle farvetemp fra '{0}'!</value>
+  </data>
+  <data name="Code_Nano_MessageBox_CurrentBrightness" xml:space="preserve">
+    <value>Fejl ved hentning af den aktuelle lysstyrke fra '{0}'!</value>
+  </data>
+  <data name="Code_Nano_MessageBox_CurrentState" xml:space="preserve">
+    <value>Fejl ved hentning af den aktuelle tilstand fra '{0}'!</value>
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_TriggerNotActive" xml:space="preserve">
+    <value>Undskyld.! Trigger er i øjeblikket ikke aktiveret!</value>
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_ModOnly" xml:space="preserve">
+    <value>Undskyld! Dette er kun en moderatorkommando!</value>
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_Cooldown" xml:space="preserve">
+    <value>Undskyld! Dette er på Cooldown!</value>
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_VipOnly" xml:space="preserve">
+    <value>Undskyld! Dette er kun en VIP-kommando!</value>
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_SubOnly" xml:space="preserve">
+    <value>Undskyld! Dette er kun en abonnentkommando!</value>
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_ActiveCommands" xml:space="preserve">
+    <value>Aktive kommandoer:</value>
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_NoActiveCommands" xml:space="preserve">
+    <value>Der er ingen aktive kommandoer lige nu!</value>
+  </data>
+  <data name="Code_Twitch_MessageBox_LoginIncorrect" xml:space="preserve">
+    <value>Sørg for, at brugernavn, kanal og AuthToken er korrekte.</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_Language" xml:space="preserve">
+    <value>Sprog:</value>
+  </data>
+  <data name="Code_Main_MessageBox_Restart_Title" xml:space="preserve">
+    <value>Genstart nu?</value>
+  </data>
+  <data name="Code_Main_MessageBox_Restart" xml:space="preserve">
+    <value>Ændringer kræver genstart af appen ... Genstart nu?</value>
+  </data>
+  <data name="General_Label_Translator" xml:space="preserve">
+    <value>Oversat af YellowMadnezz</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Effect" xml:space="preserve">
+    <value>Effekt</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Color" xml:space="preserve">
+    <value>Farve</value>
+  </data>
+  <data name="Window_TriggerDetail_ColorPicker_Error" xml:space="preserve">
+    <value>Vælg en farve med farvevælgeren!</value>
+  </data>
+  <data name="Code_License_MessageBox_Confirm_RemoveLicense" xml:space="preserve">
+    <value>Vil du virkelig fjerne din licens?</value>
+  </data>
+  <data name="Code_License_MessageBox_Confirm_RemoveLicenseFile" xml:space="preserve">
+    <value>Slet licensfil også?</value>
+  </data>
+  <data name="Window_AppInfo_Button_License" xml:space="preserve">
+    <value>Licensinfo</value>
+  </data>
+  <data name="Window_License_Button_Activate" xml:space="preserve">
+    <value>Aktivér licens</value>
+  </data>
+  <data name="Window_License_Button_Deactivate" xml:space="preserve">
+    <value>Deaktiver licens</value>
+  </data>
+  <data name="Window_License_MessageBox_Error_CouldNotValidateKey" xml:space="preserve">
+    <value>Licensnøglen kunne ikke valideres!</value>
+  </data>
+  <data name="Window_License_MessageBox_Error_NoKey" xml:space="preserve">
+    <value>Indtast venligst en gyldig licensnøgle!</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Button_UploadLogfile" xml:space="preserve">
+    <value>Upload logfil</value>
+  </data>
+  <data name="Window_Responses_StartupMessage_CheckBox" xml:space="preserve">
+    <value>Startmeddelelse aktiv</value>
+  </data>
+</root>

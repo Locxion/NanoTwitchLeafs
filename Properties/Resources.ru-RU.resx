@@ -1,0 +1,897 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="General_Button_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Window_Announcement_Title" xml:space="preserve">
+    <value>Объявления</value>
+  </data>
+  <data name="General_Button_Changelog" xml:space="preserve">
+    <value>Просмотреть журнал изменений</value>
+  </data>
+  <data name="Window_AppInfo_Title" xml:space="preserve">
+    <value>Информация о приложении</value>
+  </data>
+  <data name="Window_AppInfo_Label_Version" xml:space="preserve">
+    <value>Bерсия:</value>
+  </data>
+  <data name="Window_AppInfo_Label_Creator" xml:space="preserve">
+    <value>Cоздатель:</value>
+  </data>
+  <data name="Window_AppInfo_Button_Feedback" xml:space="preserve">
+    <value>Отправить отзыв</value>
+  </data>
+  <data name="General_MessageBox_Error_Title" xml:space="preserve">
+    <value>Oшибка!</value>
+  </data>
+  <data name="General_MessageBox_EnterUsername" xml:space="preserve">
+    <value>Пожалуйста, введите Twitch имя пользователя</value>
+  </data>
+  <data name="General_MessageBox_UsernameExists" xml:space="preserve">
+    <value>Имя пользователя уже существует</value>
+  </data>
+  <data name="General_MessageBox_NoUserSelected" xml:space="preserve">
+    <value>Пожалуйста, выберите имя пользователя из списка ниже!</value>
+  </data>
+  <data name="General_MessageBox_AddDev" xml:space="preserve">
+    <value>Вы не можете добавить Разработчика в Черный список.
+Мы следим за вами ... Kappa!</value>
+  </data>
+  <data name="General_Blacklist_MessageBox_AddedUserX" xml:space="preserve">
+    <value>Добавлено имя пользователя '{0}' в черный список!</value>
+    <comment>Need context</comment>
+  </data>
+  <data name="General_Blacklist_MessageBox_RemovedUserX" xml:space="preserve">
+    <value>Удалено имя пользователя '{0}' из чёрного списка!</value>
+  </data>
+  <data name="Window_Devices_Title" xml:space="preserve">
+    <value>Подключенные приборы</value>
+  </data>
+  <data name="Window_Devices_Button_RemoveDevice" xml:space="preserve">
+    <value>Удалить прибор</value>
+  </data>
+  <data name="Window_Devices_Button_Close" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="Window_Devices_Button_RenameButton" xml:space="preserve">
+    <value>Переименовать прибор</value>
+  </data>
+  <data name="Window_Devices_Button_UpdateDevices" xml:space="preserve">
+    <value>Обновить все приборы</value>
+  </data>
+  <data name="Code_Devices_MessageBox_RemoveConfirm" xml:space="preserve">
+    <value>Ты правда хочешь убрать {0}?</value>
+  </data>
+  <data name="Code_Devices_MessageBox_RemoveConfirm_Title" xml:space="preserve">
+    <value>Удалить Nanoleaf прибор</value>
+  </data>
+  <data name="General_MessageBox_Sucess_Title" xml:space="preserve">
+    <value>Yay!</value>
+  </data>
+  <data name="Code_Devices_Messagebox_UpdateDevices_Succes" xml:space="preserve">
+    <value>Приборы обновлены!</value>
+  </data>
+  <data name="Window_NanoDeviceInput_Title" xml:space="preserve">
+    <value>Назовите ваше Приборы</value>
+  </data>
+  <data name="Window_NanoDeviceInput_Text" xml:space="preserve">
+    <value>Назовите ваше Приборы как "Гостиная" или "Левая стена".</value>
+  </data>
+  <data name="Window_Loading_Title" xml:space="preserve">
+    <value>Загрузка...</value>
+    <comment>I'm suppressing the space between "Loading" and "..." because it's more usual in portuguese</comment>
+  </data>
+  <data name="Window_Loading_Text" xml:space="preserve">
+    <value>Загрузка... Пожалуйста, подождите.</value>
+    <comment>Same here</comment>
+  </data>
+  <data name="Window_Main_Title" xml:space="preserve">
+    <value>NanoTwitchLeafs</value>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_Title" xml:space="preserve">
+    <value>Twitch</value>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_Button_Connect" xml:space="preserve">
+    <value>Соединить</value>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_Button_Disconnect" xml:space="preserve">
+    <value>Отсоединиться</value>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_Label_Prefix" xml:space="preserve">
+    <value>Префикс команд:</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Title" xml:space="preserve">
+    <value>Nano</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Button_Pairing" xml:space="preserve">
+    <value>Спаривание</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Button_Test" xml:space="preserve">
+    <value>Пробное подключение</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Label_Status" xml:space="preserve">
+    <value>Статус:</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Checkbox_EnableTrigger" xml:space="preserve">
+    <value>Включить триггер</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Button_EditTrigger" xml:space="preserve">
+    <value>Редактировать триггер</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Textbox_Text" xml:space="preserve">
+    <value>Пожалуйста, подключите Приборы или протестируйте соединение</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Checkbox_EnableCooldown" xml:space="preserve">
+    <value>Включить переохлаждение</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Label_Seconds" xml:space="preserve">
+    <value>Секунданты</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Button_ResetQueue" xml:space="preserve">
+    <value>Сброс очереди</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Label_EventsInQueue" xml:space="preserve">
+    <value>Очередные события:</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Label_AutoRestore" xml:space="preserve">
+    <value>Автоматическое восстановление предыдущего эффекта:</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Checkbox_onCommand" xml:space="preserve">
+    <value>по команде</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Checkbox_onKeyword" xml:space="preserve">
+    <value>по ключевому слову</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Checkbox_ModeratorIgnorCooldown" xml:space="preserve">
+    <value>Модератор может игнорировать Коулдаун</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Button_ManageDevices" xml:space="preserve">
+    <value>Управляющие Приборов</value>
+  </data>
+  <data name="Window_Main_Tabs_Nano_Button_RestartQueue" xml:space="preserve">
+    <value>Очередь рестарта</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Title" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_Debug" xml:space="preserve">
+    <value>Включить отладку</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_Analytics" xml:space="preserve">
+    <value>Разрешить анонимный анализ</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_Responses" xml:space="preserve">
+    <value>Включить чат-реакцию</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_Whisper" xml:space="preserve">
+    <value>Шепотовый режим</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_Chat" xml:space="preserve">
+    <value>Чат:</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_General" xml:space="preserve">
+    <value>Главный:</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_Misc" xml:space="preserve">
+    <value>Ошибка:</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Button_Edit" xml:space="preserve">
+    <value>Изменить</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_Autoconnect" xml:space="preserve">
+    <value>Автоматическое соединение при запуске</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_Analytics" xml:space="preserve">
+    <value>Аналитика:</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_AnalyticsChannel" xml:space="preserve">
+    <value>Имя делиться каналом</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Button_OpenDebugDir" xml:space="preserve">
+    <value>Открытый каталог отладки</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_ResetBrightness" xml:space="preserve">
+    <value>Сброс яркости до</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_Blocklist" xml:space="preserve">
+    <value>Включить блок-список пользователя</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Button_UpdateCheck" xml:space="preserve">
+    <value>Проверка обновлений</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_SetEffect" xml:space="preserve">
+    <value>Установить базовый эффект</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Button_LoadEffects" xml:space="preserve">
+    <value>Загрузить</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_AutoIPRefresh" xml:space="preserve">
+    <value>Автоматическое обновление IP Нано на старте</value>
+  </data>
+  <data name="Window_Main_Tabs_Chat_Title" xml:space="preserve">
+    <value>Чат</value>
+  </data>
+  <data name="Window_Main_Tabs_Chat_Button_Send" xml:space="preserve">
+    <value>Отправить</value>
+  </data>
+  <data name="Window_Main_Tabs_Console_Title" xml:space="preserve">
+    <value>Консоль</value>
+  </data>
+  <data name="Window_Main_Button_Save" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="Window_Main_Tabs_Chat_Button_Info" xml:space="preserve">
+    <value>Информация</value>
+  </data>
+  <data name="Code_Main_MessageBox_AnalyticsError" xml:space="preserve">
+    <value>Не удалось отправить аналитику!
+Пожалуйста, убедитесь, что коммуникация
+в Google Analytics не заблокирован и попробуйте еще раз!</value>
+  </data>
+  <data name="Code_Main_MessageBox_BetaTitle" xml:space="preserve">
+    <value>Это бета-версия!</value>
+  </data>
+  <data name="Code_Main_MessageBox_Beta" xml:space="preserve">
+    <value>Пожалуйста, имейте в виду, что у вас бета-версия!
+Предоставьте отзывы о своем опыте использования и об ошибках на Discord  в бета-канале!</value>
+  </data>
+  <data name="Code_Main_MessageBox_InstanceCheck" xml:space="preserve">
+    <value>Еще один экземпляр NanoTwitchLeafs уже работает!
+Пожалуйста, проверьте лоток системы на панели задач!</value>
+  </data>
+  <data name="General_MessageBox_SettingsSaved" xml:space="preserve">
+    <value>Настройки сохранены!</value>
+  </data>
+  <data name="General_MessageBox_Hint_Title" xml:space="preserve">
+    <value>Подсказка</value>
+  </data>
+  <data name="Code_Main_MessageBox_PairDevice" xml:space="preserve">
+    <value>Пожалуйста, свяжитесь с устройством перед включением триггеров!</value>
+  </data>
+  <data name="Code_Main_MessageBox_StreamerAccount" xml:space="preserve">
+    <value>Пожалуйста, убедитесь, что Вы используете Ваш Twitch-аккаунт 'Streamer'!</value>
+  </data>
+  <data name="General_MessageBox_SomethingWrong" xml:space="preserve">
+    <value>Что-то пошло не так! 
+Пожалуйста, проверьте журнал на наличие ошибок!</value>
+  </data>
+  <data name="General_MessageBox_Thanks_Title" xml:space="preserve">
+    <value>Спасибо &lt;3</value>
+  </data>
+  <data name="Code_Main_MessageBox_AnalyticsRestart" xml:space="preserve">
+    <value>Аналитическая коллекция начинается после перезапуска приложения! Спасибо за помощь!</value>
+  </data>
+  <data name="General_MessageBox_Aw_Title" xml:space="preserve">
+    <value>Ох...</value>
+    <comment>Like a sad Aw...</comment>
+  </data>
+  <data name="Code_Main_MessageBox_AnalyticsDecision" xml:space="preserve">
+    <value>Мы понимаем ваше решение. Все равно спасибо!</value>
+  </data>
+  <data name="Code_Main_ChatMessage_CooldownON" xml:space="preserve">
+    <value>NanoLeaf Коулдаун  включен! Коулдаун  установлен на {0} Секунды!</value>
+  </data>
+  <data name="Code_Main_ChatMessage_CooldownOFF" xml:space="preserve">
+    <value>NanoLeaf Коулдаун  инвалид!</value>
+  </data>
+  <data name="Code_Main_MessageBox_AutoRestore" xml:space="preserve">
+    <value>Если вы отметите их, приложение вернется к предыдущему эффекту через X секунд, настроенному в окне триггера.</value>
+  </data>
+  <data name="Code_Main_MessageBox_Value0100" xml:space="preserve">
+    <value>Значение должно быть между 0 и 100!</value>
+  </data>
+  <data name="Code_Main_MessageBox_EmptyPrefix" xml:space="preserve">
+    <value>Эта Ячейка не может быть Пустой!</value>
+  </data>
+  <data name="Code_Main_MessageBox_AnalyticsStartError" xml:space="preserve">
+    <value>Не смог отправить стартовое сообщение на аналитический сервер! Пожалуйста, просмотрите Логин для получения дополнительной информации!</value>
+  </data>
+  <data name="Code_Main_Label_NanoHelpText" xml:space="preserve">
+    <value>Напишите '{0}nano help' для Списка Команд!</value>
+  </data>
+  <data name="Code_Main_MessageBox_EmptyFields" xml:space="preserve">
+    <value>Пожалуйста, заполните все поля ввода!</value>
+  </data>
+  <data name="Code_Main_MessageBox_WrongFormatChannel" xml:space="preserve">
+    <value>Пожалуйста, введите только имя канала Twitch без https://twitch.tv/ !</value>
+  </data>
+  <data name="Code_Main_MessageBox_ConTestFail" xml:space="preserve">
+    <value>Тест на подключение не удался!</value>
+  </data>
+  <data name="Code_Main_MessageBox_AdressNull" xml:space="preserve">
+    <value>Адрес контроллера не найден!</value>
+  </data>
+  <data name="Code_Main_MessageBox_UpdateOrRepair" xml:space="preserve">
+    <value>Пожалуйста, обновите или восстановите устройство!</value>
+  </data>
+  <data name="Code_Main_MessageBox_ControllerInfoNull" xml:space="preserve">
+    <value>Не смог достать информацию о контроллере {0}!</value>
+    <comment>context - fom?
+{0} = Device Name</comment>
+  </data>
+  <data name="Code_Main_MessageBox_UndefinedEffect_Title" xml:space="preserve">
+    <value>Обнаружен неопределенный эффект!</value>
+  </data>
+  <data name="Code_Main_MessageBox_UndefinedEffect" xml:space="preserve">
+    <value>Пожалуйста, убедитесь, что вы не используете "Динамический" или "Шарканье" в качестве базового эффекта!</value>
+  </data>
+  <data name="Code_Main_MessageBox_ConFail" xml:space="preserve">
+    <value>Не смог подключиться к Устройству! Информацию см. в разделе "Консоль" или "Лог-файл"!</value>
+    <comment>context</comment>
+  </data>
+  <data name="Code_Main_MessageBox_NoDevice" xml:space="preserve">
+    <value>Пожалуйста, убедитесь, что вы спарились с одним NanoLeaf Device.</value>
+  </data>
+  <data name="Code_Main_MessageBox_SelectEffect" xml:space="preserve">
+    <value>Пожалуйста, выберите эффект в раскрывающемся меню.</value>
+  </data>
+  <data name="Window_Pairing_Button_AutoDetect" xml:space="preserve">
+    <value>Автоопределение</value>
+  </data>
+  <data name="Window_Pairing_Label_IpAdress" xml:space="preserve">
+    <value>Ип Адрес:</value>
+  </data>
+  <data name="Window_Pairing_Button_Manual" xml:space="preserve">
+    <value>Ручное соединение</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_Pairing_Title" xml:space="preserve">
+    <value>Спаривание</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_Pairing" xml:space="preserve">
+    <value>Пожалуйста, удерживайте кнопку включения/выключения контроллера NanoLeaf в течение 5-7 секунд, пока светодиодный индикатор состояния не начнет мигать - Затем нажмите OK</value>
+    <comment>?</comment>
+  </data>
+  <data name="Code_Pairing_DeviceList_Paired" xml:space="preserve">
+    <value>связанный</value>
+  </data>
+  <data name="Code_Pairing_DeviceList_NotPaired" xml:space="preserve">
+    <value>не связанный</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_DeviceNotFound" xml:space="preserve">
+    <value>Не смог найти Устройство! Попробуйте еще раз или используйте ручное подключение!</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_PairingError" xml:space="preserve">
+    <value>Устройство не может работать в паре! Информацию см. в разделе "Консоль" или "Лог-файл"!</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_MultiDeviceDetected" xml:space="preserve">
+    <value>Найдено больше, чем одно устройство NanoLeaf Device. Пожалуйста, выберите из списка и используйте Ручной Подключение!</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_ValidIP" xml:space="preserve">
+    <value>Пожалуйста, введите действительный IP-адрес!</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_AlreadyCon" xml:space="preserve">
+    <value>Это Устройство уже подключено к приложению!</value>
+  </data>
+  <data name="General_Label_NanoleafDevice" xml:space="preserve">
+    <value>Нанолеаф Устройство</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_PairingSucessfull" xml:space="preserve">
+    <value>Успешно в паре!</value>
+  </data>
+  <data name="Code_Pairing_MessageBox_PairingEffects" xml:space="preserve">
+    <value>Пожалуйста, убедитесь, что все подключенные NanoLeaf Devices имеют одинаковые Эффекты! В противном случае могут быть ошибки при изменении эффекта!</value>
+  </data>
+  <data name="Window_Responses_Title" xml:space="preserve">
+    <value>чат ответы</value>
+  </data>
+  <data name="Window_Responses_Label_ConnectMessage" xml:space="preserve">
+    <value>соединять новость:</value>
+  </data>
+  <data name="Window_Responses_Label_CommandResponse" xml:space="preserve">
+    <value>ответ на приказ:</value>
+  </data>
+  <data name="Window_Responses_Label_CommandxResponse" xml:space="preserve">
+    <value>ответ на приказ на X секундаф:</value>
+  </data>
+  <data name="Window_Response_Label_KeywordResponse" xml:space="preserve">
+    <value>ответ на ключевое слово:</value>
+  </data>
+  <data name="Window_Pairing_Title" xml:space="preserve">
+    <value>спаривать новый прибор</value>
+  </data>
+  <data name="Window_Responses_Button_Save" xml:space="preserve">
+    <value>сохранять и закрывать</value>
+  </data>
+  <data name="Window_Responses_Button_Reset" xml:space="preserve">
+    <value>на стандарт отъехать назад</value>
+  </data>
+  <data name="General_Button_Help" xml:space="preserve">
+    <value>помощь</value>
+  </data>
+  <data name="Code_Responses_ComboBox_Times_Off" xml:space="preserve">
+    <value>выключать</value>
+  </data>
+  <data name="Code_Responses_ComboBox_Times_Minutes" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_Responses_ConnectMessage" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_Responses_CommandResponse" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_Responses_CommandDurationResponse" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_Responses_KeywordResponse" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_ResponsesHelp_Title" xml:space="preserve">
+    <value />
+    <comment>???</comment>
+  </data>
+  <data name="Window_ResponsesHelp_Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_Title" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_Slider_Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_Label_TriggerType" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Command" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Keyword" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_NewFollower" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_NewSubscriber" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Host" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Raid" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Resub" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Bits" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_ChannelPoints" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_GiftSub" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_AnonGiftSub" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_Label_Effect" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_Label_SoundEffect" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_Button_SelectFile" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_Label_Options" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_Label_Amount" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_Label_Duration" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_Label_Brightness" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_Label_Cooldown" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_Checkbox_Vip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_Checkbox_Sub" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_Checkbox_Mod" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_Label_CmdKeyword" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_Label_Volume" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_Label_NoRewardDetected" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_TriggerDetail_Label_CPGuid" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_TriggerDetail_Label_CPGuidSet" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_NoRewardDetected" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_NoEffectSelected" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_CmdBoxEmpty" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_BrightnessValue" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_VolumeValue" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_AmountValue" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_DurationValue" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_CooldownValue" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_SoundfileFormat" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_TriggerDetail_Label_VipSubMod" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_TriggerDetail_Label_NothingSpecial" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_CPNoConnection" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerHelp_Title" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerHelp_Text" xml:space="preserve">
+    <value />
+    <comment>The link on the dashboard is in german even in the english locale. It should be something like: https://dashboard.twitch.tv/u/yourtwitchname/community/channel-points
+I tried to change myself but I couldn't :P</comment>
+  </data>
+  <data name="Window_Trigger_Title" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_Trigger_Header_On" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_Trigger_Header_Trigger" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_Trigger_Header_Effect" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_Trigger_Header_Sound" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_Trigger_Header_Duration" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_Trigger_Header_Brightness" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_Trigger_Header_Amount" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_Trigger_Header_Cooldown" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_Trigger_Header_Flags" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_Trigger_Button_Edit" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_Trigger_Button_Delete" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_Trigger_Button_New" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_Trigger_Button_Clear" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_Trigger_MessageBox_EffectList" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_Nano_MessageBox_PairingError" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_Nano_MessageBox_DeviceNotFound" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_Nano_MessageBox_UniqueName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_Nano_MessageBox_CurrentEffect" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_Nano_MessageBox_CurrentHue" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_Nano_MessageBox_CurrentSaturation" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_Nano_MessageBox_CurrentColorTemp" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_Nano_MessageBox_CurrentBrightness" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_Nano_MessageBox_CurrentState" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_TriggerNotActive" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_ModOnly" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_Cooldown" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_VipOnly" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_SubOnly" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_ActiveCommands" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_TriggerLogic_ChatMessage_NoActiveCommands" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_Twitch_MessageBox_LoginIncorrect" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_Main_Tabs_Settings_Label_Language" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_Main_MessageBox_Restart_Title" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_Main_MessageBox_Restart" xml:space="preserve">
+    <value />
+  </data>
+  <data name="General_Label_Translator" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Effect" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Color" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TriggerDetail_ColorPicker_Error" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_License_MessageBox_Confirm_RemoveLicense" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Code_License_MessageBox_Confirm_RemoveLicenseFile" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_AppInfo_Button_License" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_License_Button_Activate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_License_Button_Deactivate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_License_MessageBox_Error_CouldNotValidateKey" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_License_MessageBox_Error_NoKey" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TwitchLink_Title" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TwitchLink_Tab_Setup" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TwitchLink_Single_Help" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TwitchLink_Double_Help" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TwitchLink_Tab_Broadcaster" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TwitchLink_Button_Link" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TwitchLink_Broadcaster_Permissions_Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TwitchLink_Textbox_Broadcaster" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TwitchLink_Tab_Bot" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TwitchLink_Label_ClickNext" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TwitchLink_Bot_Permissions_Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="General_Button_Next" xml:space="preserve">
+    <value />
+  </data>
+  <data name="General_Button_Back" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TwitchLink_Tab_ConnectionTest" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TwitchLink_Test_Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TwitchLink_Progress_1" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TwitchLink_Progress_2" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TwitchLink_Progress_3" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TwitchLink_Progress_4" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TwitchLink_Progress_5" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_TwitchLink_Finished_Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_AccountLabel_Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_LinkButton_Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_UnlinkButton_Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_AccountLabel_Text2" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Window_Main_Tabs_Settings_Button_UploadLogfile" xml:space="preserve">
+    <value>Загрузить файл журнала</value>
+  </data>
+  <data name="Window_Responses_StartupMessage_CheckBox" xml:space="preserve">
+    <value>Сообщение при запуске активно</value>
+  </data>
+</root>

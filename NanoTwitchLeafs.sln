@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33110.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NanoTwitchLeafs", "NanoTwitchLeafs.csproj", "{EB396CD0-137B-46B0-AF93-6E3747A41F26}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Beta|Any CPU = Beta|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EB396CD0-137B-46B0-AF93-6E3747A41F26}.Beta|Any CPU.ActiveCfg = Beta|Any CPU
+		{EB396CD0-137B-46B0-AF93-6E3747A41F26}.Beta|Any CPU.Build.0 = Beta|Any CPU
+		{EB396CD0-137B-46B0-AF93-6E3747A41F26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB396CD0-137B-46B0-AF93-6E3747A41F26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB396CD0-137B-46B0-AF93-6E3747A41F26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB396CD0-137B-46B0-AF93-6E3747A41F26}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E5BBD48C-E29A-44C2-885B-A5469307BFFC}
+	EndGlobalSection
+EndGlobal

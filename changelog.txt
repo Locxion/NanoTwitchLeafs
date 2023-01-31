@@ -1,6 +1,31 @@
 Changelog for NanoTwitchLeafs - App/Bot
 Please report Bugs and Erros to the Discord! Dont forget to provide nanotwitchleafs.log File!
 
+Version 2.9.9 - 31.01.2023
+- Converting Project to OpenSource
+- Removed Own Developer Stuff/Commands/Secrets
+- Removed Analystics and License Controllers
+- Changed Info Window to Represent new Github Page
+- Added Inputs for Twitch/Streamlabs ClientId&Secret
+
+Version 2.1.5 (Beta) - 17.06.2022
+- Changed Handling of GiftSubs and SubBombs
+
+Version 2.1.4 (Beta) - 10.06.2022
+- Fixed Fallback Image on Settings Save
+
+Version 2.1.3 (Beta) - 10.06.2022
+- Disabled TwitchLink Checkboxes in Connection Test
+- Added SubBomb Amount to Debug Message
+- Added Fallback Image if conversion of Profile Picture fails
+
+Version 2.1.2 (Beta) - 08.06.2022
+- Fixed missing Event Link on 2 Account Mode for GiftBombs
+
+Version 2.1.1 (Beta) - 05.06.2022
+- Fixed Ping Button alignment
+- Added Test Button for Triggers in Trigger Window
+
 Version 2.0.0 - 03.09.2021
 ---------------
 [System] + Added Language System for future Translations. Translations currently available: English/German. To help with Translations join the Discord!

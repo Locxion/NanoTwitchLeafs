@@ -4,7 +4,10 @@
 ![Platform](https://img.shields.io/badge/Platform-.NET-blueviolet)
 ![netFramework4.7.2](https://img.shields.io/badge/.NET%20Framework-4.7.2-blueviolet)
 ![Windows10/11](https://img.shields.io/badge/Windows-10%2F11-blueviolet)
-![Version](https://img.shields.io/badge/Current%20Version-x.x.x-blueviolet)
+![Version](https://img.shields.io/badge/Current%20Version-2.9.9-blueviolet)
+
+## Socials
+![Web](https://img.shields.io/badge/Web-www.nanotwitchleafs.de-blueviolet)
 
 # About
 
@@ -15,7 +18,7 @@ Supporting right now:
 - Alerts like new Follower, Subscriptions, Cheering Bits and Hosts
 - Channelpoint Redemptions
 - Integration with [Hyperate.io](https://www.hyperate.io/) ![HyperateIcon](https://assets.website-files.com/60fab9af722573947d71e73b/619cbce54830e07b08f3fcce_HypeRate_Logo_32.png)
-- Donation Alerts (Only Streamlabs
+- Donation Alerts (Only Streamlabs)
 
 The Idea came from a Twitch stream where a Follow or cheering of some Bits activated a Water Fountain
 and a Dispenser to feed some Chickens in a Backyard.
@@ -39,7 +42,8 @@ Maybe someone will take the Task and submit a Pullrequest!
 # Where to Start?
 ## Basic Todo
 
-- [ ] Project Documentation ( Docs and Code Comments are pretty non existent at this Point)
+- [ ] Project Documentation. ( Docs and Code Comments are pretty non existent at this Point)
+- [ ] Add Checks and Error Messages for missing Twitch/Streamlabbs ClientId & Secret.
 - [ ] Rewrite the AutoUpdate Code to search for a new Version on Github and download/install from it.
 - [ ] Rewrite DataType "Amount" from Int to double to make a Trigger for a 6,66 € Donation possible.
 - [ ] Add some Color or a Darkmode to the Software
@@ -50,6 +54,7 @@ Maybe someone will take the Task and submit a Pullrequest!
 
 # Dependencies
 
+- [AutoUpdater.NET](https://github.com/ravibpatel/AutoUpdater.NET)
 - [Extended Wpf Toolkit](https://github.com/xceedsoftware/wpftoolkit)
 - [FontAwesome5](https://github.com/MartinTopfstedt/FontAwesome5)
 - [Log4Net](https://logging.apache.org/log4net/)
@@ -60,11 +65,4 @@ Maybe someone will take the Task and submit a Pullrequest!
 
 # Misc
 
-Special Thanks to Daniel Hottmeyer (@Silverdark) and Denis Freund (@revin112}
-
-
-
-
-
-
-
+Special Thanks to Daniel Hottmeyer (@Silverdark) and Denis Freund (@revin112)

@@ -532,6 +532,9 @@ namespace NanoTwitchLeafs.Windows
 				color = (Color)ColorPicker.SelectedColor;
 			}
 
+			// Replace Comma with Point
+			Amount_Textbox.Text = Amount_Textbox.Text.Replace(",", ".");
+
 			// Create new TriggerSetting
 			TriggerSetting newTriggerSetting = new TriggerSetting
 			{

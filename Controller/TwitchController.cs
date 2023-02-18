@@ -9,11 +9,11 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Windows;
 using TwitchLib.Api;
 using TwitchLib.Client;
@@ -133,7 +133,7 @@ namespace NanoTwitchLeafs.Controller
             {
                 // Effect Event Handlers
                 _client.OnNewSubscriber += OnNewSubscriber;
-                _client.OnBeingHosted += OnBeingHosted;
+                //_client.OnBeingHosted += OnBeingHosted;
                 _client.OnRaidNotification += OnRaidNotification;
                 _client.OnGiftedSubscription += OnGiftedSubscription;
                 _client.OnReSubscriber += OnReSubscriber;
@@ -207,7 +207,7 @@ namespace NanoTwitchLeafs.Controller
 
                 // Effect Event Handlers
                 _broadCasterClient.OnNewSubscriber += OnNewSubscriber;
-                _broadCasterClient.OnBeingHosted += OnBeingHosted;
+                //_broadCasterClient.OnBeingHosted += OnBeingHosted;
                 _broadCasterClient.OnRaidNotification += OnRaidNotification;
                 _broadCasterClient.OnGiftedSubscription += OnGiftedSubscription;
                 _broadCasterClient.OnReSubscriber += OnReSubscriber;
@@ -247,7 +247,7 @@ namespace NanoTwitchLeafs.Controller
 
                 // Effect Event Handlers
                 _broadCasterClient.OnNewSubscriber += OnNewSubscriber;
-                _broadCasterClient.OnBeingHosted += OnBeingHosted;
+                //_broadCasterClient.OnBeingHosted += OnBeingHosted;
                 _broadCasterClient.OnRaidNotification += OnRaidNotification;
                 _broadCasterClient.OnGiftedSubscription += OnGiftedSubscription;
                 _broadCasterClient.OnReSubscriber += OnReSubscriber;
@@ -325,11 +325,11 @@ namespace NanoTwitchLeafs.Controller
             OnHostEvent?.Invoke(Convert.ToInt32(e.RaidNotification.MsgParamViewerCount), e.RaidNotification.DisplayName, true);
         }
 
-        private void OnBeingHosted(object sender, OnBeingHostedArgs e)
-        {
-            _logger.Debug($"Recieved Host form {e.BeingHostedNotification.HostedByChannel}. Viewers - {e.BeingHostedNotification.Viewers}");
-            OnHostEvent?.Invoke(e.BeingHostedNotification.Viewers, e.BeingHostedNotification.Channel);
-        }
+        // private void OnBeingHosted(object sender, OnBeingHostedArgs e)
+        // {
+        //     _logger.Debug($"Recieved Host form {e.BeingHostedNotification.HostedByChannel}. Viewers - {e.BeingHostedNotification.Viewers}");
+        //     OnHostEvent?.Invoke(e.BeingHostedNotification.Viewers, e.BeingHostedNotification.Channel);
+        // }
 
         public void SendMessageToChat(string message)
         {

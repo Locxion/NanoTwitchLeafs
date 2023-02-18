@@ -39,9 +39,21 @@ namespace NanoTwitchLeafs.Controller
             _appSettings = appSettings;
 
             _socketClient = new SocketIoClient();
-            _socketClient.Connected += _socketClient_Connected;
-            _socketClient.Disconnected += _socketClient_Disconnected;
+            _socketClient.Connected += SocketClientOnConnected;
+            _socketClient.Disconnected += SocketClientOnDisconnected;
             _socketClient.On("event", _socketClient_EventReceived);
+        }
+
+        private void SocketClientOnDisconnected(object sender, SocketIoClient.DisconnectedEventArgs e)
+        {
+            _logger.Info("Disconnected from Streamlabs Socket");
+            _IsSocketConnected = false;
+        }
+
+        private void SocketClientOnConnected(object sender, SocketIoClient.ConnectedEventArgs e)
+        {
+            _logger.Info("Connected to Streamlabs Socket");
+            _IsSocketConnected = true;
         }
 
         private void _socketClient_EventReceived(string data)
@@ -56,18 +68,6 @@ namespace NanoTwitchLeafs.Controller
                 var username = eventObj.message[0].from.ToString();
                 OnDonationRecieved?.Invoke(amount, username);
             }
-        }
-
-        private void _socketClient_Disconnected(object sender, H.WebSockets.Args.WebSocketCloseEventArgs e)
-        {
-            _logger.Info("Disconnected from Streamlabs Socket");
-            _IsSocketConnected = false;
-        }
-
-        private void _socketClient_Connected(object sender, H.Socket.IO.EventsArgs.SocketIoEventEventArgs e)
-        {
-            _logger.Info("Connected to Streamlabs Socket");
-            _IsSocketConnected = true;
         }
 
         public async Task<string> GetProfileInformation()

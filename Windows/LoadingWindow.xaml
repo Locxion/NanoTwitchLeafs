@@ -3,12 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:fa="http://schemas.fontawesome.com/icons/"
+        xmlns:fa="http://schemas.fontawesome.com/icons/svg"
         xmlns:p="clr-namespace:NanoTwitchLeafs.Properties"
         mc:Ignorable="d"
         Title="{x:Static p:Resources.Window_Loading_Title}" Height="120" Width="255" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
     <Grid Margin="0,0,-8,1">
-        <fa:ImageAwesome Icon="Solid_SyncAlt" Spin="True" SpinDuration="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="12,0,0,0" Height="30" Width="30" Foreground="#FF515151" />
+        <fa:ImageAwesome Icon="Solid_Rotate" Spin="True" SpinDuration="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="12,0,0,0" Height="30" Width="30" Foreground="#FF515151" />
         <Label Content="{x:Static p:Resources.Window_Loading_Text}" HorizontalAlignment="Left" Margin="48,23,0,0" VerticalAlignment="Top" Height="42" Width="199" FontSize="18" />
     </Grid>
 </Window>

@@ -47,7 +47,7 @@ Maybe someone will take the Task and submit a Pullrequest!
 - [ ] Project Documentation. ( Docs and Code Comments are pretty non existent at this Point)
 - [ ] Add Checks and Error Messages for missing Twitch/Streamlabbs ClientId & Secret.
 - [ ] Rewrite the AutoUpdate Code to search for a new Version on Github and download/install from it.
-- [ ] Rewrite DataType "Amount" from Int to double to make a Trigger for a 6,66 € Donation possible.
+- [x] Rewrite DataType "Amount" from Int to double to make a Trigger for a 6,66 € Donation possible.
 - [ ] Add some Color or a Darkmode to the Software
 - Add Donation Integration for:
 - [ ] Streamelements

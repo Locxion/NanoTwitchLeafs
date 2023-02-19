@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NanoTwitchLeafs.Controller
+namespace NanoTwitchLeafs.Interfaces
 {
     public interface IDatabaseController<T> where T : new()
     {

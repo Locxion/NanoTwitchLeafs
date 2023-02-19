@@ -12,22 +12,42 @@ namespace NanoTwitchLeafs.Colors
     /// </remarks>
     internal static class ColorConverting
     {
-        public static RgbColor ColorToRgb(Color color)
+		/// <summary>
+		/// Converts a System.Drawing.Color to RgbColor
+		/// </summary>
+		/// <param name="color"></param>
+		/// <returns>RgbColor</returns>
+		public static RgbColor ColorToRgb(Color color)
         {
             return new RgbColor(color.R, color.G, color.B, color.A);
         }
 
-        public static Color RgbToDrawingColor(RgbColor rgb)
+		/// <summary>
+		/// Converts a RgbColor to a System.Drawing.Color
+		/// </summary>
+		/// <param name="rgb"></param>
+		/// <returns>System.Drawing.Color</returns>
+		public static Color RgbToDrawingColor(RgbColor rgb)
         {
             return Color.FromArgb(rgb.Alpha, rgb.Red, rgb.Green, rgb.Blue);
         }
 
-        public static System.Windows.Media.Color RgbToMediacolor(RgbColor rgb)
+		/// <summary>
+		/// Converts a RgbColor to a System.Windows.Media.Color
+		/// </summary>
+		/// <param name="rgb"></param>
+		/// <returns>System.Windows.Media.Color</returns>
+		public static System.Windows.Media.Color RgbToMediacolor(RgbColor rgb)
         {
             return System.Windows.Media.Color.FromRgb(Convert.ToByte(rgb.Red), Convert.ToByte(rgb.Green), Convert.ToByte(rgb.Blue));
         }
 
-        public static HsbColor RgbToHsb(RgbColor rgb)
+		/// <summary>
+		/// Converts a RgbColor to a HsbColor
+		/// </summary>
+		/// <param name="rgb"></param>
+		/// <returns>HsbColor</returns>
+		public static HsbColor RgbToHsb(RgbColor rgb)
         {
             // _NOTE #1: Even though we're dealing with a very small range of
             // numbers, the accuracy of all calculations is fairly important.
@@ -96,7 +116,12 @@ namespace NanoTwitchLeafs.Colors
                 rgb.Alpha);
         }
 
-        public static HslColor RgbToHsl(RgbColor rgb)
+		/// <summary>
+		/// Converts a RgbColor to a HslColor
+		/// </summary>
+		/// <param name="rgb"></param>
+		/// <returns>HslColor</returns>
+		public static HslColor RgbToHsl(RgbColor rgb)
         {
             var varR = (rgb.Red / 255.0); //Where RGB values = 0 ÷ 255
             var varG = (rgb.Green / 255.0);
@@ -169,7 +194,12 @@ namespace NanoTwitchLeafs.Colors
                 rgb.Alpha);
         }
 
-        public static RgbColor HsbToRgb(HsbColor hsb)
+		/// <summary>
+		/// Converts a HsbColor to a RgbColor
+		/// </summary>
+		/// <param name="hsb"></param>
+		/// <returns>RgbColor</returns>
+		public static RgbColor HsbToRgb(HsbColor hsb)
         {
             double red = 0, green = 0, blue = 0;
 
@@ -244,7 +274,12 @@ namespace NanoTwitchLeafs.Colors
             return new RgbColor(nRed, nGreen, nBlue, hsb.Alpha);
         }
 
-        public static RgbColor HslToRgb(HslColor hsl)
+		/// <summary>
+		/// Converts a HslColor to a RgbColor
+		/// </summary>
+		/// <param name="hsl"></param>
+		/// <returns>RgbColor</returns>
+		public static RgbColor HslToRgb(HslColor hsl)
         {
             double red, green, blue;
 
@@ -287,6 +322,13 @@ namespace NanoTwitchLeafs.Colors
             return new RgbColor(nRed, nGreen, nBlue, hsl.Alpha);
         }
 
+        /// <summary>
+        /// Converts a Hue Value to a Rgb Value 
+        /// </summary>
+        /// <param name="v1"></param>
+        /// <param name="v2"></param>
+        /// <param name="vH"></param>
+        /// <returns>Rgb Value</returns>
         private static double hue2Rgb(double v1, double v2, double vH)
         {
             if (vH < 0.0)

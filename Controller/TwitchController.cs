@@ -92,6 +92,10 @@ namespace NanoTwitchLeafs.Controller
                 });
         }
 
+        /// <summary>
+        /// Connects to Twitch Services with provided AppSettings
+        /// </summary>
+        /// <param name="appSettings"></param>
         public void Connect(AppSettings appSettings)
         {
             _client?.Disconnect();
@@ -276,6 +280,10 @@ namespace NanoTwitchLeafs.Controller
             ChannelModerator = e.Moderators;
         }
 
+        /// <summary>
+        /// Disconnects from Twitch Services
+        /// </summary>
+        /// <param name="both"></param>
         public void Disconnect(bool both = false)
         {
             if (both)
@@ -331,6 +339,10 @@ namespace NanoTwitchLeafs.Controller
         //     OnHostEvent?.Invoke(e.BeingHostedNotification.Viewers, e.BeingHostedNotification.Channel);
         // }
 
+        /// <summary>
+        /// Sends Message to connected TwitchChannel
+        /// </summary>
+        /// <param name="message"></param>
         public void SendMessageToChat(string message)
         {
             if (!_client.IsConnected)
@@ -339,12 +351,17 @@ namespace NanoTwitchLeafs.Controller
             _logger.Info($"-> {message}");
         }
 
-        public void SendWhisper(string receiver, string message)
+        /// <summary>
+        /// Sends Message to User
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="message"></param>
+        public void SendWhisper(string userName, string message)
         {
             if (!_client.IsConnected)
                 return;
-            _client.SendWhisper(receiver, message);
-            _logger.Info($"-> to {receiver} - {message}");
+            _client.SendWhisper(userName, message);
+            _logger.Info($"-> to {userName} - {message}");
         }
 
         private void Client_OnLog(object sender, OnLogArgs e)
@@ -417,7 +434,7 @@ namespace NanoTwitchLeafs.Controller
             }
 
             //Creates the OAuth 2.0 authorization request.
-            var state = RandomDataBase64Url(32);
+            var state = HelperClass.RandomDataBase64Url(32);
             var authorizationRequest = "";
             if (isBroadcaster)
             {
@@ -547,6 +564,12 @@ namespace NanoTwitchLeafs.Controller
             return null;
         }
 
+        /// <summary>
+        /// Pulls AvataUrl from TwitchUser
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="token"></param>
+        /// <returns>Url as String</returns>
         public async Task<string> GetAvatarUrl(string userName, string token)
         {
             TwitchAPI api = new TwitchAPI();
@@ -555,38 +578,6 @@ namespace NanoTwitchLeafs.Controller
 
             var getUsersResponse = await api.Helix.Users.GetUsersAsync(null, new List<string> { userName }, token);
             return getUsersResponse.Users[0].ProfileImageUrl;
-        }
-
-        public static string RandomDataBase64Url(uint length)
-        {
-            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-            byte[] bytes = new byte[length];
-            rng.GetBytes(bytes);
-            return Base64UrlEncodeNoPadding(bytes);
-        }
-
-        //    /// <summary>
-        //    /// Base64url no-padding encodes the given input buffer.
-        //    /// </summary>
-        //    /// <param name="buffer"></param>
-        //    /// <returns></returns>
-        public static string Base64UrlEncodeNoPadding(byte[] buffer)
-        {
-            string base64 = Convert.ToBase64String(buffer);
-
-            //Converts base64 to base64url.
-            base64 = base64.Replace("+", "-");
-            base64 = base64.Replace("/", "_");
-            //Strips padding.
-            base64 = base64.Replace("=", "");
-
-            return base64;
-        }
-
-        private static string FormatJson(string json)
-        {
-            dynamic parsedJson = JsonConvert.DeserializeObject(json);
-            return JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
         }
 
         #endregion

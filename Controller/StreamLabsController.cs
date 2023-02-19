@@ -59,7 +59,7 @@ namespace NanoTwitchLeafs.Controller
         private void _socketClient_EventReceived(string data)
         {
             _logger.Debug(data);
-            var formattedJson = FormatJson(data);
+            var formattedJson = HelperClass.FormatJson(data);
             dynamic eventObj = JsonConvert.DeserializeObject(formattedJson);
 
             if (eventObj?.type.ToString() == "donation")
@@ -70,15 +70,23 @@ namespace NanoTwitchLeafs.Controller
             }
         }
 
+        /// <summary>
+        /// Pulls the ProfileInformation from the Streamlabs Api
+        /// </summary>
+        /// <returns>Profike Information in Json Format</returns>
         public async Task<string> GetProfileInformation()
         {
             using (var client = new HttpClient())
             {
                 string response = await client.GetStringAsync($"{StreamlabsAPI}/user?access_token={_appSettings.StreamlabsInformation.StreamlabsAToken}");
-                return FormatJson(response);
+                return HelperClass.FormatJson(response);
             }
         }
 
+        /// <summary>
+        /// Get Access Token from Streamlabs Api
+        /// </summary>
+        /// <returns></returns>
         public async Task<string> GetAccessToken()
         {
             // Source from: https://github.com/googlesamples/oauth-apps-for-windows/blob/master/OAuthDesktopApp/OAuthDesktopApp/MainWindow.xaml.cs
@@ -90,7 +98,7 @@ namespace NanoTwitchLeafs.Controller
             httpListener.Start();
 
             // Creates the OAuth 2.0 authorization request.
-            string state = RandomDataBase64Url(32);
+            string state = HelperClass.RandomDataBase64Url(32);
             string authorizationRequest = $"{StreamlabsAPI}{AuthorizationEndpoint}?response_type=code&scope=socket.token&donations.read&redirect_uri={Uri.EscapeDataString(RedirectUri)}&client_id={_appSettings.StreamlabsClientId}&state={state}";
 
             // Opens request in the browser.
@@ -201,43 +209,6 @@ namespace NanoTwitchLeafs.Controller
             return null;
         }
 
-        /// <summary>
-        /// Returns URI-safe data with a given input length.
-        /// </summary>
-        /// <param name="length">Input length (nb. output will be longer)</param>
-        /// <returns></returns>
-        public static string RandomDataBase64Url(uint length)
-        {
-            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-            byte[] bytes = new byte[length];
-            rng.GetBytes(bytes);
-            return Base64UrlEncodeNoPadding(bytes);
-        }
-
-        /// <summary>
-        /// Base64url no-padding encodes the given input buffer.
-        /// </summary>
-        /// <param name="buffer"></param>
-        /// <returns></returns>
-        public static string Base64UrlEncodeNoPadding(byte[] buffer)
-        {
-            string base64 = Convert.ToBase64String(buffer);
-
-            // Converts base64 to base64url.
-            base64 = base64.Replace("+", "-");
-            base64 = base64.Replace("/", "_");
-            // Strips padding.
-            base64 = base64.Replace("=", "");
-
-            return base64;
-        }
-
-        private static string FormatJson(string json)
-        {
-            dynamic parsedJson = JsonConvert.DeserializeObject(json);
-            return JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
-        }
-
         public async Task<bool> LinkAccount()
         {
             _appSettings.StreamlabsInformation.StreamlabsUser = _appSettings.ChannelName;
@@ -277,6 +248,9 @@ namespace NanoTwitchLeafs.Controller
             }
         }
 
+        /// <summary>
+        /// Connects to Stremlabs Websocket with Streamlabs Token in AppSettings
+        /// </summary>
         public async void ConnectSocket()
         {
             if (string.IsNullOrWhiteSpace(_appSettings.StreamlabsInformation.StreamlabsAToken) ||
@@ -304,6 +278,9 @@ namespace NanoTwitchLeafs.Controller
             await _socketClient.ConnectAsync(new Uri(_websocketUrl + token));
         }
 
+        /// <summary>
+        /// Disconnects from Websocket
+        /// </summary>
         public async void DisconnectSocket()
         {
             CancellationToken token = new CancellationToken();

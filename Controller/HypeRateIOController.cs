@@ -80,6 +80,9 @@ namespace NanoTwitchLeafs.Controller
             _webSocket.Send(message);
         }
 
+        /// <summary>
+        /// Connets to Websocket with HypeRateId from Appsettings
+        /// </summary>
         public void StartListener()
         {
             if (string.IsNullOrWhiteSpace(_appSettings.HypeRateId))
@@ -90,6 +93,9 @@ namespace NanoTwitchLeafs.Controller
             _webSocket.Open();
         }
 
+        /// <summary>
+        /// Disconnects from Websocket
+        /// </summary>
         public void Disconnect()
         {
             _webSocket.Close();

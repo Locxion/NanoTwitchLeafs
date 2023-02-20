@@ -23,7 +23,7 @@ jobs:
 
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup-MS Build
-      uses: warrenbuckley/Setup-MSBuild@v1
+      uses: microsoft/setup-msbuild@v1.1
     
     # Pull and Restore Nuget
     - name: Setup Nuget
@@ -34,12 +34,12 @@ jobs:
       
     # Build Project
     - name: Build
-      run: dotnet build --configuration Release    
+      run: msbuild.exe ./NanoTwitchLeafs.sln /p:platform="Any CPU" /p:configuration="Release"
       
       
     # Zip Files
     - name: Install Zip
       uses: montudor/action-zip@v1
     - name: Zip Files
-      run: zip -r NanoTwitchLeafs.<AssemblyVersion>.zip /bin/Release/
+      run: zip -r NanoTwitchLeafs.<AssemblyVersion>.zip ./bin/Release/
         

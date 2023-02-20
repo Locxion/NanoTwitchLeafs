@@ -23,7 +23,7 @@ jobs:
 
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup-MS Build
-      uses: warrenbuckley/Setup-MSBuild@v1.1
+      uses: warrenbuckley/Setup-MSBuild@v1
     
     # Pull and Restore Nuget
     - name: Setup Nuget

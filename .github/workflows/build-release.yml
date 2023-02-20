@@ -27,15 +27,23 @@ jobs:
     # Build Project
     - name: Build
       run: msbuild.exe ./NanoTwitchLeafs.sln /p:platform="Any CPU" /p:configuration="Release"
+    # Upload Artifact
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.2
+      with:
+        # Artifact name
+        name: NanoTwitchLeafs #.zip will be added automatically
+        path: ./bin/release/  
   create-release:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - name: Compress
-      uses: TonyBogdanov/zip@1.0
-      with: 
-         args: zip -r ./bin/release/ ./NanoTwitchLeafs.zip
-    
+    # Download Artifact
+    - name: Download Artifact
+    - uses: actions/download-artifact@v1
+      with:
+          name: NanoTwitchLeafs.zip    
+    # Create Release
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -46,6 +54,7 @@ jobs:
         release_name: Release ${{ github.ref }}
         draft: false
         prerelease: false
+    # Add Release Asset
     - name: Upload Release Asset
       id: upload-release-asset 
       uses: actions/upload-release-asset@v1

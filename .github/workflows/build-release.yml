@@ -84,10 +84,8 @@ jobs:
       
       
     # Zip Files
+    - name: Install Zip
+      uses: montudor/action-zip@v1
     - name: Zip Files
-    - uses: actions/checkout@v2
-    - uses: vimtor/action-zip@v1
-      with:
-        files: /bin/Release
-        dest: NanoTwitchLeafs-<AssemblyVersion>.zip
+      run: zip -r NanoTwitchLeafs.<AssemblyVersion>.zip /bin/Release/
         

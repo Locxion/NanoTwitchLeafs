@@ -40,7 +40,7 @@ jobs:
     steps:
     # Download Artifact
     - name: Download Artifact
-    - uses: actions/download-artifact@v1
+      uses: actions/download-artifact@v1
       with:
           name: NanoTwitchLeafs.zip    
     # Create Release

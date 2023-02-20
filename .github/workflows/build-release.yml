@@ -28,6 +28,7 @@ jobs:
     - name: Build
       run: msbuild.exe ./NanoTwitchLeafs.sln /p:platform="Any CPU" /p:configuration="Release"
   create-release:
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - name: Compress

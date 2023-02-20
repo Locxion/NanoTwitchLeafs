@@ -40,6 +40,5 @@ jobs:
     - name: Zip Files
     - uses: TonyBogdanov/zip@1.0
       with:
-        args: zip - r NanoTwitchLeafs.<AssemblyVersion>.zip ./bin/release/
-        
+        args: zip - r NanoTwitchLeafs.<AssemblyVersion>.zip ./bin/release/     
     

@@ -32,8 +32,11 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.2
     
     # Pull and Restore Nuget
+    - name: Setup Nuget
+      uses: Nuget/setup-nuget@v1.0.5
+      
     - name: Nuget Restore
-      run: dotnet restore
+      run: nuget restore NanoTwichLeafs.sln
       
     # Build Project
     - name: Build

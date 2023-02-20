@@ -36,9 +36,11 @@ jobs:
     - name: Build
       run: msbuild.exe ./NanoTwitchLeafs.sln /p:platform="Any CPU" /p:configuration="Release"
   
-    # Zip Files
-    - name: Zip Files
-      uses: TonyBogdanov/zip@1.0
+  
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.2
       with:
-        args: zip - r NanoTwitchLeafs.<AssemblyVersion>.zip ./bin/release/     
+        # Artifact name
+        name: NanoTwitchLeafs.<AssemblyVersion> #.zip will be added automatically
+        path: ./bin/release/  
     

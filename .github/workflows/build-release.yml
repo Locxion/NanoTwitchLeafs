@@ -36,7 +36,7 @@ jobs:
       uses: Nuget/setup-nuget@v1.0.5
       
     - name: Nuget Restore
-      run: nuget restore NanoTwichLeafs.sln
+      run: nuget restore NanoTwitchLeafs/NanoTwichLeafs.sln
       
     # Build Project
     - name: Build

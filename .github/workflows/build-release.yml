@@ -35,11 +35,11 @@ jobs:
     # Build Project
     - name: Build
       run: msbuild.exe ./NanoTwitchLeafs.sln /p:platform="Any CPU" /p:configuration="Release"
-      
-      
+  
     # Zip Files
-    - name: Install Zip
-      uses: montudor/action-zip@v1
     - name: Zip Files
-      run: zip -r NanoTwitchLeafs.<AssemblyVersion>.zip ./bin/Release/
+    - uses: TonyBogdanov/zip@1.0
+      with:
+        args: zip - r NanoTwitchLeafs.<AssemblyVersion>.zip ./bin/release/
         
+    

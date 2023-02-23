@@ -48,7 +48,7 @@ jobs:
     - name: Compress
       uses: montudor/action-zip@v1
       with:
-       args: zip -qq -r NanoTwitchLeafs.zip NanoTwitchLeafs
+       args: zip -qq -r NanoTwitchLeafs.zip NanoTwitchLeafs/NanoTwitchLeafs
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -66,5 +66,5 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: NanoTwitchLeafs.zip
-        asset_name: NanoTwitchLeafs.zip
+        asset_name: NanoTwitchLeafs-${{ github.ref }}.zip
         asset_content_type: application/zip

@@ -47,13 +47,13 @@ jobs:
     # Zip Files
     - name: Build ZIP
       run: |
-        ls
-        zip -r NanoTwitchLeafs.zip ./NanoTwitchLeafs/
+        cd ./NanoTwitchLeafs
+        zip -r ../NanoTwitchLeafs.zip ./NanoTwitchLeafs/
     # Create Versions.xml
     - name: Create Versions.xml file
       run: |
         echo "<item>" >> Versions.xml
-        echo "<version>${{ github.ref }}</version>" >> Versions.xml
+        echo "<version>${{ github.ref_name }}</version>" >> Versions.xml
         echo "<changelog>https://software.locxserv.de/NanoTwitchLeafs/changelog.txt</changelog>" >> Versions.xml
         echo "<mandatory>true</mandatory>" >> Versions.xml
         echo "</item>" >> Versions.xml         
@@ -76,7 +76,7 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: NanoTwitchLeafs.zip
-        asset_name: NanoTwitchLeafs-${{ github.ref }}.zip
+        asset_name: NanoTwitchLeafs-${{ github.ref_name }}.zip
         asset_content_type: application/zip
     # Upload Versions.xml Asset
     - name: Upload Versions asset

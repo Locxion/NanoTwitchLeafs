@@ -35,6 +35,7 @@ jobs:
         name: NanoTwitchLeafs #.zip will be added automatically
         path: ./bin/release/  
   create-release:
+    permissions: write-all
     needs: build
     runs-on: ubuntu-latest
     steps:

@@ -1,0 +1,83 @@
+name: .NET Core Desktop
+on:
+  push:
+    tags:
+      - "*"
+jobs:
+  build:
+    runs-on: windows-2019  # For a list of available runner types, refer to
+                             # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
+    - name: Setup-MS Build
+      uses: microsoft/setup-msbuild@v1.1
+    
+    # Pull and Restore Nuget
+    - name: Setup Nuget
+      uses: Nuget/setup-nuget@v1.0.5
+      
+    - name: Nuget Restore
+      run: nuget restore ./NanoTwitchLeafs.sln
+      
+    # Build Project
+    - name: Build
+      run: msbuild.exe ./NanoTwitchLeafs.sln /p:platform="Any CPU" /p:configuration="Release"
+    # Upload Artifact
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.2
+      with:
+        # Artifact name
+        name: NanoTwitchLeafs #.zip will be added automatically
+        path: ./bin/release/  
+  create-release:
+    permissions: write-all
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    # Download Artifact
+    - name: Download Artifact
+      uses: actions/download-artifact@v1
+      with:
+          name: NanoTwitchLeafs  
+    # Zip Files
+    - name: Build ZIP
+      run: |
+        cd ./NanoTwitchLeafs/
+        zip -r ../NanoTwitchLeafs.zip .
+        cd ../       
+    # Create Release
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+    # Upload Zip Asset
+    - name: Upload release asset
+      uses: actions/upload-release-asset@v1.0.2
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: NanoTwitchLeafs.zip
+        asset_name: NanoTwitchLeafs-${{ github.ref_name }}.zip
+        asset_content_type: application/zip
+    # Upload Versions.xml Asset
+    - name: Upload Versions asset
+      uses: actions/upload-release-asset@v1.0.2
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: Versions.xml
+        asset_name: Versions.xml
+        asset_content_type: application/xml

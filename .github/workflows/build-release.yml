@@ -2,7 +2,7 @@ name: .NET Core Desktop
 on:
   push:
     tags:
-      - "v*"
+      - "*"
 jobs:
   build:
     runs-on: windows-2019  # For a list of available runner types, refer to
@@ -44,11 +44,20 @@ jobs:
       uses: actions/download-artifact@v1
       with:
           name: NanoTwitchLeafs  
-    #Zip Files
+    # Zip Files
     - name: Compress
       uses: montudor/action-zip@v1
       with:
        args: zip -qq -r NanoTwitchLeafs.zip NanoTwitchLeafs/NanoTwitchLeafs
+    # Create Versions.xml
+    - name: Create Versions.xml file
+      run: |
+        echo <item> >> Versions.xml
+        echo <version>${{ github.ref }}</version> >> Versions.xml
+        echo <changelog>https://software.locxserv.de/NanoTwitchLeafs/changelog.txt</changelog> >> Versions.xmlv
+        echo <mandatory>true</mandatory> >> Versions.xml
+        echo </item> >> Versions.xml         
+    # Create Release
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -59,6 +68,7 @@ jobs:
         release_name: Release ${{ github.ref }}
         draft: false
         prerelease: false
+    # Upload Zip Asset
     - name: Upload release asset
       uses: actions/upload-release-asset@v1.0.2
       env:
@@ -68,3 +78,13 @@ jobs:
         asset_path: NanoTwitchLeafs.zip
         asset_name: NanoTwitchLeafs-${{ github.ref }}.zip
         asset_content_type: application/zip
+    # Upload Versions.xml Asset
+    - name: Upload Versions asset
+      uses: actions/upload-release-asset@v1.0.2
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: Versions.xml
+        asset_name: Versions.xml
+        asset_content_type: application/xml

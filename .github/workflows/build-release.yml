@@ -49,15 +49,7 @@ jobs:
       run: |
         cd ./NanoTwitchLeafs/
         zip -r ../NanoTwitchLeafs.zip .
-        cd ../
-    # Create Versions.xml
-    - name: Create Versions.xml file
-      run: |
-        echo "<item>" >> Versions.xml
-        echo "<version>${{ github.ref_name }}</version>" >> Versions.xml
-        echo "<changelog>https://github.com/Locxion/NanoTwitchLeafs/blob/main/changelog.txt</changelog>" >> Versions.xml
-        echo "<mandatory>true</mandatory>" >> Versions.xml
-        echo "</item>" >> Versions.xml         
+        cd ../       
     # Create Release
     - name: Create Release
       id: create_release

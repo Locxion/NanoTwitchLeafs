@@ -47,7 +47,8 @@ jobs:
     # Zip Files
     - name: Build ZIP
       run: |
-        cd ./NanoTwitchLeafs
+        cd ./NanoTwitchLeafs/
+        ls
         zip -r ../NanoTwitchLeafs.zip ./NanoTwitchLeafs/
     # Create Versions.xml
     - name: Create Versions.xml file

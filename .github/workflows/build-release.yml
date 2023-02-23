@@ -48,7 +48,7 @@ jobs:
     - name: Compress
       uses: montudor/action-zip@v1
       with:
-       args: zip -qq -r NanoTwitchLeafs.zip NanoTwitchLeafs/NanoTwitchLeafs
+       args: zip -r NanoTwitchLeafs.zip /home/runner/work/NanoTwitchLeafs/NanoTwitchLeafs/NanoTwitchLeafs
     # Create Versions.xml
     - name: Create Versions.xml file
       run: |

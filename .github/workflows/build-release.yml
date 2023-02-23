@@ -71,13 +71,3 @@ jobs:
         asset_path: NanoTwitchLeafs.zip
         asset_name: NanoTwitchLeafs-${{ github.ref_name }}.zip
         asset_content_type: application/zip
-    # Upload Versions.xml Asset
-    - name: Upload Versions asset
-      uses: actions/upload-release-asset@v1.0.2
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: Versions.xml
-        asset_name: Versions.xml
-        asset_content_type: application/xml

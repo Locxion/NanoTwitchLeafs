@@ -7,8 +7,16 @@ namespace NanoTwitchLeafs
 {
 	public static class Constants
 	{
+		#region Github
+
+		public static readonly string GITHUB_OWNER = "Locxion";
+		public static readonly string GITHUB_REPO = "NanoTwitchLeafs";
+
+		#endregion
+
+		#region Paths
+
 		public static readonly string TEMP_PATH = Path.GetTempPath();
-		public static string DESKTOP_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "NanoTwitchLeafs-Beta"); // Desktop folder
 		private static readonly string APPDATA_PATH = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData); // AppData folder
 		public static readonly string PROGRAMFILESFOLDER_PATH = Path.Combine(APPDATA_PATH, "NanoTwitchLeafs");     // Path for program config folder
 		private static readonly string LOGFOLDER_PATH = Path.Combine(PROGRAMFILESFOLDER_PATH, "logs"); // Path for old Logfiles
@@ -23,6 +31,8 @@ namespace NanoTwitchLeafs
 		public static readonly string DATABASE_PATH = Path.Combine(PROGRAMFILESFOLDER_PATH, DATABASE_FILE);
 
 		public static readonly string LOG_PATH = Path.Combine(LOGFOLDER_PATH, "nanotwichleafs.log");
+
+		#endregion
 
 		public static void SetCultureInfo(string languageCode)
 		{

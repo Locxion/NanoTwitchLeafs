@@ -410,7 +410,9 @@
     <Compile Include="Controller\StreamElementsController.cs" />
     <Compile Include="Controller\StreamLabsController.cs" />
     <Compile Include="Controller\TipeeeStreamController.cs" />
+    <Compile Include="Controller\UpdateController.cs" />
     <Compile Include="NanoTwitchLeafsAppender.cs" />
+    <Compile Include="Objects\GithubReleaseInfo.cs" />
     <Compile Include="Objects\HeartRateMessage.cs" />
     <Compile Include="Objects\NanoleafControllerInfo.cs" />
     <Compile Include="Objects\NotifyHandlerHelper.cs" />
@@ -602,6 +604,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="version.xml" />
     <Resource Include="Assets\channelpoints.png" />
     <Resource Include="Assets\nanotwitchleafs_twitch_broadcaster_logo.png" />
     <Resource Include="Assets\nanotwitchleafs_twitch_robot_logo.png" />

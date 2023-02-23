@@ -52,11 +52,11 @@ jobs:
     # Create Versions.xml
     - name: Create Versions.xml file
       run: |
-        echo <item> >> Versions.xml
-        echo <version>${{ github.ref }}</version> >> Versions.xml
-        echo <changelog>https://software.locxserv.de/NanoTwitchLeafs/changelog.txt</changelog> >> Versions.xmlv
-        echo <mandatory>true</mandatory> >> Versions.xml
-        echo </item> >> Versions.xml         
+        echo "<item>" >> Versions.xml
+        echo "<version>${{ github.ref }}</version>" >> Versions.xml
+        echo "<changelog>https://software.locxserv.de/NanoTwitchLeafs/changelog.txt</changelog>" >> Versions.xml
+        echo "<mandatory>true</mandatory>" >> Versions.xml
+        echo "</item>" >> Versions.xml         
     # Create Release
     - name: Create Release
       id: create_release

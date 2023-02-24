@@ -9,7 +9,7 @@
 ![GitHub release (latest by SemVer)](https://img.shields.io/github/downloads/locxion/nanotwitchleafs/latest/total?color=blueviolet)
 ## Socials
 ![Homepage](https://img.shields.io/badge/Web-www.nanotwitchleafs.de-blueviolet)
-<a href="https://discord.gg/w92xZKd"><img src="https://img.shields.io/discord/230485530691895296?color=blueviolet&style=plastic"></a>
+<a href="https://discord.gg/w92xZKd"><img src="https://img.shields.io/discord/230485530691895296?color=blueviolet&style=flat"></a>
 
 
 # About

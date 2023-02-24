@@ -59,14 +59,8 @@ namespace NanoTwitchLeafs
 		/// <returns></returns>
 		public static TwitchApiCredentials GetTwitchApiCredentials(AppSettings appSettings)
 		{
-			string clientId;
-			string secret;
 			if (appSettings.UseOwnServiceCredentials)
-			{
-				clientId = appSettings.TwitchClientId;
-				secret = appSettings.TwitchClientSecret;
-				return new TwitchApiCredentials(clientId, secret);
-			}
+				return new TwitchApiCredentials(appSettings.TwitchClientId, appSettings.TwitchClientSecret);
 
 			return Constants.ServiceCredentials.TwitchApiCredentials;
 		}
@@ -78,14 +72,8 @@ namespace NanoTwitchLeafs
 		/// <returns></returns>
 		public static StreamLabsApiCedentials GetStreamLabsApiCedentials(AppSettings appSettings)
 		{
-			string clientId;
-			string secret;
 			if (appSettings.UseOwnServiceCredentials)
-			{
-				clientId = appSettings.TwitchClientId;
-				secret = appSettings.TwitchClientSecret;
-				return new StreamLabsApiCedentials(clientId, secret);
-			}
+				return new StreamLabsApiCedentials(appSettings.TwitchClientId, appSettings.TwitchClientSecret);
 
 			return Constants.ServiceCredentials.StreamLabsApiCedentials;
 		}

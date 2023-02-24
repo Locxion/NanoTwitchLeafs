@@ -344,6 +344,7 @@ namespace NanoTwitchLeafs.Windows
 				autoIPRefresh_Checkbox.IsChecked = _appSettings.AutoIpRefresh;
 				debugCmd_Checkbox.IsChecked = _appSettings.DebugEnabled;
 				blacklist_CheckBox.IsChecked = _appSettings.BlacklistEnabled;
+				UseOwnServiceCredentials_Checkbox.IsChecked = _appSettings.UseOwnServiceCredentials;
 				TwitchClientId_Textbox.Text = _appSettings.TwitchClientId;
 				TwitchClientSecret_Textbox.Password = _appSettings.TwitchClientSecret;
 				DebugCmd_Checkbox_Click(this, null);
@@ -412,6 +413,288 @@ namespace NanoTwitchLeafs.Windows
 
 		#region UI Logic
 
+		private void blacklist_CheckBox_Click(object sender, RoutedEventArgs e)
+		{
+			if (blacklist_CheckBox.IsChecked == true)
+			{
+				_appSettings.BlacklistEnabled = true;
+				_logger.Info("Blacklist enabled!");
+			}
+			else if (blacklist_CheckBox.IsChecked == false)
+			{
+				_appSettings.BlacklistEnabled = false;
+				_logger.Info("Blacklist disabled!");
+			}
+		}
+
+		private void blacklist_Button_Click(object sender, RoutedEventArgs e)
+		{
+			_logger.Info("Show Blacklist Window");
+			BlacklistWindow blacklistWindow = new BlacklistWindow(_appSettingsController, _appSettings)
+			{
+				Owner = this
+			};
+			blacklistWindow.Show();
+		}
+
+		private void CheckForUpdate_Button_Click(object sender, RoutedEventArgs e)
+		{
+			CheckForUpdate();
+		}
+
+		private async void LoadEffects_Button_Click(object sender, RoutedEventArgs e)
+		{
+			if (_appSettings.NanoSettings.NanoLeafDevices.Count < 1)
+			{
+				_logger.Error(Properties.Resources.Code_Main_MessageBox_NoDevice);
+				MessageBox.Show(Properties.Resources.Code_Main_MessageBox_NoDevice, Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
+
+			List<string> effects = await _nanoController.GetEffectList(_appSettings.NanoSettings.NanoLeafDevices[0]);
+
+			Effects_ComboBox.ItemsSource = effects;
+		}
+
+		private async void SetBaseEffect_Button_Click(object sender, RoutedEventArgs e)
+		{
+			if (Effects_ComboBox.SelectedItem == null)
+			{
+				return;
+			}
+
+			if (string.IsNullOrWhiteSpace(Effects_ComboBox.SelectedItem.ToString()))
+			{
+				_logger.Warn(Properties.Resources.Code_Main_MessageBox_SelectEffect);
+				MessageBox.Show(Properties.Resources.Code_Main_MessageBox_SelectEffect, Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Warning);
+				return;
+			}
+
+			foreach (var device in _appSettings.NanoSettings.NanoLeafDevices)
+			{
+				await _nanoController.SetEffect(device, Effects_ComboBox.SelectedItem.ToString());
+				_logger.Info($"Set {Effects_ComboBox.SelectedItem} to Device {device.PublicName}");
+			}
+		}
+
+		private void language_Combobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			ComboBox comboBox = (ComboBox)sender;
+			string selectedLanguage = comboBox.SelectedItem.ToString();
+			string selectedLanguageCode;
+
+			switch (selectedLanguage)
+			{
+				case "English":
+					selectedLanguageCode = "en-US";
+					break;
+
+				case "Deutsch":
+					selectedLanguageCode = "de-DE";
+					break;
+
+				// case "French":
+				//     selectedLanguageCode = "fr-FR";
+				//     break;
+				//
+				// case "Portuguese":
+				//     selectedLanguageCode = "pt-BR";
+				//     break;
+				//
+				// case "Slovak":
+				//     selectedLanguageCode = "sk-SK";
+				//     break;
+
+				default:
+					selectedLanguageCode = "en-US";
+					break;
+			}
+
+			if (selectedLanguageCode == _appSettings.Language)
+			{
+				return;
+			}
+
+			_appSettings.Language = selectedLanguageCode;
+
+			if (MessageBox.Show(Properties.Resources.Code_Main_MessageBox_Restart, Properties.Resources.Code_Main_MessageBox_Restart_Title, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+			{
+				AppRestart();
+			}
+		}
+
+		private async void SetBaseColor_Button_Click(object sender, RoutedEventArgs e)
+		{
+			if (ColorPicker.SelectedColor == null)
+			{
+				MessageBox.Show(Properties.Resources.Window_TriggerDetail_ColorPicker_Error,
+					Properties.Resources.General_MessageBox_Error_Title);
+				return;
+			}
+			foreach (var device in _appSettings.NanoSettings.NanoLeafDevices)
+			{
+				var pickerColor = ColorPicker.SelectedColor.Value;
+				var color = new RgbColor(pickerColor.R, pickerColor.G, pickerColor.B, 255);
+				await _nanoController.SetColor(device, color);
+			}
+		}
+
+		private void ConnectTwitchAccount_Button_Click(object sender, RoutedEventArgs e)
+		{
+			var twitchLinkWindow = new TwitchLinkWindow(_appSettings, _twitchController, _appSettingsController) { Owner = this };
+			twitchLinkWindow.ShowDialog();
+		}
+
+		private void DisconnectTwitchAccount_Button_Click(object sender, RoutedEventArgs e)
+		{
+			TwitchLinkAvatar_Image.Source = new BitmapImage(new Uri("/NanoTwitchLeafs;component/Assets/nanotwitchleafs_error_logo.png", UriKind.Relative));
+			_appSettings.BroadcasterAvatarUrl = null;
+			_appSettings.BotAvatarUrl = null;
+			_appSettings.BotAuthObject = null;
+			_appSettings.BroadcasterAuthObject = null;
+			_appSettings.BroadcasterAvatarUrl = null;
+			_appSettings.BotAvatarUrl = null;
+			_appSettings.ChannelName = null;
+
+			_appSettingsController.SaveSettings(_appSettings);
+			DisconnectTwitchAccount_Button.IsEnabled = false;
+			ConnectTwitchAccount_Button.IsEnabled = true;
+			ConnectChat_Button.IsEnabled = false;
+			TwitchLink_Label.Content = Properties.Resources.Window_Main_Tabs_TwitchLogin_AccountLabel_Text;
+		}
+
+		private void ConnectChat_Button_Click(object sender, RoutedEventArgs e)
+		{
+			ConnectToChat();
+		}
+
+		private void Main_Window_Closed(object sender, EventArgs e)
+		{
+			Window_Closing(null, null);
+		}
+
+		private void StreamlabsConnectButton_Click(object sender, RoutedEventArgs e)
+		{
+			_logger.Info("Connect to Streamlabs Socket");
+			_streamlabsController.ConnectSocket();
+
+			StreamlabsConnectButton.IsEnabled = false;
+			StreamlabsDisconnectButton.IsEnabled = true;
+		}
+
+		private void StreamlabsDisconnectButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (_streamlabsController._IsSocketConnected)
+			{
+				_logger.Info("Disconnect from Streamlabs Socket");
+				_streamlabsController.DisconnectSocket();
+			}
+			StreamlabsConnectButton.IsEnabled = true;
+			StreamlabsDisconnectButton.IsEnabled = false;
+		}
+
+		private void HypeRateConnect_Button_Click(object sender, RoutedEventArgs e)
+		{
+			_appSettings.HypeRateId = hypeRateId_Textbox.Text;
+			if (_appSettings.HypeRateId == "HypeRateId" || string.IsNullOrWhiteSpace(_appSettings.HypeRateId))
+			{
+				MessageBox.Show(Properties.Resources.Window_Main_Tabs_HypeRate_MessageBox_EnterID_Text, Properties.Resources.General_MessageBox_Error_Title,
+					MessageBoxButton.OK, MessageBoxImage.Error);
+				_logger.Error("Please enter your HypeRate Id");
+				return;
+			}
+			_hypeRatecontroller.StartListener();
+		}
+
+		private void HypeRateDisconnect_Button_Click(object sender, RoutedEventArgs e)
+		{
+			_hypeRatecontroller.Disconnect();
+		}
+
+		private void _hypeRatecontroller_OnHypeRateDisconnected()
+		{
+			Application.Current.Dispatcher.Invoke(() =>
+			{
+				HypeRateConnect_Button.IsEnabled = true;
+				HypeRateDisconnect_Button.IsEnabled = false;
+			});
+		}
+
+		private void _hypeRatecontroller_OnHypeRateConnected()
+		{
+			Application.Current.Dispatcher.Invoke(() =>
+			{
+				HypeRateConnect_Button.IsEnabled = false;
+				HypeRateDisconnect_Button.IsEnabled = true;
+			});
+		}
+
+		private void _hypeRatecontroller_OnHeartRateRecieved(int heartRate)
+		{
+			Application.Current.Dispatcher.Invoke(() =>
+			{
+				hypeRate_Label.Content = heartRate;
+			});
+		}
+
+		private async void StreamlabsLink_Button_Click(object sender, RoutedEventArgs e)
+		{
+			if (await _streamlabsController.LinkAccount())
+			{
+				Streamlabs_Image.Source = TwitchLinkAvatar_Image.Source;
+				StreamlabsLink_Button.IsEnabled = false;
+				StreamlabsUnlink_Button.IsEnabled = true;
+				StreamlabsConnectButton.IsEnabled = true;
+				StreamlabsInfo_TextBlock.Text = $"{Properties.Resources.Windows_Main_Tabs_Streamlabs_Linktext_Textblock2} {_appSettings.ChannelName}.";
+			}
+			else
+			{
+				_logger.Error("Could not connect Streamlabs Account!");
+			}
+		}
+
+		private void StreamlabsUnlink_Button_Click(object sender, RoutedEventArgs e)
+		{
+			_appSettings.StreamlabsInformation = new StreamlabsInformation();
+			StreamlabsInfo_TextBlock.Text = Properties.Resources.Windows_Main_Tabs_Streamlabs_Linktext_Textblock1;
+			StreamlabsLink_Button.IsEnabled = true;
+			StreamlabsUnlink_Button.IsEnabled = false;
+			StreamlabsConnectButton.IsEnabled = false;
+			Streamlabs_Image.Source = new BitmapImage(new Uri("/NanoTwitchLeafs;component/Assets/nanotwitchleafs_error_logo.png", UriKind.Relative));
+		}
+
+		private void HypeRateDiscord_Label_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			//https://discord.gg/dqutnTAj6j
+			Process.Start("https://discord.gg/dqutnTAj6j");
+		}
+
+		private void HypeRateWebsite_Label_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			//https://hyperate.io
+			Process.Start("https://hyperate.io");
+		}
+
+		private void UseOwnServiceCredentials_Checkbox_Click(object sender, RoutedEventArgs e)
+		{
+			if (UseOwnServiceCredentials_Checkbox.IsChecked == true)
+			{
+				_appSettings.UseOwnServiceCredentials = true;
+				TwitchClientId_Textbox.IsEnabled = true;
+				TwitchClientSecret_Textbox.IsEnabled = true;
+				StreamlabsClientId_Textbox.IsEnabled = true;
+				StreamlabsClientSecret_Textbox.IsEnabled = true;
+			}
+			else
+			{
+				_appSettings.UseOwnServiceCredentials = false;
+				TwitchClientId_Textbox.IsEnabled = false;
+				TwitchClientSecret_Textbox.IsEnabled = false;
+				StreamlabsClientId_Textbox.IsEnabled = false;
+				StreamlabsClientSecret_Textbox.IsEnabled = false;
+			}
+		}
+
 		private void Open_Dir_Button_Click(object sender, RoutedEventArgs e)
 		{
 			Process.Start(Constants.PROGRAMFILESFOLDER_PATH);
@@ -446,6 +729,7 @@ namespace NanoTwitchLeafs.Windows
 			_appSettings.AutoIpRefresh = (bool)autoIPRefresh_Checkbox.IsChecked;
 			_appSettings.DebugEnabled = (bool)debugCmd_Checkbox.IsChecked;
 			_appSettings.AutoConnect = (bool)autoConnect_Checkbox.IsChecked;
+			_appSettings.UseOwnServiceCredentials = (bool)UseOwnServiceCredentials_Checkbox.IsChecked;
 			_appSettings.TwitchClientId = TwitchClientId_Textbox.Text;
 			_appSettings.TwitchClientSecret = TwitchClientSecret_Textbox.Password;
 
@@ -796,10 +1080,6 @@ namespace NanoTwitchLeafs.Windows
 			}
 		}
 
-		#endregion
-
-		#region Analytics
-
 		private void NanoCooldownIgnore_Checkbox_Click(object sender, RoutedEventArgs e)
 		{
 			_appSettings.NanoSettings.CooldownIgnore = nanoCooldownIgnore_Checkbox.IsEnabled;
@@ -807,7 +1087,36 @@ namespace NanoTwitchLeafs.Windows
 
 		#endregion
 
-		#region HelperMethods
+		#region Methods
+
+		private void ConnectToChat()
+		{
+			try
+			{
+				_twitchController.Connect(_appSettings);
+				ConnectChat_Button.IsEnabled = false;
+				sendMessage_TextBox.IsEnabled = true;
+				sendMessage_Button.IsEnabled = true;
+			}
+			catch (Exception ex)
+			{
+				_logger.Error(ex.Message);
+				_logger.Error(ex);
+			}
+		}
+
+		private void AppRestart()
+		{
+			var info = new ProcessStartInfo
+			{
+				Arguments = "/C ping 127.0.0.1 -n 2 && \"" + System.Reflection.Assembly.GetEntryAssembly()?.Location + "\"",
+				WindowStyle = ProcessWindowStyle.Hidden,
+				CreateNoWindow = true,
+				FileName = "cmd.exe"
+			};
+			Process.Start(info);
+			this.Close();
+		}
 
 		private bool CheckForDuplicateWindow(Window newWindow)
 		{
@@ -846,6 +1155,14 @@ namespace NanoTwitchLeafs.Windows
 			if (_appSettings.NanoSettings.CooldownEnabled)
 			{
 				nanoCooldown_TextBox.IsEnabled = false;
+			}
+
+			if (_appSettings.UseOwnServiceCredentials)
+			{
+				TwitchClientId_Textbox.IsEnabled = true;
+				TwitchClientSecret_Textbox.IsEnabled = true;
+				StreamlabsClientId_Textbox.IsEnabled = true;
+				StreamlabsClientSecret_Textbox.IsEnabled = true;
 			}
 
 			help_TextBlock.Text = string.Format(Properties.Resources.Code_Main_Label_NanoHelpText, _appSettings.CommandPrefix);
@@ -1033,296 +1350,5 @@ namespace NanoTwitchLeafs.Windows
 		}
 
 		#endregion
-
-		private void blacklist_CheckBox_Click(object sender, RoutedEventArgs e)
-		{
-			if (blacklist_CheckBox.IsChecked == true)
-			{
-				_appSettings.BlacklistEnabled = true;
-				_logger.Info("Blacklist enabled!");
-			}
-			else if (blacklist_CheckBox.IsChecked == false)
-			{
-				_appSettings.BlacklistEnabled = false;
-				_logger.Info("Blacklist disabled!");
-			}
-		}
-
-		private void blacklist_Button_Click(object sender, RoutedEventArgs e)
-		{
-			_logger.Info("Show Blacklist Window");
-			BlacklistWindow blacklistWindow = new BlacklistWindow(_appSettingsController, _appSettings)
-			{
-				Owner = this
-			};
-			blacklistWindow.Show();
-		}
-
-		private void CheckForUpdate_Button_Click(object sender, RoutedEventArgs e)
-		{
-			CheckForUpdate();
-		}
-
-		private async void LoadEffects_Button_Click(object sender, RoutedEventArgs e)
-		{
-			if (_appSettings.NanoSettings.NanoLeafDevices.Count < 1)
-			{
-				_logger.Error(Properties.Resources.Code_Main_MessageBox_NoDevice);
-				MessageBox.Show(Properties.Resources.Code_Main_MessageBox_NoDevice, Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
-				return;
-			}
-
-			List<string> effects = await _nanoController.GetEffectList(_appSettings.NanoSettings.NanoLeafDevices[0]);
-
-			Effects_ComboBox.ItemsSource = effects;
-		}
-
-		private async void SetBaseEffect_Button_Click(object sender, RoutedEventArgs e)
-		{
-			if (Effects_ComboBox.SelectedItem == null)
-			{
-				return;
-			}
-
-			if (string.IsNullOrWhiteSpace(Effects_ComboBox.SelectedItem.ToString()))
-			{
-				_logger.Warn(Properties.Resources.Code_Main_MessageBox_SelectEffect);
-				MessageBox.Show(Properties.Resources.Code_Main_MessageBox_SelectEffect, Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Warning);
-				return;
-			}
-
-			foreach (var device in _appSettings.NanoSettings.NanoLeafDevices)
-			{
-				await _nanoController.SetEffect(device, Effects_ComboBox.SelectedItem.ToString());
-				_logger.Info($"Set {Effects_ComboBox.SelectedItem} to Device {device.PublicName}");
-			}
-		}
-
-		private void AppRestart()
-		{
-			var info = new ProcessStartInfo
-			{
-				Arguments = "/C ping 127.0.0.1 -n 2 && \"" + System.Reflection.Assembly.GetEntryAssembly()?.Location + "\"",
-				WindowStyle = ProcessWindowStyle.Hidden,
-				CreateNoWindow = true,
-				FileName = "cmd.exe"
-			};
-			Process.Start(info);
-			this.Close();
-		}
-
-		private void language_Combobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			ComboBox comboBox = (ComboBox)sender;
-			string selectedLanguage = comboBox.SelectedItem.ToString();
-			string selectedLanguageCode;
-
-			switch (selectedLanguage)
-			{
-				case "English":
-					selectedLanguageCode = "en-US";
-					break;
-
-				case "Deutsch":
-					selectedLanguageCode = "de-DE";
-					break;
-
-				// case "French":
-				//     selectedLanguageCode = "fr-FR";
-				//     break;
-				//
-				// case "Portuguese":
-				//     selectedLanguageCode = "pt-BR";
-				//     break;
-				//
-				// case "Slovak":
-				//     selectedLanguageCode = "sk-SK";
-				//     break;
-
-				default:
-					selectedLanguageCode = "en-US";
-					break;
-			}
-
-			if (selectedLanguageCode == _appSettings.Language)
-			{
-				return;
-			}
-
-			_appSettings.Language = selectedLanguageCode;
-
-			if (MessageBox.Show(Properties.Resources.Code_Main_MessageBox_Restart, Properties.Resources.Code_Main_MessageBox_Restart_Title, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-			{
-				AppRestart();
-			}
-		}
-
-		private async void SetBaseColor_Button_Click(object sender, RoutedEventArgs e)
-		{
-			if (ColorPicker.SelectedColor == null)
-			{
-				MessageBox.Show(Properties.Resources.Window_TriggerDetail_ColorPicker_Error,
-					Properties.Resources.General_MessageBox_Error_Title);
-				return;
-			}
-			foreach (var device in _appSettings.NanoSettings.NanoLeafDevices)
-			{
-				var pickerColor = ColorPicker.SelectedColor.Value;
-				var color = new RgbColor(pickerColor.R, pickerColor.G, pickerColor.B, 255);
-				await _nanoController.SetColor(device, color);
-			}
-		}
-
-		private void ConnectTwitchAccount_Button_Click(object sender, RoutedEventArgs e)
-		{
-			var twitchLinkWindow = new TwitchLinkWindow(_appSettings, _twitchController, _appSettingsController) { Owner = this };
-			twitchLinkWindow.ShowDialog();
-		}
-
-		private void DisconnectTwitchAccount_Button_Click(object sender, RoutedEventArgs e)
-		{
-			TwitchLinkAvatar_Image.Source = new BitmapImage(new Uri("/NanoTwitchLeafs;component/Assets/nanotwitchleafs_error_logo.png", UriKind.Relative));
-			_appSettings.BroadcasterAvatarUrl = null;
-			_appSettings.BotAvatarUrl = null;
-			_appSettings.BotAuthObject = null;
-			_appSettings.BroadcasterAuthObject = null;
-			_appSettings.BroadcasterAvatarUrl = null;
-			_appSettings.BotAvatarUrl = null;
-			_appSettings.ChannelName = null;
-
-			_appSettingsController.SaveSettings(_appSettings);
-			DisconnectTwitchAccount_Button.IsEnabled = false;
-			ConnectTwitchAccount_Button.IsEnabled = true;
-			ConnectChat_Button.IsEnabled = false;
-			TwitchLink_Label.Content = Properties.Resources.Window_Main_Tabs_TwitchLogin_AccountLabel_Text;
-		}
-
-		private void ConnectChat_Button_Click(object sender, RoutedEventArgs e)
-		{
-			ConnectToChat();
-		}
-
-		private void ConnectToChat()
-		{
-			try
-			{
-				_twitchController.Connect(_appSettings);
-				ConnectChat_Button.IsEnabled = false;
-				sendMessage_TextBox.IsEnabled = true;
-				sendMessage_Button.IsEnabled = true;
-			}
-			catch (Exception ex)
-			{
-				_logger.Error(ex.Message);
-				_logger.Error(ex);
-			}
-		}
-
-		private void Main_Window_Closed(object sender, EventArgs e)
-		{
-			Window_Closing(null, null);
-		}
-
-		private void StreamlabsConnectButton_Click(object sender, RoutedEventArgs e)
-		{
-			_logger.Info("Connect to Streamlabs Socket");
-			_streamlabsController.ConnectSocket();
-
-			StreamlabsConnectButton.IsEnabled = false;
-			StreamlabsDisconnectButton.IsEnabled = true;
-		}
-
-		private void StreamlabsDisconnectButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (_streamlabsController._IsSocketConnected)
-			{
-				_logger.Info("Disconnect from Streamlabs Socket");
-				_streamlabsController.DisconnectSocket();
-			}
-			StreamlabsConnectButton.IsEnabled = true;
-			StreamlabsDisconnectButton.IsEnabled = false;
-		}
-
-		private void HypeRateConnect_Button_Click(object sender, RoutedEventArgs e)
-		{
-			_appSettings.HypeRateId = hypeRateId_Textbox.Text;
-			if (_appSettings.HypeRateId == "HypeRateId" || string.IsNullOrWhiteSpace(_appSettings.HypeRateId))
-			{
-				MessageBox.Show(Properties.Resources.Window_Main_Tabs_HypeRate_MessageBox_EnterID_Text, Properties.Resources.General_MessageBox_Error_Title,
-					MessageBoxButton.OK, MessageBoxImage.Error);
-				_logger.Error("Please enter your HypeRate Id");
-				return;
-			}
-			_hypeRatecontroller.StartListener();
-		}
-
-		private void HypeRateDisconnect_Button_Click(object sender, RoutedEventArgs e)
-		{
-			_hypeRatecontroller.Disconnect();
-		}
-
-		private void _hypeRatecontroller_OnHypeRateDisconnected()
-		{
-			Application.Current.Dispatcher.Invoke(() =>
-			{
-				HypeRateConnect_Button.IsEnabled = true;
-				HypeRateDisconnect_Button.IsEnabled = false;
-			});
-		}
-
-		private void _hypeRatecontroller_OnHypeRateConnected()
-		{
-			Application.Current.Dispatcher.Invoke(() =>
-			{
-				HypeRateConnect_Button.IsEnabled = false;
-				HypeRateDisconnect_Button.IsEnabled = true;
-			});
-		}
-
-		private void _hypeRatecontroller_OnHeartRateRecieved(int heartRate)
-		{
-			Application.Current.Dispatcher.Invoke(() =>
-			{
-				hypeRate_Label.Content = heartRate;
-			});
-		}
-
-		private async void StreamlabsLink_Button_Click(object sender, RoutedEventArgs e)
-		{
-			if (await _streamlabsController.LinkAccount())
-			{
-				Streamlabs_Image.Source = TwitchLinkAvatar_Image.Source;
-				StreamlabsLink_Button.IsEnabled = false;
-				StreamlabsUnlink_Button.IsEnabled = true;
-				StreamlabsConnectButton.IsEnabled = true;
-				StreamlabsInfo_TextBlock.Text = $"{Properties.Resources.Windows_Main_Tabs_Streamlabs_Linktext_Textblock2} {_appSettings.ChannelName}.";
-			}
-			else
-			{
-				_logger.Error("Could not connect Streamlabs Account!");
-			}
-		}
-
-		private void StreamlabsUnlink_Button_Click(object sender, RoutedEventArgs e)
-		{
-			_appSettings.StreamlabsInformation = new StreamlabsInformation();
-			StreamlabsInfo_TextBlock.Text = Properties.Resources.Windows_Main_Tabs_Streamlabs_Linktext_Textblock1;
-			StreamlabsLink_Button.IsEnabled = true;
-			StreamlabsUnlink_Button.IsEnabled = false;
-			StreamlabsConnectButton.IsEnabled = false;
-			Streamlabs_Image.Source = new BitmapImage(new Uri("/NanoTwitchLeafs;component/Assets/nanotwitchleafs_error_logo.png", UriKind.Relative));
-		}
-
-		private void HypeRateDiscord_Label_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-		{
-			//https://discord.gg/dqutnTAj6j
-			Process.Start("https://discord.gg/dqutnTAj6j");
-		}
-
-		private void HypeRateWebsite_Label_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-		{
-			//https://hyperate.io
-			Process.Start("https://hyperate.io");
-		}
 	}
 }

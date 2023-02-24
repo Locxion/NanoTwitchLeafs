@@ -1086,4 +1086,10 @@ Jetzt testen wir die Verbindung zu Twitch!</value>
   <data name="Window_Trigger_Button_Test" xml:space="preserve">
     <value>Test</value>
   </data>
+  <data name="Windows_Main_Tabs_ApiSettings_Title" xml:space="preserve">
+    <value>API Einstellungen</value>
+  </data>
+  <data name="Windows_Main_Tabs_ApiSettings_ServiceCredentials_Checkbox" xml:space="preserve">
+    <value>Benutze eigene Service Login Daten</value>
+  </data>
 </root>

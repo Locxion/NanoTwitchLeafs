@@ -1,5 +1,6 @@
 ﻿using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Enums;
+using NanoTwitchLeafs.Interfaces;
 using NanoTwitchLeafs.Objects;
 using System;
 using System.Collections.Generic;

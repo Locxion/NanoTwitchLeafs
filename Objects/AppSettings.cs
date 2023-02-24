@@ -4,182 +4,189 @@ using System.Collections.Generic;
 
 namespace NanoTwitchLeafs.Objects
 {
-    public class AppSettings : NotifyObject
-    {
-        public AppSettings() : base()
-        {
-            Responses = new Responses();
-            BotAuthObject = new OAuthObject();
-            BroadcasterAuthObject = new OAuthObject();
-            CommandPrefix = "!";
-            NanoSettings = new NanoSettings();
-            InstanceID = Guid.NewGuid();
-            AppVersion = typeof(AppInfoWindow).Assembly.GetName().Version;
-            BlacklistEnabled = false;
-            Blacklist = new List<string>();
-            AutoIpRefresh = false;
-            Language = "en-US";
-            StreamlabsInformation = new StreamlabsInformation();
-            TwitchClientId = "";
-            TwitchClientSecret = "";
-            StreamlabsClientId = "";
-            StreamlabsClientSecret = "";
-        }
+	public class AppSettings : NotifyObject
+	{
+		public AppSettings() : base()
+		{
+			Responses = new Responses();
+			BotAuthObject = new OAuthObject();
+			BroadcasterAuthObject = new OAuthObject();
+			CommandPrefix = "!";
+			NanoSettings = new NanoSettings();
+			InstanceID = Guid.NewGuid();
+			AppVersion = typeof(AppInfoWindow).Assembly.GetName().Version;
+			BlacklistEnabled = false;
+			Blacklist = new List<string>();
+			AutoIpRefresh = false;
+			Language = "en-US";
+			StreamlabsInformation = new StreamlabsInformation();
+			UseOwnServiceCredentials = false;
+			TwitchClientId = "";
+			TwitchClientSecret = "";
+			StreamlabsClientId = "";
+			StreamlabsClientSecret = "";
+		}
 
-        public string TwitchClientId
-        {
-            get { return Get(() => TwitchClientId); }
-            set { Set(() => TwitchClientId, value); }
-        }
+		public bool UseOwnServiceCredentials
+		{
+			get { return Get(() => UseOwnServiceCredentials); }
+			set { Set(() => UseOwnServiceCredentials, value); }
+		}
 
-        public string TwitchClientSecret
-        {
-            get { return Get(() => TwitchClientSecret); }
-            set { Set(() => TwitchClientSecret, value); }
-        }
+		public string TwitchClientId
+		{
+			get { return Get(() => TwitchClientId); }
+			set { Set(() => TwitchClientId, value); }
+		}
 
-        public string StreamlabsClientId
-        {
-            get { return Get(() => StreamlabsClientId); }
-            set { Set(() => StreamlabsClientId, value); }
-        }
+		public string TwitchClientSecret
+		{
+			get { return Get(() => TwitchClientSecret); }
+			set { Set(() => TwitchClientSecret, value); }
+		}
 
-        public string StreamlabsClientSecret
-        {
-            get { return Get(() => StreamlabsClientSecret); }
-            set { Set(() => StreamlabsClientSecret, value); }
-        }
+		public string StreamlabsClientId
+		{
+			get { return Get(() => StreamlabsClientId); }
+			set { Set(() => StreamlabsClientId, value); }
+		}
 
-        public StreamlabsInformation StreamlabsInformation
-        {
-            get { return Get(() => StreamlabsInformation); }
-            set { Set(() => StreamlabsInformation, value); }
-        }
+		public string StreamlabsClientSecret
+		{
+			get { return Get(() => StreamlabsClientSecret); }
+			set { Set(() => StreamlabsClientSecret, value); }
+		}
 
-        public DateTimeOffset LastValidation
-        {
-            get { return Get(() => LastValidation); }
-            set { Set(() => LastValidation, value); }
-        }
+		public StreamlabsInformation StreamlabsInformation
+		{
+			get { return Get(() => StreamlabsInformation); }
+			set { Set(() => StreamlabsInformation, value); }
+		}
 
-        public Uri BotAvatarUrl
-        {
-            get { return Get(() => BotAvatarUrl); }
-            set { Set(() => BotAvatarUrl, value); }
-        }
+		public DateTimeOffset LastValidation
+		{
+			get { return Get(() => LastValidation); }
+			set { Set(() => LastValidation, value); }
+		}
 
-        public Uri BroadcasterAvatarUrl
-        {
-            get { return Get(() => BroadcasterAvatarUrl); }
-            set { Set(() => BroadcasterAvatarUrl, value); }
-        }
+		public Uri BotAvatarUrl
+		{
+			get { return Get(() => BotAvatarUrl); }
+			set { Set(() => BotAvatarUrl, value); }
+		}
 
-        public string BotName
-        {
-            get { return Get(() => BotName); }
-            set { Set(() => BotName, value); }
-        }
+		public Uri BroadcasterAvatarUrl
+		{
+			get { return Get(() => BroadcasterAvatarUrl); }
+			set { Set(() => BroadcasterAvatarUrl, value); }
+		}
 
-        public OAuthObject BotAuthObject
-        {
-            get { return Get(() => BotAuthObject); }
-            set { Set(() => BotAuthObject, value); }
-        }
+		public string BotName
+		{
+			get { return Get(() => BotName); }
+			set { Set(() => BotName, value); }
+		}
 
-        public string ChannelName
-        {
-            get { return Get(() => ChannelName); }
-            set { Set(() => ChannelName, value); }
-        }
+		public OAuthObject BotAuthObject
+		{
+			get { return Get(() => BotAuthObject); }
+			set { Set(() => BotAuthObject, value); }
+		}
 
-        public OAuthObject BroadcasterAuthObject
-        {
-            get { return Get(() => BroadcasterAuthObject); }
-            set { Set(() => BroadcasterAuthObject, value); }
-        }
+		public string ChannelName
+		{
+			get { return Get(() => ChannelName); }
+			set { Set(() => ChannelName, value); }
+		}
 
-        public bool WhisperMode
-        {
-            get { return Get(() => WhisperMode); }
-            set { Set(() => WhisperMode, value); }
-        }
+		public OAuthObject BroadcasterAuthObject
+		{
+			get { return Get(() => BroadcasterAuthObject); }
+			set { Set(() => BroadcasterAuthObject, value); }
+		}
 
-        public bool ChatResponse
-        {
-            get { return Get(() => ChatResponse); }
-            set { Set(() => ChatResponse, value); }
-        }
+		public bool WhisperMode
+		{
+			get { return Get(() => WhisperMode); }
+			set { Set(() => WhisperMode, value); }
+		}
 
-        public Responses Responses
-        {
-            get { return Get(() => Responses); }
-            set { Set(() => Responses, value); }
-        }
+		public bool ChatResponse
+		{
+			get { return Get(() => ChatResponse); }
+			set { Set(() => ChatResponse, value); }
+		}
 
-        public string CommandPrefix
-        {
-            get { return Get(() => CommandPrefix); }
-            set { Set(() => CommandPrefix, value); }
-        }
+		public Responses Responses
+		{
+			get { return Get(() => Responses); }
+			set { Set(() => Responses, value); }
+		}
 
-        public NanoSettings NanoSettings
-        {
-            get { return Get(() => NanoSettings); }
-            set { Set(() => NanoSettings, value); }
-        }
+		public string CommandPrefix
+		{
+			get { return Get(() => CommandPrefix); }
+			set { Set(() => CommandPrefix, value); }
+		}
 
-        public bool DebugEnabled
-        {
-            get { return Get(() => DebugEnabled); }
-            set { Set(() => DebugEnabled, value); }
-        }
+		public NanoSettings NanoSettings
+		{
+			get { return Get(() => NanoSettings); }
+			set { Set(() => NanoSettings, value); }
+		}
 
-        public bool AutoConnect
-        {
-            get { return Get(() => AutoConnect); }
-            set { Set(() => AutoConnect, value); }
-        }
+		public bool DebugEnabled
+		{
+			get { return Get(() => DebugEnabled); }
+			set { Set(() => DebugEnabled, value); }
+		}
 
-        public Guid InstanceID
-        {
-            get { return Get(() => InstanceID); }
-            set { Set(() => InstanceID, value); }
-        }
+		public bool AutoConnect
+		{
+			get { return Get(() => AutoConnect); }
+			set { Set(() => AutoConnect, value); }
+		}
 
-        public Version AppVersion
-        {
-            get { return Get(() => AppVersion); }
-            set { Set(() => AppVersion, value); }
-        }
+		public Guid InstanceID
+		{
+			get { return Get(() => InstanceID); }
+			set { Set(() => InstanceID, value); }
+		}
 
-        public bool BlacklistEnabled
-        {
-            get { return Get(() => BlacklistEnabled); }
-            set { Set(() => BlacklistEnabled, value); }
-        }
+		public Version AppVersion
+		{
+			get { return Get(() => AppVersion); }
+			set { Set(() => AppVersion, value); }
+		}
 
-        public List<string> Blacklist
-        {
-            get { return Get(() => Blacklist); }
-            set { Set(() => Blacklist, value); }
-        }
+		public bool BlacklistEnabled
+		{
+			get { return Get(() => BlacklistEnabled); }
+			set { Set(() => BlacklistEnabled, value); }
+		}
 
-        public bool AutoIpRefresh
-        {
-            get { return Get(() => AutoIpRefresh); }
-            set { Set(() => AutoIpRefresh, value); }
-        }
+		public List<string> Blacklist
+		{
+			get { return Get(() => Blacklist); }
+			set { Set(() => Blacklist, value); }
+		}
 
-        public string Language
-        {
-            get { return Get(() => Language); }
-            set { Set(() => Language, value); }
-        }
+		public bool AutoIpRefresh
+		{
+			get { return Get(() => AutoIpRefresh); }
+			set { Set(() => AutoIpRefresh, value); }
+		}
 
-        public string HypeRateId
-        {
-            get { return Get(() => HypeRateId); }
-            set { Set(() => HypeRateId, value); }
-        }
-    }
+		public string Language
+		{
+			get { return Get(() => Language); }
+			set { Set(() => Language, value); }
+		}
+
+		public string HypeRateId
+		{
+			get { return Get(() => HypeRateId); }
+			set { Set(() => HypeRateId, value); }
+		}
+	}
 }

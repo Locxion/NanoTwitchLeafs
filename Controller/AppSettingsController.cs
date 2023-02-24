@@ -15,6 +15,11 @@ namespace NanoTwitchLeafs.Controller
         private static AppSettingsController _instance;
         private readonly ILog _logger = LogManager.GetLogger(typeof(AppSettingsController));
 
+
+        /// <summary>
+        /// Loads Settings from Settings Path
+        /// </summary>
+        /// <returns>AppSettings</returns>
         public AppSettings LoadSettings()
         {
 #if DEBUG
@@ -39,6 +44,10 @@ namespace NanoTwitchLeafs.Controller
 #endif
         }
 
+        /// <summary>
+        /// Saves Settings
+        /// </summary>
+        /// <param name="appSettings"></param>
         public void SaveSettings(AppSettings appSettings)
         {
             try
@@ -61,6 +70,11 @@ namespace NanoTwitchLeafs.Controller
             }
         }
 
+        /// <summary>
+        /// Loads Settings
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns>AppSettings</returns>
         private AppSettings LoadSettings(string path)
         {
             try

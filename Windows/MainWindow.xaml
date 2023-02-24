@@ -7,13 +7,13 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:p="clr-namespace:NanoTwitchLeafs.Properties"
         mc:Ignorable="d"
-        Title="{x:Static p:Resources.Window_Main_Title}" Height="583" Width="860" MinWidth="860" MinHeight="540" Closing="Window_Closing" Closed="Main_Window_Closed">
+        Title="{x:Static p:Resources.Window_Main_Title}" Height="583" Width="1153" MinWidth="860" MinHeight="540" Closing="Window_Closing" Closed="Main_Window_Closed">
     <Grid Margin="-2,0,2,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition Width="275" />
+            <ColumnDefinition Width="325" />
         </Grid.ColumnDefinitions>
-        <TabControl x:Name="settings_TabControl" HorizontalAlignment="Right" Width="272" Grid.Column="1" Margin="0,-2,0,30">
+        <TabControl x:Name="settings_TabControl" HorizontalAlignment="Center" Width="318" Grid.Column="1" Margin="0,-2,0,30">
             <TabItem x:Name="botLogin_TabItem" Header="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Title}" Margin="0,0,-1,0" Height="22">
                 <Grid Background="#FFE5E5E5">
                     <Grid x:Name="DefaultTwitchLogin_Grid" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="323" Margin="0,10,0,0">
@@ -50,7 +50,7 @@
                     <Label Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_AutoRestore}" HorizontalAlignment="Left" Margin="4,87,0,0" VerticalAlignment="Top" Height="26" Width="195" />
                     <Button x:Name="autoRestoreHelp_Button" Content="?" HorizontalAlignment="Right" Margin="0,108,10,0" VerticalAlignment="Top" Width="11" Click="AutoRestoreHelp_Button_Click" Height="23" />
                     <CheckBox x:Name="commandRestore_CheckBox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_onCommand}" HorizontalAlignment="Left" Margin="7,113,0,0" VerticalAlignment="Top" Click="CommandRestore_CheckBox_Click" Padding="5,-1,5,0" />
-                    <CheckBox x:Name="keywordRestore_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_onKeyword}" HorizontalAlignment="Right" Margin="0,113,26,0" VerticalAlignment="Top" Height="15" Click="KeywordRestore_Checkbox_Click" Padding="5,-1,5,0" />
+                    <CheckBox x:Name="keywordRestore_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_onKeyword}" HorizontalAlignment="Right" Margin="0,113,27,0" VerticalAlignment="Top" Height="15" Click="KeywordRestore_Checkbox_Click" Padding="5,-1,5,0" />
                     <CheckBox x:Name="nanoCooldownIgnore_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_ModeratorIgnorCooldown}" HorizontalAlignment="Left" Margin="6,75,0,0" VerticalAlignment="Top" Click="NanoCooldownIgnore_Checkbox_Click" Width="209" IsEnabled="False" />
                     <Button x:Name="showDevices_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_ManageDevices}" HorizontalAlignment="Right" Margin="0,136,10,0" VerticalAlignment="Top" Click="ShowDevices_Button_Click" Padding="5,1" />
                     <Button x:Name="eventRestart_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_RestartQueue}" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Click="EventRestart_Button_Click" Padding="5,1" />
@@ -85,10 +85,6 @@
                     <CheckBox x:Name="autoIPRefresh_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_AutoIPRefresh}" HorizontalAlignment="Left" Margin="10,227,0,0" VerticalAlignment="Top" Click="autoIPRefresh_Checkbox_Click" Padding="4,-1,5,0" />
                     <Label Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Language}" HorizontalAlignment="Left" Margin="5,268,0,0" VerticalAlignment="Top" Padding="5,0" />
                     <ComboBox x:Name="language_Combobox" Margin="10,291,10,0" VerticalAlignment="Top" SelectionChanged="language_Combobox_SelectionChanged" />
-                    <TextBox x:Name="TwitchClientId_Textbox" HorizontalAlignment="Center" Margin="0,339,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="245" />
-                    <Label Content="TwitchClientId:" HorizontalAlignment="Left" Margin="5,313,0,0" VerticalAlignment="Top" />
-                    <PasswordBox x:Name="TwitchClientSecret_Textbox" HorizontalAlignment="Center" Margin="0,382,0,0" Password="" VerticalAlignment="Top" Width="245" />
-                    <Label Content="TwitchClientSecret:" HorizontalAlignment="Left" Margin="5,356,0,0" VerticalAlignment="Top" />
                 </Grid>
             </TabItem>
             <TabItem x:Name="Streamlabs_Tabitem"  Header="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_Title}">
@@ -101,10 +97,6 @@
                     <TextBlock HorizontalAlignment="Center" Margin="0,322,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Padding="5,0" TextAlignment="Center" Text="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_BottomText_Texblock}" />
                     <Button x:Name="StreamlabsConnectButton"  Content="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_ConnectButton_Text}" HorizontalAlignment="Center" Height="20" Margin="0,244,0,0" VerticalAlignment="Top" Click="StreamlabsConnectButton_Click" IsEnabled="False" Padding="5,1" />
                     <Button x:Name="StreamlabsDisconnectButton" Content="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_DisconnectButton_Text}" HorizontalAlignment="Center" Height="20" Margin="0,269,0,0" VerticalAlignment="Top" IsEnabled="False" Click="StreamlabsDisconnectButton_Click" Padding="5,1" />
-                    <TextBox x:Name="StreamlabsClientId_Textbox" HorizontalAlignment="Center" Margin="0,392,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="246" />
-                    <Label Content="StreamlabsClientId:" HorizontalAlignment="Left" Margin="5,366,0,0" VerticalAlignment="Top" />
-                    <PasswordBox x:Name="StreamlabsClientSecret_Textbox" HorizontalAlignment="Center" Margin="0,435,0,0" Password="" VerticalAlignment="Top" Width="246" />
-                    <Label Content="StreamlabsClientSecret:" HorizontalAlignment="Left" Margin="5,409,0,0" VerticalAlignment="Top" />
                 </Grid>
             </TabItem>
             <TabItem x:Name="HypeRate_Tabitem"  Header="{x:Static p:Resources.Windows_Main_Tabs_Hyperate_Title}">
@@ -120,6 +112,22 @@
                     <Label x:Name="HypeRateDiscord_Label" Content="HypeRate Discord" HorizontalAlignment="Center" Margin="34,341,0,0" VerticalAlignment="Top" Foreground="#FF0C3BDA" MouseDown="HypeRateDiscord_Label_MouseDown" />
                     <Label x:Name="HypeRateWebsite_Label" Content="HypeRate.io" HorizontalAlignment="Center" Margin="90,369,61,0" VerticalAlignment="Top" Foreground="#FF0C3BDA" MouseDown="HypeRateWebsite_Label_MouseDown" />
                     <Image HorizontalAlignment="Left" Margin="63,372,0,0" VerticalAlignment="Top" Source="/NanoTwitchLeafs;component/Assets/hypeRateLogo.png" Height="27" Width="29" />
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="ApiSettings_Tabitem"  Header="{x:Static p:Resources.Windows_Main_Tabs_ApiSettings_Title}">
+                <Grid Background="#FFE5E5E5" Margin="0">
+                    <CheckBox x:Name="UseOwnServiceCredentials_Checkbox" Content="{x:Static p:Resources.Windows_Main_Tabs_ApiSettings_ServiceCredentials_Checkbox}" HorizontalAlignment="Left" Margin="10,51,0,0" VerticalAlignment="Top" Click="UseOwnServiceCredentials_Checkbox_Click" />
+                    <Label Content="{x:Static p:Resources.Windows_Main_Tabs_ApiSettings_Title}" HorizontalAlignment="Center" Margin="0,9,0,0" VerticalAlignment="Top" FontSize="24" />
+                    <Label Content="Twitch:" HorizontalAlignment="Left" Margin="10,71,0,0" VerticalAlignment="Top" FontSize="18" />
+                    <TextBox x:Name="TwitchClientId_Textbox" HorizontalAlignment="Center" Margin="0,133,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="244" IsEnabled="False" />
+                    <Label Content="TwitchClientId:" HorizontalAlignment="Left" Margin="13,107,0,0" VerticalAlignment="Top" />
+                    <PasswordBox x:Name="TwitchClientSecret_Textbox" HorizontalAlignment="Center" Margin="0,175,0,0" Password="" VerticalAlignment="Top" Width="244" IsEnabled="False" />
+                    <Label Content="TwitchClientSecret:" HorizontalAlignment="Left" Margin="13,150,0,0" VerticalAlignment="Top" />
+                    <Label Content="Streamlabs:" HorizontalAlignment="Left" Margin="13,199,0,0" VerticalAlignment="Top" FontSize="18" />
+                    <TextBox x:Name="StreamlabsClientId_Textbox" HorizontalAlignment="Center" Margin="0,258,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="246" IsEnabled="False" />
+                    <Label Content="StreamlabsClientId:" HorizontalAlignment="Left" Margin="13,232,0,0" VerticalAlignment="Top" />
+                    <PasswordBox x:Name="StreamlabsClientSecret_Textbox" HorizontalAlignment="Center" Margin="0,300,0,0" Password="" VerticalAlignment="Top" Width="246" IsEnabled="False" />
+                    <Label Content="StreamlabsClientSecret:" HorizontalAlignment="Left" Margin="13,275,0,0" VerticalAlignment="Top" />
                 </Grid>
             </TabItem>
         </TabControl>
@@ -140,7 +148,7 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button x:Name="Save_Button" Content="{x:Static p:Resources.Window_Main_Button_Save}" HorizontalAlignment="Right" Margin="0,0,88,5" Width="184" Click="Save_Button_Click" Grid.Column="1" HorizontalContentAlignment="Center" Height="20" VerticalAlignment="Bottom" />
-        <Button x:Name="appInfo_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Chat_Button_Info}" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,5,5" Width="78" Click="AppInfo_Button_Click" Height="20" VerticalAlignment="Bottom" />
+        <Button x:Name="Save_Button" Content="{x:Static p:Resources.Window_Main_Button_Save}" HorizontalAlignment="Left" Margin="5,0,0,5" Width="184" Click="Save_Button_Click" Grid.Column="1" HorizontalContentAlignment="Center" Height="20" VerticalAlignment="Bottom" />
+        <Button x:Name="appInfo_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Chat_Button_Info}" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,5,5" Width="127" Click="AppInfo_Button_Click" Height="20" VerticalAlignment="Bottom" />
     </Grid>
 </Window>

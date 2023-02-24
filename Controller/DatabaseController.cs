@@ -17,6 +17,9 @@ namespace NanoTwitchLeafs.Controller
             CreateTable();
         }
 
+        /// <summary>
+        /// Creates a New Table if Table not exists
+        /// </summary>
         public void CreateTable()
         {
             using (var connection = new SQLiteConnection(_databasePath))
@@ -25,7 +28,11 @@ namespace NanoTwitchLeafs.Controller
             }
         }
 
-        public List<T> Load()
+		/// <summary>
+		/// Loads all Entries from the Table
+		/// </summary>
+		/// <returns>List<T></returns>
+		public List<T> Load()
         {
             using (var connection = new SQLiteConnection(_databasePath))
             {
@@ -33,6 +40,10 @@ namespace NanoTwitchLeafs.Controller
             }
         }
 
+        /// <summary>
+        /// Saves a new Entry
+        /// </summary>
+        /// <param name="entity"></param>
         public void Save(T entity)
         {
             using (var connection = new SQLiteConnection(_databasePath))
@@ -41,6 +52,10 @@ namespace NanoTwitchLeafs.Controller
             }
         }
 
+        /// <summary>
+        /// Updates existing Entry
+        /// </summary>
+        /// <param name="entity"></param>
         public void Update(T entity)
         {
             using (var connection = new SQLiteConnection(_databasePath))
@@ -49,6 +64,10 @@ namespace NanoTwitchLeafs.Controller
             }
         }
 
+        /// <summary>
+        /// Deletes Entry
+        /// </summary>
+        /// <param name="entity"></param>
         public void Delete(T entity)
         {
             using (var connection = new SQLiteConnection(_databasePath))
@@ -57,6 +76,9 @@ namespace NanoTwitchLeafs.Controller
             }
         }
 
+        /// <summary>
+        /// Deletes whole Table and creates it New
+        /// </summary>
         public void ClearTable()
         {
             using (var connection = new SQLiteConnection(_databasePath))

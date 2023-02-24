@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NanoTwitchLeafs.Objects;
+using System;
 using System.Globalization;
 using System.IO;
 using System.Threading;
@@ -31,6 +32,13 @@ namespace NanoTwitchLeafs
 		public static readonly string DATABASE_PATH = Path.Combine(PROGRAMFILESFOLDER_PATH, DATABASE_FILE);
 
 		public static readonly string LOG_PATH = Path.Combine(LOGFOLDER_PATH, "nanotwichleafs.log");
+
+		#endregion
+
+		#region ServiceCredentials
+
+		public static readonly string SERVICE_CREDENTIALS_PATH = AppDomain.CurrentDomain.BaseDirectory + "/ServiceCredentials";
+		public static ServiceCredentials ServiceCredentials;
 
 		#endregion
 

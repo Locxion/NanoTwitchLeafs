@@ -44,6 +44,19 @@ jobs:
       uses: actions/download-artifact@v1
       with:
           name: NanoTwitchLeafs  
+    # Create ServiceCredentials
+    - name: Create ServiceCredentials file
+      run: |
+        echo "{" >> ./NanoTwitchLeafs/ServiceCredentials
+        echo "  "TwitchApiCredentials": {" >> ./NanoTwitchLeafs/ServiceCredentials
+        echo "    "ClientId": "${{ secrets.TWITCHCLIENTID }}"," >> ./NanoTwitchLeafs/ServiceCredentials
+        echo "    "ClientSecret": "${{ secrets.TWITCHSECRET }}"" >> Versions.xml
+        echo "  }," >> ./NanoTwitchLeafs/ServiceCredentials 
+        echo "  "StreamLabsApiCedentials": {" >> ./NanoTwitchLeafs/ServiceCredentials 
+        echo "    "ClientId": "${{ secrets.STREAMLABSCLIENTID }}"," >> ./NanoTwitchLeafs/ServiceCredentials 
+        echo "    "ClientSecret": "${{ secrets.STREAMLABSSECRET }}"" >> ./NanoTwitchLeafs/ServiceCredentials 
+        echo "  }" >> ./NanoTwitchLeafs/ServiceCredentials 
+        echo "}" >> ./NanoTwitchLeafs/ServiceCredentials 
     # Zip Files
     - name: Build ZIP
       run: |

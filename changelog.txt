@@ -1,12 +1,22 @@
 Changelog for NanoTwitchLeafs - App/Bot
-Please report Bugs and Erros to the Discord! Dont forget to provide nanotwitchleafs.log File!
+
+Version 3.0.0 - 24.02.2023
+- Changed Updater to Pull from Github.
+- ReAdded ClientId & Secret pairs for Twitch & Streamlabs from Locxion.
+- Moved Client & Secret Inputs to a own Tab in Main Window.
+- Added Checkbox to choose between provided ClientId & Secrets or own Credentials.
+- Changed Amount Datatype from int to double to make DonationTriggers with 6,66€ possible.
+- Updated Packages
 
 Version 2.9.9 - 31.01.2023
 - Converting Project to OpenSource
 - Removed Own Developer Stuff/Commands/Secrets
-- Removed Analystics and License Controllers
+- Removed Analytics and License Controllers
 - Changed Info Window to Represent new Github Page
 - Added Inputs for Twitch/Streamlabs ClientId&Secret
+
+Version 2.5.0 - 24.02.2023
+- Modified Updater to Pull Release from Github / Full Transition to OpenSource via Update
 
 Version 2.1.5 (Beta) - 17.06.2022
 - Changed Handling of GiftSubs and SubBombs

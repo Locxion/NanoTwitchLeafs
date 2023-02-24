@@ -420,7 +420,7 @@ namespace NanoTwitchLeafs.Controller
 			//Creates an HttpListener to listen for requests on that redirect URI.
 
 			var httpListener = new HttpListener();
-			httpListener.Prefixes.Add(RedirectUri);
+			httpListener.Prefixes.Add("http://127.0.0.1:1234/");
 			try
 			{
 				httpListener.Start();

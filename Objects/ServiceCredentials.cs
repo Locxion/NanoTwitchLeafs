@@ -16,6 +16,12 @@
 	{
 		public string ClientId { get; set; }
 		public string ClientSecret { get; set; }
+
+		public TwitchApiCredentials(string clientId, string clientSecret)
+		{
+			ClientId = clientId;
+			ClientSecret = clientSecret;
+		}
 	}
 
 	/// <summary>
@@ -25,5 +31,11 @@
 	{
 		public string ClientId { get; set; }
 		public string ClientSecret { get; set; }
+
+		public StreamLabsApiCedentials(string clientId, string clientSecret)
+		{
+			ClientId = clientId;
+			ClientSecret = clientSecret;
+		}
 	}
 }

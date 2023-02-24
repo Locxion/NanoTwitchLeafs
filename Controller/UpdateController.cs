@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace NanoTwitchLeafs.Controller
@@ -29,7 +30,7 @@ namespace NanoTwitchLeafs.Controller
 			AutoUpdater.DownloadPath = Constants.TEMP_PATH;
 			AutoUpdater.RunUpdateAsAdmin = true;
 			AutoUpdater.ReportErrors = true;
-			AutoUpdater.InstallationPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+			AutoUpdater.InstallationPath = Assembly.GetExecutingAssembly().Location;
 
 			CheckForUpdates();
 		}
@@ -56,7 +57,7 @@ namespace NanoTwitchLeafs.Controller
 					IsUpdateAvailable = true,
 					InstalledVersion = currentVersion,
 				};
-				_logger.Info($"Update found on Github! New Version: v{args.CurrentVersion}");
+				_logger.Info($"Update found on Github! New Version: v{args.CurrentVersion}.");
 
 				var downloadAsset = githubInfo.assets.FirstOrDefault(x => x.name.Equals($"NanoTwitchLeafs-{args.CurrentVersion}.zip"));
 				if (downloadAsset == null)
@@ -70,7 +71,7 @@ namespace NanoTwitchLeafs.Controller
 			}
 			else
 			{
-				_logger.Info("No update aviable");
+				_logger.Info("No update available.");
 			}
 		}
 

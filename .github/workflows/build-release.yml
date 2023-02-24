@@ -46,20 +46,15 @@ jobs:
           name: NanoTwitchLeafs  
     # Create ServiceCredentials
     - name: Create ServiceCredentials file
-      env:
-        TWITCHCLIENTID: ${{ secrets.TWITCHCLIENTID }}
-        TWITCHSECRET: ${{ secrets.TWITCHSECRET }}
-        STREAMLABSCLIENTID: ${{ secrets.STREAMLABSCLIENTID }}
-        STREAMLABSSECRET: ${{ secrets.STREAMLABSSECRET }}
       run: |
         echo "{" >> ./NanoTwitchLeafs/ServiceCredentials
         echo "  "TwitchApiCredentials": {" >> ./NanoTwitchLeafs/ServiceCredentials
-        echo "    "ClientId": "${{ TWITCHCLIENTID }}"," >> ./NanoTwitchLeafs/ServiceCredentials
-        echo "    "ClientSecret": "${{ TWITCHSECRET }}"" >> Versions.xml
+        echo "    "ClientId": "${{ secrets.TWITCHCLIENTID }}"," >> ./NanoTwitchLeafs/ServiceCredentials
+        echo "    "ClientSecret": "${{ secrets.TWITCHSECRET }}"" >> Versions.xml
         echo "  }," >> ./NanoTwitchLeafs/ServiceCredentials 
         echo "  "StreamLabsApiCedentials": {" >> ./NanoTwitchLeafs/ServiceCredentials 
-        echo "    "ClientId": "${{ STREAMLABSCLIENTID }}"," >> ./NanoTwitchLeafs/ServiceCredentials 
-        echo "    "ClientSecret": "${{ STREAMLABSSECRET }}"" >> ./NanoTwitchLeafs/ServiceCredentials 
+        echo "    "ClientId": "${{ secrets.STREAMLABSCLIENTID }}"," >> ./NanoTwitchLeafs/ServiceCredentials 
+        echo "    "ClientSecret": "${{ secrets.STREAMLABSSECRET }}"" >> ./NanoTwitchLeafs/ServiceCredentials 
         echo "  }" >> ./NanoTwitchLeafs/ServiceCredentials 
         echo "}" >> ./NanoTwitchLeafs/ServiceCredentials
     # Zip Files

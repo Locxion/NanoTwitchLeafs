@@ -38,11 +38,6 @@ jobs:
     permissions: write-all
     needs: build
     runs-on: ubuntu-latest
-    env:
-      TWITCHCLIENTID: ${{ secrets.TWITCHCLIENTID }}
-      TWITCHSECRET: ${{ secrets.TWITCHSECRET }}
-      STREAMLABSCLIENTID: ${{ secrets.STREAMLABSCLIENTID }}
-      STREAMLABSSECRET: ${{ secrets.STREAMLABSSECRET }}
     steps:
     # Download Artifact
     - name: Download Artifact
@@ -51,6 +46,11 @@ jobs:
           name: NanoTwitchLeafs  
     # Create ServiceCredentials
     - name: Create ServiceCredentials file
+      env:
+        TWITCHCLIENTID: ${{ secrets.TWITCHCLIENTID }}
+        TWITCHSECRET: ${{ secrets.TWITCHSECRET }}
+        STREAMLABSCLIENTID: ${{ secrets.STREAMLABSCLIENTID }}
+        STREAMLABSSECRET: ${{ secrets.STREAMLABSSECRET }}
       run: |
         echo "{" >> ./NanoTwitchLeafs/ServiceCredentials
         echo "  "TwitchApiCredentials": {" >> ./NanoTwitchLeafs/ServiceCredentials

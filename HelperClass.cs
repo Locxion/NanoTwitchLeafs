@@ -1,10 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using NanoTwitchLeafs.Objects;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NanoTwitchLeafs
 {
@@ -13,7 +10,6 @@ namespace NanoTwitchLeafs
 	/// </summary>
 	public static class HelperClass
 	{
-
 		/// <summary>
 		/// Returns URI-safe data with a given input length.
 		/// </summary>
@@ -54,6 +50,44 @@ namespace NanoTwitchLeafs
 		{
 			dynamic parsedJson = JsonConvert.DeserializeObject(json);
 			return JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
+		}
+
+		/// <summary>
+		/// Returns TwitchApiCredentials depending on AppSetting UseOwnServiceCredentials
+		/// </summary>
+		/// <param name="appSettings"></param>
+		/// <returns></returns>
+		public static TwitchApiCredentials GetTwitchApiCredentials(AppSettings appSettings)
+		{
+			string clientId;
+			string secret;
+			if (appSettings.UseOwnServiceCredentials)
+			{
+				clientId = appSettings.TwitchClientId;
+				secret = appSettings.TwitchClientSecret;
+				return new TwitchApiCredentials(clientId, secret);
+			}
+
+			return Constants.ServiceCredentials.TwitchApiCredentials;
+		}
+
+		/// <summary>
+		/// Returns StreamLabsApiCedentials depending on AppSetting UseOwnServiceCredentials
+		/// </summary>
+		/// <param name="appSettings"></param>
+		/// <returns></returns>
+		public static StreamLabsApiCedentials GetStreamLabsApiCedentials(AppSettings appSettings)
+		{
+			string clientId;
+			string secret;
+			if (appSettings.UseOwnServiceCredentials)
+			{
+				clientId = appSettings.TwitchClientId;
+				secret = appSettings.TwitchClientSecret;
+				return new StreamLabsApiCedentials(clientId, secret);
+			}
+
+			return Constants.ServiceCredentials.StreamLabsApiCedentials;
 		}
 	}
 }

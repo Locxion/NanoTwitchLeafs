@@ -185,7 +185,7 @@ namespace NanoTwitchLeafs.Controller
             });
         }
 
-        public void RunQueueHandler()
+        private void RunQueueHandler()
         {
             Task.Run(async () =>
             {
@@ -268,6 +268,10 @@ namespace NanoTwitchLeafs.Controller
             }
         }
 
+        /// <summary>
+        /// Adds new QueueObject to Queue
+        /// </summary>
+        /// <param name="obj"></param>
         public void AddToQueue(QueueObject obj)
         {
             if (obj == null)
@@ -440,7 +444,7 @@ namespace NanoTwitchLeafs.Controller
             }
         }
 
-        public async void HandleMessage(ChatMessage chatMessage)
+        private async void HandleMessage(ChatMessage chatMessage)
         {
             chatMessage.Message = chatMessage.Message.ToLower();
             chatMessage.Username = chatMessage.Username.ToLower();
@@ -934,6 +938,9 @@ namespace NanoTwitchLeafs.Controller
             SendMessageToChat(message);
         }
 
+        /// <summary>
+        /// Deletes all remaining Objects in Queue
+        /// </summary>
         public void ResetEventQueue()
         {
             int count = _queue.Count;
@@ -957,7 +964,10 @@ namespace NanoTwitchLeafs.Controller
             _twitchController.SendMessageToChat(message);
         }
 
-        internal void RestartEventQueue()
+        /// <summary>
+        /// Restarts Queue
+        /// </summary>
+        public void RestartEventQueue()
         {
             _logger.Info("Restarting Queue...");
             _queueToken.Cancel();

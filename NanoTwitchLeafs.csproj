@@ -406,7 +406,8 @@
     <Compile Include="Colors\RgbColor.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Controller\HypeRateIOController.cs" />
-    <Compile Include="Controller\IDatabaseController.cs" />
+    <Compile Include="HelperClass.cs" />
+    <Compile Include="Interfaces\IDatabaseController.cs" />
     <Compile Include="Controller\StreamElementsController.cs" />
     <Compile Include="Controller\StreamLabsController.cs" />
     <Compile Include="Controller\TipeeeStreamController.cs" />

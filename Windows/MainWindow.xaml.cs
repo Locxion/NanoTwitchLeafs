@@ -46,7 +46,7 @@ namespace NanoTwitchLeafs.Windows
 		private readonly StreamlabsController _streamlabsController;
 		private readonly TriggerLogicController _triggerLogicController;
 		private readonly HypeRateIOController _hypeRatecontroller;
-		private readonly UpdateController _updatecontroller;
+		private readonly UpdateController _updateController;
 		private readonly TaskbarIcon _tbi = new TaskbarIcon();
 
 		#region Init
@@ -125,7 +125,7 @@ namespace NanoTwitchLeafs.Windows
 				SetLogLevel(Level.Debug);
 
 			_logger.Info("Initialize Update Controller");
-			_updatecontroller = new UpdateController();
+			_updateController = new UpdateController();
 
 			_logger.Info("Initialize Twitch Controller");
 			_twitchController = new TwitchController(_appSettingsController);
@@ -400,7 +400,7 @@ namespace NanoTwitchLeafs.Windows
 
 		private void CheckForUpdate()
 		{
-			_updatecontroller.CheckForUpdates();
+			_updateController.CheckForUpdates();
 		}
 
 		private void Logger_OnAppenderMessage(Level level, DateTime logTime, string message)

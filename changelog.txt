@@ -1,5 +1,9 @@
 Changelog for NanoTwitchLeafs - App/Bot
 
+Version 3.0.0.2 - 24.02.2023
+- Fixed missing Using and Method Access
+- Fixed Uri misdirection Error on Twitch Auth handling
+
 Version 3.0.0 - 24.02.2023
 - Changed Updater to Pull from Github.
 - ReAdded ClientId & Secret pairs for Twitch & Streamlabs from Locxion.

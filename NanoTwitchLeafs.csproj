@@ -424,6 +424,7 @@
     <Compile Include="Objects\OAuthObject.cs" />
     <Compile Include="Objects\QueueObject.cs" />
     <Compile Include="Objects\Responses.cs" />
+    <Compile Include="Objects\ServiceCredentials.cs" />
     <Compile Include="Objects\StreamlabsInformation.cs" />
     <Compile Include="Objects\TriggerListObject.cs" />
     <Compile Include="Properties\Resources.de-DE.Designer.cs">

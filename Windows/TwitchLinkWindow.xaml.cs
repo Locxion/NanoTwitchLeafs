@@ -28,7 +28,6 @@ namespace NanoTwitchLeafs.Windows
 		private readonly TwitchController _twitchController;
 		private readonly AppSettingsController _appSettingsController;
 		private bool _doubleAccount = false;
-		private bool _isBroadcaster = true;
 		private string _broadCasterAccountName;
 		private string _botAccountName;
 		private Uri _broadCasterAvatarUrl;
@@ -527,7 +526,7 @@ namespace NanoTwitchLeafs.Windows
 
 		private void TwitchLink_Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			if (string.IsNullOrWhiteSpace(_appSettings.BroadcasterAvatarUrl.ToString()) || _broadcasterAuthObject == null)
+			if (_appSettings.BroadcasterAvatarUrl == null || _broadcasterAuthObject == null)
 			{
 				return;
 			}

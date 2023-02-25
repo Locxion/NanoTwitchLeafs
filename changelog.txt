@@ -1,5 +1,8 @@
 Changelog for NanoTwitchLeafs - App/Bot
 
+Version 3.0.1.0 - 25.02.2023
+- Fixed wrong ServiceCredentials on Profile PicturePull and PubSub connection
+
 Version 3.0.0.2 - 24.02.2023
 - Fixed missing Using and Method Access
 - Fixed Uri misdirection Error on Twitch Auth handling
@@ -9,7 +12,7 @@ Version 3.0.0 - 24.02.2023
 - ReAdded ClientId & Secret pairs for Twitch & Streamlabs from Locxion.
 - Moved Client & Secret Inputs to a own Tab in Main Window.
 - Added Checkbox to choose between provided ClientId & Secrets or own Credentials.
-- Changed Amount Datatype from int to double to make DonationTriggers with 6,66€ possible.
+- Changed Amount Datatype from int to double to make DonationTriggers with 6,66ï¿½ possible.
 - Updated Packages
 
 Version 2.9.9 - 31.01.2023

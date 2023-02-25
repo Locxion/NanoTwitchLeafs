@@ -13,13 +13,14 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
+using System.Windows.Forms;
 using TwitchLib.Api;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
 using TwitchLib.Communication.Events;
 using ChatMessage = NanoTwitchLeafs.Objects.ChatMessage;
+using MessageBox = System.Windows.MessageBox;
 
 namespace NanoTwitchLeafs.Controller
 {
@@ -572,7 +573,8 @@ namespace NanoTwitchLeafs.Controller
 		public async Task<string> GetAvatarUrl(string userName, string token)
 		{
 			TwitchAPI api = new TwitchAPI();
-			api.Settings.ClientId = _appSettings.TwitchClientId;
+			
+			api.Settings.ClientId = HelperClass.GetTwitchApiCredentials(_appSettings).ClientId;
 			api.Settings.AccessToken = token;
 
 			var getUsersResponse = await api.Helix.Users.GetUsersAsync(null, new List<string> { userName }, token);

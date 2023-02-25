@@ -180,10 +180,7 @@ namespace NanoTwitchLeafs.Windows
 			// Initialize Data
 			_logger.Info("Initialize Data");
 			InitializeData();
-
-#if !DEBUG
-            CheckForUpdate();
-#endif
+			
 #if BETA
             MessageBox.Show(Properties.Resources.Code_Main_MessageBox_Beta, Properties.Resources.Code_Main_MessageBox_BetaTitle);
 #endif

@@ -32,7 +32,9 @@ namespace NanoTwitchLeafs.Controller
 			AutoUpdater.ReportErrors = true;
 			AutoUpdater.InstallationPath = Assembly.GetExecutingAssembly().Location;
 
+#if !DEBUG
 			CheckForUpdates();
+#endif
 		}
 
 		public async void CheckForUpdates()

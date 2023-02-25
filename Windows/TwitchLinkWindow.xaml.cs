@@ -2,6 +2,8 @@
 using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Objects;
 using System;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,7 +11,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using TwitchLib.Client;
+using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
+using TwitchLib.Communication.Events;
+// ReSharper disable InconsistentNaming
 
 namespace NanoTwitchLeafs.Windows
 {
@@ -30,8 +35,6 @@ namespace NanoTwitchLeafs.Windows
 		private Uri _botAccountAvatarUrl;
 		private OAuthObject _broadcasterAuthObject;
 		private OAuthObject _botAuthObject;
-		private TwitchClient _client = new TwitchClient();
-		private TwitchClient _client2 = new TwitchClient();
 
 		public TwitchLinkWindow(AppSettings appSettings, TwitchController twitchController, AppSettingsController appSettingsController)
 		{
@@ -149,7 +152,7 @@ namespace NanoTwitchLeafs.Windows
 
 		private void Test_Button_Click(object sender, RoutedEventArgs e)
 		{
-			TestTwitchConnection();
+			TestTwitchConnections();
 		}
 
 		private void SaveSettings_Button_Click(object sender, RoutedEventArgs e)
@@ -224,119 +227,202 @@ namespace NanoTwitchLeafs.Windows
 			}
 		}
 
-		private void TestTwitchConnection()
+		private async void TestTwitchConnections()
 		{
-			var credentials = new ConnectionCredentials(_broadCasterAccountName, "oauth:" + _broadcasterAuthObject.Access_Token);
-			_client.Initialize(credentials);
-
-			_client.OnLog += Client_OnLog;
-			_client.OnConnected += Client_OnConnected;
-			_client.OnJoinedChannel += Client_OnJoinedChannel;
-			_client.OnMessageReceived += Client_OnMessageReceived;
-			_client.OnIncorrectLogin += Client_OnIncorrectLogin;
-
-			_client.Connect();
-		}
-
-		private void Client_OnIncorrectLogin(object sender, TwitchLib.Client.Events.OnIncorrectLoginArgs e)
-		{
-			SendMessageToListBox($"Got 'Login Incorrect' Message for Account {e.Exception.Username}! Please go back and check your Credentials and link again!");
-			_client.Disconnect();
-		}
-
-		private void Client_OnMessageReceived(object sender, TwitchLib.Client.Events.OnMessageReceivedArgs e)
-		{
-			SendMessageToListBox(e.ChatMessage.BotUsername + ": " + e.ChatMessage.Message);
-		}
-
-		private void Client_OnConnected(object sender, TwitchLib.Client.Events.OnConnectedArgs e)
-		{
-			SetProgress(1, _isBroadcaster);
-			SendMessageToListBox("Connected to Twitch IRC Network!");
-			SendMessageToListBox("Try to join Channel: " + _broadCasterAccountName);
-			if (_isBroadcaster)
+			if (_doubleAccount)
 			{
-				_client.JoinChannel(_broadCasterAccountName);
-			}
-			else
-			{
-				_client2.JoinChannel(_broadCasterAccountName);
-			}
-		}
-
-		private async void Client_OnJoinedChannel(object sender, TwitchLib.Client.Events.OnJoinedChannelArgs e)
-		{
-			SetProgress(2, _isBroadcaster);
-			SendMessageToListBox("Joined Channel: " + e.Channel);
-			SendMessageToListBox("Send Test Message to Chat: 'Testing NanoTwitchLeafs Chat Connection' ");
-			if (_isBroadcaster)
-			{
-				_client.SendMessage(_broadCasterAccountName, "Testing NanoTwitchLeafs Chat Connection");
-			}
-			else
-			{
-				_client2.SendMessage(_broadCasterAccountName, "Testing NanoTwitchLeafs Chat Connection");
-			}
-			SetProgress(3, _isBroadcaster);
-			await Task.Delay(1000);
-			SetProgress(4, _isBroadcaster);
-			SetProgress(5, _isBroadcaster);
-
-			bool broadCasterDone = false;
-			bool botDone = false;
-
-			Application.Current.Dispatcher.Invoke(() =>
-			{
-				broadCasterDone = BroadcasterProgress5_Checkbox.IsChecked != null && (bool)BroadcasterProgress5_Checkbox.IsChecked;
-				botDone = BotProgress5_Checkbox.IsChecked != null && (bool)BotProgress5_Checkbox.IsChecked;
-			});
-
-			if (!_doubleAccount)
-			{
-				if (broadCasterDone)
+				var resultBot = await TestConnection(_botAccountName, _botAuthObject.Access_Token, false);
+				var resultBroadcaster =await TestConnection(_broadCasterAccountName, _broadcasterAuthObject.Access_Token, true);
+				if (resultBot && resultBroadcaster)
 				{
 					SendMessageToListBox(Properties.Resources.Window_TwitchLink_Tab_Test_ConTestDone_Text);
 					Application.Current.Dispatcher.Invoke(() =>
 					{
 						TestNext_Button.IsEnabled = true;
 					});
-					_client.Disconnect();
-					return;
 				}
 			}
 			else
 			{
-				if (broadCasterDone && botDone)
+				var result = await TestConnection(_broadCasterAccountName, _broadcasterAuthObject.Access_Token, true);
+				if (result)
 				{
 					SendMessageToListBox(Properties.Resources.Window_TwitchLink_Tab_Test_ConTestDone_Text);
 					Application.Current.Dispatcher.Invoke(() =>
 					{
 						TestNext_Button.IsEnabled = true;
 					});
-					_client.Disconnect();
-					_client2.Disconnect();
-					return;
 				}
 			}
-
-			var credentials = new ConnectionCredentials(_botAccountName, "oauth:" + _botAuthObject.Access_Token);
-			_client2.Initialize(credentials);
-			_isBroadcaster = false;
-
-			_client2.OnLog += Client_OnLog;
-			_client2.OnConnected += Client_OnConnected;
-			_client2.OnJoinedChannel += Client_OnJoinedChannel;
-			_client2.OnMessageReceived += Client_OnMessageReceived;
-			_client2.OnIncorrectLogin += Client_OnIncorrectLogin;
-			_client2.Connect();
 		}
 
-		private void Client_OnLog(object sender, TwitchLib.Client.Events.OnLogArgs e)
-		{
-			var message = "[TwitchConsole] " + e.Data;
-			SendMessageToListBox(message);
-		}
+		private async Task<bool> TestConnection(string username, string auth, bool isBroadcaster)
+		{ 
+			// Setup Twitch Client for first "Bot" connection
+			var client = new TwitchClient();
+			var credentials = new ConnectionCredentials(username, "oauth:" + auth, disableUsernameCheck: true);
+			client.Initialize(credentials);
+			// Setup TaskCompetitionSource
+			var connectTcs = new TaskCompletionSource<bool>();
+			var joinTcs = new TaskCompletionSource<bool>();
+			var sendMsgTcs = new TaskCompletionSource<bool>();	
+			var disconnectTcs = new TaskCompletionSource<bool>();
 
+			// Setup Events
+			void OnBotClientConnected(object sender, OnConnectedArgs args)
+			{
+				connectTcs.SetResult(true);
+			}
+
+			client.OnConnected += OnBotClientConnected;
+
+			void OnBotClientIncorrectLogin(object sender, OnIncorrectLoginArgs args) => connectTcs.SetResult(false);
+
+			client.OnIncorrectLogin += OnBotClientIncorrectLogin;
+
+			void OnBotClientJoinedChannel(object sender, OnJoinedChannelArgs args)
+			{
+				if (client.TwitchUsername != args.Channel)
+				{
+					joinTcs.SetResult(false);
+					return;
+				}
+				joinTcs.SetResult(true);
+			}
+
+			client.OnJoinedChannel += OnBotClientJoinedChannel;
+
+			void OnBotClientDisconnected(object sender, OnDisconnectedEventArgs args) => disconnectTcs.SetResult(true);
+
+			client.OnDisconnected += OnBotClientDisconnected;
+
+			void OnBotClientFailureToReceiveJoinConfirmation(object sender, OnFailureToReceiveJoinConfirmationArgs args) => joinTcs.SetResult(false);
+
+			client.OnFailureToReceiveJoinConfirmation += OnBotClientFailureToReceiveJoinConfirmation;
+			client.OnMessageReceived += BotClientOnOnMessageReceived;
+			
+			void BotClientOnOnMessageReceived(object sender, OnMessageReceivedArgs e)
+			{
+				if (e.ChatMessage.Message == "Testing NanoTwitchLeafs Chat Connection")
+				{
+					sendMsgTcs.SetResult(true);
+				}
+			}
+			
+			client.OnLog+= OnBotClientLog;
+			void OnBotClientLog(object sender, OnLogArgs e)
+			{
+				var message = "[TwitchConsole] " + e.Data;
+				SendMessageToListBox(message);
+			}
+
+			try
+			{
+				// Connect to Twitch
+				var isConnected = client.Connect();
+				if (!isConnected)
+				{
+					_logger.Error("Could not connect to Twitch Server!");
+					return false;
+				}
+
+				// Wait for Connect or IncorrectLogin Event - Timeout Delay 2 Seconds
+				var connectResultTask = await Task.WhenAny(connectTcs.Task, Task.Delay(TimeSpan.FromSeconds(2)));
+				if (connectResultTask != connectTcs.Task)
+				{
+					_logger.Error("Could not connect to Twitch Server! Timeout reached!");
+					return false;
+				}
+
+				var connectResult = await connectTcs.Task;
+				if (!connectResult)
+				{
+					SendMessageToListBox($"Got 'Login Incorrect' Message for Account {credentials.TwitchUsername}! Please go back and check your Credentials and link again!");
+					_logger.Error(($"Incorrect Login for Account {credentials.TwitchUsername}."));
+					return false;
+				}
+
+				SetProgress(1, isBroadcaster);
+				SendMessageToListBox("Connected to Twitch IRC Network!");
+				SendMessageToListBox("Try to join Channel: " + client.TwitchUsername);
+
+				// Try to Join Channel
+
+				client.JoinChannel(client.TwitchUsername);
+
+				var joinResultTask = await Task.WhenAny(joinTcs.Task, Task.Delay(TimeSpan.FromSeconds(2)));
+				if (joinResultTask != joinTcs.Task)
+				{
+					_logger.Error("Could not join Twitch Channel! Timeout reached!");
+					return false;
+				}
+
+				var joinResult = await joinTcs.Task;
+				if (!joinResult)
+				{
+					SendMessageToListBox($"Could not join Twitch Channel: {_broadCasterAccountName}! Please go back and check your Credentials and link again!");
+					_logger.Error(($"Could not join Twitch Channel: {_broadCasterAccountName}."));
+					return false;
+				}
+
+				SetProgress(2, isBroadcaster);
+				SendMessageToListBox($"Joined Channel: {_broadCasterAccountName}");
+				SendMessageToListBox("Send Test Message to Chat: 'Testing NanoTwitchLeafs Chat Connection'");
+
+				// Send Test Message to Twitch Channel
+				client.SendMessage(_broadCasterAccountName, "Testing NanoTwitchLeafs Chat Connection");
+
+				// Disabled til we can really confirm that the Message was sent
+				/*var sendMsgResultTask = await Task.WhenAny(sendMsgTcs.Task, Task.Delay(TimeSpan.FromSeconds(2)));
+				if (sendMsgResultTask != sendMsgTcs.Task)
+				{
+					_logger.Error("Could not send Test Message to Channel! Timeout reached!");
+					return;
+				}
+
+				var sendMsgResult = await sendMsgTcs.Task;
+				if (!sendMsgResult)
+				{
+					_logger.Error("Could not send Test Message to Channel!");
+					return;
+				}*/
+				SetProgress(3, isBroadcaster);
+
+				// Disconnect from Twitch Server
+				client.Disconnect();
+
+				var disconnectResultTask = await Task.WhenAny(disconnectTcs.Task, Task.Delay(TimeSpan.FromSeconds(2)));
+				if (disconnectResultTask != disconnectTcs.Task)
+				{
+					SendMessageToListBox("Didn't get Disconnection Event after requesting Disconnect from Server! Timeout reached!");
+					_logger.Error("Didn't get Disconnection Event after requesting Disconnect from Server! Timeout reached!");
+					return false;
+				}
+
+				var disconnectResult = await disconnectTcs.Task;
+				if (disconnectResult)
+				{
+					SetProgress(4, isBroadcaster);
+					SetProgress(5, isBroadcaster);
+					return true;
+				}
+				return false;
+			}
+			catch (Exception ex)
+			{
+				return false;
+			}
+			finally
+			{
+				client.OnConnected -= OnBotClientConnected;
+				client.OnIncorrectLogin -= OnBotClientIncorrectLogin;
+				client.OnJoinedChannel -= OnBotClientJoinedChannel;
+				client.OnDisconnected -= OnBotClientDisconnected;
+				client.OnFailureToReceiveJoinConfirmation -= OnBotClientFailureToReceiveJoinConfirmation;
+				client.OnMessageReceived -= BotClientOnOnMessageReceived;
+			}
+		}
+		
 		private void SendMessageToListBox(string message)
 		{
 			var dateTime = DateTime.Now;

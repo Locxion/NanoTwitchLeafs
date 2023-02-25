@@ -286,19 +286,47 @@ namespace NanoTwitchLeafs.Controller
 		/// <param name="both"></param>
 		public void Disconnect(bool both = false)
 		{
+			if (_client.IsConnected)
+			{
+				_client.Disconnect();
+				_client.OnLog -= Client_OnLog;
+				_client.OnConnected -= Client_OnConnected;
+				_client.OnJoinedChannel -= Client_OnJoinedChannel;
+				_client.OnMessageReceived -= Client_OnMessageReceived;
+				_client.OnWhisperReceived -= Client_OnWhisperReceived;
+				_client.OnModeratorsReceived -= Client_OnModeratorsReceived;
+				_client.OnDisconnected -= Client_OnDisconnected;
+				_client.OnIncorrectLogin -= Client_OnIncorrectLogin;
+				_client.OnNewSubscriber -= OnNewSubscriber;
+				//_client.OnBeingHosted -= OnBeingHosted;
+				_client.OnRaidNotification -= OnRaidNotification;
+				_client.OnGiftedSubscription -= OnGiftedSubscription;
+				_client.OnReSubscriber -= OnReSubscriber;
+				_client.OnCommunitySubscription -= OnCommunitySubscription;
+				_client = null;
+			}
+			
 			if (both)
 			{
-				if (_client.IsConnected)
+				if (_broadCasterClient != null && _broadCasterClient.IsConnected)
 				{
-					_client.Disconnect();
-					_client = new TwitchClient();
+					_broadCasterClient.Disconnect();
+					_broadCasterClient.OnConnected -= BroadCasterClient_OnConnected;
+					_broadCasterClient.OnIncorrectLogin -= BroadCasterClient_OnIncorrectLogin;
+					//_broadCasterClient.OnLog -= Client_OnLog; //Disabled to prevent spam in the Log
+					_broadCasterClient.OnDisconnected -= BroadCasterClient_OnDisconnected;
+
+					// Effect Event Handlers
+					_broadCasterClient.OnNewSubscriber -= OnNewSubscriber;
+					//_broadCasterClient.OnBeingHosted -= OnBeingHosted;
+					_broadCasterClient.OnRaidNotification -= OnRaidNotification;
+					_broadCasterClient.OnGiftedSubscription -= OnGiftedSubscription;
+					_broadCasterClient.OnReSubscriber -= OnReSubscriber;
+					_broadCasterClient.OnCommunitySubscription -= OnCommunitySubscription;
+					_broadCasterClient = null;
 				}
 			}
-			if (_broadCasterClient != null && _broadCasterClient.IsConnected)
-			{
-				_broadCasterClient.Disconnect();
-				_broadCasterClient = new TwitchClient();
-			}
+
 			CallLoadingWindow?.Invoke(false);
 		}
 

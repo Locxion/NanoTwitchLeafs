@@ -53,12 +53,14 @@ namespace NanoTwitchLeafs.Windows
 
 		public MainWindow()
 		{
+			// Load settings for Language
 			_appSettingsController = new AppSettingsController();
 			_appSettings = _appSettingsController.LoadSettings();
 
+			// Set Language before Init of Window
 			Constants.SetCultureInfo(_appSettings.Language);
-			SetLogLevel(Level.Info);
 
+			// Init Window and Controls
 			InitializeComponent();
 
 #if !DEBUG
@@ -77,16 +79,7 @@ namespace NanoTwitchLeafs.Windows
 			var itemExit = new MenuItem() { Header = Properties.Resources.Window_Devices_Button_Close };
 			itemExit.Click += ItemExit_Click;
 			_tbi.ContextMenu.Items.Add(itemExit);
-
-			// Create Nanoleafs directory.
-			Directory.CreateDirectory(Constants.PROGRAMFILESFOLDER_PATH);
-
-			// Initialize Logger
-			var logFileName = Constants.LOG_PATH;
-			GlobalContext.Properties["LogFile"] = logFileName;
-			string s = new Uri(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase), "log4net.config")).LocalPath;
-			XmlConfigurator.Configure(new FileInfo(s));
-
+			
 			var appender = new NanoTwitchLeafsAppender();
 			appender.OnMessageLogged += Logger_OnAppenderMessage;
 			((IAppenderAttachable)((Hierarchy)LogManager.GetRepository()).Root).AddAppender(appender);

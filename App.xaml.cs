@@ -1,7 +1,9 @@
 ﻿using log4net;
 using NanoTwitchLeafs.Windows;
 using System;
+using System.IO;
 using System.Windows;
+using log4net.Config;
 
 namespace NanoTwitchLeafs
 {
@@ -12,6 +14,14 @@ namespace NanoTwitchLeafs
     {
         private async void App_Startup(object sender, StartupEventArgs e)
         {
+            // Create Nanoleafs directory.
+            Directory.CreateDirectory(Constants.PROGRAMFILESFOLDER_PATH);
+
+            // Initialize Logger
+            GlobalContext.Properties["LogFile"] = Constants.LOG_PATH;
+            string s = new Uri(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase), "log4net.config")).LocalPath;
+            XmlConfigurator.Configure(new FileInfo(s));
+            
             try
             {
                 var window = new MainWindow();

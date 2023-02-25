@@ -150,12 +150,12 @@ namespace NanoTwitchLeafs.Controller
 		private void Client_OnDisconnected(object sender, OnDisconnectedEventArgs e)
 		{
 			OnDisconnected?.Invoke(this, EventArgs.Empty);
-			_logger.Info($"Disconnected from Twitch: {sender}, {e}");
+			_logger.Info($"Disconnected from Twitch.");
 		}
 
 		private void BroadCasterClient_OnDisconnected(object sender, OnDisconnectedEventArgs e)
 		{
-			_logger.Info($"Disconnected from Twitch: {sender}, {e}");
+			_logger.Info($"Disconnected from Twitch.");
 		}
 
 		private async void Client_OnIncorrectLogin(object sender, OnIncorrectLoginArgs e)

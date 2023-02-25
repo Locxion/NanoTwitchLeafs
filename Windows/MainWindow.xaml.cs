@@ -546,7 +546,10 @@ namespace NanoTwitchLeafs.Windows
 			_appSettings.BroadcasterAvatarUrl = null;
 			_appSettings.BotAvatarUrl = null;
 			_appSettings.ChannelName = null;
-
+			if (_twitchController._client.IsConnected)
+			{
+				DisconnectFromChat();
+			}
 			_appSettingsController.SaveSettings(_appSettings);
 			DisconnectTwitchAccount_Button.IsEnabled = false;
 			ConnectTwitchAccount_Button.IsEnabled = true;
@@ -559,6 +562,10 @@ namespace NanoTwitchLeafs.Windows
 			ConnectToChat();
 		}
 
+		private void DisconnectChat_Button_Click(object sender, RoutedEventArgs e)
+		{
+			DisconnectFromChat();
+		}
 		private void Main_Window_Closed(object sender, EventArgs e)
 		{
 			Window_Closing(null, null);
@@ -1066,6 +1073,7 @@ namespace NanoTwitchLeafs.Windows
 			{
 				_twitchController.Connect(_appSettings);
 				ConnectChat_Button.IsEnabled = false;
+				DisconnectChat_Button.IsEnabled = true;
 				sendMessage_TextBox.IsEnabled = true;
 				sendMessage_Button.IsEnabled = true;
 			}
@@ -1073,6 +1081,23 @@ namespace NanoTwitchLeafs.Windows
 			{
 				_logger.Error(ex.Message);
 				_logger.Error(ex);
+			}
+		}
+
+		private void DisconnectFromChat()
+		{
+			try
+			{
+				_twitchController.Disconnect();
+				ConnectChat_Button.IsEnabled = true;
+				DisconnectChat_Button.IsEnabled = false;
+				sendMessage_TextBox.IsEnabled = false;
+				sendMessage_Button.IsEnabled = false;
+			}
+			catch (Exception e)
+			{
+				_logger.Error(e.Message);
+				_logger.Error(e);
 			}
 		}
 

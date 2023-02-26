@@ -2646,6 +2646,24 @@ namespace NanoTwitchLeafs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use own Service Credentials.
+        /// </summary>
+        public static string Windows_Main_Tabs_ApiSettings_ServiceCredentials_Checkbox {
+            get {
+                return ResourceManager.GetString("Windows_Main_Tabs_ApiSettings_ServiceCredentials_Checkbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to API Settings.
+        /// </summary>
+        public static string Windows_Main_Tabs_ApiSettings_Title {
+            get {
+                return ResourceManager.GetString("Windows_Main_Tabs_ApiSettings_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Disconnect.
         /// </summary>
         public static string Windows_Main_Tabs_Hyperate_Disconnect_Button {

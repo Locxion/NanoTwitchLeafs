@@ -51,7 +51,7 @@ namespace NanoTwitchLeafs.Controller
             _client.OnChannelPointsRewardRedeemed += _client_OnChannelPointsRewardRedeemed;
 
             _api = new TwitchAPI();
-            _api.Settings.ClientId = _appSettings.TwitchClientId;
+            _api.Settings.ClientId = HelperClass.GetTwitchApiCredentials(_appSettings).ClientId;
 
             ChannelID = await GetChannelId(_appSettings.ChannelName);
             if (ChannelID == null)

@@ -4,11 +4,12 @@
 ![Platform](https://img.shields.io/badge/Platform-.NET-blueviolet)
 ![netFramework4.7.2](https://img.shields.io/badge/.NET%20Framework-4.7.2-blueviolet)
 ![Windows10/11](https://img.shields.io/badge/Windows-10%2F11-blueviolet)
-![Version](https://img.shields.io/badge/Current%20Version-2.9.9-blueviolet)
-
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/locxion/nanotwitchleafs?color=blueviolet&label=Version)
+![GitHub all releases](https://img.shields.io/github/downloads/locxion/nanotwitchleafs/total?color=blueviolet)
+![GitHub release (latest by SemVer)](https://img.shields.io/github/downloads/locxion/nanotwitchleafs/latest/total?color=blueviolet)
 ## Socials
 ![Homepage](https://img.shields.io/badge/Web-www.nanotwitchleafs.de-blueviolet)
-<a href="https://discord.gg/w92xZKd"><img src="https://img.shields.io/discord/230485530691895296?color=blueviolet&style=plastic"></a>
+<a href="https://discord.gg/w92xZKd"><img src="https://img.shields.io/discord/230485530691895296?color=blueviolet&style=flat"></a>
 
 
 # About
@@ -46,7 +47,7 @@ Maybe someone will take the Task and submit a Pullrequest!
 
 - [ ] Project Documentation. ( Docs and Code Comments are pretty non existent at this Point)
 - [ ] Add Checks and Error Messages for missing Twitch/Streamlabbs ClientId & Secret.
-- [ ] Rewrite the AutoUpdate Code to search for a new Version on Github and download/install from it.
+- [x] Rewrite the AutoUpdate Code to search for a new Version on Github and download/install from it.
 - [x] Rewrite DataType "Amount" from Int to double to make a Trigger for a 6,66 € Donation possible.
 - [ ] Add some Color or a Darkmode to the Software
 - Add Donation Integration for:

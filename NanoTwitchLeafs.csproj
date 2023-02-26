@@ -411,7 +411,9 @@
     <Compile Include="Controller\StreamElementsController.cs" />
     <Compile Include="Controller\StreamLabsController.cs" />
     <Compile Include="Controller\TipeeeStreamController.cs" />
+    <Compile Include="Controller\UpdateController.cs" />
     <Compile Include="NanoTwitchLeafsAppender.cs" />
+    <Compile Include="Objects\GithubReleaseInfo.cs" />
     <Compile Include="Objects\HeartRateMessage.cs" />
     <Compile Include="Objects\NanoleafControllerInfo.cs" />
     <Compile Include="Objects\NotifyHandlerHelper.cs" />
@@ -423,6 +425,7 @@
     <Compile Include="Objects\OAuthObject.cs" />
     <Compile Include="Objects\QueueObject.cs" />
     <Compile Include="Objects\Responses.cs" />
+    <Compile Include="Objects\ServiceCredentials.cs" />
     <Compile Include="Objects\StreamlabsInformation.cs" />
     <Compile Include="Objects\TriggerListObject.cs" />
     <Compile Include="Properties\Resources.de-DE.Designer.cs">

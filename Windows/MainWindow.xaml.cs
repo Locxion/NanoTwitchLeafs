@@ -269,17 +269,6 @@ namespace NanoTwitchLeafs.Windows
 			this.WindowState = WindowState.Normal;
 		}
 
-		protected override void OnStateChanged(EventArgs e)
-		{
-			// TODO Consider if this should be enabled or not
-			// Show Application in Taskbar if you Minimize it
-
-			// if (WindowState == WindowState.Minimized)
-			//     this.Hide();
-
-			base.OnStateChanged(e);
-		}
-
 		private void _appSettings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			_appSettingsController.SaveSettings(_appSettings);
@@ -748,26 +737,6 @@ namespace NanoTwitchLeafs.Windows
 			// Streamlabs
 			_appSettings.StreamlabsClientId = StreamlabsClientId_Textbox.Text;
 			_appSettings.StreamlabsClientSecret = StreamlabsClientSecret_Textbox.Password;
-		}
-
-		// TODO Check if Disconnect Button is needed
-		private void BotDisconnect_Button_Click(object sender, RoutedEventArgs e)
-		{
-			_logger.Info($"Trying to Disconnect from Twitch...");
-			try
-			{
-				sendMessage_TextBox.IsEnabled = false;
-				sendMessage_Button.IsEnabled = false;
-				if (_twitchController._client != null)
-				{
-					_twitchController.Disconnect();
-					_twitchPubSubController.Dispose();
-				}
-			}
-			catch (Exception ex)
-			{
-				_logger.Error(ex.Message, ex);
-			}
 		}
 
 		private void SendMessage_Button_Click(object sender, RoutedEventArgs e)

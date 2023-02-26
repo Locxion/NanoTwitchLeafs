@@ -762,7 +762,7 @@ namespace NanoTwitchLeafs.Controller
 			}
 
 			var message = currentCommandsAnswerStringBuilder.ToString();
-			var splitMessages = HelperClass.SplitString(message, Constants.TwitchMessageMaxLength, Convert.ToChar(_appSettings.CommandPrefix));
+			var splitMessages = HelperClass.SplitString(message, Constants.TwitchMessageMaxLength, '[');
 
 			foreach (var splitMessage in splitMessages)
 			{

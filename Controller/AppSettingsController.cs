@@ -8,6 +8,9 @@ using System.Text;
 
 namespace NanoTwitchLeafs.Controller
 {
+    /// <summary>
+    /// Controller of AppSettings - Responsible for Load/Save Settings
+    /// </summary>
     public class AppSettingsController
     {
         private const DataProtectionScope DataProtectionScope = System.Security.Cryptography.DataProtectionScope.CurrentUser;

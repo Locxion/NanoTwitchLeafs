@@ -437,7 +437,6 @@
       <DependentUpon>AppInfoWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controller\TwitchPubSubController.cs" />
-    <Compile Include="Objects\ControllerInfo.cs" />
     <Compile Include="Repositories\CommandRepository.cs" />
     <Compile Include="Windows\BlacklistWindow.xaml.cs">
       <DependentUpon>BlacklistWindow.xaml</DependentUpon>

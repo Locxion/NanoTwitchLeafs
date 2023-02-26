@@ -37,10 +37,13 @@ namespace NanoTwitchLeafs.Controller
 #endif
 		}
 
+		/// <summary>
+		/// Pulls Release Info from Github and Starts Update if new Release is available
+		/// </summary>
 		public async void CheckForUpdates()
 		{
 			_logger.Info("Pull Release Info from Github ...");
-			var githubInfo = await GetGithubReleaseVersion();
+			var githubInfo = await GetGithubReleaseVersion(GithubURL);
 			if (githubInfo == null)
 			{
 				_logger.Error("Could not get GitHub Release Info.");
@@ -77,7 +80,11 @@ namespace NanoTwitchLeafs.Controller
 			}
 		}
 
-		private async Task<GithubReleaseInfo> GetGithubReleaseVersion()
+		/// <summary>
+		/// Pulls GitHubReleaseInfo from Repository
+		/// </summary>
+		/// <returns></returns>
+		private async Task<GithubReleaseInfo> GetGithubReleaseVersion(string repoUrl)
 		{
 			string contentJson = string.Empty;
 
@@ -87,7 +94,7 @@ namespace NanoTwitchLeafs.Controller
 				using (var httpClient = new HttpClient())
 				{
 					httpClient.DefaultRequestHeaders.UserAgent.TryParseAdd("request");
-					var response = await httpClient.GetAsync(GithubURL);
+					var response = await httpClient.GetAsync(repoUrl);
 					if (response.StatusCode != HttpStatusCode.OK)
 					{
 						_logger.Error(response.ReasonPhrase);

@@ -40,6 +40,16 @@ namespace NanoTwitchLeafs.Controller
 		private int _lastHeartRate = 0;
 		private TriggerSetting _lastTrigger;
 
+		/// <summary>
+		/// Controller of Triggerlogic - Responsible for the Trigger Queue and Trigger selection
+		/// </summary>
+		/// <param name="settings"></param>
+		/// <param name="twitchController"></param>
+		/// <param name="commandRepository"></param>
+		/// <param name="nanoController"></param>
+		/// <param name="twitchPubSubController"></param>
+		/// <param name="streamlabsController"></param>
+		/// <param name="hypeRateIoController"></param>
 		public TriggerLogicController(AppSettings settings, TwitchController twitchController, CommandRepository commandRepository,
 									  NanoController nanoController, TwitchPubSubController twitchPubSubController, StreamlabsController streamlabsController, HypeRateIOController hypeRateIoController)
 		{
@@ -70,6 +80,11 @@ namespace NanoTwitchLeafs.Controller
 			HandleDonations(amount, username);
 		}
 
+		/// <summary>
+		/// Handles Donations and adds matching Trigger to queue
+		/// </summary>
+		/// <param name="amount"></param>
+		/// <param name="username"></param>
 		private void HandleDonations(double amount, string username)
 		{
 			QueueObject queueObject = null;
@@ -107,7 +122,10 @@ namespace NanoTwitchLeafs.Controller
 			_lastHeartRate = heartRate;
 			HandleHeartRate(heartRate);
 		}
-
+		/// <summary>
+		/// Handles HeartRates and adds matching Trigger to Queue
+		/// </summary>
+		/// <param name="heartRate"></param>
 		private void HandleHeartRate(int heartRate)
 		{
 			QueueObject queueObject = null;
@@ -147,7 +165,10 @@ namespace NanoTwitchLeafs.Controller
 				_lastTrigger = newTrigger;
 			}
 		}
-
+		
+		/// <summary>
+		/// Starts Cooldown Handler for Trigger
+		/// </summary>
 		private void RunCooldownHandler()
 		{
 			Task.Run(async () =>
@@ -184,7 +205,9 @@ namespace NanoTwitchLeafs.Controller
 				}
 			});
 		}
-
+		/// <summary>
+		/// Starts Queue Handler for Trigger
+		/// </summary>
 		private void RunQueueHandler()
 		{
 			Task.Run(async () =>
@@ -235,7 +258,12 @@ namespace NanoTwitchLeafs.Controller
 				}
 			});
 		}
-
+		
+		/// <summary>
+		/// Plays Sound with WmPlayer Library
+		/// </summary>
+		/// <param name="path"></param>
+		/// <param name="volume"></param>
 		private void PlaySound(string path, int volume)
 		{
 			_WMPlayer.controls.stop();
@@ -259,7 +287,11 @@ namespace NanoTwitchLeafs.Controller
 				_logger.Error(ex.Message, ex);
 			}
 		}
-
+		
+		/// <summary>
+		/// Debug Method to Print PlayerState into Debug LogMessage
+		/// </summary>
+		/// <param name="NewState"></param>
 		private void PlayStateChange(int NewState)
 		{
 			if (NewState == 1)
@@ -282,6 +314,9 @@ namespace NanoTwitchLeafs.Controller
 			RefreshRemainingQueueElements();
 		}
 
+		/// <summary>
+		/// Refreshes Queue.Count in Mainwindow>NanoTab
+		/// </summary>
 		private void RefreshRemainingQueueElements()
 		{
 			App.Current.Dispatcher.Invoke(() =>
@@ -296,7 +331,12 @@ namespace NanoTwitchLeafs.Controller
 				return;
 			HandleTwitchEventTrigger(username, "Follower", false, 0);
 		}
-
+		
+		/// <summary>
+		/// Handles Bits and adds matching Trigger to Queue
+		/// </summary>
+		/// <param name="username"></param>
+		/// <param name="amount"></param>
 		private void HandleTwitchPubSubEventBits(string username, int amount)
 		{
 			if (CheckBlacklist(username))
@@ -325,7 +365,13 @@ namespace NanoTwitchLeafs.Controller
 				AddToQueue(queueObject);
 			}
 		}
-
+		
+		/// <summary>
+		/// Handles Channelpoints and adds matching Trigger to Queue
+		/// </summary>
+		/// <param name="username"></param>
+		/// <param name="promt"></param>
+		/// <param name="guid"></param>
 		private void HandleChannelpointsTrigger(string username, string promt, Guid guid)
 		{
 			if (CheckBlacklist(username))
@@ -345,6 +391,13 @@ namespace NanoTwitchLeafs.Controller
 			}
 		}
 
+		/// <summary>
+		/// Handles all other TwitchEvents and adds matching Trigger to Queue
+		/// </summary>
+		/// <param name="username"></param>
+		/// <param name="twitchEvent"></param>
+		/// <param name="isAnonymous"></param>
+		/// <param name="amount"></param>
 		private void HandleTwitchEventTrigger(string username, string twitchEvent, bool isAnonymous, int amount)
 		{
 			if (CheckBlacklist(username))
@@ -375,7 +428,13 @@ namespace NanoTwitchLeafs.Controller
 				return;
 			}
 		}
-
+		/// <summary>
+		/// Handles SubBombs/ComunitySubs and adds matching Trigger to Queue
+		/// </summary>
+		/// <param name="username"></param>
+		/// <param name="twitchEvent"></param>
+		/// <param name="isAnonymous"></param>
+		/// <param name="amount"></param>
 		private void HandleBombEventTrigger(string username, string twitchEvent, bool isAnonymous, int amount)
 		{
 			if (isAnonymous)
@@ -407,7 +466,13 @@ namespace NanoTwitchLeafs.Controller
 				AddToQueue(queueObject);
 			}
 		}
-
+		
+		/// <summary>
+		/// Handles Hosts and adds matching Trigger to Queue
+		/// </summary>
+		/// <param name="amount"></param>
+		/// <param name="username"></param>
+		/// <param name="isRaid"></param>
 		private void HandleHostEventTrigger(int amount, string username, bool isRaid)
 		{
 			if (CheckBlacklist(username))
@@ -443,7 +508,11 @@ namespace NanoTwitchLeafs.Controller
 				AddToQueue(queueObject);
 			}
 		}
-
+		
+		/// <summary>
+		/// Handles Messages and Checks for Commands or Keywords
+		/// </summary>
+		/// <param name="chatMessage"></param>
 		public async void HandleMessage(ChatMessage chatMessage)
 		{
 			chatMessage.Message = chatMessage.Message.ToLower();
@@ -473,7 +542,11 @@ namespace NanoTwitchLeafs.Controller
 
 			HandleUsernameColorTrigger(chatMessage);
 		}
-
+		
+		/// <summary>
+		/// Handles ColorChangeEvent for Usernames and adds matching Trigger to Queue
+		/// </summary>
+		/// <param name="chatMessage"></param>
 		private void HandleUsernameColorTrigger(ChatMessage chatMessage)
 		{
 			if (!_commandRepository.TriggerOfTypeExists(TriggerTypeEnum.UsernameColor))
@@ -496,7 +569,12 @@ namespace NanoTwitchLeafs.Controller
 			AddToQueue(queueObject);
 			_logger.Debug($"Added Color #{chatMessage.Color.Name} from {chatMessage.Username} to Queue.");
 		}
-
+		
+		/// <summary>
+		/// Sends a Color to random Panel of Nanoleafs
+		/// </summary>
+		/// <param name="color"></param>
+		/// <param name="brightness"></param>
 		private async Task SendColorToSinglePanel(Color color, int brightness)
 		{
 			foreach (var device in _appSettings.NanoSettings.NanoLeafDevices)
@@ -512,7 +590,11 @@ namespace NanoTwitchLeafs.Controller
 				await _nanoController.SetBrightness(device, brightness);
 			}
 		}
-
+		/// <summary>
+		/// Checks if Username is on Blacklist
+		/// </summary>
+		/// <param name="username"></param>
+		/// <returns>True if User is on Blacklist</returns>
 		private bool CheckBlacklist(string username)
 		{
 			if (_appSettings.BlacklistEnabled && _appSettings.Blacklist.Contains(username.ToLower()))
@@ -525,7 +607,11 @@ namespace NanoTwitchLeafs.Controller
 				return false;
 			}
 		}
-
+		/// <summary>
+		/// Handles Chat Commands and adds matching Trigger to Queue
+		/// </summary>
+		/// <param name="chatMessage"></param>
+		/// <returns></returns>
 		private async Task<bool> HandleCommandTriggerAsync(ChatMessage chatMessage)
 		{
 			QueueObject queueObject;
@@ -546,7 +632,7 @@ namespace NanoTwitchLeafs.Controller
 				return false;
 			}
 
-			// Get Object matching to the Command
+			// Get Trigger matching to the Command
 			TriggerSetting trigger = _commandRepository.GetByCommandName(chatMessage.Message);
 
 			if (trigger == null)
@@ -686,14 +772,19 @@ namespace NanoTwitchLeafs.Controller
 				_triggerCooldowns.Add(trigger.ID, triggerDatTime.AddSeconds(trigger.Cooldown));
 				return true;
 			}
-
+			
+			// Add Trigger to Queue
 			queueObject = new QueueObject(trigger, chatMessage.Username);
 			AddToQueue(queueObject);
 			_lastGlobalCooldown = DateTime.Now;
 			_triggerCooldowns.Add(trigger.ID, triggerDatTime.AddSeconds(trigger.Cooldown));
 			return true;
 		}
-
+		
+		/// <summary>
+		/// Handles !nano help Command and prints Commands into Chat
+		/// </summary>
+		/// <param name="username"></param>
 		private async void HandleHelpMessage(string username)
 		{
 			if ((DateTime.Now - _lastNanoHelp).TotalSeconds < 5)
@@ -761,6 +852,7 @@ namespace NanoTwitchLeafs.Controller
 			}
 			else
 			{
+				// TODO Check Final Message Length - Twitch has max char limit of 500
 				if (_appSettings.WhisperMode)
 				{
 					_twitchController.SendWhisper(username, currentCommandsAnswerStringBuilder.ToString());
@@ -771,11 +863,15 @@ namespace NanoTwitchLeafs.Controller
 				}
 			}
 		}
-
+		
+		/// <summary>
+		/// Handles Keywords and adds matching Trigger to Queue
+		/// </summary>
+		/// <param name="chatMessage"></param>
 		private void HandleKeywordTrigger(ChatMessage chatMessage)
 		{
 			QueueObject queueObject;
-			TriggerSetting trigger = GetTriggerSettingFromMessage(chatMessage.Message, chatMessage.IsSubscriber, chatMessage.IsModerator);
+			TriggerSetting trigger = GetKeywordTriggerSetting(chatMessage.Message, chatMessage.IsSubscriber, chatMessage.IsModerator);
 
 			if (trigger == null)
 			{
@@ -786,7 +882,8 @@ namespace NanoTwitchLeafs.Controller
 			{
 				return;
 			}
-
+			
+			//Check for Moderator // Broadcaster Only Keyword
 			if ((chatMessage.IsModerator && _appSettings.NanoSettings.CooldownIgnore) || chatMessage.Username == _appSettings.ChannelName)
 			{
 				if (_appSettings.NanoSettings.ChangeBackOnKeyword)
@@ -830,7 +927,14 @@ namespace NanoTwitchLeafs.Controller
 			_triggerCooldowns.Add(trigger.ID, triggerDateTime.AddSeconds(trigger.Cooldown));
 		}
 
-		private TriggerSetting GetTriggerSettingFromMessage(string message, bool isSubscriber, bool isModerator)
+		/// <summary>
+		/// Checks Trigger Database for matching Trigger
+		/// </summary>
+		/// <param name="message"></param>
+		/// <param name="isSubscriber"></param>
+		/// <param name="isModerator"></param>
+		/// <returns></returns>
+		private TriggerSetting GetKeywordTriggerSetting(string message, bool isSubscriber, bool isModerator)
 		{
 			foreach (TriggerSetting triggerSetting in _commandRepository.GetList())
 			{
@@ -857,11 +961,16 @@ namespace NanoTwitchLeafs.Controller
 
 			return null;
 		}
-
+		
+		/// <summary>
+		/// Sends Effect to all Nanoleaf Controllers
+		/// </summary>
+		/// <param name="queueObject"></param>
 		private async Task SendEffectToController(QueueObject queueObject)
 		{
 			_logger.Debug($"Set Effect '{queueObject.TriggerSetting.Effect}' for {queueObject.TriggerSetting.Duration} Seconds on {_appSettings.NanoSettings.NanoLeafDevices.Count} Devices");
 			Dictionary<NanoLeafDevice, NanoLeafState> currentStates = new Dictionary<NanoLeafDevice, NanoLeafState>();
+			// Save current States for each Nanoleaf Controller
 			foreach (var device in _appSettings.NanoSettings.NanoLeafDevices)
 			{
 				var currentState = await _nanoController.GetState(device);
@@ -869,7 +978,8 @@ namespace NanoTwitchLeafs.Controller
 				_logger.Debug($"Save Current state '{currentState}' from Device {device.PublicName}");
 				currentStates.Add(device, currentState);
 			}
-
+			
+			// Set new Effect/State for each Nanoleaf Controller
 			foreach (var device in _appSettings.NanoSettings.NanoLeafDevices)
 			{
 				_logger.Debug($"Set Effect '{queueObject.TriggerSetting.Effect}' on {device.PublicName} for {queueObject.TriggerSetting.Duration} Seconds");
@@ -884,7 +994,8 @@ namespace NanoTwitchLeafs.Controller
 				}
 				await _nanoController.SetBrightness(device, queueObject.TriggerSetting.Brightness);
 			}
-
+			
+			// Check if Event Origin is User or TwitchEvent and send Chat Message if Enabled
 			if (!queueObject.Username.Contains("TwitchEvent"))
 			{
 				string response;
@@ -899,7 +1010,8 @@ namespace NanoTwitchLeafs.Controller
 				if (!string.IsNullOrWhiteSpace(response))
 					SendChatResponse(response);
 			}
-
+			
+			// Check if Trigger Duration isnt 0 and set the previous saved Effect/State to Controllers
 			if (queueObject.TriggerSetting.Duration != 0)
 			{
 				await Task.Delay(Convert.ToInt32(queueObject.TriggerSetting.Duration) * 1000);
@@ -927,7 +1039,11 @@ namespace NanoTwitchLeafs.Controller
 				}
 			}
 		}
-
+		
+		/// <summary>
+		/// Sends Response to Chat
+		/// </summary>
+		/// <param name="message"></param>
 		private void SendChatResponse(string message)
 		{
 			if (!_appSettings.ChatResponse || message == "")

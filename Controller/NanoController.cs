@@ -14,7 +14,9 @@ using System.Windows;
 using Zeroconf;
 
 namespace NanoTwitchLeafs.Controller
-{
+{   /// <summary>
+    /// Controller for Nanoleaf connections and Requests
+    /// </summary>
     public class NanoController
     {
         private readonly ILog _logger = LogManager.GetLogger(typeof(NanoController));
@@ -27,12 +29,21 @@ namespace NanoTwitchLeafs.Controller
         {
             _appSettings = appSettings ?? throw new ArgumentNullException(nameof(appSettings));
         }
-
+        
+        /// <summary>
+        /// Discover for Nanoleaf Devices in Local Network
+        /// </summary>
+        /// <returns></returns>
         public async Task<IReadOnlyList<IZeroconfHost>> GetDevicesInNetwork()
         {
             return await ZeroconfResolver.ResolveAsync("_nanoleafapi._tcp.local.");
         }
-
+        
+        /// <summary>
+        /// Pairs new Nanoleaf Device
+        /// </summary>
+        /// <param name="nanoLeafDevice"></param>
+        /// <returns></returns>
         public async Task<bool> PairDevice(NanoLeafDevice nanoLeafDevice)
         {
             _logger.Debug($"Try to pair Device on {nanoLeafDevice.Address}");
@@ -63,7 +74,12 @@ namespace NanoTwitchLeafs.Controller
                 return true;
             }
         }
-
+        
+        /// <summary>
+        /// Updates NanoLeaf Devices with new Informations
+        /// </summary>
+        /// <param name="nanoLeafDevice"></param>
+        /// <returns></returns>
         public async Task<NanoLeafDevice> UpdateNanoLeafDevice(NanoLeafDevice nanoLeafDevice)
         {
             var devices = await GetDevicesInNetwork();
@@ -86,6 +102,10 @@ namespace NanoTwitchLeafs.Controller
             return nanoLeafDevice;
         }
 
+        /// <summary>
+        /// Gets User Input via InputDialogWindow
+        /// </summary>
+        /// <returns></returns>
         public string GetUserInputNameForNewDevice()
         {
             bool unique = false;
@@ -112,6 +132,11 @@ namespace NanoTwitchLeafs.Controller
             return deviceName;
         }
 
+        /// <summary>
+        /// Pulls Controllerinfo from Nanoleaf Device
+        /// </summary>
+        /// <param name="nanoLeafDevice"></param>
+        /// <returns></returns>
         public async Task<NanoleafControllerInfo> GetControllerInfo(NanoLeafDevice nanoLeafDevice)
         {
             using (var client = new HttpClient())
@@ -171,7 +196,12 @@ namespace NanoTwitchLeafs.Controller
                 return nanoleafControllerInfo;
             }
         }
-
+        
+        /// <summary>
+        /// Gets Firmware Version from Device
+        /// </summary>
+        /// <param name="nanoleafDeviceName"></param>
+        /// <returns></returns>
         public async Task<string> GetFirmwareVersionFromDevice(string nanoleafDeviceName)
         {
             foreach (NanoLeafDevice device in _appSettings.NanoSettings.NanoLeafDevices)
@@ -184,7 +214,12 @@ namespace NanoTwitchLeafs.Controller
             }
             return "Device Name not Found!";
         }
-
+        
+        /// <summary>
+        /// Gets Firmware Version from Device
+        /// </summary>
+        /// <param name="nanoleafDeviceAdress"></param>
+        /// <returns></returns>
         public async Task<string> GetFirmwareVersionFromDevice(IPAddress nanoleafDeviceAdress)
         {
             foreach (NanoLeafDevice device in _appSettings.NanoSettings.NanoLeafDevices)
@@ -198,6 +233,11 @@ namespace NanoTwitchLeafs.Controller
             return "Device Adress not Found!";
         }
 
+        /// <summary>
+        /// Gets Installed Effects from Nanoleaf Device
+        /// </summary>
+        /// <param name="nanoLeafDevice"></param>
+        /// <returns></returns>
         public async Task<List<string>> GetEffectList(NanoLeafDevice nanoLeafDevice)
         {
             using (var client = new HttpClient())
@@ -234,7 +274,11 @@ namespace NanoTwitchLeafs.Controller
                 }
             }
         }
-
+        
+        /// <summary>
+        /// Starts Identify Mode on Nanoleaf Device - Panels blink white
+        /// </summary>
+        /// <param name="nanoLeafDevice"></param>
         public async Task IdentifyController(NanoLeafDevice nanoLeafDevice)
         {
             using (var client = new HttpClient())
@@ -251,6 +295,11 @@ namespace NanoTwitchLeafs.Controller
             }
         }
 
+        /// <summary>
+        /// Gets current displayed Effectname from Nanoleaf Device
+        /// </summary>
+        /// <param name="nanoLeafDevice"></param>
+        /// <returns></returns>
         public async Task<string> GetEffect(NanoLeafDevice nanoLeafDevice)
         {
             using (var client = new HttpClient())
@@ -276,7 +325,12 @@ namespace NanoTwitchLeafs.Controller
                 return JsonConvert.DeserializeObject<string>(responseString);
             }
         }
-
+        
+        /// <summary>
+        /// Sets new Effect to display on Nanoleaf Device
+        /// </summary>
+        /// <param name="nanoLeafDevice"></param>
+        /// <param name="effect"></param>
         public async Task SetEffect(NanoLeafDevice nanoLeafDevice, string effect)
         {
             _logger.Debug($"Sending Effect to Controller: ControllerName = {nanoLeafDevice.PublicName} - {effect}");
@@ -294,6 +348,11 @@ namespace NanoTwitchLeafs.Controller
             }
         }
 
+        /// <summary>
+        /// Gets current Hue from Nanoleaf Device
+        /// </summary>
+        /// <param name="nanoLeafDevice"></param>
+        /// <returns></returns>
         public async Task<int> GetHue(NanoLeafDevice nanoLeafDevice)
         {
             using (var client = new HttpClient())
@@ -323,6 +382,11 @@ namespace NanoTwitchLeafs.Controller
             }
         }
 
+        /// <summary>
+        /// Sets Hue to display on Nanoleaf Device
+        /// </summary>
+        /// <param name="nanoLeafDevice"></param>
+        /// <param name="hue"></param>
         public async Task SetHue(NanoLeafDevice nanoLeafDevice, int hue)
         {
             _logger.Debug($"Sending Hue to Controller: ControllerName = {nanoLeafDevice.PublicName} - {hue}");
@@ -340,6 +404,11 @@ namespace NanoTwitchLeafs.Controller
             }
         }
 
+        /// <summary>
+        /// Gets current Saturation of Nanoleaf Device
+        /// </summary>
+        /// <param name="nanoLeafDevice"></param>
+        /// <returns></returns>
         public async Task<int> GetSaturation(NanoLeafDevice nanoLeafDevice)
         {
             using (var client = new HttpClient())
@@ -369,6 +438,11 @@ namespace NanoTwitchLeafs.Controller
             }
         }
 
+        /// <summary>
+        /// Sets Saturation to display on Nanoleaf Device
+        /// </summary>
+        /// <param name="nanoLeafDevice"></param>
+        /// <param name="saturation"></param>
         public async Task SetSaturation(NanoLeafDevice nanoLeafDevice, int saturation)
         {
             _logger.Debug($"Sending Saturation to Controller: ControllerName = {nanoLeafDevice.PublicName} - {saturation}");
@@ -386,6 +460,11 @@ namespace NanoTwitchLeafs.Controller
             }
         }
 
+        /// <summary>
+        /// Gets current ColorTemperature from Nanoleaf Device
+        /// </summary>
+        /// <param name="nanoLeafDevice"></param>
+        /// <returns></returns>
         public async Task<int> GetColorTemperature(NanoLeafDevice nanoLeafDevice)
         {
             using (var client = new HttpClient())
@@ -415,6 +494,11 @@ namespace NanoTwitchLeafs.Controller
             }
         }
 
+        /// <summary>
+        /// Sets new ColorTemperatur to display on Nanoleaf Device
+        /// </summary>
+        /// <param name="nanoLeafDevice"></param>
+        /// <param name="colorTemperature"></param>
         public async Task SetColorTemperature(NanoLeafDevice nanoLeafDevice, int colorTemperature)
         {
             _logger.Debug($"Sending Color Temperature to Controller: ControllerName = {nanoLeafDevice.PublicName} - {colorTemperature}");
@@ -432,6 +516,11 @@ namespace NanoTwitchLeafs.Controller
             }
         }
 
+        /// <summary>
+        /// Gets current Brightness of Nanoleaf Device
+        /// </summary>
+        /// <param name="nanoLeafDevice"></param>
+        /// <returns></returns>
         public async Task<int> GetBrightness(NanoLeafDevice nanoLeafDevice)
         {
             using (var client = new HttpClient())
@@ -461,6 +550,11 @@ namespace NanoTwitchLeafs.Controller
             }
         }
 
+        /// <summary>
+        /// Sets new Brightness to display on Nanoleaf Device
+        /// </summary>
+        /// <param name="nanoLeafDevice"></param>
+        /// <param name="brightness"></param>
         public async Task SetBrightness(NanoLeafDevice nanoLeafDevice, int brightness)
         {
             _logger.Debug($"Sending Brightness to Controller: ControllerName = {nanoLeafDevice.PublicName} - {brightness}%");
@@ -479,6 +573,11 @@ namespace NanoTwitchLeafs.Controller
             }
         }
 
+        /// <summary>
+        /// Gets current State of Nanoleaf Device
+        /// </summary>
+        /// <param name="nanoLeafDevice"></param>
+        /// <returns></returns>
         public async Task<NanoLeafState> GetState(NanoLeafDevice nanoLeafDevice)
         {
             using (var client = new HttpClient())
@@ -508,6 +607,11 @@ namespace NanoTwitchLeafs.Controller
             }
         }
 
+        /// <summary>
+        /// Sets new State to display on Nanoleaf Device
+        /// </summary>
+        /// <param name="nanoLeafDevice"></param>
+        /// <param name="nanoLeafState"></param>
         public async Task SetState(NanoLeafDevice nanoLeafDevice, NanoLeafState nanoLeafState)
         {
             _logger.Debug($"Sending State to Controller: ControllerName = {nanoLeafDevice.PublicName} - {nanoLeafState}");
@@ -519,6 +623,11 @@ namespace NanoTwitchLeafs.Controller
             await SetHue(nanoLeafDevice, nanoLeafState.State.hue.value);
         }
 
+        /// <summary>
+        /// Gets current OnState of Nanoleaf Device
+        /// </summary>
+        /// <param name="nanoLeafDevice"></param>
+        /// <returns></returns>
         public async Task<bool> GetOnState(NanoLeafDevice nanoLeafDevice)
         {
             using (var client = new HttpClient())
@@ -548,6 +657,11 @@ namespace NanoTwitchLeafs.Controller
             }
         }
 
+        /// <summary>
+        /// Sets new OnState of Nanoleaf Device
+        /// </summary>
+        /// <param name="nanoLeafDevice"></param>
+        /// <param name="state"></param>
         public async Task SetOnState(NanoLeafDevice nanoLeafDevice, bool state)
         {
             _logger.Debug($"Sending State to Controller: ControllerName = {nanoLeafDevice.PublicName} - {state}");
@@ -565,6 +679,12 @@ namespace NanoTwitchLeafs.Controller
             }
         }
 
+        /// <summary>
+        /// Creates Api Adress to provided Nanoleaf Device
+        /// </summary>
+        /// <param name="nanoLeafDevice"></param>
+        /// <param name="url"></param>
+        /// <returns></returns>
         private string CreateApiAddress(NanoLeafDevice nanoLeafDevice, string url)
         {
             string address = $"http://{nanoLeafDevice.Address}:{nanoLeafDevice.Port}/api/v1/{url}";
@@ -572,6 +692,10 @@ namespace NanoTwitchLeafs.Controller
             return address;
         }
 
+        /// <summary>
+        /// Updates saved Information of all paired Nanoleaf Devices 
+        /// </summary>
+        /// <returns></returns>
         public async Task<bool> UpdateAllNanoleafDevices()
         {
             List<NanoLeafDevice> updatedNanoLeafDevices = new List<NanoLeafDevice>();
@@ -597,6 +721,11 @@ namespace NanoTwitchLeafs.Controller
             }
         }
 
+        /// <summary>
+        /// Sets new Color to display on Nanoleaf Device
+        /// </summary>
+        /// <param name="nanoLeafDevice"></param>
+        /// <param name="rgbColor"></param>
         public async Task SetColor(NanoLeafDevice nanoLeafDevice, RgbColor rgbColor)
         {
             //Note Sending Order is Important! Hue has to be Last!?
@@ -606,20 +735,29 @@ namespace NanoTwitchLeafs.Controller
             await SetHue(nanoLeafDevice, color.Hue);
         }
 
+        /// <summary>
+        /// Sets RGB of Single Nanoleaf Panel
+        /// </summary>
+        /// <param name="nanoLeafDevice"></param>
+        /// <param name="panelId"></param>
+        /// <param name="r"></param>
+        /// <param name="g"></param>
+        /// <param name="b"></param>
+        /// <param name="a"></param>
         public async Task SetPanelColor(NanoLeafDevice nanoLeafDevice, int panelId, int r, int g, int b, int a)
         {
             var template = $"1 {panelId} 1 {r} {g} {b} 0 1";
 
             var json = $@"
-{{
-    ""write"": {{
-        ""command"": ""display"",
-        ""animType"": ""static"",
-        ""animData"": ""{template}"",
-        ""loop"": false,
-        ""palette"": []
-    }}
-}}";
+                        {{
+                            ""write"": {{
+                                ""command"": ""display"",
+                                ""animType"": ""static"",
+                                ""animData"": ""{template}"",
+                                ""loop"": false,
+                                ""palette"": []
+                            }}
+                        }}";
 
             using (var client = new HttpClient())
             {

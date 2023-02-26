@@ -34,6 +34,9 @@ namespace NanoTwitchLeafs.Controller
 
 	public delegate void OnHostEvent(int amount, string username, bool isRaid = false);
 
+	/// <summary>
+	/// Controller for General Twitch Connection - Responsible for ChatMessages, Raid and SubscriberEvents
+	/// </summary>
 	public class TwitchController
 	{
 		private const string TwitchApiAddress = "https://id.twitch.tv/oauth2";
@@ -53,7 +56,7 @@ namespace NanoTwitchLeafs.Controller
 		public TwitchPubSubController _twitchPubSubController;
 		public AppSettingsController _appSettingsController;
 
-		public List<string> ChannelModerator { get; set; }
+		private List<string> ChannelModerator { get; set; }
 		private bool FirstTryToConnectBotAccount = true;
 		private bool FirstTryToConnectBroadcasterAccount = true;
 

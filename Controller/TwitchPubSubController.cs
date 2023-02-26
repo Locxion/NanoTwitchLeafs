@@ -20,6 +20,9 @@ namespace NanoTwitchLeafs.Controller
 
     public delegate void OnChannelPointsRedeemed(string username, string promt, Guid guid);
 
+    /// <summary>
+    /// Controller for Twitch PubSub - Responsible for Follow, Bits and Channelpoints Events
+    /// </summary>
     public class TwitchPubSubController : IDisposable
     {
         private TwitchPubSub _client;
@@ -37,7 +40,11 @@ namespace NanoTwitchLeafs.Controller
         private string ChannelID = "";
 
         public bool isConnected = false;
-
+        
+        /// <summary>
+        /// Connects to Twitch PubSub Service with provided AppSettings
+        /// </summary>
+        /// <param name="appSettings"></param>
         public async void Connect(AppSettings appSettings)
         {
             _client = new TwitchPubSub();
@@ -79,7 +86,11 @@ namespace NanoTwitchLeafs.Controller
             }
             OnFollow?.Invoke(e.NewFollowers.First().FromUserName);
         }
-
+        /// <summary>
+        /// Gets ChannelId for provided Channel Name
+        /// </summary>
+        /// <param name="channelName"></param>
+        /// <returns></returns>
         private async Task<string> GetChannelId(string channelName)
         {
             try
@@ -114,6 +125,11 @@ namespace NanoTwitchLeafs.Controller
             OnFollow?.Invoke(e.Username);
         }
 
+        /// <summary>
+        /// Sends Topics to PubSub Stream after Connection
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnPubSubServiceConnected(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(ChannelID))

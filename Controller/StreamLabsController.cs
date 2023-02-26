@@ -16,6 +16,9 @@ namespace NanoTwitchLeafs.Controller
 {
 	public delegate void OnDonationRecieved(double amount, string username);
 
+	/// <summary>
+	/// Controller of Streamlabs - Responsible for Donations
+	/// </summary>
 	public class StreamlabsController
 	{
 		private const string RedirectUri = "http://127.0.0.1:1234/";
@@ -116,7 +119,7 @@ namespace NanoTwitchLeafs.Controller
 			var context = await httpListener.GetContextAsync();
 
 			// Brings this app back to the foreground.
-			// Activate();
+			//Activate();
 
 			// Sends an HTTP response to the browser.
 			const string responseString = "<html><head><meta http-equiv='refresh' content='10;url=http://www.nanotwitchleafs.com/'></head><body>Please return to the app.</body></html>";
@@ -216,7 +219,10 @@ namespace NanoTwitchLeafs.Controller
 
 			return null;
 		}
-
+		/// <summary>
+		/// Linkes Streamlabs Accound and adds Tokens to AppSettings
+		/// </summary>
+		/// <returns></returns>
 		public async Task<bool> LinkAccount()
 		{
 			_appSettings.StreamlabsInformation.StreamlabsUser = _appSettings.ChannelName;
@@ -238,6 +244,10 @@ namespace NanoTwitchLeafs.Controller
 			}
 		}
 
+		/// <summary>
+		/// Gets SocketToken from Streamlabs
+		/// </summary>
+		/// <returns></returns>
 		private async Task<string> GetSocketToken()
 		{
 			using (var client = new HttpClient())
@@ -280,6 +290,10 @@ namespace NanoTwitchLeafs.Controller
 			}
 		}
 
+		/// <summary>
+		/// Connects to Streamlabs Websocket
+		/// </summary>
+		/// <param name="token"></param>
 		private async Task ConnectSocket(string token)
 		{
 			_logger.Debug("Try to connect to Streamlabs Socket");

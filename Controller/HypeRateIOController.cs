@@ -14,6 +14,9 @@ namespace NanoTwitchLeafs.Controller
 
     public delegate void OnHypeRateConnected();
 
+    /// <summary>
+    /// Controller of Hyperate.io - Responsible to connect to Hyperate Services and Heartbeat Events
+    /// </summary>
     public class HypeRateIOController
     {
         private readonly AppSettings _appSettings;

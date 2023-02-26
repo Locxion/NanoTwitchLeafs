@@ -1,6 +1,7 @@
 ﻿using NanoTwitchLeafs.Objects;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 
 namespace NanoTwitchLeafs
@@ -76,6 +77,41 @@ namespace NanoTwitchLeafs
 				return new StreamLabsApiCedentials(appSettings.TwitchClientId, appSettings.TwitchClientSecret);
 
 			return Constants.ServiceCredentials.StreamLabsApiCedentials;
+		}
+
+		/// <summary>
+		/// Splits a String into Parts with a Max Char length
+		/// </summary>
+		/// <param name="input"></param>
+		/// <param name="maxLength"></param>
+		/// <param name="seperator"></param>
+		/// <returns></returns>
+		public static List<string> SplitString(string input, int maxLength, char seperator = ' ')
+		{
+			List<string> result = new List<string>();
+			int startIndex = 0;
+
+			while (input.Length > maxLength)
+			{
+				int spaceIndex = input.LastIndexOf(seperator, maxLength);
+
+				if (spaceIndex == -1)
+				{
+					spaceIndex = maxLength;
+				}
+
+				string part = input.Substring(startIndex, spaceIndex - startIndex).Trim();
+				result.Add(part);
+
+				input = input.Substring(spaceIndex).Trim();
+			}
+
+			if (!string.IsNullOrWhiteSpace(input))
+			{
+				result.Add(input);
+			}
+
+			return result;
 		}
 	}
 }

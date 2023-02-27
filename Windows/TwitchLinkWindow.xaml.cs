@@ -193,6 +193,8 @@ namespace NanoTwitchLeafs.Windows
 				}
 
 				BroadcasterLink_Label.Visibility = Visibility.Visible;
+				// Bring Window Back up
+				Activate();
 				BCNext_Button.IsEnabled = true;
 			}
 			else
@@ -222,6 +224,8 @@ namespace NanoTwitchLeafs.Windows
 				}
 
 				BotLink_Label.Visibility = Visibility.Visible;
+				// Bring Window Back up
+				Activate();
 				BotNext_Button.IsEnabled = true;
 			}
 		}

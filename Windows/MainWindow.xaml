@@ -21,7 +21,9 @@
                         <Label x:Name="TwitchLink_Label" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_AccountLabel_Text}" HorizontalAlignment="Center" Margin="5,115,5,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                         <Button x:Name="ConnectTwitchAccount_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_LinkButton_Text}" HorizontalAlignment="Center" Margin="0,191,0,0" VerticalAlignment="Top" Click="ConnectTwitchAccount_Button_Click" Padding="5,1" />
                         <Button x:Name="DisconnectTwitchAccount_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_UnlinkButton_Text}" HorizontalAlignment="Center" Margin="0,216,0,0" VerticalAlignment="Top" IsEnabled="False" Click="DisconnectTwitchAccount_Button_Click" Padding="5,1" />
-                        <Button x:Name="ConnectChat_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Button_Connect}" HorizontalAlignment="Center" Margin="52,266,53,0" VerticalAlignment="Top" Click="ConnectChat_Button_Click" IsEnabled="False" Padding="5,1" />
+                        <Button x:Name="ConnectChat_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Button_Connect}" HorizontalAlignment="Center" Margin="52,245,53,0" VerticalAlignment="Top" Click="ConnectChat_Button_Click" IsEnabled="False" Padding="5,1" />
+                        <Button x:Name="DisconnectChat_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_DisconnectButton_Text}" HorizontalAlignment="Center" Margin="52,268,53,0" VerticalAlignment="Top" Click="DisconnectChat_Button_Click" IsEnabled="False" Padding="5,1" />
+
                     </Grid>
                     <Grid x:Name="ConnectedTwitchLogin_Grid" Visibility="Hidden" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="323" Margin="0,10,0,0">
                     </Grid>

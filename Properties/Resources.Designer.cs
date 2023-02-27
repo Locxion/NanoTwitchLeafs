@@ -1686,7 +1686,7 @@ namespace NanoTwitchLeafs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Connect.
+        ///   Looks up a localized string similar to Connect to Server.
         /// </summary>
         public static string Window_Main_Tabs_TwitchLogin_Button_Connect {
             get {
@@ -1695,7 +1695,7 @@ namespace NanoTwitchLeafs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Disconnect.
+        ///   Looks up a localized string similar to Disconnect from Server.
         /// </summary>
         public static string Window_Main_Tabs_TwitchLogin_Button_Disconnect {
             get {

@@ -105,8 +105,6 @@ namespace NanoTwitchLeafs.Windows
 
                 delete_Button.Click += DeleteButton_Click;
 
-                // TODO ADD COLOR TO PLACEHOLDER "COLOR" Effect Collumn
-
                 TriggerListObject triggerListObject = new TriggerListObject
                 {
                     OnOffSliderValue = OnOffSliderValue,

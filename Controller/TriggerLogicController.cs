@@ -17,7 +17,7 @@ using WMPLib;
 
 namespace NanoTwitchLeafs.Controller
 {
-	public class TriggerLogicController
+	public class TriggerLogicController 
 	{
 		private readonly ILog _logger = LogManager.GetLogger(typeof(TriggerLogicController));
 		private readonly AppSettings _appSettings;

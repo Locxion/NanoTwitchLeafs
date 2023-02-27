@@ -1,21 +1,22 @@
 ﻿<Window x:Name="Devices_Info_Window" x:Class="NanoTwitchLeafs.Windows.DevicesInfoWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:NanoTwitchLeafs.Windows"
         xmlns:p="clr-namespace:NanoTwitchLeafs.Properties"
         mc:Ignorable="d"
-        Title="{x:Static p:Resources.Window_Devices_Title}" Height="454.447" Width="547.431" ResizeMode="NoResize" Closed="Window_Closed">
-    <Grid Margin="0,0,4,2">
+        Title="{x:Static p:Resources.Window_Devices_Title}" Width="550" ResizeMode="NoResize" Closed="Window_Closed" Height="470">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="devices_ListBox" HorizontalAlignment="Left" Height="374" Margin="10,9,0,0" VerticalAlignment="Top" Width="516" HorizontalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
-        <Button x:Name="removeDevice_Button" Content="{x:Static p:Resources.Window_Devices_Button_RemoveDevice}" HorizontalAlignment="Left" Margin="105,388,0,0" VerticalAlignment="Top" Width="97" Click="RemoveDevice_Button_Click" />
-        <Button x:Name="close_Button" Content="{x:Static p:Resources.Window_Devices_Button_Close}" HorizontalAlignment="Left" Margin="451,388,0,0" VerticalAlignment="Top" Width="75" Click="Close_Button_Click" />
-        <Button x:Name="renameDevice_Button" Content="{x:Static p:Resources.Window_Devices_Button_RenameButton}" HorizontalAlignment="Left" Margin="10,388,0,0" VerticalAlignment="Top" Width="90" Click="Rename_Button_Click" />
-        <Button x:Name="updateDevices_Button" Content="{x:Static p:Resources.Window_Devices_Button_UpdateDevices}" HorizontalAlignment="Left" Margin="335,388,0,0" VerticalAlignment="Top" Width="111" Click="updateDevices_Button_Click" />
-        <Button x:Name="pingDevice_Button" Content="Ping" HorizontalAlignment="Center" Margin="0,388,0,0" VerticalAlignment="Top" Click="pingDevice_Button_Click" Padding="4,1,4,1" />
+        <ListBox x:Name="devices_ListBox" Height="375" Margin="10,10,10,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
+        <StackPanel Margin="10,389,10,10" Orientation="Horizontal" HorizontalAlignment="Center" Height="25" VerticalAlignment="Bottom">
+            <Button x:Name="removeDevice_Button" Content="{x:Static p:Resources.Window_Devices_Button_RemoveDevice}" Click="RemoveDevice_Button_Click" Margin="5,0,5,0" />
+            <Button x:Name="renameDevice_Button" Content="{x:Static p:Resources.Window_Devices_Button_RenameButton}" Click="Rename_Button_Click" Margin="2,0,2,0" />
+            <Button x:Name="pingDevice_Button" Content="Ping" Click="pingDevice_Button_Click" Padding="4,1,4,1" Margin="5,0,5,0" />
+            <Button x:Name="updateDevices_Button" Content="{x:Static p:Resources.Window_Devices_Button_UpdateDevices}" Click="updateDevices_Button_Click" Margin="5,0,5,0" />
+            <Button x:Name="close_Button" Content="{x:Static p:Resources.Window_Devices_Button_Close}" Click="Close_Button_Click" Margin="5,0,5,0" />
+        </StackPanel>
     </Grid>
 </Window>

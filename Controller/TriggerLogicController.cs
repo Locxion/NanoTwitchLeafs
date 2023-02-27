@@ -739,7 +739,7 @@ namespace NanoTwitchLeafs.Controller
 				}
 			}
 
-			var currentCommandsAnswerStringBuilder = new StringBuilder(Properties.Resources.Code_TriggerLogic_ChatMessage_ActiveCommands);
+			var currentCommandsAnswerStringBuilder = new StringBuilder($"{username}! " + $"{Properties.Resources.Code_TriggerLogic_ChatMessage_ActiveCommands}");
 			var currentModCommandsAnswerStringBuilder = new StringBuilder("Active ModeratorCommands:");
 			var currentKeywordsAnswerStringBuilder = new StringBuilder("Active Keywords:");
 			foreach (var command in activeCommands)
@@ -758,16 +758,21 @@ namespace NanoTwitchLeafs.Controller
 			if (activeCommands.Count == 0)
 			{
 				SendMessageToChat(Properties.Resources.Code_TriggerLogic_ChatMessage_NoActiveCommands);
+				return;
 			}
-			else
+
+			var message = currentCommandsAnswerStringBuilder.ToString();
+			var splitMessages = HelperClass.SplitString(message, Constants.TwitchMessageMaxLength, '[');
+
+			foreach (var splitMessage in splitMessages)
 			{
 				if (_appSettings.WhisperMode)
 				{
-					_twitchController.SendWhisper(username, currentCommandsAnswerStringBuilder.ToString());
+					_twitchController.SendWhisper(username, splitMessage);
 				}
 				else
 				{
-					SendMessageToChat($"@{username}! {currentCommandsAnswerStringBuilder}");
+					SendMessageToChat(splitMessage);
 				}
 			}
 		}

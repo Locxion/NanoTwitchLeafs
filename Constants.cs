@@ -42,6 +42,12 @@ namespace NanoTwitchLeafs
 
 		#endregion
 
+		#region Twitch
+
+		public static int TwitchMessageMaxLength = 500;
+
+		#endregion
+
 		public static void SetCultureInfo(string languageCode)
 		{
 			CultureInfo cultureInfo = CultureInfo.GetCultureInfo(languageCode);

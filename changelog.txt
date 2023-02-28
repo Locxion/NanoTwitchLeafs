@@ -1,5 +1,12 @@
 Changelog for NanoTwitchLeafs - App/Bot
 
+Version 3.0.2.0 - 28.02.2023
+- Fixed some misaligned Ui Elements
+- Fixed Connection Test in TwitchLinkWindow
+- Fixed Spamming Test and Start Messages
+- Added Message Split if !nano help Message exceeds Twitch Character Limit (500)
+- Fixed generation of (null) File in Program Directory by moving Logger Init to App.cs
+
 Version 3.0.1.0 - 25.02.2023
 - Fixed wrong ServiceCredentials on Profile PicturePull and PubSub connection
 

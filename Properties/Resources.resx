@@ -206,10 +206,10 @@ We are watching you ... Kappa!</value>
     <value>Twitch</value>
   </data>
   <data name="Window_Main_Tabs_TwitchLogin_Button_Connect" xml:space="preserve">
-    <value>Connect</value>
+    <value>Connect to Server</value>
   </data>
   <data name="Window_Main_Tabs_TwitchLogin_Button_Disconnect" xml:space="preserve">
-    <value>Disconnect</value>
+    <value>Disconnect from Server</value>
   </data>
   <data name="Window_Main_Tabs_TwitchLogin_Label_Prefix" xml:space="preserve">
     <value>Command Prefix:</value>

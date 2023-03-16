@@ -286,7 +286,7 @@ namespace NanoTwitchLeafs.Controller
 		/// <param name="both"></param>
 		public void Disconnect(bool both = false)
 		{
-			if (_client.IsConnected)
+			if (_client != null && _client.IsConnected)
 			{
 				_client.Disconnect();
 				_client.OnLog -= Client_OnLog;

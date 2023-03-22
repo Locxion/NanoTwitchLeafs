@@ -26,7 +26,7 @@ namespace NanoTwitchLeafs.Controller
 
         private readonly ILog _logger = LogManager.GetLogger(typeof(NanoController));
 
-        private readonly string _websocketUrl = "wss://app.hyperate.io/socket/websocket?token=hOXGm5VyUHypYDLfMVSCpVLkUwrfLqRwXbPyBhVVyOrI3XBV65IMxVRspXAhVNU4";
+        private readonly string _websocketUrl = $"wss://app.hyperate.io/socket/websocket?token={Constants.ServiceCredentials.HyperateApi.ApiKey}";
         private WebSocket _webSocket;
         public bool _isConnected = false;
 

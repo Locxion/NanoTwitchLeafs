@@ -1,12 +1,13 @@
 ﻿namespace NanoTwitchLeafs.Objects
 {
 	/// <summary>
-	/// Class to Store all kinds of Credentials with a ClientId & Secret pair
+	/// Class to Store all kinds of Credentials
 	/// </summary>
 	public class ServiceCredentials
 	{
 		public TwitchApiCredentials TwitchApiCredentials { get; set; }
 		public StreamLabsApiCedentials StreamLabsApiCedentials { get; set; }
+		public HyperateApi HyperateApi { get; set; }
 	}
 
 	/// <summary>
@@ -36,6 +37,19 @@
 		{
 			ClientId = clientId;
 			ClientSecret = clientSecret;
+		}
+	}
+	
+	/// <summary>
+	/// Class to Store Api Key as a String
+	/// </summary>
+	public class HyperateApi
+	{
+		public string ApiKey { get; set; }
+
+		public HyperateApi(string apiKey)
+		{
+			ApiKey = apiKey;
 		}
 	}
 }

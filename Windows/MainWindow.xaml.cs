@@ -144,8 +144,8 @@ namespace NanoTwitchLeafs.Windows
 
 			_logger.Info("Initialize Streamlabs Controller");
 			_streamlabsController = new StreamlabsController(_appSettings);
-			_logger.Info("Load Service Credentials");
 
+			_logger.Info("Load Service Credentials");
 			if (File.Exists(Constants.SERVICE_CREDENTIALS_PATH))
 			{
 				var credentialsJson = File.ReadAllText(Constants.SERVICE_CREDENTIALS_PATH);

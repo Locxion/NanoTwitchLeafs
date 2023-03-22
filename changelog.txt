@@ -1,5 +1,10 @@
 Changelog for NanoTwitchLeafs - App/Bot
 
+Version 3.0.3.0 - 22.03.2023
+- Fixed Bug that Crashes the App cause TwitchClient is nonexistent. (thx BullzeyeGames for Report)
+- Fixed General Error Message to "Upload Logfile". Tells now to create Github Issue and upload Logfile there. (thx BullzeyeGames for Report)
+- Moved HypeRateApi Key to ServiceCredentials. (thx I7 for Report)
+
 Version 3.0.2.0 - 28.02.2023
 - Fixed some misaligned Ui Elements
 - Fixed Connection Test in TwitchLinkWindow

@@ -116,7 +116,18 @@ namespace NanoTwitchLeafs.Windows
 
 			if (_appSettings.DebugEnabled)
 				SetLogLevel(Level.Debug);
-
+			
+			_logger.Info("Load Service Credentials");
+			if (File.Exists(Constants.SERVICE_CREDENTIALS_PATH))
+			{
+				var credentialsJson = File.ReadAllText(Constants.SERVICE_CREDENTIALS_PATH);
+				Constants.ServiceCredentials = JsonConvert.DeserializeObject<ServiceCredentials>(credentialsJson);
+			}
+			else
+			{
+				_logger.Error("Could not load provided Service Credentials!");
+				//TODO Add Error Msg Box?
+			}
 			_logger.Info("Initialize Update Controller");
 			_updateController = new UpdateController();
 
@@ -144,18 +155,6 @@ namespace NanoTwitchLeafs.Windows
 
 			_logger.Info("Initialize Streamlabs Controller");
 			_streamlabsController = new StreamlabsController(_appSettings);
-
-			_logger.Info("Load Service Credentials");
-			if (File.Exists(Constants.SERVICE_CREDENTIALS_PATH))
-			{
-				var credentialsJson = File.ReadAllText(Constants.SERVICE_CREDENTIALS_PATH);
-				Constants.ServiceCredentials = JsonConvert.DeserializeObject<ServiceCredentials>(credentialsJson);
-			}
-			else
-			{
-				_logger.Error("Could not load provided Service Credentials!");
-				//TODO Add Error Msg Box?
-			}
 
 			try
 			{

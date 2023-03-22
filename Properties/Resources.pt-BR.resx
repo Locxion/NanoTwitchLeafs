@@ -120,9 +120,6 @@
   <data name="General_Button_OK" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="Window_Announcement_Title" xml:space="preserve">
-    <value>Novidades</value>
-  </data>
   <data name="General_Button_Changelog" xml:space="preserve">
     <value>Ver Changelog</value>
   </data>
@@ -274,9 +271,6 @@ Nós estamos te observando... Kappa!</value>
   <data name="Window_Main_Tabs_Settings_Checkbox_Debug" xml:space="preserve">
     <value>Habilitar Debug</value>
   </data>
-  <data name="Window_Main_Tabs_Settings_Checkbox_Analytics" xml:space="preserve">
-    <value>Habilitar análises anonimas</value>
-  </data>
   <data name="Window_Main_Tabs_Settings_Checkbox_Responses" xml:space="preserve">
     <value>Habilitar resposta no chat</value>
   </data>
@@ -300,9 +294,6 @@ Nós estamos te observando... Kappa!</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Label_Analytics" xml:space="preserve">
     <value>Análises:</value>
-  </data>
-  <data name="Window_Main_Tabs_Settings_Checkbox_AnalyticsChannel" xml:space="preserve">
-    <value>Compartilhar nome do canal</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Button_OpenDebugDir" xml:space="preserve">
     <value>Abrir pasta de Debug</value>
@@ -340,9 +331,6 @@ Nós estamos te observando... Kappa!</value>
   <data name="Window_Main_Tabs_Chat_Button_Info" xml:space="preserve">
     <value>Informações</value>
   </data>
-  <data name="Code_Main_MessageBox_AnalyticsError" xml:space="preserve">
-    <value>Falha ao enviar análises! Verifique se a comunicação com o Google Analytics não está bloqueado e tente novamente!</value>
-  </data>
   <data name="Code_Main_MessageBox_BetaTitle" xml:space="preserve">
     <value>Isso é uma versão Beta!</value>
   </data>
@@ -371,15 +359,9 @@ Verifique os logs para mais informações!</value>
   <data name="General_MessageBox_Thanks_Title" xml:space="preserve">
     <value>Valeu &lt;3</value>
   </data>
-  <data name="Code_Main_MessageBox_AnalyticsRestart" xml:space="preserve">
-    <value>As análises começarão após reiniciar o app! Obrigado pela sua ajuda!</value>
-  </data>
   <data name="General_MessageBox_Aw_Title" xml:space="preserve">
     <value>Vish...</value>
     <comment>Like a sad Aw...</comment>
-  </data>
-  <data name="Code_Main_MessageBox_AnalyticsDecision" xml:space="preserve">
-    <value>Nós entendemos a sua decisão. Mesmo assim, obrigado!</value>
   </data>
   <data name="Code_Main_ChatMessage_CooldownON" xml:space="preserve">
     <value>Cooldown da NanoLeaf foi habilitado! Cooldown foi definido para {0} segundos!</value>
@@ -395,9 +377,6 @@ Verifique os logs para mais informações!</value>
   </data>
   <data name="Code_Main_MessageBox_EmptyPrefix" xml:space="preserve">
     <value>Esta caixa não pode estar vazia!</value>
-  </data>
-  <data name="Code_Main_MessageBox_AnalyticsStartError" xml:space="preserve">
-    <value>Não foi possivel enviar a mensagem de inicio ao servidor de análise! Verifique o arquivo de log para mais informações!</value>
   </data>
   <data name="Code_Main_Label_NanoHelpText" xml:space="preserve">
     <value>Digite '{0}nano help' para a lista de comandos!</value>
@@ -835,26 +814,8 @@ Verifique o console e o arquivo de log para mais informações.</value>
   <data name="Window_TriggerDetail_ColorPicker_Error" xml:space="preserve">
     <value>Escolha uma cor com o seletor de cores!</value>
   </data>
-  <data name="Code_License_MessageBox_Confirm_RemoveLicense" xml:space="preserve">
-    <value>Você realmente deseja remover sua licença?</value>
-  </data>
-  <data name="Code_License_MessageBox_Confirm_RemoveLicenseFile" xml:space="preserve">
-    <value>O arquivo de licença também deve ser excluído?</value>
-  </data>
   <data name="Window_AppInfo_Button_License" xml:space="preserve">
     <value>Informação de licença</value>
-  </data>
-  <data name="Window_License_Button_Activate" xml:space="preserve">
-    <value>Ativar licença</value>
-  </data>
-  <data name="Window_License_Button_Deactivate" xml:space="preserve">
-    <value>Desativar licença</value>
-  </data>
-  <data name="Window_License_MessageBox_Error_CouldNotValidateKey" xml:space="preserve">
-    <value>A chave de licença não pôde ser validada!</value>
-  </data>
-  <data name="Window_License_MessageBox_Error_NoKey" xml:space="preserve">
-    <value>Por favor, insira uma chave de licença válida!</value>
   </data>
   <data name="Window_TwitchLink_Title" xml:space="preserve">
     <value>Vincule sua conta do Twitch</value>
@@ -956,12 +917,6 @@ Twitch com sua conta de bot e clique no botão abaixo.</value>
     <value>Teste de Conexão</value>
     <comment>Fuzzy</comment>
   </data>
-  <data name="Window_TwitchLink_Test_Text" xml:space="preserve">
-    <value>Quase pronto!
-
-Agora testamos sua conexão com os serviços de chat e Twitch!</value>
-    <comment>Fuzzy</comment>
-  </data>
   <data name="Window_TwitchLink_Progress_1" xml:space="preserve">
     <value>Conecte-se ao Twitch</value>
     <comment>Fuzzy</comment>
@@ -1003,9 +958,6 @@ fazendo seu primeiro Trigger!</value>
   <data name="Window_Main_Tabs_TwitchLogin_AccountLabel_Text2" xml:space="preserve">
     <value>Conectado ao Twitch Channel </value>
     <comment>Fuzzy</comment>
-  </data>
-  <data name="Window_Main_Tabs_Settings_Button_UploadLogfile" xml:space="preserve">
-    <value>Carregar arquivo de log</value>
   </data>
   <data name="Window_Responses_StartupMessage_CheckBox" xml:space="preserve">
     <value>Mensagem de inicialização ativa</value>

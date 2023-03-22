@@ -120,9 +120,6 @@
   <data name="General_Button_OK" xml:space="preserve">
     <value>Bast</value>
   </data>
-  <data name="Window_Announcement_Title" xml:space="preserve">
-    <value>Neiichkeitn</value>
-  </data>
   <data name="Window_AppInfo_Button_Feedback" xml:space="preserve">
     <value>Gib ma Rückmödung</value>
   </data>

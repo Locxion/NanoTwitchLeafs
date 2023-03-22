@@ -120,9 +120,6 @@
   <data name="General_Button_OK" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="Window_Announcement_Title" xml:space="preserve">
-    <value>Bekendtgørelse</value>
-  </data>
   <data name="General_Button_Changelog" xml:space="preserve">
     <value>Se Changelog</value>
   </data>
@@ -274,9 +271,6 @@ Vi holder øje med dig ... Kappa!</value>
   <data name="Window_Main_Tabs_Settings_Checkbox_Debug" xml:space="preserve">
     <value>Aktiver Debug</value>
   </data>
-  <data name="Window_Main_Tabs_Settings_Checkbox_Analytics" xml:space="preserve">
-    <value>Aktiver anonym analyse</value>
-  </data>
   <data name="Window_Main_Tabs_Settings_Checkbox_Responses" xml:space="preserve">
     <value>Altiver Chat svar</value>
   </data>
@@ -300,9 +294,6 @@ Vi holder øje med dig ... Kappa!</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Label_Analytics" xml:space="preserve">
     <value>Analyse:</value>
-  </data>
-  <data name="Window_Main_Tabs_Settings_Checkbox_AnalyticsChannel" xml:space="preserve">
-    <value>Del kanalnavn</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Button_OpenDebugDir" xml:space="preserve">
     <value>Åben Debug mappe</value>
@@ -340,11 +331,6 @@ Vi holder øje med dig ... Kappa!</value>
   <data name="Window_Main_Tabs_Chat_Button_Info" xml:space="preserve">
     <value>Info</value>
   </data>
-  <data name="Code_Main_MessageBox_AnalyticsError" xml:space="preserve">
-    <value>Kommunikationen med Google Analytics mislykkedes!
-Sørg for, at forbindelsen til Google Analytics
-ikke er blokeret, og prøv igen!</value>
-  </data>
   <data name="Code_Main_MessageBox_BetaTitle" xml:space="preserve">
     <value>Dette er en Beta Version!</value>
   </data>
@@ -376,15 +362,9 @@ Venligst tjek Log for fejl!</value>
   <data name="General_MessageBox_Thanks_Title" xml:space="preserve">
     <value>Tak &lt;3</value>
   </data>
-  <data name="Code_Main_MessageBox_AnalyticsRestart" xml:space="preserve">
-    <value>Analyse samlingen starter efter genstart af programmet. Tak for hjælpen!</value>
-  </data>
   <data name="General_MessageBox_Aw_Title" xml:space="preserve">
     <value>Øv ...</value>
     <comment>Like a sad Aw...</comment>
-  </data>
-  <data name="Code_Main_MessageBox_AnalyticsDecision" xml:space="preserve">
-    <value>Vi forstår din beslutning. Tak alligevel!</value>
   </data>
   <data name="Code_Main_ChatMessage_CooldownON" xml:space="preserve">
     <value>NanoLeaf Cooldown aktiveret! Cooldown sat til {0} sekunder!</value>
@@ -400,9 +380,6 @@ Venligst tjek Log for fejl!</value>
   </data>
   <data name="Code_Main_MessageBox_EmptyPrefix" xml:space="preserve">
     <value>Denne boks må ikke være tom!</value>
-  </data>
-  <data name="Code_Main_MessageBox_AnalyticsStartError" xml:space="preserve">
-    <value>Kunne ikke sende opstart meddelelse til analyse server. Venligst se logfilen for mere information!</value>
   </data>
   <data name="Code_Main_Label_NanoHelpText" xml:space="preserve">
     <value>Skriv '{0}nano help' for en liste over kommandoer!</value>
@@ -847,29 +824,8 @@ Kontroller konsollen eller logfilen for IP-adressen.</value>
   <data name="Window_TriggerDetail_ColorPicker_Error" xml:space="preserve">
     <value>Vælg en farve med farvevælgeren!</value>
   </data>
-  <data name="Code_License_MessageBox_Confirm_RemoveLicense" xml:space="preserve">
-    <value>Vil du virkelig fjerne din licens?</value>
-  </data>
-  <data name="Code_License_MessageBox_Confirm_RemoveLicenseFile" xml:space="preserve">
-    <value>Slet licensfil også?</value>
-  </data>
   <data name="Window_AppInfo_Button_License" xml:space="preserve">
     <value>Licensinfo</value>
-  </data>
-  <data name="Window_License_Button_Activate" xml:space="preserve">
-    <value>Aktivér licens</value>
-  </data>
-  <data name="Window_License_Button_Deactivate" xml:space="preserve">
-    <value>Deaktiver licens</value>
-  </data>
-  <data name="Window_License_MessageBox_Error_CouldNotValidateKey" xml:space="preserve">
-    <value>Licensnøglen kunne ikke valideres!</value>
-  </data>
-  <data name="Window_License_MessageBox_Error_NoKey" xml:space="preserve">
-    <value>Indtast venligst en gyldig licensnøgle!</value>
-  </data>
-  <data name="Window_Main_Tabs_Settings_Button_UploadLogfile" xml:space="preserve">
-    <value>Upload logfil</value>
   </data>
   <data name="Window_Responses_StartupMessage_CheckBox" xml:space="preserve">
     <value>Startmeddelelse aktiv</value>

@@ -120,9 +120,6 @@
   <data name="General_Button_OK" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="Window_Announcement_Title" xml:space="preserve">
-    <value>Объявления</value>
-  </data>
   <data name="General_Button_Changelog" xml:space="preserve">
     <value>Просмотреть журнал изменений</value>
   </data>
@@ -274,9 +271,6 @@
   <data name="Window_Main_Tabs_Settings_Checkbox_Debug" xml:space="preserve">
     <value>Включить отладку</value>
   </data>
-  <data name="Window_Main_Tabs_Settings_Checkbox_Analytics" xml:space="preserve">
-    <value>Разрешить анонимный анализ</value>
-  </data>
   <data name="Window_Main_Tabs_Settings_Checkbox_Responses" xml:space="preserve">
     <value>Включить чат-реакцию</value>
   </data>
@@ -300,9 +294,6 @@
   </data>
   <data name="Window_Main_Tabs_Settings_Label_Analytics" xml:space="preserve">
     <value>Аналитика:</value>
-  </data>
-  <data name="Window_Main_Tabs_Settings_Checkbox_AnalyticsChannel" xml:space="preserve">
-    <value>Имя делиться каналом</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Button_OpenDebugDir" xml:space="preserve">
     <value>Открытый каталог отладки</value>
@@ -341,11 +332,6 @@
   <data name="Window_Main_Tabs_Chat_Button_Info" xml:space="preserve">
     <value>Информация</value>
   </data>
-  <data name="Code_Main_MessageBox_AnalyticsError" xml:space="preserve">
-    <value>Не удалось отправить аналитику!
-Пожалуйста, убедитесь, что коммуникация
-в Google Analytics не заблокирован и попробуйте еще раз!</value>
-  </data>
   <data name="Code_Main_MessageBox_BetaTitle" xml:space="preserve">
     <value>Это бета-версия!</value>
   </data>
@@ -376,15 +362,9 @@
   <data name="General_MessageBox_Thanks_Title" xml:space="preserve">
     <value>Спасибо &lt;3</value>
   </data>
-  <data name="Code_Main_MessageBox_AnalyticsRestart" xml:space="preserve">
-    <value>Аналитическая коллекция начинается после перезапуска приложения! Спасибо за помощь!</value>
-  </data>
   <data name="General_MessageBox_Aw_Title" xml:space="preserve">
     <value>Ох...</value>
     <comment>Like a sad Aw...</comment>
-  </data>
-  <data name="Code_Main_MessageBox_AnalyticsDecision" xml:space="preserve">
-    <value>Мы понимаем ваше решение. Все равно спасибо!</value>
   </data>
   <data name="Code_Main_ChatMessage_CooldownON" xml:space="preserve">
     <value>NanoLeaf Коулдаун  включен! Коулдаун  установлен на {0} Секунды!</value>
@@ -400,9 +380,6 @@
   </data>
   <data name="Code_Main_MessageBox_EmptyPrefix" xml:space="preserve">
     <value>Эта Ячейка не может быть Пустой!</value>
-  </data>
-  <data name="Code_Main_MessageBox_AnalyticsStartError" xml:space="preserve">
-    <value>Не смог отправить стартовое сообщение на аналитический сервер! Пожалуйста, просмотрите Логин для получения дополнительной информации!</value>
   </data>
   <data name="Code_Main_Label_NanoHelpText" xml:space="preserve">
     <value>Напишите '{0}nano help' для Списка Команд!</value>
@@ -792,25 +769,7 @@ I tried to change myself but I couldn't :P</comment>
   <data name="Window_TriggerDetail_ColorPicker_Error" xml:space="preserve">
     <value />
   </data>
-  <data name="Code_License_MessageBox_Confirm_RemoveLicense" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Code_License_MessageBox_Confirm_RemoveLicenseFile" xml:space="preserve">
-    <value />
-  </data>
   <data name="Window_AppInfo_Button_License" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Window_License_Button_Activate" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Window_License_Button_Deactivate" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Window_License_MessageBox_Error_CouldNotValidateKey" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Window_License_MessageBox_Error_NoKey" xml:space="preserve">
     <value />
   </data>
   <data name="Window_TwitchLink_Title" xml:space="preserve">
@@ -855,9 +814,6 @@ I tried to change myself but I couldn't :P</comment>
   <data name="Window_TwitchLink_Tab_ConnectionTest" xml:space="preserve">
     <value />
   </data>
-  <data name="Window_TwitchLink_Test_Text" xml:space="preserve">
-    <value />
-  </data>
   <data name="Window_TwitchLink_Progress_1" xml:space="preserve">
     <value />
   </data>
@@ -887,9 +843,6 @@ I tried to change myself but I couldn't :P</comment>
   </data>
   <data name="Window_Main_Tabs_TwitchLogin_AccountLabel_Text2" xml:space="preserve">
     <value />
-  </data>
-  <data name="Window_Main_Tabs_Settings_Button_UploadLogfile" xml:space="preserve">
-    <value>Загрузить файл журнала</value>
   </data>
   <data name="Window_Responses_StartupMessage_CheckBox" xml:space="preserve">
     <value>Сообщение при запуске активно</value>

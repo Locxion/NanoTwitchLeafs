@@ -50,7 +50,19 @@ jobs:
       with:
         name: "ServiceCredentials"
         id: create-json
-        json: '{"TwitchApiCredentials":{"ClientId": "${{ secrets.TWITCHCLIENTID }}", "ClientSecret": "${{ secrets.TWITCHSECRET }}"}, "StreamLabsApiCedentials": {"ClientId": "${{ secrets.STREAMLABSCLIENTID }}", "ClientSecret":"${{ secrets.STREAMLABSSECRET }}"}}'
+        json: '{
+                "TwitchApiCredentials":{
+                    "ClientId":"${{ secrets.TWITCHCLIENTID }}",
+                    "ClientSecret":"${{ secrets.TWITCHSECRET }}"
+                },
+                "StreamLabsApiCedentials":{
+                    "ClientId":"${{ secrets.STREAMLABSCLIENTID }}",
+                    "ClientSecret":"${{ secrets.STREAMLABSSECRET }}"
+                },
+                    "HyperateApi":{
+                    "ApiKey":"${{ secrets.HYPERATE_API_KEY }}"
+                }
+              }'
         dir: './NanoTwitchLeafs/'
     # Zip Files
     - name: Build ZIP

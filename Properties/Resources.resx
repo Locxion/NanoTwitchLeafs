@@ -120,9 +120,6 @@
   <data name="General_Button_OK" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="Window_Announcement_Title" xml:space="preserve">
-    <value>Announcements</value>
-  </data>
   <data name="General_Button_Changelog" xml:space="preserve">
     <value>View Changelog</value>
   </data>
@@ -271,9 +268,6 @@ We are watching you ... Kappa!</value>
   <data name="Window_Main_Tabs_Settings_Checkbox_Debug" xml:space="preserve">
     <value>Enable Debug</value>
   </data>
-  <data name="Window_Main_Tabs_Settings_Checkbox_Analytics" xml:space="preserve">
-    <value>Enable anonymous Analytics</value>
-  </data>
   <data name="Window_Main_Tabs_Settings_Checkbox_Responses" xml:space="preserve">
     <value>Enable Chat Response</value>
   </data>
@@ -297,9 +291,6 @@ We are watching you ... Kappa!</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Label_Analytics" xml:space="preserve">
     <value>Analytics:</value>
-  </data>
-  <data name="Window_Main_Tabs_Settings_Checkbox_AnalyticsChannel" xml:space="preserve">
-    <value>Share Channel Name</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Button_OpenDebugDir" xml:space="preserve">
     <value>Debug Directory</value>
@@ -337,11 +328,6 @@ We are watching you ... Kappa!</value>
   <data name="Window_Main_Tabs_Chat_Button_Info" xml:space="preserve">
     <value>Info</value>
   </data>
-  <data name="Code_Main_MessageBox_AnalyticsError" xml:space="preserve">
-    <value>Failed to Send Analytics!
-Please make sure that Communication
-to Google Analytics isn't blocked and try again!</value>
-  </data>
   <data name="Code_Main_MessageBox_BetaTitle" xml:space="preserve">
     <value>This is a Beta Version!</value>
   </data>
@@ -372,15 +358,9 @@ Please check Log for Errors!</value>
   <data name="General_MessageBox_Thanks_Title" xml:space="preserve">
     <value>Thanks &lt;3</value>
   </data>
-  <data name="Code_Main_MessageBox_AnalyticsRestart" xml:space="preserve">
-    <value>The Analytics Collection starts after a Restart of the App! Thanks for your Help!</value>
-  </data>
   <data name="General_MessageBox_Aw_Title" xml:space="preserve">
     <value>Aw ...</value>
     <comment>Like a sad Aw...</comment>
-  </data>
-  <data name="Code_Main_MessageBox_AnalyticsDecision" xml:space="preserve">
-    <value>We understand your Decision. Thanks anyway!</value>
   </data>
   <data name="Code_Main_ChatMessage_CooldownON" xml:space="preserve">
     <value>NanoLeaf Cooldown enabled! Cooldown set to {0} Seconds!</value>
@@ -396,9 +376,6 @@ Please check Log for Errors!</value>
   </data>
   <data name="Code_Main_MessageBox_EmptyPrefix" xml:space="preserve">
     <value>This Box can not be Empty!</value>
-  </data>
-  <data name="Code_Main_MessageBox_AnalyticsStartError" xml:space="preserve">
-    <value>Could not send Startup Message to Analytics Server! Please see Logfile for more Info!</value>
   </data>
   <data name="Code_Main_Label_NanoHelpText" xml:space="preserve">
     <value>Write '{0}nano help' for a List of Commands!</value>
@@ -842,24 +819,6 @@ Please check Console or Logfile for the Ip Adress.</value>
   <data name="Window_AppInfo_Button_License" xml:space="preserve">
     <value>License Info</value>
   </data>
-  <data name="Window_License_Button_Activate" xml:space="preserve">
-    <value>Activate License</value>
-  </data>
-  <data name="Window_License_Button_Deactivate" xml:space="preserve">
-    <value>Deactivate License</value>
-  </data>
-  <data name="Window_License_MessageBox_Error_NoKey" xml:space="preserve">
-    <value>Please enter a valid License Key!</value>
-  </data>
-  <data name="Window_License_MessageBox_Error_CouldNotValidateKey" xml:space="preserve">
-    <value>License Key could not be validated!</value>
-  </data>
-  <data name="Code_License_MessageBox_Confirm_RemoveLicense" xml:space="preserve">
-    <value>Do you really want to remove your License?</value>
-  </data>
-  <data name="Code_License_MessageBox_Confirm_RemoveLicenseFile" xml:space="preserve">
-    <value>Delete License File too?</value>
-  </data>
   <data name="Window_TwitchLink_Title" xml:space="preserve">
     <value>Link your Twitch Account</value>
   </data>
@@ -946,11 +905,6 @@ Twitch with your Bot Account and then Click the Button below.</value>
   <data name="Window_TwitchLink_Tab_ConnectionTest" xml:space="preserve">
     <value>Connection Test</value>
   </data>
-  <data name="Window_TwitchLink_Test_Text" xml:space="preserve">
-    <value>Almost done!
-
-Now we Test your Connection to the Chat and Twitch Services!</value>
-  </data>
   <data name="Window_TwitchLink_Progress_1" xml:space="preserve">
     <value>Connect to Twitch</value>
   </data>
@@ -982,9 +936,6 @@ making your first Trigger!</value>
   </data>
   <data name="Window_Main_Tabs_TwitchLogin_AccountLabel_Text2" xml:space="preserve">
     <value>Connected to Twitch Channel </value>
-  </data>
-  <data name="Window_Main_Tabs_Settings_Button_UploadLogfile" xml:space="preserve">
-    <value>Upload Logfile</value>
   </data>
   <data name="Window_Responses_StartupMessage_CheckBox" xml:space="preserve">
     <value>Start Message Activated</value>
@@ -1029,9 +980,6 @@ to use Donation Trigger</value>
   <data name="Window_Main_Tabs_Streamlabs_DisconnectButton_Text" xml:space="preserve">
     <value>Disconnect from Server</value>
   </data>
-  <data name="Window_LicenseInfo_GetLicenseLink_Text" xml:space="preserve">
-    <value>Get a License!</value>
-  </data>
   <data name="Window_TriggerDetail_RadioButton_UserColor" xml:space="preserve">
     <value>User Color</value>
   </data>
@@ -1050,16 +998,10 @@ Now we Test your Connection to the Chat and Twitch Services!</value>
     <value>Connection Test done! YaY</value>
   </data>
   <data name="General_MessageBox_GeneralErrorCrash_Text" xml:space="preserve">
-    <value>An Error occurred. Please restart the App and go to the Settings, press 'Upload Logfile' and contact the Developer!</value>
+    <value>An Error occurred. Please restart the App and create an Issue on Github and provide your Logfile!</value>
   </data>
   <data name="General_MessageBox_GeneralError_Text" xml:space="preserve">
-    <value>An Error occurred. Please go to the Settings, press 'Upload Logfile' and contact the Developer!</value>
-  </data>
-  <data name="General_MessageBox_LogUploaded_Text" xml:space="preserve">
-    <value>Logfile uploaded. Please Contact the Developer!</value>
-  </data>
-  <data name="General_MessageBox_LogUploaded_Fail_Text" xml:space="preserve">
-    <value>Logfile upload failed! Please open Debug Folder and send the whole 'nanotwitchleafs.log' File to the Developer!</value>
+    <value>An Error occurred. Please create an Issue on Github and provide your Logfile!</value>
   </data>
   <data name="Window_Main_Tabs_HypeRate_MessageBox_EnterID_Text" xml:space="preserve">
     <value>Please enter your HypeRate ID</value>

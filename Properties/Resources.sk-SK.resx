@@ -120,9 +120,6 @@
   <data name="General_Button_OK" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="Window_Announcement_Title" xml:space="preserve">
-    <value>Oznámenia</value>
-  </data>
   <data name="General_Button_Changelog" xml:space="preserve">
     <value>Zoznam zmien</value>
   </data>
@@ -274,9 +271,6 @@ Odteraz ťa sledujeme... Kappa!</value>
   <data name="Window_Main_Tabs_Settings_Checkbox_Debug" xml:space="preserve">
     <value>Zapnúť debug</value>
   </data>
-  <data name="Window_Main_Tabs_Settings_Checkbox_Analytics" xml:space="preserve">
-    <value>Zapnúť anonymnú Analýzu</value>
-  </data>
   <data name="Window_Main_Tabs_Settings_Checkbox_Responses" xml:space="preserve">
     <value>Zapnúť odpovede z chatu</value>
   </data>
@@ -300,9 +294,6 @@ Odteraz ťa sledujeme... Kappa!</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Label_Analytics" xml:space="preserve">
     <value>Analýza:</value>
-  </data>
-  <data name="Window_Main_Tabs_Settings_Checkbox_AnalyticsChannel" xml:space="preserve">
-    <value>Zdieľať názov kanála</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Button_OpenDebugDir" xml:space="preserve">
     <value>Priečinok pre debug</value>
@@ -340,11 +331,6 @@ Odteraz ťa sledujeme... Kappa!</value>
   <data name="Window_Main_Tabs_Chat_Button_Info" xml:space="preserve">
     <value>Informácie</value>
   </data>
-  <data name="Code_Main_MessageBox_AnalyticsError" xml:space="preserve">
-    <value>Poslanie Analýzy zlyhalo!
-Prosím uisti sa, že nemáš zablokované 
-Google Analytics a skús znova!</value>
-  </data>
   <data name="Code_Main_MessageBox_BetaTitle" xml:space="preserve">
     <value>Toto je Beta verzia!</value>
   </data>
@@ -375,15 +361,9 @@ Prosím skontroluj log, kde nastala chyba!</value>
   <data name="General_MessageBox_Thanks_Title" xml:space="preserve">
     <value>Ďakujem &lt;3</value>
   </data>
-  <data name="Code_Main_MessageBox_AnalyticsRestart" xml:space="preserve">
-    <value>Zber dát pre analýzu začne po reštarte aplikácie! Ďakujeme za tvoju pomoc!</value>
-  </data>
   <data name="General_MessageBox_Aw_Title" xml:space="preserve">
     <value>Joj ...</value>
     <comment>Like a sad Aw...</comment>
-  </data>
-  <data name="Code_Main_MessageBox_AnalyticsDecision" xml:space="preserve">
-    <value>Chápeme tvoje rozhodnutie. Aj tak ďakujeme!</value>
   </data>
   <data name="Code_Main_ChatMessage_CooldownON" xml:space="preserve">
     <value>Časovač NanoLeaf je spustený! Je nastavený na {0} sekúnd!</value>
@@ -399,9 +379,6 @@ Prosím skontroluj log, kde nastala chyba!</value>
   </data>
   <data name="Code_Main_MessageBox_EmptyPrefix" xml:space="preserve">
     <value>Toto pole nesmie ostať prázdne!</value>
-  </data>
-  <data name="Code_Main_MessageBox_AnalyticsStartError" xml:space="preserve">
-    <value>Serveru pre analýzy nebolo možné poslať štartovaciu správu! Prosím prezri log súbor pre viac informácií!</value>
   </data>
   <data name="Code_Main_Label_NanoHelpText" xml:space="preserve">
     <value>Napíš '{0}nano help' pre výpis príkazov!</value>
@@ -841,26 +818,8 @@ Prosím skontroluj konzolu alebo log súbor kvôli IP adrese.</value>
   <data name="Window_TriggerDetail_ColorPicker_Error" xml:space="preserve">
     <value>Prosím vyber farbu z farebnej palety!</value>
   </data>
-  <data name="Code_License_MessageBox_Confirm_RemoveLicense" xml:space="preserve">
-    <value>Chceš naozaj odstrániť tvoju licenciu?</value>
-  </data>
-  <data name="Code_License_MessageBox_Confirm_RemoveLicenseFile" xml:space="preserve">
-    <value>Vymazať tiež licenčný súbor?</value>
-  </data>
   <data name="Window_AppInfo_Button_License" xml:space="preserve">
     <value>Informácie o licencií</value>
-  </data>
-  <data name="Window_License_Button_Activate" xml:space="preserve">
-    <value>Aktivovať licenciu</value>
-  </data>
-  <data name="Window_License_Button_Deactivate" xml:space="preserve">
-    <value>Deaktivovať licenciu</value>
-  </data>
-  <data name="Window_License_MessageBox_Error_CouldNotValidateKey" xml:space="preserve">
-    <value>Licenčný kľúč sa nepodarilo overiť!</value>
-  </data>
-  <data name="Window_License_MessageBox_Error_NoKey" xml:space="preserve">
-    <value>Prosím zadaj platný licenčný kľúč!</value>
   </data>
   <data name="Window_TwitchLink_Title" xml:space="preserve">
     <value>Prepojiť Twitch účet</value>
@@ -948,11 +907,6 @@ Prosím zadaj meno Bota na Twitchi, uisti sa, že si prihlásený(á) cez účet
   <data name="Window_TwitchLink_Tab_ConnectionTest" xml:space="preserve">
     <value>Skúška spojenia</value>
   </data>
-  <data name="Window_TwitchLink_Test_Text" xml:space="preserve">
-    <value>Takmer hotovo!
-
-Teraz otestujeme tvoje spojenie s chatom a službami Twitchu!</value>
-  </data>
   <data name="Window_TwitchLink_Progress_1" xml:space="preserve">
     <value>Pripojiť na Twitch</value>
   </data>
@@ -984,9 +938,6 @@ a začať vytvárať svoj prvý spúšťač!</value>
   </data>
   <data name="Window_Main_Tabs_TwitchLogin_AccountLabel_Text2" xml:space="preserve">
     <value>Pripojené do Twitch kanála </value>
-  </data>
-  <data name="Window_Main_Tabs_Settings_Button_UploadLogfile" xml:space="preserve">
-    <value>Nahrať protokolový súbor</value>
   </data>
   <data name="Window_Responses_StartupMessage_CheckBox" xml:space="preserve">
     <value>Správa pri spustení aktívna</value>

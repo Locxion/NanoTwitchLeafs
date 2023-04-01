@@ -77,7 +77,7 @@ namespace NanoTwitchLeafs.Controller
             {
                 return;
             }
-            OnFollow?.Invoke(e.NewFollowers.First().FromUserName);
+            OnFollow?.Invoke(e.NewFollowers.First().UserName);
         }
 
         private async Task<string> GetChannelId(string channelName)

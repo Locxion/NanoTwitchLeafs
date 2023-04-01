@@ -49,6 +49,7 @@ namespace NanoTwitchLeafs.Controller
 		private readonly ILog _logger = LogManager.GetLogger(typeof(TwitchController));
 		public TwitchClient _client;
 		public TwitchClient _broadCasterClient;
+		public TwitchAPI _api;
 		private AppSettings _appSettings;
 		public TwitchPubSubController _twitchPubSubController;
 		public AppSettingsController _appSettingsController;
@@ -90,6 +91,10 @@ namespace NanoTwitchLeafs.Controller
 						OnTwitchEventReceived?.Invoke(e.GiftedSubscription.DisplayName, TriggerTypeEnum.GiftSubscription.ToString(), e.GiftedSubscription.IsAnonymous);
 					}
 				});
+			_api = new TwitchAPI();
+			_api.Settings.ClientId = HelperClass.GetTwitchApiCredentials(_appSettings).ClientId;
+			_api.Settings.AccessToken = _appSettings.BotAuthObject.Access_Token;
+			
 		}
 
 		/// <summary>
@@ -384,11 +389,13 @@ namespace NanoTwitchLeafs.Controller
 		/// </summary>
 		/// <param name="userName"></param>
 		/// <param name="message"></param>
-		public void SendWhisper(string userName, string message)
+		public async void SendWhisper(string userName, string message)
 		{
 			if (!_client.IsConnected)
 				return;
-			_client.SendWhisper(userName, message);
+			var fromUserId = await HelperClass.GetUserId(_api, _appSettings, _appSettings.BotName);
+			var toUserId = await HelperClass.GetUserId(_api, _appSettings, userName);
+			await _api.Helix.Whispers.SendWhisperAsync(fromUserId, toUserId, message, true);
 			_logger.Info($"-> to {userName} - {message}");
 		}
 

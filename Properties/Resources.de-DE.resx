@@ -992,10 +992,10 @@ Jetzt testen wir die Verbindung zu Twitch!</value>
     <value>Verbindungstest war erfolgreich! YaY</value>
   </data>
   <data name="General_MessageBox_GeneralError_Text" xml:space="preserve">
-    <value>Ein Fehler ist aufgetreten! Bitte geh zu den Einstellungen, lade das Logfile hoch und kontaktiere den Entwickler!</value>
+    <value>Ein Fehler ist aufgetreten! Bitte erstelle in Issue auf Github!</value>
   </data>
   <data name="General_MessageBox_GeneralErrorCrash_Text" xml:space="preserve">
-    <value>Ein Fehler ist aufgetreten! Bitte starte die App neu, geh zu den Einstellungen, lade das Logfile hoch und kontaktiere den Entwickler!</value>
+    <value>Ein Fehler ist aufgetreten! Bitte starte die App neu und erstelle ein Issue auf Github!</value>
   </data>
   <data name="Window_Main_Tabs_HypeRate_MessageBox_EnterID_Text" xml:space="preserve">
     <value>Bitte gib deine HypeRate ID ein</value>

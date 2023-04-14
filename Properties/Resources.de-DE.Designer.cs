@@ -889,7 +889,7 @@ namespace NanoTwitchLeafs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ein Fehler ist aufgetreten! Bitte geh zu den Einstellungen, lade das Logfile hoch und kontaktiere den Entwickler!.
+        ///   Looks up a localized string similar to Ein Fehler ist aufgetreten! Bitte erstelle in Issue auf Github!.
         /// </summary>
         public static string General_MessageBox_GeneralError_Text {
             get {
@@ -898,7 +898,7 @@ namespace NanoTwitchLeafs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ein Fehler ist aufgetreten! Bitte starte die App neu, geh zu den Einstellungen, lade das Logfile hoch und kontaktiere den Entwickler!.
+        ///   Looks up a localized string similar to Ein Fehler ist aufgetreten! Bitte starte die App neu und erstelle ein Issue auf Github!.
         /// </summary>
         public static string General_MessageBox_GeneralErrorCrash_Text {
             get {

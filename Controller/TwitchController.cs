@@ -334,19 +334,19 @@ namespace NanoTwitchLeafs.Controller
 
 		private void OnNewSubscriber(object sender, OnNewSubscriberArgs e)
 		{
-			_logger.Debug($"Recieved New Subscribtion from {e.Subscriber.DisplayName}.");
+			_logger.Debug($"Recieved New Subscription from {e.Subscriber.DisplayName}.");
 			OnTwitchEventReceived?.Invoke(e.Subscriber.DisplayName, TriggerTypeEnum.Subscription.ToString());
 		}
 
 		private void OnReSubscriber(object sender, OnReSubscriberArgs e)
 		{
-			_logger.Debug($"Recieved Re-Subscribtion from {e.ReSubscriber.DisplayName}. Month - {e.ReSubscriber.Months}.");
+			_logger.Debug($"Recieved Re-Subscription from {e.ReSubscriber.DisplayName}. Month - {e.ReSubscriber.Months}.");
 			OnTwitchEventReceived?.Invoke(e.ReSubscriber.DisplayName, TriggerTypeEnum.ReSubscription.ToString());
 		}
 
 		private void OnGiftedSubscription(object sender, OnGiftedSubscriptionArgs e)
 		{
-			_logger.Debug($"Recieved Gift Subscribtion. Anonymous - {e.GiftedSubscription.IsAnonymous}.");
+			_logger.Debug($"Recieved Gift Subscription. Anonymous - {e.GiftedSubscription.IsAnonymous}.");
 
 			_subscriptionSubject.OnNext(e);
 		}

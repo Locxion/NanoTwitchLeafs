@@ -59,7 +59,7 @@
         <RadioButton x:Name="HypeRate_RadioButton" GroupName="Trigger" Content="HypeRate" HorizontalAlignment="Left" Margin="10,125,0,0" VerticalAlignment="Top" Click="TriggerRadioButton_Click" />
         <RadioButton x:Name="Donation_RadioButton" GroupName="Trigger" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_Donation}" HorizontalAlignment="Left" Margin="231,85,0,0" VerticalAlignment="Top" Click="TriggerRadioButton_Click" />
         <RadioButton x:Name="UserColor_RadioButton" GroupName="Trigger" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_UserColor}" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" Click="TriggerRadioButton_Click" />
-        <RadioButton x:Name="GiftBomb_RadioButton" GroupName="Trigger" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_GiftBomb}" HorizontalAlignment="Left" Margin="360,85,0,0" VerticalAlignment="Top" Click="TriggerRadioButton_Click" IsEnabled="False" />
-        <RadioButton x:Name="AnonGiftBomb_RadioButton" GroupName="Trigger" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_AnonGiftBomb}" HorizontalAlignment="Left" Margin="360,125,0,0" VerticalAlignment="Top" Click="TriggerRadioButton_Click" IsEnabled="False" />
+        <RadioButton x:Name="GiftBomb_RadioButton" GroupName="Trigger" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_GiftBomb}" HorizontalAlignment="Left" Margin="360,85,0,0" VerticalAlignment="Top" Click="TriggerRadioButton_Click" IsEnabled="true" />
+        <RadioButton x:Name="AnonGiftBomb_RadioButton" GroupName="Trigger" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_AnonGiftBomb}" HorizontalAlignment="Left" Margin="360,125,0,0" VerticalAlignment="Top" Click="TriggerRadioButton_Click" IsEnabled="true" />
     </Grid>
 </Window>

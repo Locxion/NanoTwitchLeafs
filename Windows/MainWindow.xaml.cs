@@ -545,7 +545,7 @@ namespace NanoTwitchLeafs.Windows
 			_appSettings.BroadcasterAvatarUrl = null;
 			_appSettings.BotAvatarUrl = null;
 			_appSettings.ChannelName = null;
-			if (_twitchController._client.IsConnected)
+			if (_twitchController._client.IsConnected && _twitchController._client != null)
 			{
 				DisconnectFromChat();
 			}

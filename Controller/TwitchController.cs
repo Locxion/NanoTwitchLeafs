@@ -39,8 +39,8 @@ namespace NanoTwitchLeafs.Controller
 		private const string TwitchApiAddress = "https://id.twitch.tv/oauth2";
 		private const string AuthorizationEndpoint = "/authorize";
 		private const string TokenEndpoint = "/token";
-		private const string TwitchScopesBot = "scope=chat:edit chat:read whispers:read whispers:edit";
-		private const string TwitchScopesChannelOwner = "scope=chat:edit chat:read whispers:read whispers:edit bits:read channel:read:subscriptions channel:read:hype_train channel:read:redemptions channel:manage:redemptions";
+		private const string TwitchScopesBot = "scope=chat:edit chat:read whispers:read whispers:edit user:manage:whispers";
+		private const string TwitchScopesChannelOwner = "scope=chat:edit chat:read whispers:read whispers:edit user:manage:whispers bits:read channel:read:subscriptions channel:read:hype_train channel:read:redemptions channel:manage:redemptions";
 
 		private const string RedirectUri = "http://127.0.0.1:1234";
 
@@ -49,6 +49,7 @@ namespace NanoTwitchLeafs.Controller
 		private readonly ILog _logger = LogManager.GetLogger(typeof(TwitchController));
 		public TwitchClient _client;
 		public TwitchClient _broadCasterClient;
+		public TwitchAPI _api;
 		private AppSettings _appSettings;
 		public TwitchPubSubController _twitchPubSubController;
 		public AppSettingsController _appSettingsController;
@@ -90,6 +91,7 @@ namespace NanoTwitchLeafs.Controller
 						OnTwitchEventReceived?.Invoke(e.GiftedSubscription.DisplayName, TriggerTypeEnum.GiftSubscription.ToString(), e.GiftedSubscription.IsAnonymous);
 					}
 				});
+			
 		}
 
 		/// <summary>
@@ -384,12 +386,36 @@ namespace NanoTwitchLeafs.Controller
 		/// </summary>
 		/// <param name="userName"></param>
 		/// <param name="message"></param>
-		public void SendWhisper(string userName, string message)
+		public async void SendWhisper(string userName, string message)
 		{
 			if (!_client.IsConnected)
 				return;
-			_client.SendWhisper(userName, message);
-			_logger.Info($"-> to {userName} - {message}");
+
+			//Ignore Whisper when try to send to own User Account
+			if (userName.ToLower() == _appSettings.ChannelName.ToLower())
+			{
+				_logger.Warn("Could not send Whisper to own User. Ignoring Message");
+				return;
+			}
+			
+			_api = new TwitchAPI();
+			
+			_api.Settings.ClientId = HelperClass.GetTwitchApiCredentials(_appSettings).ClientId;
+			_api.Settings.AccessToken = _appSettings.BotAuthObject.Access_Token;
+			
+			var fromUserId = await HelperClass.GetUserId(_api, _appSettings, _appSettings.BotName);
+			var toUserId = await HelperClass.GetUserId(_api, _appSettings, userName);
+
+			try
+			{
+				await _api.Helix.Whispers.SendWhisperAsync(fromUserId, toUserId, message, true);
+				_logger.Info($"-> to {userName} - {message}");
+			}
+			catch (Exception ex)
+			{
+				_logger.Error(ex.Message);
+				_logger.Error(ex);
+			}
 		}
 
 		private void Client_OnLog(object sender, OnLogArgs e)

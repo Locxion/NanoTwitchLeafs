@@ -3,6 +3,11 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
+using log4net;
+using NanoTwitchLeafs.Controller;
+using TwitchLib.Api;
+using TwitchLib.Api.Core.Exceptions;
 
 namespace NanoTwitchLeafs
 {
@@ -11,6 +16,8 @@ namespace NanoTwitchLeafs
 	/// </summary>
 	public static class HelperClass
 	{
+		private static readonly ILog _logger = LogManager.GetLogger(typeof(HelperClass));
+
 		/// <summary>
 		/// Returns URI-safe data with a given input length.
 		/// </summary>
@@ -112,6 +119,33 @@ namespace NanoTwitchLeafs
 			}
 
 			return result;
+		}
+		/// <summary>
+		/// Gets UserId for Username from Twitch API with provided Api, Settings, and Username
+		/// </summary>
+		/// <param name="api"></param>
+		/// <param name="appSettings"></param>
+		/// <param name="userName"></param>
+		/// <returns></returns>
+		public static async Task<string> GetUserId(TwitchAPI api, AppSettings appSettings, string userName)
+		{
+			try
+			{
+				var user = await api.Helix.Users.GetUsersAsync(null, new List<string> { userName.ToLower() },
+					appSettings.BroadcasterAuthObject.Access_Token);
+				return user.Users[0].Id;
+			}
+			catch (BadScopeException e)
+			{
+
+				_logger.Error("Could not get UserId. Bad Scopes for Access Token", e);
+				return null;
+			}
+			catch (Exception e)
+			{
+				_logger.Error("Could not get UserId from Api", e);
+				return null;
+			}
 		}
 	}
 }

@@ -34,7 +34,7 @@ namespace NanoTwitchLeafs.Controller
 
         public event OnChannelPointsRedeemed OnChannelPointsRedeemed;
 
-        private string ChannelID = "";
+        private string UserId = "";
 
         public bool isConnected = false;
 
@@ -53,16 +53,20 @@ namespace NanoTwitchLeafs.Controller
             _api = new TwitchAPI();
             _api.Settings.ClientId = HelperClass.GetTwitchApiCredentials(_appSettings).ClientId;
 
-            ChannelID = await GetChannelId(_appSettings.ChannelName);
-            if (ChannelID == null)
+            UserId = await HelperClass.GetUserId(_api, _appSettings, _appSettings.ChannelName);
+            if (UserId == null)
+            {
+                MessageBox.Show(Properties.Resources.Code_PubSub_MessageBox_ConnectError,
+                    Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
+            }
 
             _client.Connect();
 
             var followerService = new FollowerService(_api, 30);
             followerService.OnNewFollowersDetected += FollowerService_OnNewFollowersDetected;
 
-            followerService.SetChannelsById(new List<string> { ChannelID });
+            followerService.SetChannelsById(new List<string> { UserId });
         }
 
         private void _client_OnChannelPointsRewardRedeemed(object sender, OnChannelPointsRewardRedeemedArgs e)
@@ -77,29 +81,7 @@ namespace NanoTwitchLeafs.Controller
             {
                 return;
             }
-            OnFollow?.Invoke(e.NewFollowers.First().FromUserName);
-        }
-
-        private async Task<string> GetChannelId(string channelName)
-        {
-            try
-            {
-                var user = await _api.Helix.Users.GetUsersAsync(null, new List<string> { channelName.ToLower() },
-                    _appSettings.BroadcasterAuthObject.Access_Token);
-                return user.Users[0].Id;
-            }
-            catch (BadScopeException e)
-            {
-                MessageBox.Show(Properties.Resources.Code_PubSub_MessageBox_ConnectError,
-                    Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
-                _logger.Error("Could not connect to PubSub due Wrong Access Credentials", e);
-                return null;
-            }
-            catch (Exception e)
-            {
-                _logger.Error("Could not connect to PubSub", e);
-                return null;
-            }
+            OnFollow?.Invoke(e.NewFollowers.First().UserName);
         }
 
         private void _client_OnBitsReceivedV2(object sender, OnBitsReceivedV2Args e)
@@ -116,7 +98,7 @@ namespace NanoTwitchLeafs.Controller
 
         private void OnPubSubServiceConnected(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(ChannelID))
+            if (string.IsNullOrWhiteSpace(UserId))
             {
                 _logger.Error("ChannelID is invalid!");
                 return;
@@ -124,9 +106,9 @@ namespace NanoTwitchLeafs.Controller
 
             _logger.Info($"Trying to Connect to PubSub-Stream on {_appSettings.ChannelName}");
 
-            _client.ListenToFollows(ChannelID);
-            _client.ListenToBitsEventsV2(ChannelID);
-            _client.ListenToChannelPoints(ChannelID);
+            _client.ListenToFollows(UserId);
+            _client.ListenToBitsEventsV2(UserId);
+            _client.ListenToChannelPoints(UserId);
 
             _logger.Debug($"Sending Auth Topics ...");
 

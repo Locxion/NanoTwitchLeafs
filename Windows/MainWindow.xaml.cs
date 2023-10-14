@@ -125,8 +125,9 @@ namespace NanoTwitchLeafs.Windows
 			}
 			else
 			{
+				MessageBox.Show("Could not load provided Service Credentials!", Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
 				_logger.Error("Could not load provided Service Credentials!");
-				//TODO Add Error Msg Box?
+				Close();
 			}
 			_logger.Info("Initialize Update Controller");
 			_updateController = new UpdateController();

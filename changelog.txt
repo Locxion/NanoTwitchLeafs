@@ -1,5 +1,11 @@
 Changelog for NanoTwitchLeafs - App/Bot
 
+Version 3.0.5.0 - 14.10.2023
+- Added Error MessageBox if ServiceCredentials could not be loaded.
+- ReAdded Debug Commands for Github Developer Twitch Names.
+- Updated Nuget Packages.
+- Added ActualInstaller Project Files to Provide an Installer in Future Releases.
+
 Version 3.0.4.0 - 15.04.2023
 - Updated TwitchLib Packages
 - Rewrite Whisper Mode to use TwitchApi instead of TwitchClient

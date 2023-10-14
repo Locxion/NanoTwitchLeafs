@@ -1,4 +1,6 @@
 Changelog for NanoTwitchLeafs - App/Bot
+Version 3.0.5.1 - 14.10.2023
+- Reverted Twitch Lib Update to fix Missing Method Error in Communications
 
 Version 3.0.5.0 - 14.10.2023
 - Added Error MessageBox if ServiceCredentials could not be loaded.

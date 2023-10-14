@@ -527,52 +527,53 @@ namespace NanoTwitchLeafs.Controller
                         _twitchController.SendWhisper(chatMessage.Username, $"Removed {_queue.Count} Events from Queue.");
                         ResetEventQueue();
                         break;
-                    
-                    case "set effect":
-	                    string effectString = Message.Substring(11);
-
-	                    string[] array = effectString.Split(' ');
-	                    string effect = "";
-	                    int arrayLengh = array.Count();
-	                    if (arrayLengh > 1 && int.TryParse(array[arrayLengh - 1].ToString(), out int duration))
-	                    {
-		                    for (int i = 0; i < arrayLengh - 1; i++)
-		                    {
-			                    effect += array[i] + " ";
-		                    }
-		                    effect = effect.Remove(effect.Length - 1, 1);
-	                    }
-	                    else
-	                    {
-		                    effect = array[0];
-		                    duration = 5;
-	                    }
-
-	                    TriggerSetting triggerSetting = new TriggerSetting { Brightness = 100, Duration = duration, Effect = effect, IsColor = false };
-	                    QueueObject queueObject = new QueueObject(triggerSetting, $"{chatMessage.Username}[Developer]");
-	                    AddToQueue(queueObject);
-	                    break;
-                    
-                    case"set rgb" :
-	                    string rgbString = Message.Substring(8);
-
-	                    string[] rgbArray = rgbString.Split(' ');
-	                    string effect1 = "*Solid*";
-	                    int arrayLengh1 = rgbArray.Count();
-	                    if (arrayLengh1 > 3 && int.TryParse(rgbArray[arrayLengh1 - 1].ToString(), out int duration1))
-	                    {
-		                    // empty
-	                    }
-	                    else
-	                    {
-		                    duration1 = 5;
-	                    }
-
-	                    TriggerSetting triggerSetting1 = new TriggerSetting { Brightness = 100, Duration = duration1, Effect = effect1, IsColor = true, R = Convert.ToByte(rgbArray[0]), G = Convert.ToByte(rgbArray[1]), B = Convert.ToByte(rgbArray[2]) };
-	                    QueueObject queueObject1 = new QueueObject(triggerSetting1, $"{chatMessage.Username} [Developer]");
-	                    AddToQueue(queueObject1);
-	                    break;
                 }
+			
+			if (Message.StartsWith("set effect"))
+			{
+				string effectString = Message.Substring(11);
+
+				string[] array = effectString.Split(' ');
+				string effect = "";
+				int arrayLengh = array.Count();
+				if (arrayLengh > 1 && int.TryParse(array[arrayLengh - 1].ToString(), out int duration))
+				{
+					for (int i = 0; i < arrayLengh - 1; i++)
+					{
+						effect += array[i] + " ";
+					}
+					effect = effect.Remove(effect.Length - 1, 1);
+				}
+				else
+				{
+					effect = array[0];
+					duration = 5;
+				}
+
+				TriggerSetting triggerSetting = new TriggerSetting { Brightness = 100, Duration = duration, Effect = effect, IsColor = false };
+				QueueObject queueObject = new QueueObject(triggerSetting, $"{chatMessage.Username}[Developer]");
+				AddToQueue(queueObject);
+			}
+			if (Message.StartsWith("set rgb"))
+			{
+				string rgbString = Message.Substring(8);
+
+				string[] rgbArray = rgbString.Split(' ');
+				string effect = "*Solid*";
+				int arrayLengh = rgbArray.Count();
+				if (arrayLengh > 3 && int.TryParse(rgbArray[arrayLengh - 1].ToString(), out int duration1))
+				{
+					// empty
+				}
+				else
+				{
+					duration1 = 5;
+				}
+
+				TriggerSetting triggerSetting = new TriggerSetting { Brightness = 100, Duration = duration1, Effect = effect, IsColor = true, R = Convert.ToByte(rgbArray[0]), G = Convert.ToByte(rgbArray[1]), B = Convert.ToByte(rgbArray[2]) };
+				QueueObject queueObject = new QueueObject(triggerSetting, $"{chatMessage.Username} [Developer]");
+				AddToQueue(queueObject);
+			}
 		}
 
 		private void HandleUsernameColorTrigger(ChatMessage chatMessage)

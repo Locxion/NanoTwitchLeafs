@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -449,11 +450,17 @@ namespace NanoTwitchLeafs.Controller
 			chatMessage.Message = chatMessage.Message.ToLower();
 			chatMessage.Username = chatMessage.Username.ToLower();
 			//Set Broadcaster to Sub Mod and Vip
-			if (chatMessage.Username == _appSettings.ChannelName.ToLower())
+			if (chatMessage.Username == _appSettings.ChannelName.ToLower() || Constants.DEVELOPER.Contains(chatMessage.Username))
 			{
 				chatMessage.IsModerator = true;
 				chatMessage.IsSubscriber = true;
 				chatMessage.IsVip = true;
+			}
+
+			if (chatMessage.Message.StartsWith("!nanodebug"))
+			{
+				await HandleDebugCommands(chatMessage);
+				return;
 			}
 
 			bool isCommand = false;
@@ -472,6 +479,100 @@ namespace NanoTwitchLeafs.Controller
 			}
 
 			HandleUsernameColorTrigger(chatMessage);
+		}
+
+		private async Task HandleDebugCommands(ChatMessage chatMessage)
+		{
+			string Message = chatMessage.Message.Substring(11);
+			
+			switch (Message)
+                {
+                    case "info":
+                        _twitchController.SendWhisper(chatMessage.Username, $"There are {_appSettings.NanoSettings.NanoLeafDevices.Count} Devices Paired.");
+                        await Task.Delay(_chatMessageDelay);
+                        foreach (NanoLeafDevice device in _appSettings.NanoSettings.NanoLeafDevices)
+                        {
+                            var state = await _nanoController.GetState(device);
+                            var fwVersion = await _nanoController.GetFirmwareVersionFromDevice(IPAddress.Parse(device.Address));
+                            _twitchController.SendWhisper(chatMessage.Username, $"Device: {device.PublicName} - FW: v{fwVersion} - Effect: {state.Effect}");
+                            await Task.Delay(_chatMessageDelay);
+                        }
+                        _twitchController.SendWhisper(chatMessage.Username, $"There are {_commandRepository.GetCount()} Triggers configured.");
+                        await Task.Delay(_chatMessageDelay);
+                        _twitchController.SendWhisper(chatMessage.Username, $"General Settings: Autostart: {_appSettings.AutoConnect}, Responses: {_appSettings.ChatResponse}, WhisperMode: {_appSettings.WhisperMode}.");
+                        await Task.Delay(_chatMessageDelay);
+                        _twitchController.SendWhisper(chatMessage.Username, $"Cooldown: {_appSettings.NanoSettings.CooldownEnabled}-{_appSettings.NanoSettings.Cooldown}, ChangeBack on Commands: {_appSettings.NanoSettings.ChangeBackOnCommand} - Keywords: {_appSettings.NanoSettings.ChangeBackOnKeyword}.");
+                        await Task.Delay(_chatMessageDelay);
+                        _twitchController.SendWhisper(chatMessage.Username, $"Events in Queue: {_queue.Count}, Command Prefix: '{_appSettings.CommandPrefix}'.");
+                        break;
+
+                    case "get effects":
+                        var effects = await _nanoController.GetEffectList(_appSettings.NanoSettings.NanoLeafDevices[0]);
+                        _twitchController.SendWhisper(chatMessage.Username, string.Join(", ", effects));
+                        break;
+
+                    case "get trigger":
+                        List<TriggerSetting> triggers = _commandRepository.GetList();
+                        _twitchController.SendWhisper(chatMessage.Username, $"There are {triggers.Count} Triggers configured:");
+                        await Task.Delay(_chatMessageDelay);
+                        foreach (var trigger in triggers)
+                        {
+                            _twitchController.SendWhisper(chatMessage.Username, $"ID {trigger.ID},Active: {trigger.IsActive}, {trigger.Trigger}, {trigger.CMD}, {trigger.Effect}, Dur: {trigger.Duration}, Amount: {trigger.Amount}, Bright: {trigger.Brightness}, CD: {trigger.Cooldown}, Vip: {trigger.VipOnly}, Sub: {trigger.SubscriberOnly}, Mod: {trigger.ModeratorOnly}.");
+                            await Task.Delay(_chatMessageDelay);
+                        }
+                        _twitchController.SendWhisper(chatMessage.Username, $"List complete.");
+                        break;
+
+                    case "reset queue":
+                        _twitchController.SendWhisper(chatMessage.Username, $"Removed {_queue.Count} Events from Queue.");
+                        ResetEventQueue();
+                        break;
+                    
+                    case "set effect":
+	                    string effectString = Message.Substring(11);
+
+	                    string[] array = effectString.Split(' ');
+	                    string effect = "";
+	                    int arrayLengh = array.Count();
+	                    if (arrayLengh > 1 && int.TryParse(array[arrayLengh - 1].ToString(), out int duration))
+	                    {
+		                    for (int i = 0; i < arrayLengh - 1; i++)
+		                    {
+			                    effect += array[i] + " ";
+		                    }
+		                    effect = effect.Remove(effect.Length - 1, 1);
+	                    }
+	                    else
+	                    {
+		                    effect = array[0];
+		                    duration = 5;
+	                    }
+
+	                    TriggerSetting triggerSetting = new TriggerSetting { Brightness = 100, Duration = duration, Effect = effect, IsColor = false };
+	                    QueueObject queueObject = new QueueObject(triggerSetting, $"{chatMessage.Username}[Developer]");
+	                    AddToQueue(queueObject);
+	                    break;
+                    
+                    case"set rgb" :
+	                    string rgbString = Message.Substring(8);
+
+	                    string[] rgbArray = rgbString.Split(' ');
+	                    string effect1 = "*Solid*";
+	                    int arrayLengh1 = rgbArray.Count();
+	                    if (arrayLengh1 > 3 && int.TryParse(rgbArray[arrayLengh1 - 1].ToString(), out int duration1))
+	                    {
+		                    // empty
+	                    }
+	                    else
+	                    {
+		                    duration1 = 5;
+	                    }
+
+	                    TriggerSetting triggerSetting1 = new TriggerSetting { Brightness = 100, Duration = duration1, Effect = effect1, IsColor = true, R = Convert.ToByte(rgbArray[0]), G = Convert.ToByte(rgbArray[1]), B = Convert.ToByte(rgbArray[2]) };
+	                    QueueObject queueObject1 = new QueueObject(triggerSetting1, $"{chatMessage.Username} [Developer]");
+	                    AddToQueue(queueObject1);
+	                    break;
+                }
 		}
 
 		private void HandleUsernameColorTrigger(ChatMessage chatMessage)

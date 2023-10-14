@@ -1,5 +1,6 @@
 ﻿using NanoTwitchLeafs.Objects;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Threading;
@@ -32,7 +33,8 @@ namespace NanoTwitchLeafs
 		public static readonly string DATABASE_PATH = Path.Combine(PROGRAMFILESFOLDER_PATH, DATABASE_FILE);
 
 		public static readonly string LOG_PATH = Path.Combine(LOGFOLDER_PATH, "nanotwichleafs.log");
-
+		
+		public static readonly List<string> DEVELOPER = new List<string> { "locxion", "silverdark", "revyn112" };
 		#endregion
 
 		#region ServiceCredentials

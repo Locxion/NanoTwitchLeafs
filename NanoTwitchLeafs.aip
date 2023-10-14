@@ -3,7 +3,7 @@ AIVersion=9.6
 AIEdition=1
 GUID={BE7935FB-66AD-40AB-8012-71540D0689B4}
 AppName=NanoTwitchLeafs
-AppVersion=3.0.4.0
+AppVersion=3.0.5.1
 AppDescription=NanoTwitchLeafs
 CompanyName=Markus Bender - locxserv.de - nanotwitchleafs.de
 WebSite=www.nanotwitchleafs.de
@@ -26,10 +26,10 @@ dotNET=1
 dotNETVersion=17
 LinkDN=https://dotnet.microsoft.com/en-us/download/dotnet/7.0
 PackageType=0
-SetupFolder=C:\Users\Markus\Documents\Actual Installer\<AppName>
+SetupFolder=D:\Eigene Daten\Dokumente\Git\Locxion\NanoTwitchLeafs\bin
 SetupFileName=NanoTwitchLeafs-Installer
 IconFile=Default
-SourceDir=C:\Users\Markus\Documents\Git\NanoTwitchLeafs\bin\Release
+SourceDir=D:\Eigene Daten\Dokumente\Git\Locxion\NanoTwitchLeafs\bin\Release
 InstallDir=<ProgramFiles>\<AppName>
 MainExe=<InstallDir>\NanoTwitchLeafs.exe
 ProgramGroup=<AppName>
@@ -126,7 +126,7 @@ CalcReqSizeMethod=0
 CompoMustSelect=0
 RestartComputer=0
 LaunchFile=0
-LaunchFileName=
+LaunchFileName=<MainExecutable>
 LaunchFileChecked=0
 LaunchFileAdmin=0
 FinishCurrentDir=0
@@ -135,9 +135,9 @@ CustomActionName=Visit Web Site
 CustomActionCommand=<WebSite>
 CustomActionChecked=0
 CustomActionAdmin=0
-TotalFiles=1
+TotalFiles=2
 SourceDirFiles=146
-SourceDirSize=26732645
+SourceDirSize=26398835
 
 [GUI]
 FontName=Verdana
@@ -153,6 +153,7 @@ LogoTransparent=0
 
 [Files]
 0=<AIDir>\Uninstall.exe?<InstallDir>\Uninstall.exe?1?1
+1=D:\Eigene Daten\Dokumente\Git\Locxion\ServiceCredentials?<InstallDir>\ServiceCredentials?1?1
 
 [Shortcuts]
 0=<ProgramsMenu>*?<AppName>*?<MainExecutable>*?*?*?<InstallDir>*?*?0*?Normal*?No

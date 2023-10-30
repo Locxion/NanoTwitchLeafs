@@ -292,9 +292,6 @@
   <data name="Window_Main_Tabs_Settings_Checkbox_Autoconnect" xml:space="preserve">
     <value>Автоматическое соединение при запуске</value>
   </data>
-  <data name="Window_Main_Tabs_Settings_Label_Analytics" xml:space="preserve">
-    <value>Аналитика:</value>
-  </data>
   <data name="Window_Main_Tabs_Settings_Button_OpenDebugDir" xml:space="preserve">
     <value>Открытый каталог отладки</value>
     <comment>Fuzzy</comment>

@@ -287,7 +287,7 @@ Wir beobachten dich! ... Kappa!</value>
     <value>Bearbeiten</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Label_Analytics" xml:space="preserve">
-    <value>Analytics:</value>
+    <value>Kanalnamen teilen</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Checkbox_Autoconnect" xml:space="preserve">
     <value>Verbinden beim Start</value>

@@ -15,6 +15,7 @@ namespace NanoTwitchLeafs.Objects
 			NanoSettings = new NanoSettings();
 			InstanceID = Guid.NewGuid();
 			AppVersion = typeof(AppInfoWindow).Assembly.GetName().Version;
+			AnalyticsChannelName = true;
 			BlacklistEnabled = false;
 			Blacklist = new List<string>();
 			AutoIpRefresh = false;
@@ -27,6 +28,11 @@ namespace NanoTwitchLeafs.Objects
 			StreamlabsClientSecret = "";
 		}
 
+		public bool AnalyticsChannelName
+		{
+			get { return Get(() => AnalyticsChannelName); }
+			set { Set(() => AnalyticsChannelName, value); }
+		}
 		public bool UseOwnServiceCredentials
 		{
 			get { return Get(() => UseOwnServiceCredentials); }

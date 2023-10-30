@@ -290,7 +290,7 @@ We are watching you ... Kappa!</value>
     <value>Auto Connect at Startup</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Label_Analytics" xml:space="preserve">
-    <value>Analytics:</value>
+    <value>Share Channelname</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Button_OpenDebugDir" xml:space="preserve">
     <value>Debug Directory</value>

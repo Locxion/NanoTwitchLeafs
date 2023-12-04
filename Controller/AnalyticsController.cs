@@ -20,7 +20,7 @@ namespace NanoTwitchLeafs.Controller
         private string _appBranch;
         
 #if DEBUG
-        private static readonly string _analyticsServerUrl = "http://localhost:5036/api";
+        private static readonly string _analyticsServerUrl = "http://localhost:5254/api";
 #elif RELEASE
         private static readonly string _analyticsServerUrl = "https://analytics.nanotwitchleafs.de/api";
 #endif
@@ -45,7 +45,7 @@ namespace NanoTwitchLeafs.Controller
         {
             while (true)
             {
-                await Task.Delay(5 *  1000);
+                await Task.Delay(5 * 60 *  1000);
                 //await Task.Delay(15 * 1000);
 
                 var ping = BuildMessage(PingType.Ping, "Ping!");

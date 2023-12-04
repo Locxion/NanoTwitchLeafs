@@ -288,7 +288,7 @@ namespace NanoTwitchLeafs.Controller
 		/// <param name="both"></param>
 		public void Disconnect(bool both = false)
 		{
-			if (_client != null && _client.IsConnected)
+			if (_client is not null && _client.IsConnected)
 			{
 				_client.Disconnect();
 				_client.OnLog -= Client_OnLog;
@@ -310,7 +310,7 @@ namespace NanoTwitchLeafs.Controller
 			
 			if (both)
 			{
-				if (_broadCasterClient != null && _broadCasterClient.IsConnected)
+				if (_broadCasterClient is not null && _broadCasterClient.IsConnected)
 				{
 					_broadCasterClient.Disconnect();
 					_broadCasterClient.OnConnected -= BroadCasterClient_OnConnected;
@@ -388,7 +388,7 @@ namespace NanoTwitchLeafs.Controller
 		/// <param name="message"></param>
 		public async void SendWhisper(string userName, string message)
 		{
-			if (!_client.IsConnected)
+			if (_client is null || !_client.IsConnected)
 				return;
 
 			//Ignore Whisper when try to send to own User Account

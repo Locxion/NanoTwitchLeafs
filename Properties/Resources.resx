@@ -290,7 +290,7 @@ We are watching you ... Kappa!</value>
     <value>Auto Connect at Startup</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Label_Analytics" xml:space="preserve">
-    <value>Analytics:</value>
+    <value>Share Channelname</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Button_OpenDebugDir" xml:space="preserve">
     <value>Debug Directory</value>
@@ -1035,5 +1035,8 @@ Now we Test your Connection to the Chat and Twitch Services!</value>
   </data>
   <data name="Windows_Main_Tabs_ApiSettings_ServiceCredentials_Checkbox" xml:space="preserve">
     <value>Use own Service Credentials</value>
+  </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_ToolTip_AnalyticsChannelName" xml:space="preserve">
+    <value>Shares TwitchChannel to Analytics Server. Disable to only share Anonymous Data.</value>
   </data>
 </root>

@@ -33,6 +33,7 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -43,7 +44,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>8</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -53,7 +53,6 @@
     <DefineConstants>TRACE;RELEASE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>8</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>490CA5B74B6B1A690BCD6876856C865860913EC2</ManifestCertificateThumbprint>
@@ -91,7 +90,6 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
-    <LangVersion>8</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoUpdater.NET, Version=1.8.4.0, Culture=neutral, PublicKeyToken=501435c91b35f4bc, processorArchitecture=MSIL">
@@ -253,6 +251,9 @@
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Json, Version=7.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Net.Http.Json.7.0.1\lib\net462\System.Net.Http.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.NameResolution, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Net.NameResolution.4.3.0\lib\net46\System.Net.NameResolution.dll</HintPath>
@@ -426,7 +427,9 @@
     <Compile Include="Colors\HslColor.cs" />
     <Compile Include="Colors\RgbColor.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Controller\AnalyticsController.cs" />
     <Compile Include="Controller\HypeRateIOController.cs" />
+    <Compile Include="Enums\PingType.cs" />
     <Compile Include="HelperClass.cs" />
     <Compile Include="Interfaces\IDatabaseController.cs" />
     <Compile Include="Controller\StreamElementsController.cs" />
@@ -434,6 +437,8 @@
     <Compile Include="Controller\TipeeeStreamController.cs" />
     <Compile Include="Controller\UpdateController.cs" />
     <Compile Include="NanoTwitchLeafsAppender.cs" />
+    <Compile Include="Objects\AnalyticsPing.cs" />
+    <Compile Include="Objects\AppInformation.cs" />
     <Compile Include="Objects\GithubReleaseInfo.cs" />
     <Compile Include="Objects\HeartRateMessage.cs" />
     <Compile Include="Objects\NanoleafControllerInfo.cs" />

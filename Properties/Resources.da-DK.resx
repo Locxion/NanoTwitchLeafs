@@ -292,9 +292,6 @@ Vi holder øje med dig ... Kappa!</value>
   <data name="Window_Main_Tabs_Settings_Checkbox_Autoconnect" xml:space="preserve">
     <value>Auto forbind ved opstart</value>
   </data>
-  <data name="Window_Main_Tabs_Settings_Label_Analytics" xml:space="preserve">
-    <value>Analyse:</value>
-  </data>
   <data name="Window_Main_Tabs_Settings_Button_OpenDebugDir" xml:space="preserve">
     <value>Åben Debug mappe</value>
   </data>

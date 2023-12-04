@@ -291,9 +291,6 @@ Nous vous surveillons ... Kappa !</value>
   <data name="Window_Main_Tabs_Settings_Checkbox_Autoconnect" xml:space="preserve">
     <value>Connexion automatique au démarrage</value>
   </data>
-  <data name="Window_Main_Tabs_Settings_Label_Analytics" xml:space="preserve">
-    <value>Analytiques :</value>
-  </data>
   <data name="Window_Main_Tabs_Settings_Button_OpenDebugDir" xml:space="preserve">
     <value>Répertoire de débogage</value>
   </data>

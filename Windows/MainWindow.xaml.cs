@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using NanoTwitchLeafs.Enums;
 using Application = System.Windows.Application;
 using ComboBox = System.Windows.Controls.ComboBox;
 using ListBox = System.Windows.Controls.ListBox;
@@ -47,6 +48,7 @@ namespace NanoTwitchLeafs.Windows
 		private readonly TriggerLogicController _triggerLogicController;
 		private readonly HypeRateIOController _hypeRatecontroller;
 		private readonly UpdateController _updateController;
+		private readonly AnalyticsController _analyticsController;
 		private readonly TaskbarIcon _tbi = new TaskbarIcon();
 
 		#region Init
@@ -170,6 +172,10 @@ namespace NanoTwitchLeafs.Windows
 				_logger.Error(ex.Message, ex);
 			}
 
+			_logger.Info("Initialize Analytics Controller");
+			_analyticsController = new AnalyticsController(_appSettings);
+			_analyticsController.KeepAlive();
+			
 			// Initialize Data
 			_logger.Info("Initialize Data");
 			InitializeData();
@@ -201,6 +207,7 @@ namespace NanoTwitchLeafs.Windows
 
 		private void ItemExit_Click(object sender, RoutedEventArgs e)
 		{
+			_analyticsController.SendPing(PingType.Stop, "Shutting down");
 			Close();
 		}
 
@@ -338,6 +345,7 @@ namespace NanoTwitchLeafs.Windows
 				UseOwnServiceCredentials_Checkbox.IsChecked = _appSettings.UseOwnServiceCredentials;
 				TwitchClientId_Textbox.Text = _appSettings.TwitchClientId;
 				TwitchClientSecret_Textbox.Password = _appSettings.TwitchClientSecret;
+				analyticsChannel_Checkbox.IsChecked = _appSettings.AnalyticsChannelName;
 				DebugCmd_Checkbox_Click(this, null);
 
 				// HypeRate
@@ -375,6 +383,7 @@ namespace NanoTwitchLeafs.Windows
 				_appSettingsController.LoadSettings();
 				InitializeData();
 			}
+			_analyticsController.SendPing(PingType.Start, "Hello World!");
 		}
 
 		private void CheckForUpdate()
@@ -730,6 +739,7 @@ namespace NanoTwitchLeafs.Windows
 			_appSettings.UseOwnServiceCredentials = (bool)UseOwnServiceCredentials_Checkbox.IsChecked;
 			_appSettings.TwitchClientId = TwitchClientId_Textbox.Text;
 			_appSettings.TwitchClientSecret = TwitchClientSecret_Textbox.Password;
+			_appSettings.AnalyticsChannelName = (bool)analyticsChannel_Checkbox.IsChecked;
 
 			// Hype Rate
 			_appSettings.HypeRateId = hypeRateId_Textbox.Text;
@@ -952,6 +962,11 @@ namespace NanoTwitchLeafs.Windows
 		private void Response_CheckBox_Click(object sender, RoutedEventArgs e)
 		{
 			_appSettings.ChatResponse = (bool)response_CheckBox.IsChecked;
+		}
+
+		private void analyticsChannel_Checkbox_Click(object sender, RoutedEventArgs e)
+		{
+			_appSettings.AnalyticsChannelName = (bool)analyticsChannel_Checkbox.IsChecked;
 		}
 
 		private void KeywordRestore_Checkbox_Click(object sender, RoutedEventArgs e)
@@ -1346,5 +1361,5 @@ namespace NanoTwitchLeafs.Windows
 		}
 
 		#endregion
-	}
+    }
 }

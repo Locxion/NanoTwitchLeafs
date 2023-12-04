@@ -292,9 +292,6 @@ Odteraz ťa sledujeme... Kappa!</value>
   <data name="Window_Main_Tabs_Settings_Checkbox_Autoconnect" xml:space="preserve">
     <value>Auto pripojiť po štarte</value>
   </data>
-  <data name="Window_Main_Tabs_Settings_Label_Analytics" xml:space="preserve">
-    <value>Analýza:</value>
-  </data>
   <data name="Window_Main_Tabs_Settings_Button_OpenDebugDir" xml:space="preserve">
     <value>Priečinok pre debug</value>
   </data>

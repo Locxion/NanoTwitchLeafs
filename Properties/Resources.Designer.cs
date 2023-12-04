@@ -1394,6 +1394,15 @@ namespace NanoTwitchLeafs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Shares TwitchChannel to Analytics Server. Disable to only share Anonymous Data..
+        /// </summary>
+        public static string Window_Main_Tabs_Settings_Checkbox_ToolTip_AnalyticsChannelName {
+            get {
+                return ResourceManager.GetString("Window_Main_Tabs_Settings_Checkbox_ToolTip_AnalyticsChannelName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Whisper Mode.
         /// </summary>
         public static string Window_Main_Tabs_Settings_Checkbox_Whisper {
@@ -1403,7 +1412,7 @@ namespace NanoTwitchLeafs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Analytics:.
+        ///   Looks up a localized string similar to Share Channelname.
         /// </summary>
         public static string Window_Main_Tabs_Settings_Label_Analytics {
             get {

@@ -1,0 +1,125 @@
+﻿using System;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Text;
+using System.Threading.Tasks;
+using log4net;
+using NanoTwitchLeafs.Enums;
+using NanoTwitchLeafs.Objects;
+using NanoTwitchLeafs.Windows;
+using Newtonsoft.Json;
+
+namespace NanoTwitchLeafs.Controller
+{
+    public class AnalyticsController
+    {
+        private readonly ILog _logger = LogManager.GetLogger(typeof(AppSettingsController));
+        private readonly AppSettings _appSettings;
+        private readonly Version _appVersion;
+        private readonly string _appName;
+        private string _appBranch;
+        
+#if DEBUG
+        private static readonly string _analyticsServerUrl = "http://localhost:5254/api";
+#elif RELEASE
+        private static readonly string _analyticsServerUrl = "https://analytics.nanotwitchleafs.de/api";
+#endif
+        public AnalyticsController(AppSettings appSettings)
+        {
+            _appVersion = typeof(MainWindow).Assembly.GetName().Version;
+            _appName = typeof(MainWindow).Assembly.GetName().FullName;
+            _appSettings = appSettings ?? throw new ArgumentNullException(nameof(appSettings));
+
+#if BETA
+            _appBranch = "Beta";
+#endif
+#if RELEASE
+           _appBranch = "Release";
+#endif
+#if DEBUG
+            _appBranch = "Debug";
+#endif
+        }
+
+        public async void KeepAlive()
+        {
+            while (true)
+            {
+                await Task.Delay(5 * 60 *  1000);
+                //await Task.Delay(15 * 1000);
+
+                var ping = BuildMessage(PingType.Ping, "Ping!");
+
+                await SendPing(ping);
+            }
+        }
+
+        public async void SendPing(PingType pingType, string message = "")
+        {
+            await SendPing(BuildMessage(pingType, message));
+        }
+
+        private AnalyticsPing BuildMessage(PingType pingType, string message)
+        {
+            var analyticsMessage = new AnalyticsPing()
+            {
+                InstanceId = _appSettings.InstanceID,
+                PingType = pingType,
+                Channel = "Anonymous",
+                Timestamp = DateTime.UtcNow,
+                Message = message,
+                AppInformation = new AppInformation()
+                {
+                    AppVersion = typeof(AppInfoWindow).Assembly.GetName().Version,
+                    Debug = _appSettings.DebugEnabled,
+                    DevicesCount = _appSettings.NanoSettings.NanoLeafDevices.Count
+                }
+            };
+            if (_appSettings.AnalyticsChannelName && !string.IsNullOrWhiteSpace(_appSettings.ChannelName))
+            {
+                analyticsMessage.Channel = _appSettings.ChannelName.ToLower();
+            }
+
+            return analyticsMessage;
+        }
+
+        private async Task SendPing(AnalyticsPing ping)
+        {
+            try
+            {
+                if (ping == null)
+                    return;
+
+                using var httpClient = new HttpClient
+                {
+                    BaseAddress = new Uri(_analyticsServerUrl),
+                    Timeout = TimeSpan.FromSeconds(5)
+                };
+
+                /*
+                var content = new StringContent(JsonConvert.SerializeObject(ping), Encoding.UTF8, "application/json");
+                var response = await httpClient.PostAsync("/ping", content);
+                */
+                
+                var request = new HttpRequestMessage(HttpMethod.Post, $"{_analyticsServerUrl}/ping");
+                request.Content = JsonContent.Create(ping);
+                var response = await httpClient.SendAsync(request);
+                
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.Error("Server rejected Analytics Message.");
+                    _logger.Error($"StatusCode: {response.StatusCode}");
+                    return;
+                }
+                _logger.Debug("Analytics Message successfully send to Analytics Server.");
+            }
+            catch (Exception e)
+            {
+                _logger.Error("Could not send Analytics Ping to Server! Server may be Offline?");
+                _logger.Error(e.Message);
+                _logger.Error(e);
+            }
+        }
+        
+    }
+}

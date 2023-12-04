@@ -18,9 +18,10 @@ namespace NanoTwitchLeafs.Controller
         private readonly Version _appVersion;
         private readonly string _appName;
         private string _appBranch;
+        private int failedPingCount = 0;
         
 #if DEBUG
-        private static readonly string _analyticsServerUrl = "http://localhost:5254/api";
+        private static readonly string _analyticsServerUrl = "https://localhost:7244/api";
 #elif RELEASE
         private static readonly string _analyticsServerUrl = "https://analytics.nanotwitchleafs.de/api";
 #endif
@@ -85,6 +86,11 @@ namespace NanoTwitchLeafs.Controller
 
         private async Task SendPing(AnalyticsPing ping)
         {
+            if (failedPingCount > 9)
+            {
+                _logger.Warn("Skipping Analytics Ping ... to many failed Pings for this Session");
+                return;
+            }
             try
             {
                 if (ping == null)
@@ -111,10 +117,14 @@ namespace NanoTwitchLeafs.Controller
                     _logger.Error($"StatusCode: {response.StatusCode}");
                     return;
                 }
+
+                failedPingCount = 0;
                 _logger.Debug("Analytics Message successfully send to Analytics Server.");
             }
             catch (Exception e)
             {
+                failedPingCount++;
+                _logger.Warn($"Ping failed. This was the {failedPingCount}. time.");
                 _logger.Error("Could not send Analytics Ping to Server! Server may be Offline?");
                 _logger.Error(e.Message);
                 _logger.Error(e);

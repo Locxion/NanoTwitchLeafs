@@ -1394,6 +1394,15 @@ namespace NanoTwitchLeafs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sendet den Twitch Namen zum Analytics Server wenn aktiviert. Deaktivieren um nur anonyme Daten zu senden..
+        /// </summary>
+        public static string Window_Main_Tabs_Settings_Checkbox_ToolTip_AnalyticsChannelName {
+            get {
+                return ResourceManager.GetString("Window_Main_Tabs_Settings_Checkbox_ToolTip_AnalyticsChannelName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Flüster Modus.
         /// </summary>
         public static string Window_Main_Tabs_Settings_Checkbox_Whisper {
@@ -1403,7 +1412,7 @@ namespace NanoTwitchLeafs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Analytics:.
+        ///   Looks up a localized string similar to Kanalnamen teilen.
         /// </summary>
         public static string Window_Main_Tabs_Settings_Label_Analytics {
             get {

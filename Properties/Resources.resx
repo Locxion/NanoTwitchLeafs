@@ -1036,4 +1036,7 @@ Now we Test your Connection to the Chat and Twitch Services!</value>
   <data name="Windows_Main_Tabs_ApiSettings_ServiceCredentials_Checkbox" xml:space="preserve">
     <value>Use own Service Credentials</value>
   </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_ToolTip_AnalyticsChannelName" xml:space="preserve">
+    <value>Shares TwitchChannel to Analytics Server. Disable to only share Anonymous Data.</value>
+  </data>
 </root>

@@ -1034,4 +1034,7 @@ Jetzt testen wir die Verbindung zu Twitch!</value>
   <data name="Windows_Main_Tabs_ApiSettings_ServiceCredentials_Checkbox" xml:space="preserve">
     <value>Benutze eigene Service Login Daten</value>
   </data>
+  <data name="Window_Main_Tabs_Settings_Checkbox_ToolTip_AnalyticsChannelName" xml:space="preserve">
+    <value>Sendet den Twitch Namen zum Analytics Server wenn aktiviert. Deaktivieren um nur anonyme Daten zu senden.</value>
+  </data>
 </root>

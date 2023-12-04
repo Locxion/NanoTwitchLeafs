@@ -86,7 +86,7 @@
                     <CheckBox x:Name="autoIPRefresh_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_AutoIPRefresh}" HorizontalAlignment="Left" Margin="10,227,0,0" VerticalAlignment="Top" Click="autoIPRefresh_Checkbox_Click" Padding="4,-1,5,0" />
                     <Label Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Language}" HorizontalAlignment="Left" Margin="5,268,0,0" VerticalAlignment="Top" Padding="5,0" />
                     <ComboBox x:Name="language_Combobox" Margin="10,291,10,0" VerticalAlignment="Top" SelectionChanged="language_Combobox_SelectionChanged" />
-                    <CheckBox x:Name="analyticsChannel_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Analytics}" HorizontalAlignment="Right" Margin="0,247,10,0" VerticalAlignment="Top" Click="analyticsChannel_Checkbox_Click" Padding="4,-1,5,0" />
+                    <CheckBox ToolTip="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_ToolTip_AnalyticsChannelName}" x:Name="analyticsChannel_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Analytics}" HorizontalAlignment="Right" Margin="0,247,10,0" VerticalAlignment="Top" Click="analyticsChannel_Checkbox_Click" Padding="4,-1,5,0" />
                 </Grid>
             </TabItem>
             <TabItem x:Name="Streamlabs_Tabitem"  Header="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_Title}">

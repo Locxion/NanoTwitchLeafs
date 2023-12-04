@@ -1,5 +1,5 @@
 Changelog for NanoTwitchLeafs - App/Bot
-Version 3.0.6.0 - 14.10.2023
+Version 3.0.6.1 - 14.10.2023
 - Fixed Debug Commands for sending Effects and RGB
 - ReAdded Analytics (You can turn on Anonymous Mode in the Settings)
 

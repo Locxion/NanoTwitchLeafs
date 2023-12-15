@@ -457,7 +457,7 @@ namespace NanoTwitchLeafs.Controller
 				chatMessage.IsVip = true;
 			}
 
-			if (chatMessage.Message.StartsWith("!nanodebug"))
+			if (chatMessage.Message.StartsWith("!nanodebug") && Constants.DEVELOPER.Contains(chatMessage.Username))
 			{
 				await HandleDebugCommands(chatMessage);
 				return;

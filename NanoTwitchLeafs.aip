@@ -3,7 +3,7 @@ AIVersion=9.6
 AIEdition=1
 GUID={BE7935FB-66AD-40AB-8012-71540D0689B4}
 AppName=NanoTwitchLeafs
-AppVersion=3.0.6.0
+AppVersion=3.0.7.0
 AppDescription=NanoTwitchLeafs
 CompanyName=Markus Bender - locxserv.de - nanotwitchleafs.de
 WebSite=www.nanotwitchleafs.de
@@ -29,7 +29,7 @@ PackageType=0
 SetupFolder=D:\Eigene Daten\Dokumente\Git\Locxion\NanoTwitchLeafs\bin
 SetupFileName=NanoTwitchLeafs-Installer
 IconFile=Default
-SourceDir=C:\Users\Markus\Documents\Git\NanoTwitchLeafs\bin\Release
+SourceDir=D:\Eigene Daten\Dokumente\Git\Locxion\NanoTwitchLeafs\bin\Release
 InstallDir=<ProgramFiles>\<AppName>
 MainExe=<InstallDir>\NanoTwitchLeafs.exe
 ProgramGroup=<AppName>
@@ -135,9 +135,9 @@ CustomActionName=Visit Web Site
 CustomActionCommand=<WebSite>
 CustomActionChecked=0
 CustomActionAdmin=0
-TotalFiles=1
-SourceDirFiles=164
-SourceDirSize=34853382
+TotalFiles=2
+SourceDirFiles=166
+SourceDirSize=34998606
 
 [GUI]
 FontName=Verdana
@@ -158,4 +158,7 @@ LogoTransparent=0
 [Shortcuts]
 0=<ProgramsMenu>*?<AppName>*?<MainExecutable>*?*?*?<InstallDir>*?*?0*?Normal*?No
 1=<Desktop>*?<AppName>*?<MainExecutable>*?*?*?<InstallDir>*?*?0*?Normal*?No
+
+[FileOptions]
+0=ServiceCredentials?D
 

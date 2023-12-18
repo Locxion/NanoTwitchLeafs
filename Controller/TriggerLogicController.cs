@@ -601,12 +601,13 @@ namespace NanoTwitchLeafs.Controller
 
 		private async Task SendColorToSinglePanel(Color color, int brightness)
 		{
+			var random = new Random();
+
 			foreach (var device in _appSettings.NanoSettings.NanoLeafDevices)
 			{
-				var random = new Random();
-				var randomIndex = random.Next(1, device.NanoleafControllerInfo.panelLayout.layout.numPanels);
+				var randomIndex = random.Next(0, device.NanoleafControllerInfo.panelLayout.layout.numPanels);
 
-				var panelId = device.NanoleafControllerInfo.panelLayout.layout.positionData[randomIndex - 1]
+				var panelId = device.NanoleafControllerInfo.panelLayout.layout.positionData[randomIndex]
 					.panelId;
 				_logger.Debug($"Set Panel with ID: {panelId} to Color #{color.Name} on Device {device.PublicName}");
 

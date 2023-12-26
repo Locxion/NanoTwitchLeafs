@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
+using System.Windows;
 using WMPLib;
 
 namespace NanoTwitchLeafs.Controller
@@ -27,22 +28,22 @@ namespace NanoTwitchLeafs.Controller
 		private readonly NanoController _nanoController;
 		private readonly TwitchPubSubController _twitchPubSubController;
 
-		private readonly Dictionary<int, DateTime> _triggerCooldowns = new Dictionary<int, DateTime>();
+		private readonly Dictionary<int, DateTime> _triggerCoolDowns = new Dictionary<int, DateTime>();
 		private DateTime _lastGlobalCooldown;
 		private DateTime _lastNanoHelp;
 
 		private CancellationTokenSource _queueToken;
 		private CancellationTokenSource _cooldownToken;
-		private readonly WindowsMediaPlayer _WMPlayer = new WindowsMediaPlayer();
+		private readonly WindowsMediaPlayer _wmPlayer = new WindowsMediaPlayer();
 
 		private BufferBlock<QueueObject> _queue = new BufferBlock<QueueObject>();
 
-		private readonly int _chatMessageDelay = 1750;
+		private const int ChatMessageDelay = 1750;
 		private int _lastHeartRate = 0;
 		private TriggerSetting _lastTrigger;
 
 		public TriggerLogicController(AppSettings settings, TwitchController twitchController, CommandRepository commandRepository,
-									  NanoController nanoController, TwitchPubSubController twitchPubSubController, StreamlabsController streamlabsController, HypeRateIOController hypeRateIoController)
+									  NanoController nanoController, TwitchPubSubController twitchPubSubController, StreamlabsController streamLabsController, HypeRateIOController hypeRateIoController)
 		{
 			_appSettings = settings;
 			_twitchController = twitchController;
@@ -59,15 +60,15 @@ namespace NanoTwitchLeafs.Controller
 			_twitchPubSubController.OnFollow += HandleTwitchPubSubEventFollow;
 			_twitchPubSubController.OnChannelPointsRedeemed += HandleChannelpointsTrigger;
 			_twitchController.OnHostEvent += HandleHostEventTrigger;
-			hypeRateIoController.OnHeartRateRecieved += HypeRateIoControllerOnHeartRateRecieved;
-			streamlabsController.OnDonationRecieved += StreamlabsControllerOnDonationRecieved;
+			hypeRateIoController.OnHeartRateRecieved += HypeRateIoControllerOnHeartRateReceived;
+			streamLabsController.OnDonationRecieved += StreamLabsControllerOnDonationReceived;
 			RunQueueHandler();
 			RunCooldownHandler();
 		}
 
-		private void StreamlabsControllerOnDonationRecieved(double amount, string username)
+		private void StreamLabsControllerOnDonationReceived(double amount, string username)
 		{
-			_logger.Debug($"Received Donation from Streamlabs Server. Username: {username} - Amount: {amount}");
+			_logger.Debug($"Received Donation from Stream Labs Server. Username: {username} - Amount: {amount}");
 			HandleDonations(amount, username);
 		}
 
@@ -98,7 +99,7 @@ namespace NanoTwitchLeafs.Controller
 			}
 		}
 
-		private void HypeRateIoControllerOnHeartRateRecieved(int heartRate)
+		private void HypeRateIoControllerOnHeartRateReceived(int heartRate)
 		{
 			if (_lastHeartRate == heartRate)
 			{
@@ -158,29 +159,29 @@ namespace NanoTwitchLeafs.Controller
 				var token = _cooldownToken.Token;
 				while (!token.IsCancellationRequested)
 				{
-					await Task.Delay(1000);
+					await Task.Delay(1000, token);
 
-					if (_triggerCooldowns.Count == 0)
+					if (_triggerCoolDowns.Count == 0)
 					{
 						continue;
 					}
 
-					Dictionary<int, DateTime> expiredCooldowns = new Dictionary<int, DateTime>();
+					Dictionary<int, DateTime> expiredCoolDowns = new Dictionary<int, DateTime>();
 
-					foreach (var triggercooldown in _triggerCooldowns)
+					foreach (var triggerCoolDown in _triggerCoolDowns)
 					{
-						if (triggercooldown.Value > DateTime.Now)
+						if (triggerCoolDown.Value > DateTime.Now)
 						{
 							continue;
 						}
 
-						expiredCooldowns.Add(triggercooldown.Key, triggercooldown.Value);
+						expiredCoolDowns.Add(triggerCoolDown.Key, triggerCoolDown.Value);
 					}
 
-					foreach (var expiredCooldown in expiredCooldowns)
+					foreach (var expiredCooldown in expiredCoolDowns)
 					{
 						_logger.Debug($"Removed Cooldown with Trigger ID {expiredCooldown.Key}");
-						_triggerCooldowns.Remove(expiredCooldown.Key);
+						_triggerCoolDowns.Remove(expiredCooldown.Key);
 					}
 				}
 			});
@@ -216,7 +217,7 @@ namespace NanoTwitchLeafs.Controller
 
 						if (!string.IsNullOrWhiteSpace(queueObject.TriggerSetting.SoundFilePath))
 						{
-							_logger.Debug("Found Soundfile Path ...");
+							_logger.Debug("Found Sound File Path ...");
 							PlaySound(queueObject.TriggerSetting.SoundFilePath, queueObject.TriggerSetting.Volume.GetValueOrDefault(50));
 						}
 
@@ -239,21 +240,21 @@ namespace NanoTwitchLeafs.Controller
 
 		private void PlaySound(string path, int volume)
 		{
-			_WMPlayer.controls.stop();
-			_WMPlayer.settings.volume = volume;
+			_wmPlayer.controls.stop();
+			_wmPlayer.settings.volume = volume;
 
 			try
 			{
-				_logger.Debug($"Read Soundfile: {path}");
+				_logger.Debug($"Read Sound File: {path}");
 				if (!File.Exists(path))
 				{
-					_logger.Error($"Specified Soundfile not found! Please Check: {path}!");
+					_logger.Error($"Specified Sound File not found! Please Check: {path}!");
 					return;
 				}
-				_WMPlayer.URL = path;
-				_logger.Debug($"Play Soundfile: {path}");
-				_WMPlayer.controls.play();
-				_WMPlayer.PlayStateChange += PlayStateChange;
+				_wmPlayer.URL = path;
+				_logger.Debug($"Play Sound File: {path}");
+				_wmPlayer.controls.play();
+				_wmPlayer.PlayStateChange += PlayStateChange;
 			}
 			catch (Exception ex)
 			{
@@ -261,11 +262,11 @@ namespace NanoTwitchLeafs.Controller
 			}
 		}
 
-		private void PlayStateChange(int NewState)
+		private void PlayStateChange(int newState)
 		{
-			if (NewState == 1)
+			if (newState == 1)
 			{
-				_logger.Debug("Finished Soundfile");
+				_logger.Debug("Finished Sound File");
 			}
 		}
 
@@ -285,9 +286,9 @@ namespace NanoTwitchLeafs.Controller
 
 		private void RefreshRemainingQueueElements()
 		{
-			App.Current.Dispatcher.Invoke(() =>
+			Application.Current.Dispatcher.Invoke(() =>
 			{
-				((MainWindow)App.Current.MainWindow).nanoQueueCount_TextBox.Text = _queue.Count.ToString();
+				(((MainWindow)Application.Current.MainWindow)!).nanoQueueCount_TextBox.Text = _queue.Count.ToString();
 			});
 		}
 
@@ -463,7 +464,7 @@ namespace NanoTwitchLeafs.Controller
 				return;
 			}
 
-			bool isCommand = false;
+			var isCommand = false;
 
 			if (CheckBlacklist(chatMessage.Username))
 				return;
@@ -483,26 +484,26 @@ namespace NanoTwitchLeafs.Controller
 
 		private async Task HandleDebugCommands(ChatMessage chatMessage)
 		{
-			string Message = chatMessage.Message.Substring(11);
+			string message = chatMessage.Message.Substring(11);
 			
-			switch (Message)
+			switch (message)
                 {
                     case "info":
                         _twitchController.SendWhisper(chatMessage.Username, $"There are {_appSettings.NanoSettings.NanoLeafDevices.Count} Devices Paired.");
-                        await Task.Delay(_chatMessageDelay);
+                        await Task.Delay(ChatMessageDelay);
                         foreach (NanoLeafDevice device in _appSettings.NanoSettings.NanoLeafDevices)
                         {
                             var state = await _nanoController.GetState(device);
                             var fwVersion = await _nanoController.GetFirmwareVersionFromDevice(IPAddress.Parse(device.Address));
                             _twitchController.SendWhisper(chatMessage.Username, $"Device: {device.PublicName} - FW: v{fwVersion} - Effect: {state.Effect}");
-                            await Task.Delay(_chatMessageDelay);
+                            await Task.Delay(ChatMessageDelay);
                         }
                         _twitchController.SendWhisper(chatMessage.Username, $"There are {_commandRepository.GetCount()} Triggers configured.");
-                        await Task.Delay(_chatMessageDelay);
+                        await Task.Delay(ChatMessageDelay);
                         _twitchController.SendWhisper(chatMessage.Username, $"General Settings: Autostart: {_appSettings.AutoConnect}, Responses: {_appSettings.ChatResponse}, WhisperMode: {_appSettings.WhisperMode}.");
-                        await Task.Delay(_chatMessageDelay);
+                        await Task.Delay(ChatMessageDelay);
                         _twitchController.SendWhisper(chatMessage.Username, $"Cooldown: {_appSettings.NanoSettings.CooldownEnabled}-{_appSettings.NanoSettings.Cooldown}, ChangeBack on Commands: {_appSettings.NanoSettings.ChangeBackOnCommand} - Keywords: {_appSettings.NanoSettings.ChangeBackOnKeyword}.");
-                        await Task.Delay(_chatMessageDelay);
+                        await Task.Delay(ChatMessageDelay);
                         _twitchController.SendWhisper(chatMessage.Username, $"Events in Queue: {_queue.Count}, Command Prefix: '{_appSettings.CommandPrefix}'.");
                         break;
 
@@ -514,11 +515,11 @@ namespace NanoTwitchLeafs.Controller
                     case "get trigger":
                         List<TriggerSetting> triggers = _commandRepository.GetList();
                         _twitchController.SendWhisper(chatMessage.Username, $"There are {triggers.Count} Triggers configured:");
-                        await Task.Delay(_chatMessageDelay);
+                        await Task.Delay(ChatMessageDelay);
                         foreach (var trigger in triggers)
                         {
                             _twitchController.SendWhisper(chatMessage.Username, $"ID {trigger.ID},Active: {trigger.IsActive}, {trigger.Trigger}, {trigger.CMD}, {trigger.Effect}, Dur: {trigger.Duration}, Amount: {trigger.Amount}, Bright: {trigger.Brightness}, CD: {trigger.Cooldown}, Vip: {trigger.VipOnly}, Sub: {trigger.SubscriberOnly}, Mod: {trigger.ModeratorOnly}.");
-                            await Task.Delay(_chatMessageDelay);
+                            await Task.Delay(ChatMessageDelay);
                         }
                         _twitchController.SendWhisper(chatMessage.Username, $"List complete.");
                         break;
@@ -529,16 +530,16 @@ namespace NanoTwitchLeafs.Controller
                         break;
                 }
 			
-			if (Message.StartsWith("set effect"))
+			if (message.StartsWith("set effect"))
 			{
-				string effectString = Message.Substring(11);
+				var effectString = message.Substring(11);
 
-				string[] array = effectString.Split(' ');
-				string effect = "";
-				int arrayLengh = array.Count();
-				if (arrayLengh > 1 && int.TryParse(array[arrayLengh - 1].ToString(), out int duration))
+				var array = effectString.Split(' ');
+				var effect = "";
+				var arrayLength = array.Count();
+				if (arrayLength > 1 && int.TryParse(array[arrayLength - 1].ToString(), out int duration))
 				{
-					for (int i = 0; i < arrayLengh - 1; i++)
+					for (int i = 0; i < arrayLength - 1; i++)
 					{
 						effect += array[i] + " ";
 					}
@@ -550,18 +551,18 @@ namespace NanoTwitchLeafs.Controller
 					duration = 5;
 				}
 
-				TriggerSetting triggerSetting = new TriggerSetting { Brightness = 100, Duration = duration, Effect = effect, IsColor = false };
-				QueueObject queueObject = new QueueObject(triggerSetting, $"{chatMessage.Username}[Developer]");
+				var triggerSetting = new TriggerSetting { Brightness = 100, Duration = duration, Effect = effect, IsColor = false };
+				var queueObject = new QueueObject(triggerSetting, $"{chatMessage.Username}[Developer]");
 				AddToQueue(queueObject);
 			}
-			if (Message.StartsWith("set rgb"))
+			if (message.StartsWith("set rgb"))
 			{
-				string rgbString = Message.Substring(8);
+				var rgbString = message.Substring(8);
 
-				string[] rgbArray = rgbString.Split(' ');
-				string effect = "*Solid*";
-				int arrayLengh = rgbArray.Count();
-				if (arrayLengh > 3 && int.TryParse(rgbArray[arrayLengh - 1].ToString(), out int duration1))
+				var rgbArray = rgbString.Split(' ');
+				const string effect = "*Solid*";
+				var arrayLength = rgbArray.Count();
+				if (arrayLength > 3 && int.TryParse(rgbArray[arrayLength - 1], out var duration1))
 				{
 					// empty
 				}
@@ -570,8 +571,8 @@ namespace NanoTwitchLeafs.Controller
 					duration1 = 5;
 				}
 
-				TriggerSetting triggerSetting = new TriggerSetting { Brightness = 100, Duration = duration1, Effect = effect, IsColor = true, R = Convert.ToByte(rgbArray[0]), G = Convert.ToByte(rgbArray[1]), B = Convert.ToByte(rgbArray[2]) };
-				QueueObject queueObject = new QueueObject(triggerSetting, $"{chatMessage.Username} [Developer]");
+				var triggerSetting = new TriggerSetting { Brightness = 100, Duration = duration1, Effect = effect, IsColor = true, R = Convert.ToByte(rgbArray[0]), G = Convert.ToByte(rgbArray[1]), B = Convert.ToByte(rgbArray[2]) };
+				var queueObject = new QueueObject(triggerSetting, $"{chatMessage.Username} [Developer]");
 				AddToQueue(queueObject);
 			}
 		}
@@ -605,6 +606,23 @@ namespace NanoTwitchLeafs.Controller
 
 			foreach (var device in _appSettings.NanoSettings.NanoLeafDevices)
 			{
+				if (device.NanoleafControllerInfo is null)
+				{
+					_logger.Warn($"Nanoleaf Info for Device {device.Address} is null!");
+					continue;
+				}
+				if (device.NanoleafControllerInfo.panelLayout is null)
+				{
+					_logger.Warn($"Panel Layout for Device {device.Address} is null!");
+					continue;
+				}
+				if (device.NanoleafControllerInfo.panelLayout.layout is null)
+				{
+					_logger.Warn($"Layout for Device {device.Address} is null!");
+					continue;
+				}
+                
+				
 				var randomIndex = random.Next(0, device.NanoleafControllerInfo.panelLayout.layout.numPanels);
 
 				var panelId = device.NanoleafControllerInfo.panelLayout.layout.positionData[randomIndex]
@@ -623,10 +641,7 @@ namespace NanoTwitchLeafs.Controller
 				_logger.Warn($"Event/Message from '{username}' was ignored cause of a Blacklist Entry!");
 				return true;
 			}
-			else
-			{
-				return false;
-			}
+			return false;
 		}
 
 		private async Task<bool> HandleCommandTriggerAsync(ChatMessage chatMessage)
@@ -737,7 +752,7 @@ namespace NanoTwitchLeafs.Controller
 			}
 
 			// Check for Trigger Cooldown
-			if (_triggerCooldowns.ContainsKey(trigger.ID))
+			if (_triggerCoolDowns.ContainsKey(trigger.ID))
 			{
 				if (_appSettings.WhisperMode)
 				{
@@ -786,14 +801,14 @@ namespace NanoTwitchLeafs.Controller
 				queueObject = new QueueObject(trigger, chatMessage.Username);
 				AddToQueue(queueObject);
 				_lastGlobalCooldown = DateTime.Now;
-				_triggerCooldowns.Add(trigger.ID, triggerDatTime.AddSeconds(trigger.Cooldown));
+				_triggerCoolDowns.Add(trigger.ID, triggerDatTime.AddSeconds(trigger.Cooldown));
 				return true;
 			}
 
 			queueObject = new QueueObject(trigger, chatMessage.Username);
 			AddToQueue(queueObject);
 			_lastGlobalCooldown = DateTime.Now;
-			_triggerCooldowns.Add(trigger.ID, triggerDatTime.AddSeconds(trigger.Cooldown));
+			_triggerCoolDowns.Add(trigger.ID, triggerDatTime.AddSeconds(trigger.Cooldown));
 			return true;
 		}
 
@@ -918,7 +933,7 @@ namespace NanoTwitchLeafs.Controller
 				return;
 			}
 
-			if (_triggerCooldowns.ContainsKey(trigger.ID))
+			if (_triggerCoolDowns.ContainsKey(trigger.ID))
 			{
 				return;
 			}
@@ -928,14 +943,14 @@ namespace NanoTwitchLeafs.Controller
 				queueObject = new QueueObject(trigger, chatMessage.Username, true);
 				AddToQueue(queueObject);
 				_lastGlobalCooldown = DateTime.Now;
-				_triggerCooldowns.Add(trigger.ID, triggerDateTime.AddSeconds(trigger.Cooldown));
+				_triggerCoolDowns.Add(trigger.ID, triggerDateTime.AddSeconds(trigger.Cooldown));
 				return;
 			}
 
 			queueObject = new QueueObject(trigger, chatMessage.Username, true);
 			AddToQueue(queueObject);
 			_lastGlobalCooldown = DateTime.Now;
-			_triggerCooldowns.Add(trigger.ID, triggerDateTime.AddSeconds(trigger.Cooldown));
+			_triggerCoolDowns.Add(trigger.ID, triggerDateTime.AddSeconds(trigger.Cooldown));
 		}
 
 		private TriggerSetting GetTriggerSettingFromMessage(string message, bool isSubscriber, bool isModerator)
@@ -1031,7 +1046,7 @@ namespace NanoTwitchLeafs.Controller
 						await _nanoController.SetState(device, oldState);
 					}
 
-					_WMPlayer.controls.stop();
+					_wmPlayer.controls.stop();
 				}
 			}
 		}
@@ -1051,7 +1066,7 @@ namespace NanoTwitchLeafs.Controller
 		/// </summary>
 		public void ResetEventQueue()
 		{
-			int count = _queue.Count;
+			var count = _queue.Count;
 			_logger.Info($"Removed {count} Events from Queue.");
 
 			_queue = new BufferBlock<QueueObject>();
@@ -1060,7 +1075,7 @@ namespace NanoTwitchLeafs.Controller
 
 		private void SendMessageToChat(string message)
 		{
-			string formattedMessage = $"{DateTime.Now.ToLongTimeString()}: >>>>> - {message}";
+			var formattedMessage = $"{DateTime.Now.ToLongTimeString()}: >>>>> - {message}";
 			/* TODO: Fix message into ListBox
             ((MainWindow)App.Current.MainWindow).twitchChat_ListBox.Dispatcher.Invoke(() =>
             {

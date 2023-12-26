@@ -620,6 +620,11 @@ namespace NanoTwitchLeafs.Controller
 				{
 					_logger.Warn($"Layout for Device {device.Address} is null!");
 					continue;
+				}				
+				if (device.NanoleafControllerInfo.panelLayout.layout.numPanels <= 0)
+				{
+					_logger.Warn($"Number of Panels for Device {device.Address} is 0!");
+					continue;
 				}
                 
 				

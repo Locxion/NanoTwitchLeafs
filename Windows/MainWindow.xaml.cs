@@ -137,11 +137,11 @@ namespace NanoTwitchLeafs.Windows
 			_logger.Info("Initialize Twitch Controller");
 			_twitchController = new TwitchController(_appSettingsController);
 			_twitchController.OnChatMessageReceived += _twitchController_OnChatMessageReceived;
-			_twitchController.CallLoadingWindow += OnCallLoadingWindow;
+			_twitchController.OnCallLoadingWindow += OnCallLoadingWindow;
 
 			_logger.Info("Initialize TwitchPubSub Controller");
 			_twitchPubSubController = new TwitchPubSubController();
-			_twitchController._twitchPubSubController = _twitchPubSubController;
+			_twitchController.TwitchPubSubController = _twitchPubSubController;
 
 			_logger.Info("Initialize Nano Controller");
 			_nanoController = new NanoController(_appSettings);
@@ -555,7 +555,7 @@ namespace NanoTwitchLeafs.Windows
 			_appSettings.BroadcasterAvatarUrl = null;
 			_appSettings.BotAvatarUrl = null;
 			_appSettings.ChannelName = null;
-			if (_twitchController._client.IsConnected && _twitchController._client != null)
+			if (_twitchController.Client.IsConnected && _twitchController.Client != null)
 			{
 				DisconnectFromChat();
 			}

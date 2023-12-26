@@ -23,15 +23,15 @@ using MessageBox = System.Windows.MessageBox;
 
 namespace NanoTwitchLeafs.Controller
 {
-	public delegate void OnConsoleMessageReceived(string message);
+	public delegate void ConsoleMessageReceived(string message);
 
-	public delegate void OnChatMessageReceived(ChatMessage message);
+	public delegate void ChatMessageReceived(ChatMessage message);
 
-	public delegate void OnTwitchEventReveived(string username, string twitchEvent, bool isAnonymous = false, int amount = 1);
+	public delegate void TwitchEventReceived(string username, string twitchEvent, bool isAnonymous = false, int amount = 1);
 
 	public delegate void CallLoadingWindow(bool state);
 
-	public delegate void OnHostEvent(int amount, string username, bool isRaid = false);
+	public delegate void HostEvent(int amount, string username, bool isRaid = false);
 
 	public class TwitchController
 	{
@@ -46,26 +46,26 @@ namespace NanoTwitchLeafs.Controller
 		private readonly Subject<OnGiftedSubscriptionArgs> _subscriptionSubject = new Subject<OnGiftedSubscriptionArgs>();
 
 		private readonly ILog _logger = LogManager.GetLogger(typeof(TwitchController));
-		public TwitchClient _client;
-		public TwitchClient _broadCasterClient;
-		public TwitchAPI _api;
+		public TwitchClient Client;
+		private TwitchClient _broadCasterClient;
+		private TwitchAPI _api;
 		private AppSettings _appSettings;
-		public TwitchPubSubController _twitchPubSubController;
-		public AppSettingsController _appSettingsController;
+		public TwitchPubSubController TwitchPubSubController;
+		private readonly AppSettingsController _appSettingsController;
 
 		public List<string> ChannelModerator { get; set; }
-		private bool FirstTryToConnectBotAccount = true;
-		private bool FirstTryToConnectBroadcasterAccount = true;
+		private bool _firstTryToConnectBotAccount = true;
+		private bool _firstTryToConnectBroadcasterAccount = true;
 
 		public event EventHandler OnDisconnected;
 
-		public event OnChatMessageReceived OnChatMessageReceived;
+		public event ChatMessageReceived OnChatMessageReceived;
 
-		public event OnTwitchEventReveived OnTwitchEventReceived;
+		public event TwitchEventReceived OnTwitchEventReceived;
 
-		public event OnHostEvent OnHostEvent;
+		public event HostEvent OnHostEvent;
 
-		public event CallLoadingWindow CallLoadingWindow;
+		public event CallLoadingWindow OnCallLoadingWindow;
 
 		public TwitchController(AppSettingsController appSettingsController)
 		{
@@ -99,7 +99,7 @@ namespace NanoTwitchLeafs.Controller
 		/// <param name="appSettings"></param>
 		public void Connect(AppSettings appSettings)
 		{
-			_client?.Disconnect();
+			Client?.Disconnect();
 
 			_appSettings = appSettings;
 
@@ -122,30 +122,30 @@ namespace NanoTwitchLeafs.Controller
 
 			ConnectionCredentials credentials = new ConnectionCredentials(_appSettings.BotName.ToLower(), "oauth:" + _appSettings.BotAuthObject.Access_Token);
 
-			_client = new TwitchClient();
-			_client.Initialize(credentials, _appSettings.ChannelName.ToLower());
+			Client = new TwitchClient();
+			Client.Initialize(credentials, _appSettings.ChannelName.ToLower());
 
-			_client.OnLog += Client_OnLog;
-			_client.OnConnected += Client_OnConnected;
-			_client.OnJoinedChannel += Client_OnJoinedChannel;
-			_client.OnMessageReceived += Client_OnMessageReceived;
-			_client.OnWhisperReceived += Client_OnWhisperReceived;
-			_client.OnModeratorsReceived += Client_OnModeratorsReceived;
-			_client.OnDisconnected += Client_OnDisconnected;
-			_client.OnIncorrectLogin += Client_OnIncorrectLogin;
+			Client.OnLog += Client_OnLog;
+			Client.OnConnected += Client_OnConnected;
+			Client.OnJoinedChannel += Client_OnJoinedChannel;
+			Client.OnMessageReceived += Client_OnMessageReceived;
+			Client.OnWhisperReceived += Client_OnWhisperReceived;
+			Client.OnModeratorsReceived += Client_OnModeratorsReceived;
+			Client.OnDisconnected += Client_OnDisconnected;
+			Client.OnIncorrectLogin += Client_OnIncorrectLogin;
 
 			if (_appSettings.BotName.ToLower() == _appSettings.ChannelName.ToLower())
 			{
 				// Effect Event Handlers
-				_client.OnNewSubscriber += OnNewSubscriber;
+				Client.OnNewSubscriber += OnNewSubscriber;
 				//_client.OnBeingHosted += OnBeingHosted;
-				_client.OnRaidNotification += OnRaidNotification;
-				_client.OnGiftedSubscription += OnGiftedSubscription;
-				_client.OnReSubscriber += OnReSubscriber;
-				_client.OnCommunitySubscription += OnCommunitySubscription;
+				Client.OnRaidNotification += OnRaidNotification;
+				Client.OnGiftedSubscription += OnGiftedSubscription;
+				Client.OnReSubscriber += OnReSubscriber;
+				Client.OnCommunitySubscription += OnCommunitySubscription;
 			}
 
-			_client.Connect();
+			Client.Connect();
 		}
 
 		private void Client_OnDisconnected(object sender, OnDisconnectedEventArgs e)
@@ -161,12 +161,12 @@ namespace NanoTwitchLeafs.Controller
 
 		private async void Client_OnIncorrectLogin(object sender, OnIncorrectLoginArgs e)
 		{
-			if (FirstTryToConnectBotAccount)
+			if (_firstTryToConnectBotAccount)
 			{
 				_logger.Warn("Got incorrect Login Message from Twitch ... (Bot Account)");
 				_logger.Warn("Try to refresh Access Tokens ... This could take a Second ... or Two ...");
 
-				CallLoadingWindow?.Invoke(true);
+				OnCallLoadingWindow?.Invoke(true);
 
 				Disconnect(true);
 				var newOauth = await PerformCodeExchange(_appSettings.BotAuthObject.Refresh_Token, HelperClass.GetTwitchApiCredentials(_appSettings), true);
@@ -174,9 +174,9 @@ namespace NanoTwitchLeafs.Controller
 				if (_appSettings.BotName == _appSettings.ChannelName)
 					_appSettings.BroadcasterAuthObject = newOauth;
 				_appSettingsController.SaveSettings(_appSettings);
-				FirstTryToConnectBotAccount = false;
+				_firstTryToConnectBotAccount = false;
 
-				CallLoadingWindow?.Invoke(false);
+				OnCallLoadingWindow?.Invoke(false);
 				EstablishTwitchConnection();
 			}
 			else
@@ -188,19 +188,19 @@ namespace NanoTwitchLeafs.Controller
 
 		private async void BroadCasterClient_OnIncorrectLogin(object sender, OnIncorrectLoginArgs e)
 		{
-			if (FirstTryToConnectBroadcasterAccount)
+			if (_firstTryToConnectBroadcasterAccount)
 			{
 				_logger.Warn("Got incorrect Login Message from Twitch ...(Broadcaster Account)");
 				_logger.Warn("Try to refresh Access Tokens ... This could take a Second ... or Two ...");
 				Disconnect();
 
-				CallLoadingWindow?.Invoke(true);
+				OnCallLoadingWindow?.Invoke(true);
 
 				var newOauth = await PerformCodeExchange(_appSettings.BroadcasterAuthObject.Refresh_Token, HelperClass.GetTwitchApiCredentials(_appSettings), true);
 				_appSettings.BroadcasterAuthObject = newOauth;
 				_appSettingsController.SaveSettings(_appSettings);
 
-				FirstTryToConnectBroadcasterAccount = false;
+				_firstTryToConnectBroadcasterAccount = false;
 
 				ConnectionCredentials credentials = new ConnectionCredentials(_appSettings.ChannelName.ToLower(), "oauth:" + _appSettings.BroadcasterAuthObject.Access_Token);
 				_broadCasterClient = new TwitchClient();
@@ -219,7 +219,7 @@ namespace NanoTwitchLeafs.Controller
 
 				_broadCasterClient.Initialize(credentials, _appSettings.ChannelName.ToLower());
 				_broadCasterClient.Connect();
-				CallLoadingWindow?.Invoke(false);
+				OnCallLoadingWindow?.Invoke(false);
 			}
 			else
 			{
@@ -230,16 +230,16 @@ namespace NanoTwitchLeafs.Controller
 
 		private void Client_OnConnected(object sender, OnConnectedArgs e)
 		{
-			FirstTryToConnectBotAccount = true;
+			_firstTryToConnectBotAccount = true;
 			_logger.Debug($"Connected to {e.AutoJoinChannel} with Account {e.BotUsername}.");
-			CallLoadingWindow?.Invoke(false);
+			OnCallLoadingWindow?.Invoke(false);
 			if (_appSettings.BotName.ToLower() != _appSettings.ChannelName.ToLower())
 			{
 				_logger.Debug("Bot Account detected. Init Broadcaster Twitch Connection...");
 				if (_broadCasterClient?.IsInitialized ?? false)
 					_broadCasterClient.Disconnect();
 
-				CallLoadingWindow?.Invoke(true);
+				OnCallLoadingWindow?.Invoke(true);
 
 				ConnectionCredentials broadcasterCredentials = new ConnectionCredentials(_appSettings.ChannelName.ToLower(), "oauth:" + _appSettings.BroadcasterAuthObject.Access_Token);
 				_broadCasterClient = new TwitchClient();
@@ -259,20 +259,20 @@ namespace NanoTwitchLeafs.Controller
 				_broadCasterClient.OnCommunitySubscription += OnCommunitySubscription;
 
 				_broadCasterClient.Connect();
-				CallLoadingWindow?.Invoke(false);
+				OnCallLoadingWindow?.Invoke(false);
 			}
 
-			if (_client.IsConnected && (_appSettings.BotName.ToLower() == _appSettings.ChannelName.ToLower()))
+			if (Client.IsConnected && (_appSettings.BotName.ToLower() == _appSettings.ChannelName.ToLower()))
 			{
-				_twitchPubSubController.Connect(_appSettings);
+				TwitchPubSubController.Connect(_appSettings);
 			}
 		}
 
 		private void BroadCasterClient_OnConnected(object sender, OnConnectedArgs e)
 		{
-			CallLoadingWindow?.Invoke(false);
-			FirstTryToConnectBroadcasterAccount = true;
-			_twitchPubSubController.Connect(_appSettings);
+			OnCallLoadingWindow?.Invoke(false);
+			_firstTryToConnectBroadcasterAccount = true;
+			TwitchPubSubController.Connect(_appSettings);
 			_logger.Debug($"Connected to {e.AutoJoinChannel} with BroadcasterAccount {e.BotUsername}.");
 		}
 
@@ -287,24 +287,24 @@ namespace NanoTwitchLeafs.Controller
 		/// <param name="both"></param>
 		public void Disconnect(bool both = false)
 		{
-			if (_client is not null && _client.IsConnected)
+			if (Client is not null && Client.IsConnected)
 			{
-				_client.Disconnect();
-				_client.OnLog -= Client_OnLog;
-				_client.OnConnected -= Client_OnConnected;
-				_client.OnJoinedChannel -= Client_OnJoinedChannel;
-				_client.OnMessageReceived -= Client_OnMessageReceived;
-				_client.OnWhisperReceived -= Client_OnWhisperReceived;
-				_client.OnModeratorsReceived -= Client_OnModeratorsReceived;
-				_client.OnDisconnected -= Client_OnDisconnected;
-				_client.OnIncorrectLogin -= Client_OnIncorrectLogin;
-				_client.OnNewSubscriber -= OnNewSubscriber;
+				Client.Disconnect();
+				Client.OnLog -= Client_OnLog;
+				Client.OnConnected -= Client_OnConnected;
+				Client.OnJoinedChannel -= Client_OnJoinedChannel;
+				Client.OnMessageReceived -= Client_OnMessageReceived;
+				Client.OnWhisperReceived -= Client_OnWhisperReceived;
+				Client.OnModeratorsReceived -= Client_OnModeratorsReceived;
+				Client.OnDisconnected -= Client_OnDisconnected;
+				Client.OnIncorrectLogin -= Client_OnIncorrectLogin;
+				Client.OnNewSubscriber -= OnNewSubscriber;
 				//_client.OnBeingHosted -= OnBeingHosted;
-				_client.OnRaidNotification -= OnRaidNotification;
-				_client.OnGiftedSubscription -= OnGiftedSubscription;
-				_client.OnReSubscriber -= OnReSubscriber;
-				_client.OnCommunitySubscription -= OnCommunitySubscription;
-				_client = null;
+				Client.OnRaidNotification -= OnRaidNotification;
+				Client.OnGiftedSubscription -= OnGiftedSubscription;
+				Client.OnReSubscriber -= OnReSubscriber;
+				Client.OnCommunitySubscription -= OnCommunitySubscription;
+				Client = null;
 			}
 			
 			if (both)
@@ -328,7 +328,7 @@ namespace NanoTwitchLeafs.Controller
 				}
 			}
 
-			CallLoadingWindow?.Invoke(false);
+			OnCallLoadingWindow?.Invoke(false);
 		}
 
 		private void OnNewSubscriber(object sender, OnNewSubscriberArgs e)
@@ -374,9 +374,9 @@ namespace NanoTwitchLeafs.Controller
 		/// <param name="message"></param>
 		public void SendMessageToChat(string message)
 		{
-			if (!_client.IsConnected)
+			if (!Client.IsConnected)
 				return;
-			_client.SendMessage(_appSettings.ChannelName, message);
+			Client.SendMessage(_appSettings.ChannelName, message);
 			_logger.Info($"-> {message}");
 		}
 
@@ -387,7 +387,7 @@ namespace NanoTwitchLeafs.Controller
 		/// <param name="message"></param>
 		public async void SendWhisper(string userName, string message)
 		{
-			if (_client is null || !_client.IsConnected)
+			if (Client is null || !Client.IsConnected)
 				return;
 
 			//Ignore Whisper when try to send to own User Account
@@ -429,11 +429,11 @@ namespace NanoTwitchLeafs.Controller
 				string message = _appSettings.Responses.StartupResponse;
 				if (message != "")
 				{
-					_client.SendMessage(e.Channel, message);
+					Client.SendMessage(e.Channel, message);
 				}
 				_logger.Info($"-> {message}");
 			}
-			CallLoadingWindow?.Invoke(false);
+			OnCallLoadingWindow?.Invoke(false);
 		}
 
 		private void Client_OnMessageReceived(object sender, OnMessageReceivedArgs e)

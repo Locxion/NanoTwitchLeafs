@@ -13,7 +13,6 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using TwitchLib.Api;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
@@ -28,7 +27,7 @@ namespace NanoTwitchLeafs.Controller
 
 	public delegate void OnChatMessageReceived(ChatMessage message);
 
-	public delegate void OnTwitchEventReveived(string username, string twitchEvent, bool isAnonymous = false, int amout = 1);
+	public delegate void OnTwitchEventReveived(string username, string twitchEvent, bool isAnonymous = false, int amount = 1);
 
 	public delegate void CallLoadingWindow(bool state);
 
@@ -334,38 +333,38 @@ namespace NanoTwitchLeafs.Controller
 
 		private void OnNewSubscriber(object sender, OnNewSubscriberArgs e)
 		{
-			_logger.Debug($"Recieved New Subscription from {e.Subscriber.DisplayName}.");
+			_logger.Debug($"Received New Subscription from {e.Subscriber.DisplayName}.");
 			OnTwitchEventReceived?.Invoke(e.Subscriber.DisplayName, TriggerTypeEnum.Subscription.ToString());
 		}
 
 		private void OnReSubscriber(object sender, OnReSubscriberArgs e)
 		{
-			_logger.Debug($"Recieved Re-Subscription from {e.ReSubscriber.DisplayName}. Month - {e.ReSubscriber.Months}.");
+			_logger.Debug($"Received Re-Subscription from {e.ReSubscriber.DisplayName}. Month - {e.ReSubscriber.Months}.");
 			OnTwitchEventReceived?.Invoke(e.ReSubscriber.DisplayName, TriggerTypeEnum.ReSubscription.ToString());
 		}
 
 		private void OnGiftedSubscription(object sender, OnGiftedSubscriptionArgs e)
 		{
-			_logger.Debug($"Recieved Gift Subscription. Anonymous - {e.GiftedSubscription.IsAnonymous}.");
+			_logger.Debug($"Received Gift Subscription. Anonymous - {e.GiftedSubscription.IsAnonymous}.");
 
 			_subscriptionSubject.OnNext(e);
 		}
 
 		private void OnCommunitySubscription(object sender, OnCommunitySubscriptionArgs e)
 		{
-			_logger.Debug($"Recieved Gift Bomb. Anonymous - {e.GiftedSubscription.IsAnonymous}. Amount - {e.GiftedSubscription.MsgParamMassGiftCount}");
+			_logger.Debug($"Received Gift Bomb. Anonymous - {e.GiftedSubscription.IsAnonymous}. Amount - {e.GiftedSubscription.MsgParamMassGiftCount}");
 			OnTwitchEventReceived?.Invoke(e.GiftedSubscription.DisplayName, TriggerTypeEnum.GiftBomb.ToString(), e.GiftedSubscription.IsAnonymous, e.GiftedSubscription.MsgParamMassGiftCount);
 		}
 
 		private void OnRaidNotification(object sender, OnRaidNotificationArgs e)
 		{
-			_logger.Debug($"Recieved Raid form {e.RaidNotification.DisplayName}");
+			_logger.Debug($"Received Raid form {e.RaidNotification.DisplayName}");
 			OnHostEvent?.Invoke(Convert.ToInt32(e.RaidNotification.MsgParamViewerCount), e.RaidNotification.DisplayName, true);
 		}
 
 		// private void OnBeingHosted(object sender, OnBeingHostedArgs e)
 		// {
-		//     _logger.Debug($"Recieved Host form {e.BeingHostedNotification.HostedByChannel}. Viewers - {e.BeingHostedNotification.Viewers}");
+		//     _logger.Debug($"Received Host form {e.BeingHostedNotification.HostedByChannel}. Viewers - {e.BeingHostedNotification.Viewers}");
 		//     OnHostEvent?.Invoke(e.BeingHostedNotification.Viewers, e.BeingHostedNotification.Channel);
 		// }
 
@@ -439,27 +438,10 @@ namespace NanoTwitchLeafs.Controller
 
 		private void Client_OnMessageReceived(object sender, OnMessageReceivedArgs e)
 		{
-			/*if (e.ChatMessage.Message.Contains("subtest"))
-            {
-                Task.Run(() =>
-                {
-                    for (int i = 0; i < 50; i++)
-                    {
-                        OnGiftedSubscription(this, new OnGiftedSubscriptionArgs()
-                        {
-                            Channel = e.ChatMessage.Channel,
-                            GiftedSubscription = new GiftedSubscription(new List<KeyValuePair<string, string>>(), new List<KeyValuePair<string, string>>(), "red", "LocxionDN", "", "", "", false, "", "", "", "", "", "", "", SubscriptionPlan.Prime, "", false, "", "", "", false, UserType.Admin, "LocxionUI")
-                        });
-
-                        Task.Delay(10).GetAwaiter().GetResult();
-                    }
-                });
-            }*/
-
-			ChatMessage Message = new ChatMessage(e.ChatMessage.Username, e.ChatMessage.IsSubscriber, e.ChatMessage.IsModerator, e.ChatMessage.IsVip, e.ChatMessage.Message,
+			var message = new ChatMessage(e.ChatMessage.Username, e.ChatMessage.IsSubscriber, e.ChatMessage.IsModerator, e.ChatMessage.IsVip, e.ChatMessage.Message,
 				ColorTranslator.FromHtml(e.ChatMessage.ColorHex));
-			_logger.Info($"{Message.Username} - {Message.Message}");
-			OnChatMessageReceived?.Invoke(Message);
+			_logger.Info($"{message.Username} - {message.Message}");
+			OnChatMessageReceived?.Invoke(message);
 		}
 
 		private void Client_OnWhisperReceived(object sender, OnWhisperReceivedArgs e)
@@ -539,7 +521,7 @@ namespace NanoTwitchLeafs.Controller
 			string code = context.Request.QueryString.Get("code");
 			string incomingState = context.Request.QueryString.Get("state");
 
-			//compares the receieved state to the expected value, to ensure that this app made the request which resulted in authorization.
+			//compares the received state to the expected value, to ensure that this app made the request which resulted in authorization.
 			if (incomingState != state)
 			{
 				_logger.Error($"Received request with invalid state ({incomingState})");
@@ -619,19 +601,23 @@ namespace NanoTwitchLeafs.Controller
 		}
 
 		/// <summary>
-		/// Pulls AvataUrl from TwitchUser
+		/// Pulls Avatar Url from TwitchUser
 		/// </summary>
 		/// <param name="userName"></param>
 		/// <param name="token"></param>
 		/// <returns>Url as String</returns>
 		public async Task<string> GetAvatarUrl(string userName, string token)
 		{
-			TwitchAPI api = new TwitchAPI();
-			
-			api.Settings.ClientId = HelperClass.GetTwitchApiCredentials(_appSettings).ClientId;
-			api.Settings.AccessToken = token;
+			var api = new TwitchAPI
+			{
+				Settings =
+				{
+					ClientId = HelperClass.GetTwitchApiCredentials(_appSettings).ClientId,
+					AccessToken = token
+				}
+			};
 
-			var getUsersResponse = await api.Helix.Users.GetUsersAsync(null, new List<string> { userName }, token);
+			var getUsersResponse = await api.Helix.Users.GetUsersAsync(null, [userName], token);
 			return getUsersResponse.Users[0].ProfileImageUrl;
 		}
 

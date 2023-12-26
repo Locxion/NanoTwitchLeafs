@@ -39,7 +39,7 @@ namespace NanoTwitchLeafs.Controller
 		private BufferBlock<QueueObject> _queue = new BufferBlock<QueueObject>();
 
 		private const int ChatMessageDelay = 1750;
-		private int _lastHeartRate = 0;
+		private int _lastHeartRate;
 		private TriggerSetting _lastTrigger;
 
 		public TriggerLogicController(AppSettings settings, TwitchController twitchController, CommandRepository commandRepository,
@@ -58,7 +58,7 @@ namespace NanoTwitchLeafs.Controller
 			_twitchController.OnTwitchEventReceived += HandleTwitchEventTrigger;
 			_twitchPubSubController.OnBitsReceived += HandleTwitchPubSubEventBits;
 			_twitchPubSubController.OnFollow += HandleTwitchPubSubEventFollow;
-			_twitchPubSubController.OnChannelPointsRedeemed += HandleChannelpointsTrigger;
+			_twitchPubSubController.OnChannelPointsRedeemed += HandleChannelPointsTrigger;
 			_twitchController.OnHostEvent += HandleHostEventTrigger;
 			hypeRateIoController.OnHeartRateRecieved += HypeRateIoControllerOnHeartRateReceived;
 			streamLabsController.OnDonationRecieved += StreamLabsControllerOnDonationReceived;
@@ -328,12 +328,12 @@ namespace NanoTwitchLeafs.Controller
 			}
 		}
 
-		private void HandleChannelpointsTrigger(string username, string promt, Guid guid)
+		private void HandleChannelPointsTrigger(string username, string message, Guid guid)
 		{
 			if (CheckBlacklist(username))
 				return;
 
-			foreach (TriggerSetting trigger in _commandRepository.GetList())
+			foreach (var trigger in _commandRepository.GetList())
 			{
 				if (!trigger.IsActive.HasValue || !trigger.IsActive.Value)
 				{
@@ -471,7 +471,7 @@ namespace NanoTwitchLeafs.Controller
 			//If no Command found look for Keyword
 			if (chatMessage.Message.StartsWith(_appSettings.CommandPrefix))
 			{
-				isCommand = await HandleCommandTriggerAsync(chatMessage);
+				isCommand = HandleCommandTriggerAsync(chatMessage);
 			}
 
 			if (!isCommand)
@@ -537,7 +537,7 @@ namespace NanoTwitchLeafs.Controller
 				var array = effectString.Split(' ');
 				var effect = "";
 				var arrayLength = array.Count();
-				if (arrayLength > 1 && int.TryParse(array[arrayLength - 1].ToString(), out int duration))
+				if (arrayLength > 1 && int.TryParse(array[arrayLength - 1], out int duration))
 				{
 					for (int i = 0; i < arrayLength - 1; i++)
 					{
@@ -649,7 +649,7 @@ namespace NanoTwitchLeafs.Controller
 			return false;
 		}
 
-		private async Task<bool> HandleCommandTriggerAsync(ChatMessage chatMessage)
+		private bool HandleCommandTriggerAsync(ChatMessage chatMessage)
 		{
 			QueueObject queueObject;
 
@@ -817,7 +817,7 @@ namespace NanoTwitchLeafs.Controller
 			return true;
 		}
 
-		private async void HandleHelpMessage(string username)
+		private void HandleHelpMessage(string username)
 		{
 			if ((DateTime.Now - _lastNanoHelp).TotalSeconds < 5)
 			{

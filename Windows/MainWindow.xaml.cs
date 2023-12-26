@@ -1256,6 +1256,7 @@ namespace NanoTwitchLeafs.Windows
 					nanoInfo_TextBox.Text += $"Serial Number: {controllerInfo.serialNo}" + Environment.NewLine;
 					nanoInfo_TextBox.Text += $"Firmware Version: {controllerInfo.firmwareVersion}" + Environment.NewLine;
 					nanoInfo_TextBox.Text += $"Is On: {controllerInfo.state.on.value}" + Environment.NewLine;
+					nanoInfo_TextBox.Text += $"Number of Panels: {controllerInfo.panelLayout.layout.numPanels}"+ Environment.NewLine;
 					nanoInfo_TextBox.Text += $"Current Effect: {controllerInfo.effects.select}" + Environment.NewLine;
 					nanoInfo_TextBox.Text += $"--------------------------------" + Environment.NewLine;
 

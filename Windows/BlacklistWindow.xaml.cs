@@ -1,7 +1,9 @@
-﻿using log4net;
+﻿using System;
+using log4net;
 using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Objects;
 using System.Windows;
+using NanoTwitchLeafs.Interfaces;
 
 namespace NanoTwitchLeafs.Windows
 {
@@ -10,14 +12,14 @@ namespace NanoTwitchLeafs.Windows
     /// </summary>
     public partial class BlacklistWindow : Window
     {
-        private readonly AppSettingsController _appSettingsController;
+        private readonly IAppSettingsService _appSettingsService;
         private readonly AppSettings _appSettings;
         private readonly ILog _logger = LogManager.GetLogger(typeof(MainWindow));
 
-        public BlacklistWindow(AppSettingsController appSettingsController, AppSettings appSettings)
+        public BlacklistWindow(IAppSettingsService appSettingsService)
         {
-            _appSettingsController = appSettingsController;
-            _appSettings = appSettings;
+            _appSettingsService = appSettingsService ?? throw new ArgumentNullException(nameof(appSettingsService));
+            _appSettings = _appSettingsService.LoadSettings();
             Constants.SetCultureInfo(_appSettings.Language);
             InitializeComponent();
 
@@ -42,7 +44,7 @@ namespace NanoTwitchLeafs.Windows
             _appSettings.Blacklist.Add(username);
             _logger.Info(string.Format(Properties.Resources.General_Blacklist_MessageBox_AddedUserX, username));
             blackbox_Input_Textbox.Text = "";
-            _appSettingsController.SaveSettings(_appSettings);
+            _appSettingsService.SaveSettings(_appSettings);
             FillListBox();
         }
 
@@ -69,7 +71,7 @@ namespace NanoTwitchLeafs.Windows
                 _appSettings.Blacklist.Remove(username);
                 _logger.Info(string.Format(Properties.Resources.General_Blacklist_MessageBox_RemovedUserX, username));
             }
-            _appSettingsController.SaveSettings(_appSettings);
+            _appSettingsService.SaveSettings(_appSettings);
             blackbox_Input_Textbox.Text = "";
 
             FillListBox();

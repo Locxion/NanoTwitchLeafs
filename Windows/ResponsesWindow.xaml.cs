@@ -1,21 +1,23 @@
-﻿using NanoTwitchLeafs.Controller;
+﻿using System;
+using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Objects;
 using System.Windows;
+using NanoTwitchLeafs.Interfaces;
 
 namespace NanoTwitchLeafs.Windows
 {
     /// <summary>
     /// Interaction logic for Responses.xaml
     /// </summary>
-    public partial class Responses : Window
+    public partial class ResponsesWindow : Window
     {
+        private readonly IAppSettingsService _appSettingsService;
         private readonly AppSettings _appSettings;
-        private readonly AppSettingsController _appSettingsController;
 
-        public Responses(AppSettings appSettings, AppSettingsController appSettingsController)
+        public ResponsesWindow(IAppSettingsService appSettingsService)
         {
-            _appSettings = appSettings;
-            _appSettingsController = appSettingsController;
+            _appSettingsService = appSettingsService ?? throw new ArgumentNullException(nameof(appSettingsService));
+            _appSettings = _appSettingsService.LoadSettings();
             Constants.SetCultureInfo(_appSettings.Language);
             InitializeComponent();
 
@@ -32,7 +34,7 @@ namespace NanoTwitchLeafs.Windows
         private void SaveAndClose_Button_Click(object sender, RoutedEventArgs e)
         {
             SaveStrings();
-            _appSettingsController.SaveSettings(_appSettings);
+            _appSettingsService.SaveSettings(_appSettings);
             Close();
         }
 

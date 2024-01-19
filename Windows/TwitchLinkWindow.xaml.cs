@@ -10,10 +10,18 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Microsoft.Extensions.Logging;
+using NanoTwitchLeafs.Interfaces;
+using Serilog;
 using TwitchLib.Client;
+using TwitchLib.Client.Enums;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
 using TwitchLib.Communication.Events;
+using TwitchLib.Communication.Models;
+using TwitchLib.EventSub.Websockets.Client;
+using OnConnectedEventArgs = TwitchLib.Client.Events.OnConnectedEventArgs;
+
 // ReSharper disable InconsistentNaming
 
 namespace NanoTwitchLeafs.Windows
@@ -23,10 +31,10 @@ namespace NanoTwitchLeafs.Windows
 	/// </summary>
 	public partial class TwitchLinkWindow : Window
 	{
+		private readonly IAppSettingsService _appSettingsService;
 		private readonly ILog _logger = LogManager.GetLogger(typeof(TriggerLogicController));
 		private readonly AppSettings _appSettings;
-		private readonly TwitchController _twitchController;
-		private readonly AppSettingsController _appSettingsController;
+		public TwitchController _twitchController;
 		private bool _doubleAccount = false;
 		private string _broadCasterAccountName;
 		private string _botAccountName;
@@ -35,11 +43,10 @@ namespace NanoTwitchLeafs.Windows
 		private OAuthObject _broadcasterAuthObject;
 		private OAuthObject _botAuthObject;
 
-		public TwitchLinkWindow(AppSettings appSettings, TwitchController twitchController, AppSettingsController appSettingsController)
+		public TwitchLinkWindow(IAppSettingsService appSettingsService)
 		{
-			_appSettings = appSettings ?? throw new ArgumentNullException(nameof(appSettings));
-			_twitchController = twitchController ?? throw new ArgumentNullException(nameof(twitchController));
-			_appSettingsController = appSettingsController ?? throw new ArgumentNullException(nameof(appSettingsController));
+			_appSettingsService = appSettingsService ?? throw new ArgumentNullException(nameof(appSettingsService));
+			_appSettings = _appSettingsService.LoadSettings();
 			Constants.SetCultureInfo(_appSettings.Language);
 			InitializeComponent();
 		}
@@ -262,7 +269,16 @@ namespace NanoTwitchLeafs.Windows
 		private async Task<bool> TestConnection(string username, string auth, bool isBroadcaster)
 		{ 
 			// Setup Twitch Client for first "Bot" connection
-			var client = new TwitchClient();
+			// var loggerFactory = LoggerFactory.Create(builder =>
+			// {
+			// 	builder.;
+			// });
+			var factory = LoggerFactory.Create(x =>
+			{
+				x.SetMinimumLevel(LogLevel.Trace);
+				x.AddConsole();
+			});
+			var client = new TwitchClient(null, ClientProtocol.WebSocket, null, factory);
 			var credentials = new ConnectionCredentials(username, "oauth:" + auth, disableUsernameCheck: true);
 			client.Initialize(credentials);
 			// Setup TaskCompetitionSource
@@ -272,71 +288,99 @@ namespace NanoTwitchLeafs.Windows
 			var disconnectTcs = new TaskCompletionSource<bool>();
 
 			// Setup Events
-			void OnBotClientConnected(object sender, OnConnectedArgs args)
+			client.OnConnected += OnBotClientOnConnected ;
+			Task OnBotClientOnConnected(object sender, OnConnectedEventArgs args)
 			{
 				connectTcs.SetResult(true);
+				return Task.CompletedTask;
+			}
+			
+			client.OnIncorrectLogin += OnBotClientIncorrectLogin;
+			Task OnBotClientIncorrectLogin(object sender, OnIncorrectLoginArgs e)
+			{
+				connectTcs.SetResult(false);
+				return Task.CompletedTask; 
 			}
 
-			client.OnConnected += OnBotClientConnected;
-
-			void OnBotClientIncorrectLogin(object sender, OnIncorrectLoginArgs args) => connectTcs.SetResult(false);
-
-			client.OnIncorrectLogin += OnBotClientIncorrectLogin;
-
-			void OnBotClientJoinedChannel(object sender, OnJoinedChannelArgs args)
+			client.OnJoinedChannel += OnBotClientJoinedChannel;
+			Task OnBotClientJoinedChannel(object sender, OnJoinedChannelArgs args)
 			{
 				if (client.TwitchUsername != args.Channel)
 				{
 					joinTcs.SetResult(false);
-					return;
+					return Task.CompletedTask; 
 				}
 				joinTcs.SetResult(true);
+				return Task.CompletedTask; 
 			}
 
-			client.OnJoinedChannel += OnBotClientJoinedChannel;
-
-			void OnBotClientDisconnected(object sender, OnDisconnectedEventArgs args) => disconnectTcs.SetResult(true);
-
 			client.OnDisconnected += OnBotClientDisconnected;
-
-			void OnBotClientFailureToReceiveJoinConfirmation(object sender, OnFailureToReceiveJoinConfirmationArgs args) => joinTcs.SetResult(false);
+			Task OnBotClientDisconnected(object sender, OnDisconnectedEventArgs args)
+			{
+				disconnectTcs.SetResult(true);
+				return Task.CompletedTask;
+			}
 
 			client.OnFailureToReceiveJoinConfirmation += OnBotClientFailureToReceiveJoinConfirmation;
+			Task OnBotClientFailureToReceiveJoinConfirmation(object sender, OnFailureToReceiveJoinConfirmationArgs args)
+			{
+				joinTcs.SetResult(false);
+				return Task.CompletedTask;
+			}
+
 			client.OnMessageReceived += BotClientOnOnMessageReceived;
-			
-			void BotClientOnOnMessageReceived(object sender, OnMessageReceivedArgs e)
+			Task BotClientOnOnMessageReceived(object sender, OnMessageReceivedArgs e)
 			{
 				if (e.ChatMessage.Message == "Testing NanoTwitchLeafs Chat Connection")
 				{
 					sendMsgTcs.SetResult(true);
 				}
+
+				return Task.CompletedTask;
 			}
 			
-			client.OnLog+= OnBotClientLog;
-			void OnBotClientLog(object sender, OnLogArgs e)
+			client.OnConnectionError += ClientOnOnConnectionError;
+			Task ClientOnOnConnectionError(object sender, OnConnectionErrorArgs e)
+			{
+				var message = "[TwitchConsole] " + e.Error;
+				SendMessageToListBox(message);
+				return Task.CompletedTask;
+			}
+			
+			client.OnSendReceiveData += ClientOnOnSendReceiveData;
+			Task ClientOnOnSendReceiveData(object sender, OnSendReceiveDataArgs e)
 			{
 				var message = "[TwitchConsole] " + e.Data;
 				SendMessageToListBox(message);
+				return Task.CompletedTask;
 			}
+
+			// Event no longer Exists in 4.0
+			// client.log+= OnBotClientLog;
+			// void OnBotClientLog(object sender, OnLogArgs e)
+			// {
+			// 	var message = "[TwitchConsole] " + e.Data;
+			// 	SendMessageToListBox(message);
+			// }
 
 			try
 			{
 				// Connect to Twitch
-				var isConnected = client.Connect();
+				var isConnected = await client.ConnectAsync();
 				if (!isConnected)
 				{
 					_logger.Error("Could not connect to Twitch Server!");
 					return false;
 				}
 
-				// Wait for Connect or IncorrectLogin Event - Timeout Delay 2 Seconds
-				var connectResultTask = await Task.WhenAny(connectTcs.Task, Task.Delay(TimeSpan.FromSeconds(2)));
+				// Wait for Connect or IncorrectLogin Event - Timeout Delay 5 Seconds
+				var connectResultTask = await Task.WhenAny(connectTcs.Task, Task.Delay(TimeSpan.FromSeconds(5)));
 				if (connectResultTask != connectTcs.Task)
 				{
 					_logger.Error("Could not connect to Twitch Server! Timeout reached!");
 					return false;
 				}
-
+				
 				var connectResult = await connectTcs.Task;
 				if (!connectResult)
 				{
@@ -351,7 +395,7 @@ namespace NanoTwitchLeafs.Windows
 
 				// Try to Join Channel
 
-				client.JoinChannel(client.TwitchUsername);
+				await client.JoinChannelAsync(client.TwitchUsername);
 
 				var joinResultTask = await Task.WhenAny(joinTcs.Task, Task.Delay(TimeSpan.FromSeconds(2)));
 				if (joinResultTask != joinTcs.Task)
@@ -373,7 +417,7 @@ namespace NanoTwitchLeafs.Windows
 				SendMessageToListBox("Send Test Message to Chat: 'Testing NanoTwitchLeafs Chat Connection'");
 
 				// Send Test Message to Twitch Channel
-				client.SendMessage(_broadCasterAccountName, "Testing NanoTwitchLeafs Chat Connection");
+				_ = client.SendMessageAsync(_broadCasterAccountName, "Testing NanoTwitchLeafs Chat Connection");
 
 				// Disabled til we can really confirm that the Message was sent
 				/*var sendMsgResultTask = await Task.WhenAny(sendMsgTcs.Task, Task.Delay(TimeSpan.FromSeconds(2)));
@@ -392,7 +436,7 @@ namespace NanoTwitchLeafs.Windows
 				SetProgress(3, isBroadcaster);
 
 				// Disconnect from Twitch Server
-				client.Disconnect();
+				await client.DisconnectAsync();
 
 				var disconnectResultTask = await Task.WhenAny(disconnectTcs.Task, Task.Delay(TimeSpan.FromSeconds(2)));
 				if (disconnectResultTask != disconnectTcs.Task)
@@ -417,7 +461,7 @@ namespace NanoTwitchLeafs.Windows
 			}
 			finally
 			{
-				client.OnConnected -= OnBotClientConnected;
+				client.OnConnected -= OnBotClientOnConnected;
 				client.OnIncorrectLogin -= OnBotClientIncorrectLogin;
 				client.OnJoinedChannel -= OnBotClientJoinedChannel;
 				client.OnDisconnected -= OnBotClientDisconnected;
@@ -523,7 +567,7 @@ namespace NanoTwitchLeafs.Windows
 
 			_appSettings.ChannelName = _broadCasterAccountName;
 
-			_appSettingsController.SaveSettings(_appSettings);
+			_appSettingsService.SaveSettings(_appSettings);
 		}
 
 		#endregion

@@ -1,8 +1,8 @@
 ﻿using NanoTwitchLeafs.Controller;
-using NanoTwitchLeafs.Objects;
 using System;
 using System.Diagnostics;
 using System.Windows;
+using NanoTwitchLeafs.Interfaces;
 
 namespace NanoTwitchLeafs.Windows
 {
@@ -11,13 +11,11 @@ namespace NanoTwitchLeafs.Windows
     /// </summary>
     public partial class AppInfoWindow : Window
     {
-        private readonly AppSettings _appSettings;
-
-        public AppInfoWindow(AppSettings appSettings, AppSettingsController appSettingsController)
+        public AppInfoWindow(IAppSettingsService appSettingsService)
         {
-            if (appSettingsController == null) throw new ArgumentNullException(nameof(appSettingsController));
-            _appSettings = appSettings ?? throw new ArgumentNullException(nameof(appSettings));
-            Constants.SetCultureInfo(_appSettings.Language);
+            var appSettingsService1 = appSettingsService ?? throw new ArgumentNullException(nameof(appSettingsService));
+            var appSettings = appSettingsService1.LoadSettings();
+            Constants.SetCultureInfo(appSettings.Language);
             InitializeComponent();
             version_Label.Content = typeof(AppInfoWindow).Assembly.GetName().Version;
         }

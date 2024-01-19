@@ -195,7 +195,7 @@ namespace NanoTwitchLeafs.Controller
                     return controllerInfo.firmwareVersion.ToString();
                 }
             }
-            return "Device Adress not Found!";
+            return "Device Address not Found!";
         }
 
         public async Task<List<string>> GetEffectList(NanoLeafDevice nanoLeafDevice)
@@ -611,15 +611,15 @@ namespace NanoTwitchLeafs.Controller
             var template = $"1 {panelId} 1 {r} {g} {b} 0 1";
 
             var json = $@"
-{{
-    ""write"": {{
-        ""command"": ""display"",
-        ""animType"": ""static"",
-        ""animData"": ""{template}"",
-        ""loop"": false,
-        ""palette"": []
-    }}
-}}";
+            {{
+                ""write"": {{
+                    ""command"": ""display"",
+                    ""animType"": ""static"",
+                    ""animData"": ""{template}"",
+                    ""loop"": false,
+                    ""palette"": []
+                }}
+            }}";
 
             using (var client = new HttpClient())
             {

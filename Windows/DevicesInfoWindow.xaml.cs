@@ -3,6 +3,7 @@ using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Objects;
 using System;
 using System.Windows;
+using NanoTwitchLeafs.Interfaces;
 
 namespace NanoTwitchLeafs.Windows
 {
@@ -11,16 +12,15 @@ namespace NanoTwitchLeafs.Windows
     /// </summary>
     public partial class DevicesInfoWindow : Window
     {
-        private readonly NanoController _nanoController;
-        private readonly AppSettingsController _appSettingsController;
+        private readonly IAppSettingsService _appSettingsService;
+        public  NanoController _nanoController;
         private readonly AppSettings _appSettings;
         private readonly ILog _logger = LogManager.GetLogger(typeof(DevicesInfoWindow));
-
-        public DevicesInfoWindow(NanoController nanoController, AppSettings appSettings, AppSettingsController appSettingsController)
+        
+        public DevicesInfoWindow(IAppSettingsService appSettingsService)
         {
-            _nanoController = nanoController ?? throw new ArgumentNullException(nameof(nanoController));
-            _appSettings = appSettings ?? throw new ArgumentNullException(nameof(appSettings));
-            _appSettingsController = appSettingsController ?? throw new ArgumentNullException(nameof(appSettingsController));
+            _appSettingsService = appSettingsService ?? throw new ArgumentNullException(nameof(appSettingsService));
+            _appSettings = _appSettingsService.LoadSettings();
             Constants.SetCultureInfo(_appSettings.Language);
             InitializeComponent();
             InitializeData();
@@ -75,7 +75,7 @@ namespace NanoTwitchLeafs.Windows
             string oldName = _appSettings.NanoSettings.NanoLeafDevices[selectedIndex].PublicName;
             _appSettings.NanoSettings.NanoLeafDevices[selectedIndex].PublicName = _nanoController.GetUserInputNameForNewDevice();
 
-            _appSettingsController.SaveSettings(_appSettings);
+            _appSettingsService.SaveSettings(_appSettings);
             _logger.Info($"Renamed Device {oldName} to {_appSettings.NanoSettings.NanoLeafDevices[selectedIndex].PublicName}");
             devices_ListBox.Items.Clear();
             InitializeData();
@@ -86,7 +86,7 @@ namespace NanoTwitchLeafs.Windows
             if (await _nanoController.UpdateAllNanoleafDevices())
             {
                 MessageBox.Show(Properties.Resources.Code_Devices_Messagebox_UpdateDevices_Succes, Properties.Resources.General_MessageBox_Sucess_Title);
-                _appSettingsController.SaveSettings(_appSettings);
+                _appSettingsService.SaveSettings(_appSettings);
             }
         }
 

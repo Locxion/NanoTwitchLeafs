@@ -15,7 +15,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using System.Windows;
-using Microsoft.Extensions.Hosting;
 using NanoTwitchLeafs.Services;
 using WMPLib;
 

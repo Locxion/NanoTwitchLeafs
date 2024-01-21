@@ -180,7 +180,7 @@ namespace NanoTwitchLeafs.Controller
 				_settingsService.CurrentSettings.BotAuthObject = newOauth;
 				if (_settingsService.CurrentSettings.BotName == _settingsService.CurrentSettings.ChannelName)
 					_settingsService.CurrentSettings.BroadcasterAuthObject = newOauth;
-				_appSettingsService.SaveSettings();
+				_settingsService.SaveSettings();
 				_firstTryToConnectBotAccount = false;
 
 				OnCallLoadingWindow?.Invoke(false);
@@ -206,7 +206,7 @@ namespace NanoTwitchLeafs.Controller
 
 				var newOauth = await PerformCodeExchange(_settingsService.CurrentSettings.BroadcasterAuthObject.Refresh_Token, HelperClass.GetTwitchApiCredentials(_settingsService.CurrentSettings), true);
 				_settingsService.CurrentSettings.BroadcasterAuthObject = newOauth;
-				_appSettingsService.SaveSettings();
+				_settingsService.SaveSettings();
 
 				_firstTryToConnectBroadcasterAccount = false;
 

@@ -2,15 +2,13 @@
 using System.IO;
 using System.Security.Cryptography;
 using log4net;
-using Microsoft.Extensions.Logging;
-using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Interfaces;
 using NanoTwitchLeafs.Objects;
 using Newtonsoft.Json;
 
 namespace NanoTwitchLeafs.Services;
 
-public partial class AppSettingsService : IAppSettingsService
+public class AppSettingsService : IAppSettingsService
 {
     private const DataProtectionScope DataProtectionScope = System.Security.Cryptography.DataProtectionScope.CurrentUser;
 
@@ -100,4 +98,5 @@ public partial class AppSettingsService : IAppSettingsService
             return new AppSettings();
         }
     }
+    
 }

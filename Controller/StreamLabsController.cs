@@ -72,7 +72,7 @@ namespace NanoTwitchLeafs.Controller
 		/// <summary>
 		/// Pulls the ProfileInformation from the Streamlabs Api
 		/// </summary>
-		/// <returns>Profike Information in Json Format</returns>
+		/// <returns>Profile Information in Json Format</returns>
 		public async Task<string> GetProfileInformation()
 		{
 			using (var client = new HttpClient())

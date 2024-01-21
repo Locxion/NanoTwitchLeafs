@@ -28,10 +28,10 @@ namespace NanoTwitchLeafs.Controller
             _appSettings = appSettings ?? throw new ArgumentNullException(nameof(appSettings));
         }
 
-        public async Task<IReadOnlyList<IZeroconfHost>> GetDevicesInNetwork()
-        {
-            return await ZeroconfResolver.ResolveAsync("_nanoleafapi._tcp.local.");
-        }
+    public async Task<IReadOnlyList<IZeroconfHost>> GetDevicesInNetwork()
+    {
+        return await ZeroconfResolver.ResolveAsync("_nanoleafapi._tcp.local.");
+    }
 
         public async Task<bool> PairDevice(NanoLeafDevice nanoLeafDevice)
         {
@@ -88,14 +88,14 @@ namespace NanoTwitchLeafs.Controller
 
         public string GetUserInputNameForNewDevice()
         {
-            bool unique = false;
+            var unique = false;
             string deviceName = null;
 
             while (!unique)
             {
-                InputDialogWindow inputDialogWindow = new InputDialogWindow(this, _appSettings.Language)
+                var inputDialogWindow = new InputDialogWindow(this, _appSettings.Language)
                 {
-                    Owner = App.Current.MainWindow
+                    Owner = Application.Current.MainWindow
                 };
                 inputDialogWindow.ShowDialog();
                 unique = _appSettings.NanoSettings.NanoLeafDevices.All(x => x.PublicName != inputDialogWindow.inputDialog_TextBox.Text) && !string.IsNullOrWhiteSpace(inputDialogWindow.inputDialog_TextBox.Text) && !inputDialogWindow.inputDialog_TextBox.Text.Equals("New Nanoleaf Device", StringComparison.InvariantCultureIgnoreCase);

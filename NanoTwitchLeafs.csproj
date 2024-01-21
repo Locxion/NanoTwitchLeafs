@@ -156,6 +156,15 @@
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Extensions.DependencyInjection.Abstractions.8.0.0\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Extensions.Diagnostics.Abstractions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.Diagnostics.Abstractions.8.0.0\lib\net462\Microsoft.Extensions.Diagnostics.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.FileProviders.Abstractions.8.0.0\lib\net462\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Hosting.Abstractions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.Hosting.Abstractions.8.0.0\lib\net462\Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Extensions.Logging, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Extensions.Logging.8.0.0\lib\net462\Microsoft.Extensions.Logging.dll</HintPath>
     </Reference>
@@ -460,14 +469,22 @@
     <Compile Include="Controller\HypeRateIOController.cs" />
     <Compile Include="DependencyConfig.cs" />
     <Compile Include="Enums\PingType.cs" />
+    <Compile Include="Enums\Event.cs" />
     <Compile Include="HelperClass.cs" />
+    <Compile Include="Interfaces\IAnalyticsService.cs" />
     <Compile Include="Interfaces\IAppSettingsService.cs" />
     <Compile Include="Interfaces\IDatabaseController.cs" />
-    <Compile Include="Controller\StreamElementsController.cs" />
     <Compile Include="Controller\StreamLabsController.cs" />
-    <Compile Include="Controller\TipeeeStreamController.cs" />
     <Compile Include="Controller\UpdateController.cs" />
+    <Compile Include="Interfaces\IHypeRateService.cs" />
+    <Compile Include="Interfaces\INanoService.cs" />
     <Compile Include="Interfaces\ISettingsService.cs" />
+    <Compile Include="Interfaces\IStreamLabsAuthService.cs" />
+    <Compile Include="Interfaces\IStreamLabsService.cs" />
+    <Compile Include="Interfaces\ITwitchAuthService.cs" />
+    <Compile Include="Interfaces\ITwitchInstanceService.cs" />
+    <Compile Include="Interfaces\ITwitchPubSubService.cs" />
+    <Compile Include="Interfaces\IUpdateService.cs" />
     <Compile Include="NanoTwitchLeafsAppender.cs" />
     <Compile Include="Objects\AnalyticsPing.cs" />
     <Compile Include="Objects\AppInformation.cs" />
@@ -484,16 +501,25 @@
     <Compile Include="Objects\QueueObject.cs" />
     <Compile Include="Objects\Responses.cs" />
     <Compile Include="Objects\ServiceCredentials.cs" />
+    <Compile Include="Objects\StreamlabsEvent.cs" />
     <Compile Include="Objects\StreamlabsInformation.cs" />
     <Compile Include="Objects\TriggerListObject.cs" />
+    <Compile Include="Objects\TwitchEvent.cs" />
     <Compile Include="Properties\Resources.de-DE.Designer.cs">
       <DependentUpon>Resources.de-DE.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Services\AnalyticsService.cs" />
     <Compile Include="Services\AppSettingsService.cs" />
+    <Compile Include="Services\HypeRateService.cs" />
     <Compile Include="Services\SettingsService.cs" />
+    <Compile Include="Services\StreamLabsAuthService.cs" />
+    <Compile Include="Services\StreamLabsService.cs" />
+    <Compile Include="Services\TwitchAuthService.cs" />
     <Compile Include="Services\TwitchEventSubService.cs" />
+    <Compile Include="Services\TwitchInstanceService.cs" />
+    <Compile Include="Services\UpdateService.cs" />
     <Compile Include="Windows\AppInfoWindow.xaml.cs">
       <DependentUpon>AppInfoWindow.xaml</DependentUpon>
     </Compile>

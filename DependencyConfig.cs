@@ -20,8 +20,17 @@ public static class DependencyConfig
             .AddTransient<TriggerWindow>()
             .AddTransient<DevicesInfoWindow>()
             //Services
+            .AddSingleton<IAnalyticsService, AnalyticsService>()
+            .AddTransient<IUpdateService, UpdateService>()
+            .AddSingleton<IStreamLabsService, StreamLabsService>()
+            .AddSingleton<IStreamLabsAuthService, StreamLabsAuthService>()
+            .AddSingleton<IHypeRateService, HypeRateService>()
             .AddSingleton<ISettingsService, SettingsService>()
             .AddSingleton<IAppSettingsService, AppSettingsService>()
+            .AddSingleton<INanoService, NanoService>()
+            .AddTransient<ITwitchInstanceService, TwitchInstanceService>()
+            .AddTransient<ITwitchAuthService, TwitchAuthService>()
+            .AddTransient<ITwitchPubSubService, TwitchPubSubService>()
             .AddHostedService<TwitchEventSubService>()
             // Hier füge deine Abhängigkeiten hinzu
             // .AddTransient<Interface, Implementierung>()

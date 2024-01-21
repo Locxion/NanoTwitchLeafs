@@ -31,10 +31,9 @@ namespace NanoTwitchLeafs.Windows
 	/// </summary>
 	public partial class TwitchLinkWindow : Window
 	{
-		private readonly IAppSettingsService _appSettingsService;
+		private readonly ISettingsService _settingsService;
+		private readonly ITwitchAuthService _authService;
 		private readonly ILog _logger = LogManager.GetLogger(typeof(TriggerLogicController));
-		private readonly AppSettings _appSettings;
-		public TwitchController _twitchController;
 		private bool _doubleAccount = false;
 		private string _broadCasterAccountName;
 		private string _botAccountName;
@@ -43,11 +42,11 @@ namespace NanoTwitchLeafs.Windows
 		private OAuthObject _broadcasterAuthObject;
 		private OAuthObject _botAuthObject;
 
-		public TwitchLinkWindow(IAppSettingsService appSettingsService)
+		public TwitchLinkWindow(ISettingsService settingsService , ITwitchAuthService authService)
 		{
-			_appSettingsService = appSettingsService ?? throw new ArgumentNullException(nameof(appSettingsService));
-			_appSettings = _appSettingsService.LoadSettings();
-			Constants.SetCultureInfo(_appSettings.Language);
+			_settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
+			_authService = authService ?? throw new ArgumentNullException(nameof(authService));
+			Constants.SetCultureInfo(_settingsService.CurrentSettings.Language);
 			InitializeComponent();
 		}
 
@@ -176,7 +175,7 @@ namespace NanoTwitchLeafs.Windows
 			if (isBroadcaster)
 			{
 				_broadCasterAccountName = accountName;
-				_broadcasterAuthObject = await _twitchController.GetAuthToken(HelperClass.GetTwitchApiCredentials(_appSettings), true);
+				_broadcasterAuthObject = await _authService.GetAuthToken(HelperClass.GetTwitchApiCredentials(_settingsService.CurrentSettings), true);
 
 				if (_broadcasterAuthObject == null)
 				{
@@ -189,7 +188,7 @@ namespace NanoTwitchLeafs.Windows
 
 				try
 				{
-					_broadCasterAvatarUrl = new Uri(await _twitchController.GetAvatarUrl(accountName, _broadcasterAuthObject.Access_Token));
+					_broadCasterAvatarUrl = new Uri(await _authService.GetAvatarUrl(accountName, _broadcasterAuthObject.Access_Token));
 					BroadcasterAvatar_Image.Source = new BitmapImage(_broadCasterAvatarUrl);
 				}
 				catch (Exception e)
@@ -207,7 +206,7 @@ namespace NanoTwitchLeafs.Windows
 			else
 			{
 				_botAccountName = accountName;
-				_botAuthObject = await _twitchController.GetAuthToken(HelperClass.GetTwitchApiCredentials(_appSettings), false);
+				_botAuthObject = await _authService.GetAuthToken(HelperClass.GetTwitchApiCredentials(_settingsService.CurrentSettings), false);
 
 				if (_botAuthObject == null)
 				{
@@ -220,7 +219,7 @@ namespace NanoTwitchLeafs.Windows
 
 				try
 				{
-					_botAccountAvatarUrl = new Uri(await _twitchController.GetAvatarUrl(accountName, _botAuthObject.Access_Token));
+					_botAccountAvatarUrl = new Uri(await _authService.GetAvatarUrl(accountName, _botAuthObject.Access_Token));
 					BotAccountAvatar_Image.Source = new BitmapImage(_botAccountAvatarUrl);
 				}
 				catch (Exception e)
@@ -553,34 +552,34 @@ namespace NanoTwitchLeafs.Windows
 
 		private void SaveSettings()
 		{
-			_appSettings.BotName = _broadCasterAccountName;
-			_appSettings.BotAvatarUrl = _broadCasterAvatarUrl;
-			_appSettings.BotAuthObject = _broadcasterAuthObject;
-			_appSettings.BroadcasterAvatarUrl = _broadCasterAvatarUrl;
-			_appSettings.BroadcasterAuthObject = _broadcasterAuthObject;
+			_settingsService.CurrentSettings.BotName = _broadCasterAccountName;
+			_settingsService.CurrentSettings.BotAvatarUrl = _broadCasterAvatarUrl;
+			_settingsService.CurrentSettings.BotAuthObject = _broadcasterAuthObject;
+			_settingsService.CurrentSettings.BroadcasterAvatarUrl = _broadCasterAvatarUrl;
+			_settingsService.CurrentSettings.BroadcasterAuthObject = _broadcasterAuthObject;
 			if (_doubleAccount)
 			{
-				_appSettings.BotName = _botAccountName;
-				_appSettings.BotAvatarUrl = _botAccountAvatarUrl;
-				_appSettings.BotAuthObject = _botAuthObject;
+				_settingsService.CurrentSettings.BotName = _botAccountName;
+				_settingsService.CurrentSettings.BotAvatarUrl = _botAccountAvatarUrl;
+				_settingsService.CurrentSettings.BotAuthObject = _botAuthObject;
 			}
 
-			_appSettings.ChannelName = _broadCasterAccountName;
+			_settingsService.CurrentSettings.ChannelName = _broadCasterAccountName;
 
-			_appSettingsService.SaveSettings(_appSettings);
+			_settingsService.SaveSettings();
 		}
 
 		#endregion
 
 		private void TwitchLink_Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			if (_appSettings.BroadcasterAvatarUrl == null || _broadcasterAuthObject == null)
+			if (_settingsService.CurrentSettings.BroadcasterAvatarUrl == null || _broadcasterAuthObject == null)
 			{
 				return;
 			}
 
-			((MainWindow)App.Current.MainWindow).TwitchLinkAvatar_Image.Source = new BitmapImage(_appSettings.BroadcasterAvatarUrl);
-			((MainWindow)App.Current.MainWindow).TwitchLink_Label.Content = $"Connected to Twitch Channel {_appSettings.ChannelName}";
+			((MainWindow)App.Current.MainWindow).TwitchLinkAvatar_Image.Source = new BitmapImage(_settingsService.CurrentSettings.BroadcasterAvatarUrl);
+			((MainWindow)App.Current.MainWindow).TwitchLink_Label.Content = $"Connected to Twitch Channel {_settingsService.CurrentSettings.ChannelName}";
 			((MainWindow)App.Current.MainWindow).ConnectTwitchAccount_Button.IsEnabled = false;
 			((MainWindow)App.Current.MainWindow).DisconnectTwitchAccount_Button.IsEnabled = true;
 			((MainWindow)App.Current.MainWindow).ConnectChat_Button.IsEnabled = true;

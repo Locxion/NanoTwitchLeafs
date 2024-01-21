@@ -1,9 +1,6 @@
 ﻿using log4net;
-using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Objects;
 using System;
-using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,14 +9,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Extensions.Logging;
 using NanoTwitchLeafs.Interfaces;
-using Serilog;
 using TwitchLib.Client;
 using TwitchLib.Client.Enums;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
 using TwitchLib.Communication.Events;
-using TwitchLib.Communication.Models;
-using TwitchLib.EventSub.Websockets.Client;
 using OnConnectedEventArgs = TwitchLib.Client.Events.OnConnectedEventArgs;
 
 // ReSharper disable InconsistentNaming
@@ -33,7 +27,7 @@ namespace NanoTwitchLeafs.Windows
 	{
 		private readonly ISettingsService _settingsService;
 		private readonly ITwitchAuthService _authService;
-		private readonly ILog _logger = LogManager.GetLogger(typeof(TriggerLogicController));
+		private readonly ILog _logger = LogManager.GetLogger(typeof(TwitchLinkWindow));
 		private bool _doubleAccount = false;
 		private string _broadCasterAccountName;
 		private string _botAccountName;

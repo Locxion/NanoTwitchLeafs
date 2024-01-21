@@ -459,7 +459,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Main.cs" />
     <Compile Include="Colors\ColorConverting.cs" />
     <Compile Include="Colors\HsbColor.cs" />
     <Compile Include="Colors\HslColor.cs" />

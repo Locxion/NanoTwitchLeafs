@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
-using System.Windows;
 using log4net;
 using NanoTwitchLeafs.Colors;
 using NanoTwitchLeafs.Enums;
@@ -16,6 +15,7 @@ using NanoTwitchLeafs.Interfaces;
 using NanoTwitchLeafs.Objects;
 using NanoTwitchLeafs.Windows;
 using WMPLib;
+using static System.Windows.Application;
 
 namespace NanoTwitchLeafs.Services;
 
@@ -31,14 +31,14 @@ class TriggerService : ITriggerService
     private readonly IHypeRateService _hypeRateService;
     private readonly IStreamLabsService _streamLabsService;
     private readonly INanoService _nanoService;
-    private readonly Dictionary<int, DateTime> _triggerCoolDowns = new Dictionary<int, DateTime>();
+    private readonly Dictionary<int, DateTime> _triggerCoolDowns = new();
     private DateTime _lastGlobalCoolDown;
     private DateTime _lastNanoHelp;
 
     private CancellationTokenSource _queueToken;
     private CancellationTokenSource _cooldownToken;
-    private readonly WindowsMediaPlayer _wmPlayer = new WindowsMediaPlayer();
-    private BufferBlock<QueueObject> _queue = new BufferBlock<QueueObject>();
+    private readonly WindowsMediaPlayer _wmPlayer = new();
+    private BufferBlock<QueueObject> _queue = new();
     private const int ChatMessageDelay = 1750;
     private int _lastHeartRate;
     private TriggerSetting _lastTrigger;
@@ -904,9 +904,9 @@ class TriggerService : ITriggerService
     }
     private void RefreshRemainingQueueElements()
     {
-        Application.Current.Dispatcher.Invoke(() =>
+        Current.Dispatcher.Invoke(() =>
         {
-            (((MainWindow)Application.Current.MainWindow)!).nanoQueueCount_TextBox.Text = _queue.Count.ToString();
+            (((MainWindow)Current.MainWindow)!).nanoQueueCount_TextBox.Text = _queue.Count.ToString();
         });
     }
     #endregion
@@ -1067,14 +1067,13 @@ class TriggerService : ITriggerService
     private void SendMessageToChat(string message)
     {
         var formattedMessage = $"{DateTime.Now.ToLongTimeString()}: >>>>> - {message}";
-        /* TODO: Fix message into ListBox
-        ((MainWindow)App.Current.MainWindow).twitchChat_ListBox.Dispatcher.Invoke(() =>
+        ((MainWindow)Current.MainWindow)?.twitchChat_ListBox.Dispatcher.Invoke(() =>
         {
-            ((MainWindow)App.Current.MainWindow)._twitchChat.Add(formattedMessage);
-            ((MainWindow)App.Current.MainWindow).twitchChat_ListBox.Items.Refresh();
-            ((MainWindow)App.Current.MainWindow).UpdateScrollBar(((MainWindow)App.Current.MainWindow).twitchChat_ListBox);
+            ((MainWindow)Current.MainWindow)._twitchChat.Add(formattedMessage);
+            ((MainWindow)Current.MainWindow).twitchChat_ListBox.Items.Refresh();
+            ((MainWindow)Current.MainWindow).UpdateScrollBar(((MainWindow)App.Current.MainWindow).twitchChat_ListBox);
         });
-        */
+        
         // TODO How to get the right Instance?
         _twitchInstanceService.SendMessage(message);
     }

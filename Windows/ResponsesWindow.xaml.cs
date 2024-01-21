@@ -1,5 +1,4 @@
 ﻿using System;
-using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Objects;
 using System.Windows;
 using NanoTwitchLeafs.Interfaces;
@@ -11,14 +10,13 @@ namespace NanoTwitchLeafs.Windows
     /// </summary>
     public partial class ResponsesWindow : Window
     {
-        private readonly IAppSettingsService _appSettingsService;
-        private readonly AppSettings _appSettings;
+        private readonly ISettingsService _settingsService;
 
-        public ResponsesWindow(IAppSettingsService appSettingsService)
+        public ResponsesWindow(ISettingsService settingsService)
         {
-            _appSettingsService = appSettingsService ?? throw new ArgumentNullException(nameof(appSettingsService));
-            _appSettings = _appSettingsService.LoadSettings();
-            Constants.SetCultureInfo(_appSettings.Language);
+            _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
+
+            Constants.SetCultureInfo(settingsService.CurrentSettings.Language);
             InitializeComponent();
 
             LoadStrings();
@@ -34,13 +32,13 @@ namespace NanoTwitchLeafs.Windows
         private void SaveAndClose_Button_Click(object sender, RoutedEventArgs e)
         {
             SaveStrings();
-            _appSettingsService.SaveSettings(_appSettings);
+            _settingsService.SaveSettings();
             Close();
         }
 
         private void ResponseHelp_Button_Click(object sender, RoutedEventArgs e)
         {
-            ResponsesHelpWindow responsesHelpWindow = new ResponsesHelpWindow(_appSettings.Language)
+            ResponsesHelpWindow responsesHelpWindow = new ResponsesHelpWindow(_settingsService.CurrentSettings.Language)
             {
                 Owner = this
             };
@@ -53,20 +51,20 @@ namespace NanoTwitchLeafs.Windows
 
         private void SaveStrings()
         {
-            _appSettings.Responses.StartupResponse = connectMessage_TextBox.Text;
-            _appSettings.Responses.CommandResponse = commandResponse_TextBox.Text;
-            _appSettings.Responses.CommandDurationResponse = commandDurationResponse_TextBox.Text;
-            _appSettings.Responses.KeywordResponse = keywordResponse_TextBox.Text;
-            _appSettings.Responses.StartupMessageActive = (bool)StartupMessage_CheckBox.IsChecked;
+            _settingsService.CurrentSettings.Responses.StartupResponse = connectMessage_TextBox.Text;
+            _settingsService.CurrentSettings.Responses.CommandResponse = commandResponse_TextBox.Text;
+            _settingsService.CurrentSettings.Responses.CommandDurationResponse = commandDurationResponse_TextBox.Text;
+            _settingsService.CurrentSettings.Responses.KeywordResponse = keywordResponse_TextBox.Text;
+            _settingsService.CurrentSettings.Responses.StartupMessageActive = (bool)StartupMessage_CheckBox.IsChecked;
         }
 
         private void LoadStrings()
         {
-            connectMessage_TextBox.Text = _appSettings.Responses.StartupResponse;
-            commandResponse_TextBox.Text = _appSettings.Responses.CommandResponse;
-            commandDurationResponse_TextBox.Text = _appSettings.Responses.CommandDurationResponse;
-            keywordResponse_TextBox.Text = _appSettings.Responses.KeywordResponse;
-            StartupMessage_CheckBox.IsChecked = _appSettings.Responses.StartupMessageActive;
+            connectMessage_TextBox.Text = _settingsService.CurrentSettings.Responses.StartupResponse;
+            commandResponse_TextBox.Text = _settingsService.CurrentSettings.Responses.CommandResponse;
+            commandDurationResponse_TextBox.Text = _settingsService.CurrentSettings.Responses.CommandDurationResponse;
+            keywordResponse_TextBox.Text = _settingsService.CurrentSettings.Responses.KeywordResponse;
+            StartupMessage_CheckBox.IsChecked = _settingsService.CurrentSettings.Responses.StartupMessageActive;
         }
 
         private void ResetToDefault()

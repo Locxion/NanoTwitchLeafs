@@ -1,10 +1,8 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
 using log4net;
-using log4net.Config;
 using log4net.Core;
 using log4net.Repository.Hierarchy;
 using NanoTwitchLeafs.Colors;
-using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Objects;
 using Newtonsoft.Json;
 using System;
@@ -13,7 +11,6 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,29 +31,36 @@ namespace NanoTwitchLeafs.Windows
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		private readonly List<string> _twitchChat = new();
+		public readonly List<string> _twitchChat = new();
 		private static readonly ObservableCollection<string> Console = new();
 		private LoadingWindow _loadingWindow;
 
 		private readonly ILog _logger = LogManager.GetLogger(typeof(MainWindow));
 
 		private readonly ISettingsService _settingsService;
-		private readonly TwitchController _twitchController;
-		private readonly NanoController _nanoController;
-		private readonly TriggerRepositoryService _triggerRepositoryService;
-		private readonly TwitchPubSubController _twitchPubSubController;
-		private readonly StreamlabsController _streamlabsController;
-		private readonly TriggerLogicController _triggerLogicController;
-		private readonly HypeRateIOController _hypeRateController;
-		private readonly UpdateController _updateController;
-		private readonly AnalyticsController _analyticsController;
+		private readonly IAnalyticsService _analyticsService;
+		private readonly IHypeRateService _hypeRateService;
+		private readonly IStreamLabsService _streamLabsService;
+		private readonly IStreamLabsAuthService _streamLabsAuthService;
+		private readonly IUpdateService _updateService;
+		private readonly INanoService _nanoService;
+		private readonly ITriggerService _triggerService;
 		private readonly TaskbarIcon _tbi = new TaskbarIcon();
 		private readonly ServiceProvider _serviceProvider = DependencyConfig.ConfigureServices();
 		#region Init
 
-		public MainWindow(SettingsService settingsService)
+		public MainWindow(SettingsService settingsService, IAnalyticsService analyticsService, IHypeRateService hypeRateService,
+			IStreamLabsService streamLabsService, IStreamLabsAuthService streamLabsAuthService, IUpdateService updateService,
+			INanoService nanoService, ITriggerService triggerService)
 		{
-			_settingsService = settingsService;
+			_settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
+			_analyticsService = analyticsService ?? throw new ArgumentNullException(nameof(analyticsService));
+			_hypeRateService = hypeRateService ?? throw new ArgumentNullException(nameof(hypeRateService));
+			_streamLabsService = streamLabsService ?? throw new ArgumentNullException(nameof(streamLabsService));
+			_streamLabsAuthService = streamLabsAuthService ?? throw new ArgumentNullException(nameof(streamLabsAuthService));
+			_updateService = updateService ?? throw new ArgumentNullException(nameof(updateService));
+			_nanoService = nanoService ?? throw new ArgumentNullException(nameof(nanoService));
+			_triggerService = triggerService ?? throw new ArgumentNullException(nameof(triggerService));
 			// Load settings for Language
 
 			// Set Language before Init of Window
@@ -64,10 +68,6 @@ namespace NanoTwitchLeafs.Windows
 
 			// Init Window and Controls
 			InitializeComponent();
-
-#if !DEBUG
-            InstanceCheck();
-#endif
 
 			_tbi.Icon = new System.Drawing.Icon(@"nanotwitchleafs.ico");
 			_tbi.TrayMouseDoubleClick += NotifyIcon_Click;
@@ -85,113 +85,29 @@ namespace NanoTwitchLeafs.Windows
 			var appender = new NanoTwitchLeafsAppender();
 			appender.OnMessageLogged += Logger_OnAppenderMessage;
 			((IAppenderAttachable)((Hierarchy)LogManager.GetRepository()).Root).AddAppender(appender);
-
-			// Initialize Controller
 #if RELEASE
-            _logger.Info($"Start Program - Version: {typeof(AppInfoWindow).Assembly.GetName().Version}");
             _tbi.ToolTipText = $"NanoTwitchLeafs {typeof(AppInfoWindow).Assembly.GetName().Version}";
 #endif
 #if BETA
-            _logger.Info($"Start Program - Version: {typeof(AppInfoWindow).Assembly.GetName().Version} - BETA");
             _tbi.ToolTipText = $"NanoTwitchLeafs {typeof(AppInfoWindow).Assembly.GetName().Version} - Beta";
 #endif
 #if DEBUG
-			_logger.Info($"Start Program - Version: {typeof(AppInfoWindow).Assembly.GetName().Version} - DEBUG");
 			_tbi.ToolTipText = $"NanoTwitchLeafs {typeof(AppInfoWindow).Assembly.GetName().Version} - DEBUG";
 #endif
-			AppDomain.CurrentDomain.UnhandledException += (o, args) =>
-			{
-				if (args.IsTerminating)
-				{
-					_settingsService.CurrentSettings.AutoConnect = false;
-					_settingsService.SaveSettings();
-					_logger.Info("Auto Connect disabled cause of Terminating Exception");
-					MessageBox.Show(Properties.Resources.General_MessageBox_GeneralErrorCrash_Text, Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
-				}
-				else
-				{
-					MessageBox.Show(Properties.Resources.General_MessageBox_GeneralError_Text, Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
-				}
-				_logger.Error($"Exception terminated Program: {args.IsTerminating}");
-				_logger.Error(args.ExceptionObject);
-			};
-
-			if (_settingsService.CurrentSettings.DebugEnabled)
-				SetLogLevel(Level.Debug);
-			
-			_logger.Info("Load Service Credentials");
-			if (File.Exists(Constants.SERVICE_CREDENTIALS_PATH))
-			{
-				var credentialsJson = File.ReadAllText(Constants.SERVICE_CREDENTIALS_PATH);
-				Constants.ServiceCredentials = JsonConvert.DeserializeObject<ServiceCredentials>(credentialsJson);
-			}
-			else
-			{
-				MessageBox.Show("Could not load provided Service Credentials!", Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
-				_logger.Error("Could not load provided Service Credentials!");
-				Close();
-			}
-			_logger.Info("Initialize Update Controller");
-			_updateController = new UpdateController();
 
 			_logger.Info("Initialize Twitch Controller");
 			_twitchController = _serviceProvider.GetService<TwitchController>();
 			_twitchController.OnChatMessageReceived += _twitchController_OnChatMessageReceived;
 			_twitchController.OnCallLoadingWindow += OnCallLoadingWindow;
 
-			_logger.Info("Initialize TwitchPubSub Controller");
-			_twitchPubSubController = new TwitchPubSubController();
-			_twitchController.TwitchPubSubController = _twitchPubSubController;
-
-			_logger.Info("Initialize Nano Controller");
-			_nanoController = new NanoController(_settingsService.CurrentSettings);
-
-			_logger.Info("Initialize Trigger Command Repository");
-			_triggerRepositoryService = new TriggerRepositoryService(new DatabaseService<TriggerSetting>(Constants.DATABASE_PATH));
-
-			_logger.Info("Initialize HypeRate Controller");
-			_hypeRateController = new HypeRateIOController(_settingsService.CurrentSettings);
-			_hypeRateController.OnHeartRateRecieved += HypeRateControllerOnHeartRateRecieved;
-			_hypeRateController.OnHypeRateConnected += HypeRateControllerOnHypeRateConnected;
-			_hypeRateController.OnHypeRateDisconnected += HypeRateControllerOnHypeRateDisconnected;
-
-			_logger.Info("Initialize Streamlabs Controller");
-			_streamlabsController = new StreamlabsController(_settingsService.CurrentSettings);
-
-			try
-			{
-				//This has to be Last!
-				_logger.Info("Initialize Trigger Logic Controller");
-				_triggerLogicController = new TriggerLogicController(_settingsService.CurrentSettings, _twitchController, _triggerRepositoryService, _nanoController, _twitchPubSubController, _streamlabsController, _hypeRateController);
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(Properties.Resources.General_MessageBox_WMPinstalled_Error_Text, Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
-				_logger.Error("Could not initialize Trigger Logic Controller. Check Windows Media Player!");
-				_logger.Error(ex.Message, ex);
-			}
-
-			_logger.Info("Initialize Analytics Controller");
-			_analyticsController = new AnalyticsController(_settingsService.CurrentSettings);
-			_analyticsController.KeepAlive();
+			_logger.Info("Initialize HypeRate Events");
+			_hypeRateService.OnHeartRateReceived += HypeRateServiceOnHeartRateReceived;
+			_hypeRateService.OnConnect += HypeRateServiceOnOnConnect;
+			_hypeRateService.OnDisconnect += HypeRateServiceOnOnDisconnect;
 			
 			// Initialize Data
 			_logger.Info("Initialize Data");
 			InitializeData();
-			
-#if BETA
-            MessageBox.Show(Properties.Resources.Code_Main_MessageBox_Beta, Properties.Resources.Code_Main_MessageBox_BetaTitle);
-#endif
-			// attach property change event to configuration object and its subsequent elements if any derived NotifyObject
-			_settingsService.CurrentSettings.AttachPropertyChanged(_appSettings_PropertyChanged);
-
-			if (_settingsService.CurrentSettings.AutoIpRefresh)
-			{
-				_logger.Info($"Refreshing Ip-Address of {_settingsService.CurrentSettings.NanoSettings.NanoLeafDevices.Count} Devices.");
-#pragma warning disable 4014
-				_nanoController.UpdateAllNanoleafDevices();
-#pragma warning restore 4014
-			}
 
 			if (_settingsService.CurrentSettings.AutoConnect)
 			{
@@ -204,9 +120,10 @@ namespace NanoTwitchLeafs.Windows
 			}
 		}
 
+
 		private void ItemExit_Click(object sender, RoutedEventArgs e)
 		{
-			_analyticsController.SendPing(PingType.Stop, "Shutting down");
+			_analyticsService.SendPing(PingType.Stop, "Shutting down");
 			Close();
 		}
 
@@ -222,14 +139,6 @@ namespace NanoTwitchLeafs.Windows
 				this.WindowState = WindowState.Normal;
 			}
 		}
-
-		public async Task InitializeAsync()
-		{
-			// Init for early Stuff
-			// Was used for License Controller
-			// Now empty
-		}
-
 		private void OnCallLoadingWindow(bool state)
 		{
 			Application.Current.Dispatcher.Invoke(() =>
@@ -252,25 +161,10 @@ namespace NanoTwitchLeafs.Windows
 			});
 		}
 
-		private void InstanceCheck()
-		{
-			var process = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly()?.Location));
-			if (process.Count() > 1)
-			{
-				MessageBox.Show(Properties.Resources.Code_Main_MessageBox_InstanceCheck, Properties.Resources.General_MessageBox_Error_Title);
-				Process.GetCurrentProcess().Kill();
-			}
-		}
-
 		private void NotifyIcon_Click(object sender, EventArgs e)
 		{
 			this.Show();
 			this.WindowState = WindowState.Normal;
-		}
-
-		private void _appSettings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			_settingsService.SaveSettings();
 		}
 
 		#endregion
@@ -381,12 +275,6 @@ namespace NanoTwitchLeafs.Windows
 				_settingsService.ReturnBlankSettings();
 				InitializeData();
 			}
-			_analyticsController.SendPing(PingType.Start, "Hello World!");
-		}
-
-		private void CheckForUpdate()
-		{
-			_updateController.CheckForUpdates();
 		}
 
 		private void Logger_OnAppenderMessage(Level level, DateTime logTime, string message)
@@ -433,9 +321,9 @@ namespace NanoTwitchLeafs.Windows
 			blacklistWindow.Show();
 		}
 
-		private void CheckForUpdate_Button_Click(object sender, RoutedEventArgs e)
+		private async void CheckForUpdate_Button_Click(object sender, RoutedEventArgs e)
 		{
-			CheckForUpdate();
+			await _updateService.CheckForUpdates();
 		}
 
 		private async void LoadEffects_Button_Click(object sender, RoutedEventArgs e)
@@ -447,7 +335,7 @@ namespace NanoTwitchLeafs.Windows
 				return;
 			}
 
-			List<string> effects = await _nanoController.GetEffectList(_settingsService.CurrentSettings.NanoSettings.NanoLeafDevices[0]);
+			List<string> effects = await _nanoService.GetEffectList(_settingsService.CurrentSettings.NanoSettings.NanoLeafDevices[0]);
 
 			Effects_ComboBox.ItemsSource = effects;
 		}
@@ -468,7 +356,7 @@ namespace NanoTwitchLeafs.Windows
 
 			foreach (var device in _settingsService.CurrentSettings.NanoSettings.NanoLeafDevices)
 			{
-				await _nanoController.SetEffect(device, Effects_ComboBox.SelectedItem.ToString());
+				await _nanoService.SetEffect(device, Effects_ComboBox.SelectedItem.ToString());
 				_logger.Info($"Set {Effects_ComboBox.SelectedItem} to Device {device.PublicName}");
 			}
 		}
@@ -531,7 +419,7 @@ namespace NanoTwitchLeafs.Windows
 			{
 				var pickerColor = ColorPicker.SelectedColor.Value;
 				var color = new RgbColor(pickerColor.R, pickerColor.G, pickerColor.B, 255);
-				await _nanoController.SetColor(device, color);
+				await _nanoService.SetColor(device, color);
 			}
 		}
 
@@ -581,7 +469,7 @@ namespace NanoTwitchLeafs.Windows
 		private void StreamlabsConnectButton_Click(object sender, RoutedEventArgs e)
 		{
 			_logger.Info("Connect to Streamlabs Socket");
-			_streamlabsController.ConnectSocket();
+			_streamLabsService.Connect();
 
 			StreamlabsConnectButton.IsEnabled = false;
 			StreamlabsDisconnectButton.IsEnabled = true;
@@ -589,10 +477,10 @@ namespace NanoTwitchLeafs.Windows
 
 		private void StreamlabsDisconnectButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (_streamlabsController._IsSocketConnected)
+			if (_streamLabsService.IsConnected())
 			{
 				_logger.Info("Disconnect from Streamlabs Socket");
-				_streamlabsController.DisconnectSocket();
+				_streamLabsService.Disconnect();
 			}
 			StreamlabsConnectButton.IsEnabled = true;
 			StreamlabsDisconnectButton.IsEnabled = false;
@@ -608,15 +496,15 @@ namespace NanoTwitchLeafs.Windows
 				_logger.Error("Please enter your HypeRate Id");
 				return;
 			}
-			_hypeRateController.StartListener();
+			_hypeRateService.Connect();
 		}
 
 		private void HypeRateDisconnect_Button_Click(object sender, RoutedEventArgs e)
 		{
-			_hypeRateController.Disconnect();
+			_hypeRateService.Disconnect();
 		}
 
-		private void HypeRateControllerOnHypeRateDisconnected()
+		private void HypeRateServiceOnOnDisconnect(object sender, EventArgs e)
 		{
 			Application.Current.Dispatcher.Invoke(() =>
 			{
@@ -625,7 +513,7 @@ namespace NanoTwitchLeafs.Windows
 			});
 		}
 
-		private void HypeRateControllerOnHypeRateConnected()
+		private void HypeRateServiceOnOnConnect(object sender, EventArgs e)
 		{
 			Application.Current.Dispatcher.Invoke(() =>
 			{
@@ -634,17 +522,16 @@ namespace NanoTwitchLeafs.Windows
 			});
 		}
 
-		private void HypeRateControllerOnHeartRateRecieved(int heartRate)
+		private void HypeRateServiceOnHeartRateReceived(object sender, int hearthRate)
 		{
 			Application.Current.Dispatcher.Invoke(() =>
 			{
-				hypeRate_Label.Content = heartRate;
+				hypeRate_Label.Content = hearthRate;
 			});
 		}
-
 		private async void StreamlabsLink_Button_Click(object sender, RoutedEventArgs e)
 		{
-			if (await _streamlabsController.LinkAccount())
+			if (await _streamLabsAuthService.LinkAccount())
 			{
 				Streamlabs_Image.Source = TwitchLinkAvatar_Image.Source;
 				StreamlabsLink_Button.IsEnabled = false;
@@ -752,7 +639,7 @@ namespace NanoTwitchLeafs.Windows
 			string username = _settingsService.CurrentSettings.BotName;
 			string message = sendMessage_TextBox.Text;
 			_twitchController.SendMessageToChat(message);
-			_triggerLogicController.HandleMessage(new ChatMessage(username, true, true, true, message, new Color()));
+			_triggerService.HandleMessage(new ChatMessage(username, true, true, true, message, new Color()));
 			sendMessage_TextBox.Text = "";
 
 			string formattedMessage = $"{DateTime.Now.ToLongTimeString()}: {username} - {message}";
@@ -774,7 +661,7 @@ namespace NanoTwitchLeafs.Windows
 
 		private void NanoCmd_Button_Click(object sender, RoutedEventArgs e)
 		{
-			TriggerWindow triggerWindow = new TriggerWindow(_triggerRepositoryService, _nanoController, _settingsService.CurrentSettings, _streamlabsController, _hypeRateController, _triggerLogicController, _twitchPubSubController)
+			TriggerWindow triggerWindow = new TriggerWindow()
 			{
 				Owner = this
 			};
@@ -812,7 +699,7 @@ namespace NanoTwitchLeafs.Windows
 
 		private void nanoPairing_Button_Click(object sender, RoutedEventArgs e)
 		{
-			PairingWindow pairingWindow = new PairingWindow(_settingsService.CurrentSettings, _nanoController)
+			PairingWindow pairingWindow = new PairingWindow()
 			{
 				Owner = this
 			};
@@ -866,18 +753,20 @@ namespace NanoTwitchLeafs.Windows
 			if (debugCmd_Checkbox.IsChecked == true)
 			{
 				_settingsService.CurrentSettings.DebugEnabled = true;
-				SetLogLevel(Level.Debug);
+				((Hierarchy)LogManager.GetRepository()).Root.Level = Level.Debug;
+				((Hierarchy)LogManager.GetRepository()).RaiseConfigurationChanged(EventArgs.Empty);
 				_logger.Info("Debug Mode enabled!");
 			}
 			else if (debugCmd_Checkbox.IsChecked == false)
 			{
 				_settingsService.CurrentSettings.DebugEnabled = false;
-				SetLogLevel(Level.Info);
+				((Hierarchy)LogManager.GetRepository()).Root.Level = Level.Info;
+				((Hierarchy)LogManager.GetRepository()).RaiseConfigurationChanged(EventArgs.Empty);
 				_logger.Info("Debug Mode disabled!");
 			}
 		}
 
-		private void UpdateScrollBar(ListBox listBox)
+		public void UpdateScrollBar(ListBox listBox)
 		{
 			if (listBox != null && listBox.Items.Count > 0)
 			{
@@ -982,12 +871,12 @@ namespace NanoTwitchLeafs.Windows
 
 		private void EventReset_Button_Click(object sender, RoutedEventArgs e)
 		{
-			_triggerLogicController.ResetEventQueue();
+			_triggerService.ResetEventQueue();
 		}
 
 		private void EventRestart_Button_Click(object sender, RoutedEventArgs e)
 		{
-			_triggerLogicController.RestartEventQueue();
+			_triggerService.RestartEventQueue();
 		}
 
 		private void Responses_Button_Click(object sender, RoutedEventArgs e)
@@ -1018,7 +907,6 @@ namespace NanoTwitchLeafs.Windows
 			_logger.Info("Show Device Info");
 			DevicesInfoWindow devicesInfoWindow = _serviceProvider.GetRequiredService<DevicesInfoWindow>();
 			devicesInfoWindow.Owner = this;
-			devicesInfoWindow._nanoController = _nanoController;
 
 			if (!CheckForDuplicateWindow(devicesInfoWindow))
 			{
@@ -1044,7 +932,7 @@ namespace NanoTwitchLeafs.Windows
 
 				foreach (NanoLeafDevice device in _settingsService.CurrentSettings.NanoSettings.NanoLeafDevices)
 				{
-					await _nanoController.SetBrightness(device, brightness);
+					await _nanoService.SetBrightness(device, brightness);
 					_logger.Info($"Reset Brightness of Device {device.PublicName} to {brightness}% ");
 				}
 			}
@@ -1198,12 +1086,6 @@ namespace NanoTwitchLeafs.Windows
 			_twitchController.SendMessageToChat(message);
 		}
 
-		private void SetLogLevel(Level logLevel)
-		{
-			((Hierarchy)LogManager.GetRepository()).Root.Level = logLevel;
-			((Hierarchy)LogManager.GetRepository()).RaiseConfigurationChanged(EventArgs.Empty);
-		}
-
 		private async Task<bool> TestNanoConnection()
 		{
 			nanoInfo_TextBox.IsEnabled = true;
@@ -1225,7 +1107,7 @@ namespace NanoTwitchLeafs.Windows
 
 				try
 				{
-					var controllerInfo = await _nanoController.GetControllerInfo(device);
+					var controllerInfo = await _nanoService.GetControllerInfo(device);
 
 					if (controllerInfo == null)
 					{
@@ -1337,20 +1219,20 @@ namespace NanoTwitchLeafs.Windows
 
 		private async Task<bool> TestStreamlabsConnection()
 		{
-			_streamlabsController.ConnectSocket();
+			await _streamLabsService.Connect();
 
 			await Task.Delay(1000 * 1);
 
-			return _streamlabsController._IsSocketConnected;
+			return _streamLabsService.IsConnected();
 		}
 
 		private async Task<bool> TestHypeRateConnection()
 		{
-			_hypeRateController.StartListener();
+			_hypeRateService.Connect();
 
 			await Task.Delay(1000 * 1);
 
-			return _hypeRateController._isConnected;
+			return _hypeRateService.IsConnected();
 		}
 
 		#endregion

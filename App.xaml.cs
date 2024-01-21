@@ -23,7 +23,7 @@ namespace NanoTwitchLeafs
             
             try
             {
-                Bootstrapper.Run();
+                NanoTwitchLeafs.Main.Run();
             }
             catch (Exception exception)
             {

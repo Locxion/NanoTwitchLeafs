@@ -12,6 +12,8 @@ class HypeRateService : IHypeRateService
 {
     private readonly ISettingsService _settingsService;
     public event EventHandler<int> OnHeartRateReceived;
+    public event EventHandler OnConnect;
+    public event EventHandler OnDisconnect;
     private readonly ILog _logger = LogManager.GetLogger(typeof(HypeRateService));
     private readonly string _websocketUrl = $"wss://app.hyperate.io/socket/websocket?token={Constants.ServiceCredentials.HyperateApi.ApiKey}";
     private WebSocket _webSocket;
@@ -38,6 +40,7 @@ class HypeRateService : IHypeRateService
     private void _webSocket_Closed(object sender, EventArgs e)
     {
         _logger.Info("Connection to HypeRate was closed.");
+        OnDisconnect?.Invoke(this, e);
         _isConnected = false;
     }
 
@@ -45,11 +48,13 @@ class HypeRateService : IHypeRateService
     {
         _logger.Info("Connection to HypeRate was closed.");
         _logger.Error(e);
+        OnDisconnect?.Invoke(this, e);
         _isConnected = false;    }
 
     private void _webSocket_Opened(object sender, EventArgs e)
     {
         _isConnected = true;
+        OnConnect?.Invoke(this, e);
         _logger.Debug("Connect to HypeRate Server");
         var message = $"{{\r\n  \"topic\": \"hr:{_settingsService.CurrentSettings.HypeRateId}\",\r\n  \"event\": \"phx_join\",\r\n  \"payload\": {{}},\r\n  \"ref\": 0\r\n}}";
         _logger.Debug("Send 'Join Channel' Message");
@@ -98,5 +103,10 @@ class HypeRateService : IHypeRateService
         _webSocket.Closed -= _webSocket_Closed;
         _webSocket.MessageReceived -= _webSocket_MessageReceived;
         _isConnected = false;
+    }
+
+    public bool IsConnected()
+    {
+        return _isConnected;
     }
 }

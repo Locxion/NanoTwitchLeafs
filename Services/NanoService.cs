@@ -27,6 +27,13 @@ public class NanoService : INanoService
     public NanoService(ISettingsService settingsService)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
+        if (_settingsService.CurrentSettings.AutoIpRefresh)
+        {
+            _logger.Info($"Refreshing Ip-Address of {_settingsService.CurrentSettings.NanoSettings.NanoLeafDevices.Count} Devices.");
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            UpdateAllNanoleafDevices();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+        }
     }
     public async Task<IReadOnlyList<IZeroconfHost>> GetDevicesInNetwork()
     {

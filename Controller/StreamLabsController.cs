@@ -222,7 +222,7 @@ namespace NanoTwitchLeafs.Controller
 			_appSettings.StreamlabsInformation.StreamlabsUser = _appSettings.ChannelName;
 			try
 			{
-				_appSettings.StreamlabsInformation.StreamlabsAToken = await GetAccessToken(HelperClass.GetStreamLabsApiCedentials(_appSettings));
+				_appSettings.StreamlabsInformation.StreamlabsAToken = await GetAccessToken(HelperClass.GetStreamLabsApiCredentials(_appSettings));
 				_appSettings.StreamlabsInformation.StreamlabsSocketToken = await GetSocketToken();
 				if (string.IsNullOrWhiteSpace(_appSettings.StreamlabsInformation.StreamlabsSocketToken))
 				{

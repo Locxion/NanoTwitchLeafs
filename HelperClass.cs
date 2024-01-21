@@ -78,7 +78,7 @@ namespace NanoTwitchLeafs
 		/// </summary>
 		/// <param name="appSettings"></param>
 		/// <returns></returns>
-		public static StreamLabsApiCedentials GetStreamLabsApiCedentials(AppSettings appSettings)
+		public static StreamLabsApiCedentials GetStreamLabsApiCredentials(AppSettings appSettings)
 		{
 			if (appSettings.UseOwnServiceCredentials)
 				return new StreamLabsApiCedentials(appSettings.TwitchClientId, appSettings.TwitchClientSecret);

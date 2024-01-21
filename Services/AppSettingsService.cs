@@ -2,18 +2,19 @@
 using System.IO;
 using System.Security.Cryptography;
 using log4net;
+using Microsoft.Extensions.Logging;
+using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Interfaces;
 using NanoTwitchLeafs.Objects;
 using Newtonsoft.Json;
 
 namespace NanoTwitchLeafs.Services;
 
-public class AppSettingsService : IAppSettingsService
+public partial class AppSettingsService : IAppSettingsService
 {
     private const DataProtectionScope DataProtectionScope = System.Security.Cryptography.DataProtectionScope.CurrentUser;
 
     private readonly ILog _logger = LogManager.GetLogger(typeof(AppSettingsService));
-
 
     /// <summary>
     /// Loads Settings from Settings Path
@@ -32,7 +33,7 @@ public class AppSettingsService : IAppSettingsService
 #else
             if (!File.Exists(Constants.SETTINGS_PATH))
             {
-                _logger.Info("No Settings File found ... Load Blank Settings.");
+                _logger.Warn("No Settings File found ... Load Blank Settings.");
                 return new AppSettings();
             }
             else

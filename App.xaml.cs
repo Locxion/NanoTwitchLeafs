@@ -1,12 +1,8 @@
 ﻿using log4net;
-using NanoTwitchLeafs.Windows;
 using System;
 using System.IO;
 using System.Windows;
 using log4net.Config;
-using Microsoft.Extensions.DependencyInjection;
-using NanoTwitchLeafs.Interfaces;
-using NanoTwitchLeafs.Services;
 
 namespace NanoTwitchLeafs
 {
@@ -27,11 +23,6 @@ namespace NanoTwitchLeafs
             
             try
             {
-                // var window = new MainWindow();
-                // window.Show();
-                //
-                // await window.InitializeAsync();
-                
                 Bootstrapper.Run();
             }
             catch (Exception exception)
@@ -40,41 +31,6 @@ namespace NanoTwitchLeafs
                 logger.Error($"Error while initializing {nameof(MainWindow)}: {exception.Message}", exception);
                 logger.Error(exception.Message, exception);
             }
-        }
-    }
-    public static class Bootstrapper
-    {
-        public static async void Run()
-        {
-            var serviceProvider = DependencyConfig.ConfigureServices();
-
-            var mainWindow = serviceProvider.GetRequiredService<MainWindow>();
-            mainWindow.Show();
-            await mainWindow.InitializeAsync();
-        }
-    }
-        
-    public static class DependencyConfig
-    {
-        public static ServiceProvider ConfigureServices()
-        {
-            var serviceProvider = new ServiceCollection()
-                //Windows
-                .AddTransient<MainWindow>()
-                .AddTransient<ResponsesWindow>()
-                .AddTransient<AppInfoWindow>()
-                .AddTransient<TwitchLinkWindow>()
-                .AddTransient<BlacklistWindow>()
-                .AddTransient<PairingWindow>()
-                .AddTransient<TriggerWindow>()
-                .AddTransient<DevicesInfoWindow>()
-                //Services
-                .AddSingleton<IAppSettingsService, AppSettingsService>()
-                // Hier füge deine Abhängigkeiten hinzu
-                // .AddTransient<Interface, Implementierung>()
-                .BuildServiceProvider();
-            
-            return serviceProvider;
         }
     }
 }

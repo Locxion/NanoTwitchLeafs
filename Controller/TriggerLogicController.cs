@@ -15,6 +15,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using System.Windows;
+using Microsoft.Extensions.Hosting;
+using NanoTwitchLeafs.Services;
 using WMPLib;
 
 namespace NanoTwitchLeafs.Controller
@@ -27,6 +29,7 @@ namespace NanoTwitchLeafs.Controller
 		private readonly CommandRepository _commandRepository;
 		private readonly NanoController _nanoController;
 		private readonly TwitchPubSubController _twitchPubSubController;
+		private readonly TwitchEventSubService _twitchEventSubService;
 
 		private readonly Dictionary<int, DateTime> _triggerCoolDowns = new Dictionary<int, DateTime>();
 		private DateTime _lastGlobalCooldown;
@@ -43,13 +46,14 @@ namespace NanoTwitchLeafs.Controller
 		private TriggerSetting _lastTrigger;
 
 		public TriggerLogicController(AppSettings settings, TwitchController twitchController, CommandRepository commandRepository,
-									  NanoController nanoController, TwitchPubSubController twitchPubSubController, StreamlabsController streamLabsController, HypeRateIOController hypeRateIoController)
+									  NanoController nanoController, TwitchPubSubController twitchPubSubController, StreamlabsController streamLabsController, HypeRateIOController hypeRateIoController, TwitchEventSubService twitchEventSubService)
 		{
 			_appSettings = settings;
 			_twitchController = twitchController;
 			_commandRepository = commandRepository;
 			_nanoController = nanoController;
 			_twitchPubSubController = twitchPubSubController;
+			_twitchEventSubService = twitchEventSubService ?? throw new ArgumentNullException(nameof(twitchEventSubService));
 
 			_lastGlobalCooldown = DateTime.Now;
 			_lastNanoHelp = DateTime.Now;
@@ -57,9 +61,10 @@ namespace NanoTwitchLeafs.Controller
 			_twitchController.OnChatMessageReceived += HandleMessage;
 			_twitchController.OnTwitchEventReceived += HandleTwitchEventTrigger;
 			_twitchPubSubController.OnBitsReceived += HandleTwitchPubSubEventBits;
-			_twitchPubSubController.OnFollow += HandleTwitchPubSubEventFollow;
 			_twitchPubSubController.OnChannelPointsRedeemed += HandleChannelPointsTrigger;
 			_twitchController.OnHostEvent += HandleHostEventTrigger;
+
+			_twitchEventSubService.OnFollow += HandleTwitchEventSubEventFollow;
 			hypeRateIoController.OnHeartRateRecieved += HypeRateIoControllerOnHeartRateReceived;
 			streamLabsController.OnDonationRecieved += StreamLabsControllerOnDonationReceived;
 			RunQueueHandler();
@@ -292,7 +297,7 @@ namespace NanoTwitchLeafs.Controller
 			});
 		}
 
-		private void HandleTwitchPubSubEventFollow(string username)
+		private void HandleTwitchEventSubEventFollow(string username)
 		{
 			if (CheckBlacklist(username))
 				return;

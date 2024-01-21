@@ -450,6 +450,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Colors\ColorConverting.cs" />
     <Compile Include="Colors\HsbColor.cs" />
     <Compile Include="Colors\HslColor.cs" />
@@ -457,6 +458,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Controller\AnalyticsController.cs" />
     <Compile Include="Controller\HypeRateIOController.cs" />
+    <Compile Include="DependencyConfig.cs" />
     <Compile Include="Enums\PingType.cs" />
     <Compile Include="HelperClass.cs" />
     <Compile Include="Interfaces\IAppSettingsService.cs" />
@@ -465,6 +467,7 @@
     <Compile Include="Controller\StreamLabsController.cs" />
     <Compile Include="Controller\TipeeeStreamController.cs" />
     <Compile Include="Controller\UpdateController.cs" />
+    <Compile Include="Interfaces\ISettingsService.cs" />
     <Compile Include="NanoTwitchLeafsAppender.cs" />
     <Compile Include="Objects\AnalyticsPing.cs" />
     <Compile Include="Objects\AppInformation.cs" />
@@ -489,6 +492,8 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Services\AppSettingsService.cs" />
+    <Compile Include="Services\SettingsService.cs" />
+    <Compile Include="Services\TwitchEventSubService.cs" />
     <Compile Include="Windows\AppInfoWindow.xaml.cs">
       <DependentUpon>AppInfoWindow.xaml</DependentUpon>
     </Compile>
@@ -525,7 +530,6 @@
     <Compile Include="Windows\TriggerWindow.xaml.cs">
       <DependentUpon>TriggerWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controller\AppSettingsController.cs" />
     <Compile Include="Controller\TriggerLogicController.cs" />
     <Compile Include="Controller\DatabaseController.cs" />
     <Compile Include="Controller\NanoController.cs" />

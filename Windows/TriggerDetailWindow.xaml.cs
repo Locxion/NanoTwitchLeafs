@@ -41,7 +41,7 @@ namespace NanoTwitchLeafs.Windows
 			Constants.SetCultureInfo(_appSettings.Language);
 			InitializeComponent();
 
-			if (twitchPubSubController != null && twitchPubSubController.isConnected)
+			if (twitchPubSubController != null && twitchPubSubController.IsConnected)
 			{
 				twitchPubSubController.OnChannelPointsRedeemed += TwitchPubSubController_OnChannelPointsRedeemed;
 				_channelPointsGuid = "{00000000-0000-0000-0000-000000000000}";
@@ -909,7 +909,7 @@ namespace NanoTwitchLeafs.Windows
 				Modonly_Checkbox.IsEnabled = false;
 				Cooldown_Textbox.IsEnabled = false;
 				Channelpoints_Grid.Visibility = Visibility.Visible;
-				if (!_twitchPubSubController.isConnected)
+				if (!_twitchPubSubController.IsConnected)
 				{
 					MessageBox.Show(Properties.Resources.Code_TriggerDetail_MessageBox_CPNoConnection, Properties.Resources.General_MessageBox_Hint_Title, MessageBoxButton.OK, MessageBoxImage.Information);
 				}

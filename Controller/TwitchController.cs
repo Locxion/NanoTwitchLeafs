@@ -51,9 +51,9 @@ namespace NanoTwitchLeafs.Controller
 		public TwitchClient Client;
 		private TwitchClient _broadCasterClient;
 		private TwitchAPI _api;
-		private AppSettings _appSettings;
 		public TwitchPubSubController TwitchPubSubController;
 		private readonly IAppSettingsService _appSettingsService;
+		private readonly ISettingsService _settingsService;
 
 		private bool _firstTryToConnectBotAccount = true;
 		private bool _firstTryToConnectBroadcasterAccount = true;
@@ -68,10 +68,9 @@ namespace NanoTwitchLeafs.Controller
 
 		public event CallLoadingWindow OnCallLoadingWindow;
 
-		public TwitchController(IAppSettingsService appSettingsService)
+		public TwitchController(ISettingsService settingsService)
 		{
-			_appSettingsService = appSettingsService ?? throw new ArgumentNullException(nameof(appSettingsService));
-			_appSettings = _appSettingsService.LoadSettings();
+			_settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
 			_subscriptionSubject
 				.Buffer(TimeSpan.FromSeconds(1))
 				.Where(x => x.Count > 0)
@@ -98,12 +97,10 @@ namespace NanoTwitchLeafs.Controller
 		/// Connects to Twitch Services with provided AppSettings
 		/// </summary>
 		/// <param name="appSettings"></param>
-		public void Connect(AppSettings appSettings)
+		public void Connect()
 		{
 			Client?.DisconnectAsync();
-
-			_appSettings = appSettings;
-
+			
 			// if (string.IsNullOrEmpty(_appSettings.BotName) || string.IsNullOrEmpty(_appSettings.ChannelName) || string.IsNullOrEmpty(_appSettings.BotAuthObject.Access_Token))
 			// {
 			//     MessageBox.Show(Properties.Resources.Code_Twitch_MessageBox_LoginIncorrect, Properties.Resources.General_MessageBox_Error_Title);
@@ -118,13 +115,13 @@ namespace NanoTwitchLeafs.Controller
 
 		private void EstablishTwitchConnection()
 		{
-			if (string.IsNullOrWhiteSpace(_appSettings.BotName) || _appSettings.BotAuthObject == null)
+			if (string.IsNullOrWhiteSpace(_settingsService.CurrentSettings.BotName) || _settingsService.CurrentSettings.BotAuthObject == null)
 				return;
 
-			ConnectionCredentials credentials = new ConnectionCredentials(_appSettings.BotName.ToLower(), "oauth:" + _appSettings.BotAuthObject.Access_Token);
+			ConnectionCredentials credentials = new ConnectionCredentials(_settingsService.CurrentSettings.BotName.ToLower(), "oauth:" + _settingsService.CurrentSettings.BotAuthObject.Access_Token);
 
 			Client = new TwitchClient();
-			Client.Initialize(credentials, _appSettings.ChannelName.ToLower());
+			Client.Initialize(credentials, _settingsService.CurrentSettings.ChannelName.ToLower());
 
 			//Client.OnLog += Client_OnLog;
 			Client.OnConnected += Client_OnConnected;
@@ -136,7 +133,7 @@ namespace NanoTwitchLeafs.Controller
 			Client.OnDisconnected += Client_OnDisconnected;
 			Client.OnIncorrectLogin += Client_OnIncorrectLogin;
 
-			if (_appSettings.BotName.ToLower() == _appSettings.ChannelName.ToLower())
+			if (_settingsService.CurrentSettings.BotName.ToLower() == _settingsService.CurrentSettings.ChannelName.ToLower())
 			{
 				// Effect Event Handlers
 				Client.OnNewSubscriber += OnNewSubscriber;
@@ -179,11 +176,11 @@ namespace NanoTwitchLeafs.Controller
 				OnCallLoadingWindow?.Invoke(true);
 
 				Disconnect(true);
-				var newOauth = await PerformCodeExchange(_appSettings.BotAuthObject.Refresh_Token, HelperClass.GetTwitchApiCredentials(_appSettings), true);
-				_appSettings.BotAuthObject = newOauth;
-				if (_appSettings.BotName == _appSettings.ChannelName)
-					_appSettings.BroadcasterAuthObject = newOauth;
-				_appSettingsService.SaveSettings(_appSettings);
+				var newOauth = await PerformCodeExchange(_settingsService.CurrentSettings.BotAuthObject.Refresh_Token, HelperClass.GetTwitchApiCredentials(_settingsService.CurrentSettings), true);
+				_settingsService.CurrentSettings.BotAuthObject = newOauth;
+				if (_settingsService.CurrentSettings.BotName == _settingsService.CurrentSettings.ChannelName)
+					_settingsService.CurrentSettings.BroadcasterAuthObject = newOauth;
+				_appSettingsService.SaveSettings();
 				_firstTryToConnectBotAccount = false;
 
 				OnCallLoadingWindow?.Invoke(false);
@@ -207,13 +204,13 @@ namespace NanoTwitchLeafs.Controller
 
 				OnCallLoadingWindow?.Invoke(true);
 
-				var newOauth = await PerformCodeExchange(_appSettings.BroadcasterAuthObject.Refresh_Token, HelperClass.GetTwitchApiCredentials(_appSettings), true);
-				_appSettings.BroadcasterAuthObject = newOauth;
-				_appSettingsService.SaveSettings(_appSettings);
+				var newOauth = await PerformCodeExchange(_settingsService.CurrentSettings.BroadcasterAuthObject.Refresh_Token, HelperClass.GetTwitchApiCredentials(_settingsService.CurrentSettings), true);
+				_settingsService.CurrentSettings.BroadcasterAuthObject = newOauth;
+				_appSettingsService.SaveSettings();
 
 				_firstTryToConnectBroadcasterAccount = false;
 
-				ConnectionCredentials credentials = new ConnectionCredentials(_appSettings.ChannelName.ToLower(), "oauth:" + _appSettings.BroadcasterAuthObject.Access_Token);
+				ConnectionCredentials credentials = new ConnectionCredentials(_settingsService.CurrentSettings.ChannelName.ToLower(), "oauth:" + _settingsService.CurrentSettings.BroadcasterAuthObject.Access_Token);
 				_broadCasterClient = new TwitchClient();
 
 				_broadCasterClient.OnConnected += BroadCasterClient_OnConnected;
@@ -228,7 +225,7 @@ namespace NanoTwitchLeafs.Controller
 				_broadCasterClient.OnGiftedSubscription += OnGiftedSubscription;
 				_broadCasterClient.OnReSubscriber += OnReSubscriber;
 
-				_broadCasterClient.Initialize(credentials, _appSettings.ChannelName.ToLower());
+				_broadCasterClient.Initialize(credentials, _settingsService.CurrentSettings.ChannelName.ToLower());
 				_broadCasterClient.ConnectAsync();
 				OnCallLoadingWindow?.Invoke(false);
 			}
@@ -244,7 +241,7 @@ namespace NanoTwitchLeafs.Controller
 			_firstTryToConnectBotAccount = true;
 			_logger.Debug($"Connected to {e.BotUsername} with Account {e.BotUsername}.");
 			OnCallLoadingWindow?.Invoke(false);
-			if (_appSettings.BotName.ToLower() != _appSettings.ChannelName.ToLower())
+			if (_settingsService.CurrentSettings.BotName.ToLower() != _settingsService.CurrentSettings.ChannelName.ToLower())
 			{
 				_logger.Debug("Bot Account detected. Init Broadcaster Twitch Connection...");
 				if (_broadCasterClient?.IsInitialized ?? false)
@@ -252,9 +249,9 @@ namespace NanoTwitchLeafs.Controller
 
 				OnCallLoadingWindow?.Invoke(true);
 
-				ConnectionCredentials broadcasterCredentials = new ConnectionCredentials(_appSettings.ChannelName.ToLower(), "oauth:" + _appSettings.BroadcasterAuthObject.Access_Token);
+				ConnectionCredentials broadcasterCredentials = new ConnectionCredentials(_settingsService.CurrentSettings.ChannelName.ToLower(), "oauth:" + _settingsService.CurrentSettings.BroadcasterAuthObject.Access_Token);
 				_broadCasterClient = new TwitchClient();
-				_broadCasterClient.Initialize(broadcasterCredentials, _appSettings.ChannelName.ToLower());
+				_broadCasterClient.Initialize(broadcasterCredentials, _settingsService.CurrentSettings.ChannelName.ToLower());
 
 				_broadCasterClient.OnConnected += BroadCasterClient_OnConnected;
 				_broadCasterClient.OnIncorrectLogin += BroadCasterClient_OnIncorrectLogin;
@@ -273,9 +270,9 @@ namespace NanoTwitchLeafs.Controller
 				OnCallLoadingWindow?.Invoke(false);
 			}
 
-			if (Client.IsConnected && (_appSettings.BotName.ToLower() == _appSettings.ChannelName.ToLower()))
+			if (Client.IsConnected && (_settingsService.CurrentSettings.BotName.ToLower() == _settingsService.CurrentSettings.ChannelName.ToLower()))
 			{
-				TwitchPubSubController.Connect(_appSettings);
+				TwitchPubSubController.Connect(_settingsService.CurrentSettings);
 			}
 			return Task.CompletedTask;
 		}
@@ -284,7 +281,7 @@ namespace NanoTwitchLeafs.Controller
 		{
 			OnCallLoadingWindow?.Invoke(false);
 			_firstTryToConnectBroadcasterAccount = true;
-			TwitchPubSubController.Connect(_appSettings);
+			TwitchPubSubController.Connect(_settingsService.CurrentSettings);
 			_logger.Debug($"Connected to {e.BotUsername} with BroadcasterAccount {e.BotUsername}.");
 			return Task.CompletedTask;
 
@@ -390,7 +387,7 @@ namespace NanoTwitchLeafs.Controller
 		{
 			if (!Client.IsConnected)
 				return;
-			Client.SendMessageAsync(_appSettings.ChannelName, message);
+			Client.SendMessageAsync(_settingsService.CurrentSettings.ChannelName, message);
 			_logger.Info($"-> {message}");
 		}
 
@@ -405,7 +402,7 @@ namespace NanoTwitchLeafs.Controller
 				return;
 
 			//Ignore Whisper when try to send to own User Account
-			if (userName.ToLower() == _appSettings.ChannelName.ToLower())
+			if (userName.ToLower() == _settingsService.CurrentSettings.ChannelName.ToLower())
 			{
 				_logger.Warn("Could not send Whisper to own User. Ignoring Message");
 				return;
@@ -415,13 +412,13 @@ namespace NanoTwitchLeafs.Controller
 			{
 				Settings =
 				{
-					ClientId = HelperClass.GetTwitchApiCredentials(_appSettings).ClientId,
-					AccessToken = _appSettings.BotAuthObject.Access_Token
+					ClientId = HelperClass.GetTwitchApiCredentials(_settingsService.CurrentSettings).ClientId,
+					AccessToken = _settingsService.CurrentSettings.BotAuthObject.Access_Token
 				}
 			};
 
-			var fromUserId = await HelperClass.GetUserId(_api, _appSettings, _appSettings.BotName);
-			var toUserId = await HelperClass.GetUserId(_api, _appSettings, userName);
+			var fromUserId = await HelperClass.GetUserId(_api, _settingsService.CurrentSettings, _settingsService.CurrentSettings.BotName);
+			var toUserId = await HelperClass.GetUserId(_api, _settingsService.CurrentSettings, userName);
 
 			try
 			{
@@ -442,9 +439,9 @@ namespace NanoTwitchLeafs.Controller
 
 		private Task Client_OnJoinedChannel(object sender, OnJoinedChannelArgs e)
 		{
-			if (_appSettings.Responses.StartupMessageActive)
+			if (_settingsService.CurrentSettings.Responses.StartupMessageActive)
 			{
-				string message = _appSettings.Responses.StartupResponse;
+				string message = _settingsService.CurrentSettings.Responses.StartupResponse;
 				if (message != "")
 				{
 					Client.SendMessageAsync(e.Channel, message);
@@ -633,7 +630,7 @@ namespace NanoTwitchLeafs.Controller
 			{
 				Settings =
 				{
-					ClientId = HelperClass.GetTwitchApiCredentials(_appSettings).ClientId,
+					ClientId = HelperClass.GetTwitchApiCredentials(_settingsService.CurrentSettings).ClientId,
 					AccessToken = token
 				}
 			};

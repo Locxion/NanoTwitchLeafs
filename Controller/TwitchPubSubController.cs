@@ -14,10 +14,8 @@ using TwitchLib.PubSub.Events;
 
 namespace NanoTwitchLeafs.Controller
 {
-    public delegate void OnFollow(string username);
 
     public delegate void OnBitsReceived(string username, int amount);
-
     public delegate void OnChannelPointsRedeemed(string username, string promt, Guid guid);
 
     public class TwitchPubSubController : IDisposable
@@ -28,15 +26,13 @@ namespace NanoTwitchLeafs.Controller
 
         private TwitchAPI _api;
 
-        public event OnFollow OnFollow;
-
         public event OnBitsReceived OnBitsReceived;
 
         public event OnChannelPointsRedeemed OnChannelPointsRedeemed;
 
-        private string UserId = "";
+        private string _userId = "";
 
-        public bool isConnected = false;
+        public bool IsConnected = false;
 
         public async void Connect(AppSettings appSettings)
         {
@@ -46,15 +42,14 @@ namespace NanoTwitchLeafs.Controller
 
             _client.OnPubSubServiceConnected += OnPubSubServiceConnected;
             _client.OnListenResponse += OnListenResponse;
-            _client.OnFollow += _client_OnFollow;
             _client.OnBitsReceivedV2 += _client_OnBitsReceivedV2;
             _client.OnChannelPointsRewardRedeemed += _client_OnChannelPointsRewardRedeemed;
 
             _api = new TwitchAPI();
             _api.Settings.ClientId = HelperClass.GetTwitchApiCredentials(_appSettings).ClientId;
 
-            UserId = await HelperClass.GetUserId(_api, _appSettings, _appSettings.ChannelName);
-            if (UserId == null)
+            _userId = await HelperClass.GetUserId(_api, _appSettings, _appSettings.ChannelName);
+            if (_userId == null)
             {
                 MessageBox.Show(Properties.Resources.Code_PubSub_MessageBox_ConnectError,
                     Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
@@ -62,11 +57,6 @@ namespace NanoTwitchLeafs.Controller
             }
 
             _client.Connect();
-
-            var followerService = new FollowerService(_api, 30);
-            followerService.OnNewFollowersDetected += FollowerService_OnNewFollowersDetected;
-
-            followerService.SetChannelsById(new List<string> { UserId });
         }
 
         private void _client_OnChannelPointsRewardRedeemed(object sender, OnChannelPointsRewardRedeemedArgs e)
@@ -74,31 +64,16 @@ namespace NanoTwitchLeafs.Controller
             _logger.Debug($"Recieved ChannelPoints Reward from {e.RewardRedeemed.Redemption.User.DisplayName}. Amount - {e.RewardRedeemed.Redemption.Reward.Cost}. ID {e.RewardRedeemed.Redemption.Reward.Id}");
             OnChannelPointsRedeemed?.Invoke(e.RewardRedeemed.Redemption.User.DisplayName, e.RewardRedeemed.Redemption.Reward.Prompt, Guid.Parse(e.RewardRedeemed.Redemption.Reward.Id));
         }
-
-        private void FollowerService_OnNewFollowersDetected(object sender, OnNewFollowersDetectedArgs e)
-        {
-            if (e.NewFollowers.Count > 10)
-            {
-                return;
-            }
-            OnFollow?.Invoke(e.NewFollowers.First().UserName);
-        }
-
+        
         private void _client_OnBitsReceivedV2(object sender, OnBitsReceivedV2Args e)
         {
             _logger.Debug($"Recieved Bits from {e.UserName}. Amount - {e.BitsUsed}.");
             OnBitsReceived?.Invoke(e.UserName, e.BitsUsed);
         }
-
-        private void _client_OnFollow(object sender, OnFollowArgs e)
-        {
-            _logger.Debug($"Recieved Follow from {e.Username}.");
-            OnFollow?.Invoke(e.Username);
-        }
-
+        
         private void OnPubSubServiceConnected(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(UserId))
+            if (string.IsNullOrWhiteSpace(_userId))
             {
                 _logger.Error("ChannelID is invalid!");
                 return;
@@ -106,9 +81,9 @@ namespace NanoTwitchLeafs.Controller
 
             _logger.Info($"Trying to Connect to PubSub-Stream on {_appSettings.ChannelName}");
 
-            _client.ListenToFollows(UserId);
-            _client.ListenToBitsEventsV2(UserId);
-            _client.ListenToChannelPoints(UserId);
+            _client.ListenToFollows(_userId);
+            _client.ListenToBitsEventsV2(_userId);
+            _client.ListenToChannelPoints(_userId);
 
             _logger.Debug($"Sending Auth Topics ...");
 
@@ -134,7 +109,7 @@ namespace NanoTwitchLeafs.Controller
             {
                 _logger.Info($"Listening to {e.Topic} ... OK");
             }
-            isConnected = true;
+            IsConnected = true;
         }
 
         #region IDisposable Support
@@ -151,7 +126,7 @@ namespace NanoTwitchLeafs.Controller
                 }
                 _client.Disconnect();
 
-                isConnected = false;
+                IsConnected = false;
 
                 disposedValue = true;
             }

@@ -13,7 +13,7 @@ namespace NanoTwitchLeafs.Controller
 {
     public class AnalyticsController
     {
-        private readonly ILog _logger = LogManager.GetLogger(typeof(AppSettingsController));
+        private readonly ILog _logger = LogManager.GetLogger(typeof(AnalyticsController));
         private readonly AppSettings _appSettings;
         private readonly Version _appVersion;
         private readonly string _appName;

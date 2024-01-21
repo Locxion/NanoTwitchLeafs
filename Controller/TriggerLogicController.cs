@@ -2,7 +2,6 @@
 using NanoTwitchLeafs.Colors;
 using NanoTwitchLeafs.Enums;
 using NanoTwitchLeafs.Objects;
-using NanoTwitchLeafs.Repositories;
 using NanoTwitchLeafs.Windows;
 using System;
 using System.Collections.Generic;
@@ -191,56 +190,7 @@ namespace NanoTwitchLeafs.Controller
 			});
 		}
 
-		private void RunQueueHandler()
-		{
-			Task.Run(async () =>
-			{
-				_queueToken = new CancellationTokenSource();
-				var token = _queueToken.Token;
-
-				_logger.Info("Queue Started ...");
-				while (!token.IsCancellationRequested)
-				{
-					try
-					{
-						QueueObject queueObject;
-
-						try
-						{
-							queueObject = await _queue.ReceiveAsync(token);
-						}
-						catch (OperationCanceledException)
-						{
-							queueObject = null;
-						}
-
-						if (queueObject == null)
-							continue;
-
-						RefreshRemainingQueueElements();
-
-						if (!string.IsNullOrWhiteSpace(queueObject.TriggerSetting.SoundFilePath))
-						{
-							_logger.Debug("Found Sound File Path ...");
-							PlaySound(queueObject.TriggerSetting.SoundFilePath, queueObject.TriggerSetting.Volume.GetValueOrDefault(50));
-						}
-
-						if (queueObject.TriggerSetting.Trigger == TriggerTypeEnum.UsernameColor.ToString())
-						{
-							await SendColorToSinglePanel(queueObject.Color, queueObject.TriggerSetting.Brightness);
-						}
-						else
-						{
-							await SendEffectToController(queueObject);
-						}
-					}
-					catch (Exception ex)
-					{
-						_logger.Error(ex.Message, ex);
-					}
-				}
-			});
-		}
+		
 
 		private void PlaySound(string path, int volume)
 		{

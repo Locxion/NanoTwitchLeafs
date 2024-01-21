@@ -473,7 +473,7 @@
     <Compile Include="HelperClass.cs" />
     <Compile Include="Interfaces\IAnalyticsService.cs" />
     <Compile Include="Interfaces\IAppSettingsService.cs" />
-    <Compile Include="Interfaces\IDatabaseController.cs" />
+    <Compile Include="Interfaces\IDatabaseService.cs" />
     <Compile Include="Controller\StreamLabsController.cs" />
     <Compile Include="Controller\UpdateController.cs" />
     <Compile Include="Interfaces\IHypeRateService.cs" />
@@ -481,7 +481,10 @@
     <Compile Include="Interfaces\ISettingsService.cs" />
     <Compile Include="Interfaces\IStreamLabsAuthService.cs" />
     <Compile Include="Interfaces\IStreamLabsService.cs" />
+    <Compile Include="Interfaces\ITriggerRepositoryService.cs" />
+    <Compile Include="Interfaces\ITriggerService.cs" />
     <Compile Include="Interfaces\ITwitchAuthService.cs" />
+    <Compile Include="Interfaces\ITwitchEventSubService.cs" />
     <Compile Include="Interfaces\ITwitchInstanceService.cs" />
     <Compile Include="Interfaces\ITwitchPubSubService.cs" />
     <Compile Include="Interfaces\IUpdateService.cs" />
@@ -512,10 +515,13 @@
     </Compile>
     <Compile Include="Services\AnalyticsService.cs" />
     <Compile Include="Services\AppSettingsService.cs" />
+    <Compile Include="Services\DatabaseService.cs" />
     <Compile Include="Services\HypeRateService.cs" />
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Services\StreamLabsAuthService.cs" />
     <Compile Include="Services\StreamLabsService.cs" />
+    <Compile Include="Services\TriggerRepositoryService.cs" />
+    <Compile Include="Services\TriggerService.cs" />
     <Compile Include="Services\TwitchAuthService.cs" />
     <Compile Include="Services\TwitchEventSubService.cs" />
     <Compile Include="Services\TwitchInstanceService.cs" />
@@ -525,7 +531,6 @@
     </Compile>
     <Compile Include="Controller\TwitchPubSubController.cs" />
     <Compile Include="Objects\ControllerInfo.cs" />
-    <Compile Include="Repositories\CommandRepository.cs" />
     <Compile Include="Windows\BlacklistWindow.xaml.cs">
       <DependentUpon>BlacklistWindow.xaml</DependentUpon>
     </Compile>
@@ -557,7 +562,6 @@
       <DependentUpon>TriggerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controller\TriggerLogicController.cs" />
-    <Compile Include="Controller\DatabaseController.cs" />
     <Compile Include="Controller\NanoController.cs" />
     <Compile Include="Enums\TriggerTypeEnum.cs" />
     <Compile Include="Objects\AppSettings.cs" />

@@ -6,7 +6,6 @@ using log4net.Repository.Hierarchy;
 using NanoTwitchLeafs.Colors;
 using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Objects;
-using NanoTwitchLeafs.Repositories;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -44,7 +43,7 @@ namespace NanoTwitchLeafs.Windows
 		private readonly ISettingsService _settingsService;
 		private readonly TwitchController _twitchController;
 		private readonly NanoController _nanoController;
-		private readonly CommandRepository _commandRepository;
+		private readonly TriggerRepositoryService _triggerRepositoryService;
 		private readonly TwitchPubSubController _twitchPubSubController;
 		private readonly StreamlabsController _streamlabsController;
 		private readonly TriggerLogicController _triggerLogicController;
@@ -148,7 +147,7 @@ namespace NanoTwitchLeafs.Windows
 			_nanoController = new NanoController(_settingsService.CurrentSettings);
 
 			_logger.Info("Initialize Trigger Command Repository");
-			_commandRepository = new CommandRepository(new DatabaseController<TriggerSetting>(Constants.DATABASE_PATH));
+			_triggerRepositoryService = new TriggerRepositoryService(new DatabaseService<TriggerSetting>(Constants.DATABASE_PATH));
 
 			_logger.Info("Initialize HypeRate Controller");
 			_hypeRateController = new HypeRateIOController(_settingsService.CurrentSettings);
@@ -163,7 +162,7 @@ namespace NanoTwitchLeafs.Windows
 			{
 				//This has to be Last!
 				_logger.Info("Initialize Trigger Logic Controller");
-				_triggerLogicController = new TriggerLogicController(_settingsService.CurrentSettings, _twitchController, _commandRepository, _nanoController, _twitchPubSubController, _streamlabsController, _hypeRateController);
+				_triggerLogicController = new TriggerLogicController(_settingsService.CurrentSettings, _twitchController, _triggerRepositoryService, _nanoController, _twitchPubSubController, _streamlabsController, _hypeRateController);
 			}
 			catch (Exception ex)
 			{
@@ -775,7 +774,7 @@ namespace NanoTwitchLeafs.Windows
 
 		private void NanoCmd_Button_Click(object sender, RoutedEventArgs e)
 		{
-			TriggerWindow triggerWindow = new TriggerWindow(_commandRepository, _nanoController, _settingsService.CurrentSettings, _streamlabsController, _hypeRateController, _triggerLogicController, _twitchPubSubController)
+			TriggerWindow triggerWindow = new TriggerWindow(_triggerRepositoryService, _nanoController, _settingsService.CurrentSettings, _streamlabsController, _hypeRateController, _triggerLogicController, _twitchPubSubController)
 			{
 				Owner = this
 			};

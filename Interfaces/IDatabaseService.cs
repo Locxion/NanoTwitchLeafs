@@ -2,7 +2,7 @@
 
 namespace NanoTwitchLeafs.Interfaces
 {
-    public interface IDatabaseController<T> where T : new()
+    public interface IDatabaseService<T> where T : new()
     {
         void CreateTable();
         List<T> Load();

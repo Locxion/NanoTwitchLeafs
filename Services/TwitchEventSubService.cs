@@ -3,18 +3,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using log4net;
 using Microsoft.Extensions.Hosting;
+using NanoTwitchLeafs.Enums;
+using NanoTwitchLeafs.Interfaces;
+using NanoTwitchLeafs.Objects;
 using TwitchLib.EventSub.Websockets;
 using TwitchLib.EventSub.Websockets.Core.EventArgs;
 using TwitchLib.EventSub.Websockets.Core.EventArgs.Channel;
 
 namespace NanoTwitchLeafs.Services;
-
-
-public delegate void OnFollow(string username);
-
-public class TwitchEventSubService : BackgroundService
+public class TwitchEventSubService : BackgroundService, ITwitchEventSubService
 {
-    public event OnFollow OnFollow;
+    public event EventHandler<TwitchEvent> OnTwitchEvent;
     private readonly ILog _logger = LogManager.GetLogger(typeof(TwitchEventSubService));
     private readonly EventSubWebsocketClient _eventSubWebsocketClient;
 
@@ -28,6 +27,14 @@ public class TwitchEventSubService : BackgroundService
         _eventSubWebsocketClient.ChannelFollow += OnChannelFollow;
     }
 
+    public async Task Connect()
+    {
+        await ExecuteAsync(new CancellationToken());
+    }
+    public async Task Disconnect()
+    {
+        await StopAsync(new CancellationToken());
+    }
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         await _eventSubWebsocketClient.ConnectAsync();
@@ -69,10 +76,10 @@ public class TwitchEventSubService : BackgroundService
         _logger.Error($"Websocket {_eventSubWebsocketClient.SessionId} - Error occurred!");
     }
 
-    private void OnChannelFollow(object? sender, ChannelFollowArgs e)
+    private void OnChannelFollow(object sender, ChannelFollowArgs e)
     {
-        var eventData = e.Notification.Payload.Event;
-        OnFollow?.Invoke(eventData.UserName);
-        _logger.Info($"{eventData.UserName} followed {eventData.BroadcasterUserName} at {eventData.FollowedAt}");
+        _logger.Debug($"{e.Notification.Payload.Event.UserName} followed {e.Notification.Payload.Event.BroadcasterUserName} at {e.Notification.Payload.Event.FollowedAt}");
+        var newEvent = new TwitchEvent(e.Notification.Payload.Event.UserName, Event.NewFollower);
+        OnTwitchEvent?.Invoke(this, newEvent);
     }
 }

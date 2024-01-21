@@ -3,7 +3,6 @@ using Microsoft.Win32;
 using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Enums;
 using NanoTwitchLeafs.Objects;
-using NanoTwitchLeafs.Repositories;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using NanoTwitchLeafs.Services;
 
 namespace NanoTwitchLeafs.Windows
 {
@@ -20,7 +20,7 @@ namespace NanoTwitchLeafs.Windows
 	/// </summary>
 	public partial class TriggerDetailWindow : Window
 	{
-		private readonly CommandRepository _commandRepository;
+		private readonly TriggerRepositoryService _triggerRepositoryService;
 		private readonly StreamlabsController _streamlabsController;
 		private readonly HypeRateIOController _hypeRateIoController;
 		private readonly AppSettings _appSettings;
@@ -30,9 +30,9 @@ namespace NanoTwitchLeafs.Windows
 		private string _channelPointsGuid;
 		private TriggerSetting _triggerSetting { get; set; }
 
-		public TriggerDetailWindow(AppSettings appSettings, CommandRepository commandRepository, List<string> effectList, StreamlabsController streamlabsController, HypeRateIOController hypeRateIoController, TriggerSetting triggerSetting = null, TwitchPubSubController twitchPubSubController = null)
+		public TriggerDetailWindow(AppSettings appSettings, TriggerRepositoryService triggerRepositoryService, List<string> effectList, StreamlabsController streamlabsController, HypeRateIOController hypeRateIoController, TriggerSetting triggerSetting = null, TwitchPubSubController twitchPubSubController = null)
 		{
-			_commandRepository = commandRepository ?? throw new ArgumentNullException(nameof(commandRepository));
+			_triggerRepositoryService = triggerRepositoryService ?? throw new ArgumentNullException(nameof(triggerRepositoryService));
 			_streamlabsController = streamlabsController;
 			_hypeRateIoController = hypeRateIoController ?? throw new ArgumentNullException(nameof(hypeRateIoController));
 			_appSettings = appSettings ?? throw new ArgumentNullException(nameof(appSettings));
@@ -399,7 +399,7 @@ namespace NanoTwitchLeafs.Windows
 			}
 
 			// Get all Triggers
-			List<TriggerSetting> triggerSettings = _commandRepository.GetList().ToList();
+			List<TriggerSetting> triggerSettings = _triggerRepositoryService.GetList().ToList();
 
 			// If Trigger already exists
 			if (_triggerSetting != null)
@@ -566,7 +566,7 @@ namespace NanoTwitchLeafs.Windows
 			triggerSettings.Add(newTriggerSetting);
 
 			// Clear Database
-			_commandRepository.ClearAll();
+			_triggerRepositoryService.ClearAll();
 
 			// Read correct Index and insert to Database
 			int index = 0;
@@ -574,7 +574,7 @@ namespace NanoTwitchLeafs.Windows
 			{
 				trigger.ID = index;
 				_logger.Debug($"Insert Trigger Setting with ID {index} into Repository.");
-				_commandRepository.Insert(trigger);
+				_triggerRepositoryService.Insert(trigger);
 				index++;
 			}
 

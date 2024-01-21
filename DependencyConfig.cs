@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using NanoTwitchLeafs.Interfaces;
+using NanoTwitchLeafs.Objects;
 using NanoTwitchLeafs.Services;
 using NanoTwitchLeafs.Windows;
 
@@ -28,7 +29,11 @@ public static class DependencyConfig
             .AddSingleton<ISettingsService, SettingsService>()
             .AddSingleton<IAppSettingsService, AppSettingsService>()
             .AddSingleton<INanoService, NanoService>()
+            .AddSingleton<ITriggerService, TriggerService>()
+            .AddSingleton<IDatabaseService<TriggerSetting>, DatabaseService<TriggerSetting>>()
+            .AddSingleton<ITriggerRepositoryService, TriggerRepositoryService>()
             .AddTransient<ITwitchInstanceService, TwitchInstanceService>()
+            .AddTransient<ITwitchEventSubService, TwitchEventSubService>()
             .AddTransient<ITwitchAuthService, TwitchAuthService>()
             .AddTransient<ITwitchPubSubService, TwitchPubSubService>()
             .AddHostedService<TwitchEventSubService>()

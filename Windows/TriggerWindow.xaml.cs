@@ -3,20 +3,20 @@ using NanoTwitchLeafs.Colors;
 using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Enums;
 using NanoTwitchLeafs.Objects;
-using NanoTwitchLeafs.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using NanoTwitchLeafs.Services;
 
 namespace NanoTwitchLeafs.Windows
 {
     public partial class TriggerWindow : Window
     {
         private readonly ILog _logger = LogManager.GetLogger(typeof(TriggerWindow));
-        private readonly CommandRepository _commandRepository;
+        private readonly TriggerRepositoryService _triggerRepositoryService;
         private readonly NanoController _nanoController;
         private readonly AppSettings _appSettings;
         private readonly StreamlabsController _streamlabsController;
@@ -24,9 +24,9 @@ namespace NanoTwitchLeafs.Windows
         private readonly TriggerLogicController _triggerLogicController;
         public readonly TwitchPubSubController _twitchPubSubController;
 
-        public TriggerWindow(CommandRepository commandRepository, NanoController nanoController, AppSettings appSettings, StreamlabsController streamlabsController, HypeRateIOController hypeRateIoController, TriggerLogicController triggerLogicController, TwitchPubSubController twitchPubSubController = null)
+        public TriggerWindow(TriggerRepositoryService triggerRepositoryService, NanoController nanoController, AppSettings appSettings, StreamlabsController streamlabsController, HypeRateIOController hypeRateIoController, TriggerLogicController triggerLogicController, TwitchPubSubController twitchPubSubController = null)
         {
-            _commandRepository = commandRepository ?? throw new ArgumentNullException(nameof(commandRepository));
+            _triggerRepositoryService = triggerRepositoryService ?? throw new ArgumentNullException(nameof(triggerRepositoryService));
             _nanoController = nanoController ?? throw new ArgumentNullException(nameof(nanoController));
             _appSettings = appSettings ?? throw new ArgumentNullException(nameof(appSettings));
             _streamlabsController = streamlabsController;
@@ -41,7 +41,7 @@ namespace NanoTwitchLeafs.Windows
 
         private void LoadTrigger()
         {
-            List<TriggerSetting> triggerSettings = _commandRepository.GetList().ToList();
+            List<TriggerSetting> triggerSettings = _triggerRepositoryService.GetList().ToList();
             triggerSettings.OrderBy(x => x.ID);
             List<TriggerListObject> TriggerListItems = new List<TriggerListObject>();
             foreach (TriggerSetting triggerSetting in triggerSettings)
@@ -161,10 +161,10 @@ namespace NanoTwitchLeafs.Windows
             var dataContext = slider.DataContext as TriggerListObject;
             var triggerId = int.Parse(dataContext.ID);
 
-            List<TriggerSetting> triggerSettings = _commandRepository.GetList();
+            List<TriggerSetting> triggerSettings = _triggerRepositoryService.GetList();
             TriggerSetting triggerSetting = triggerSettings.Where(l => l.ID == triggerId).FirstOrDefault();
             triggerSetting.IsActive = IsActive;
-            _commandRepository.Update(triggerSetting);
+            _triggerRepositoryService.Update(triggerSetting);
             _logger.Info($"Trigger with the ID {triggerSetting.ID} is now updated to IsActive: {IsActive}.");
         }
 
@@ -174,9 +174,9 @@ namespace NanoTwitchLeafs.Windows
             var dataContext = button.DataContext as TriggerListObject;
 
             var triggerId = int.Parse(dataContext.ID);
-            List<TriggerSetting> triggerSettings = _commandRepository.GetList();
+            List<TriggerSetting> triggerSettings = _triggerRepositoryService.GetList();
             TriggerSetting triggerSetting = triggerSettings.Where(l => l.ID == triggerId).FirstOrDefault();
-            _commandRepository.Delete(triggerSetting);
+            _triggerRepositoryService.Delete(triggerSetting);
             LoadTrigger();
         }
 
@@ -187,7 +187,7 @@ namespace NanoTwitchLeafs.Windows
             var dataContext = button.DataContext as TriggerListObject;
 
             var triggerId = int.Parse(dataContext.ID);
-            List<TriggerSetting> triggerSettings = _commandRepository.GetList();
+            List<TriggerSetting> triggerSettings = _triggerRepositoryService.GetList();
             TriggerSetting triggerSetting = triggerSettings.Where(l => l.ID == triggerId).FirstOrDefault();
 
             var obj = new QueueObject(triggerSetting, "Test");
@@ -200,7 +200,7 @@ namespace NanoTwitchLeafs.Windows
             var dataContext = button.DataContext as TriggerListObject;
 
             var triggerId = int.Parse(dataContext.ID);
-            List<TriggerSetting> triggerSettings = _commandRepository.GetList();
+            List<TriggerSetting> triggerSettings = _triggerRepositoryService.GetList();
             TriggerSetting triggerSetting = triggerSettings.Where(l => l.ID == triggerId).FirstOrDefault();
 
             OpenTriggerDetails(triggerSetting);
@@ -223,7 +223,7 @@ namespace NanoTwitchLeafs.Windows
                 return;
             }
 
-            Window triggerDetailWindow = new TriggerDetailWindow(_appSettings, _commandRepository, effectList, _streamlabsController, _hypeRateIoController, triggerSetting, _twitchPubSubController)
+            Window triggerDetailWindow = new TriggerDetailWindow(_appSettings, _triggerRepositoryService, effectList, _streamlabsController, _hypeRateIoController, triggerSetting, _twitchPubSubController)
             {
                 Owner = this
             };

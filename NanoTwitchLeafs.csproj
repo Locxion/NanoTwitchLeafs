@@ -465,8 +465,6 @@
     <Compile Include="Colors\HslColor.cs" />
     <Compile Include="Colors\RgbColor.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="Controller\AnalyticsController.cs" />
-    <Compile Include="Controller\HypeRateIOController.cs" />
     <Compile Include="DependencyConfig.cs" />
     <Compile Include="Enums\PingType.cs" />
     <Compile Include="Enums\Event.cs" />
@@ -474,8 +472,6 @@
     <Compile Include="Interfaces\IAnalyticsService.cs" />
     <Compile Include="Interfaces\IAppSettingsService.cs" />
     <Compile Include="Interfaces\IDatabaseService.cs" />
-    <Compile Include="Controller\StreamLabsController.cs" />
-    <Compile Include="Controller\UpdateController.cs" />
     <Compile Include="Interfaces\IHypeRateService.cs" />
     <Compile Include="Interfaces\INanoService.cs" />
     <Compile Include="Interfaces\ISettingsService.cs" />
@@ -517,6 +513,7 @@
     <Compile Include="Services\AppSettingsService.cs" />
     <Compile Include="Services\DatabaseService.cs" />
     <Compile Include="Services\HypeRateService.cs" />
+    <Compile Include="Services\NanoService.cs" />
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Services\StreamLabsAuthService.cs" />
     <Compile Include="Services\StreamLabsService.cs" />
@@ -525,11 +522,11 @@
     <Compile Include="Services\TwitchAuthService.cs" />
     <Compile Include="Services\TwitchEventSubService.cs" />
     <Compile Include="Services\TwitchInstanceService.cs" />
+    <Compile Include="Services\TwitchPubSubService.cs" />
     <Compile Include="Services\UpdateService.cs" />
     <Compile Include="Windows\AppInfoWindow.xaml.cs">
       <DependentUpon>AppInfoWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controller\TwitchPubSubController.cs" />
     <Compile Include="Objects\ControllerInfo.cs" />
     <Compile Include="Windows\BlacklistWindow.xaml.cs">
       <DependentUpon>BlacklistWindow.xaml</DependentUpon>
@@ -561,14 +558,11 @@
     <Compile Include="Windows\TriggerWindow.xaml.cs">
       <DependentUpon>TriggerWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controller\TriggerLogicController.cs" />
-    <Compile Include="Controller\NanoController.cs" />
     <Compile Include="Enums\TriggerTypeEnum.cs" />
     <Compile Include="Objects\AppSettings.cs" />
     <Compile Include="Objects\TriggerSetting.cs" />
     <Compile Include="Objects\CommandUIRowObject.cs" />
     <Compile Include="Objects\NanoSettings.cs" />
-    <Compile Include="Controller\TwitchController.cs" />
     <Compile Include="Windows\TwitchLinkWindow.xaml.cs">
       <DependentUpon>TwitchLinkWindow.xaml</DependentUpon>
     </Compile>

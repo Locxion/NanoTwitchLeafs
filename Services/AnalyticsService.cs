@@ -3,7 +3,6 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using log4net;
-using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Enums;
 using NanoTwitchLeafs.Interfaces;
 using NanoTwitchLeafs.Objects;
@@ -14,7 +13,7 @@ namespace NanoTwitchLeafs.Services;
 class AnalyticsService : IAnalyticsService
 {
     private readonly ISettingsService _settingsService;
-    private readonly ILog _logger = LogManager.GetLogger(typeof(AnalyticsController));
+    private readonly ILog _logger = LogManager.GetLogger(typeof(AnalyticsService));
     private readonly Version _appVersion;
     private readonly string _appName;
     private string _appBranch;

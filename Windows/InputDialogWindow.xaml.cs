@@ -2,6 +2,7 @@
 using System;
 using System.Windows;
 using NanoTwitchLeafs.Interfaces;
+using NanoTwitchLeafs.Services;
 
 namespace NanoTwitchLeafs.Windows
 {

@@ -11,7 +11,6 @@ using System.Threading.Tasks.Dataflow;
 using System.Windows;
 using log4net;
 using NanoTwitchLeafs.Colors;
-using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Enums;
 using NanoTwitchLeafs.Interfaces;
 using NanoTwitchLeafs.Objects;
@@ -22,7 +21,7 @@ namespace NanoTwitchLeafs.Services;
 
 class TriggerService : ITriggerService
 {
-    private readonly ILog _logger = LogManager.GetLogger(typeof(TriggerLogicController));
+    private readonly ILog _logger = LogManager.GetLogger(typeof(TriggerService));
 
     private readonly ISettingsService _settingsService;
     private readonly ITwitchInstanceService _twitchInstanceService;

@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using H.Socket.IO;
 using log4net;
-using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Enums;
 using NanoTwitchLeafs.Interfaces;
 using NanoTwitchLeafs.Objects;
@@ -21,7 +20,7 @@ class StreamLabsService : IStreamLabsService
     private const string TokenEndpoint = "/token";
     private const string SocketTokenEndpoint = "/socket/token";
 
-    private readonly ILog _logger = LogManager.GetLogger(typeof(StreamlabsController));
+    private readonly ILog _logger = LogManager.GetLogger(typeof(StreamLabsService));
     private readonly string _websocketUrl = "https://sockets.streamlabs.com/?token=";
     private bool _isConnected;
     private SocketIoClient _socketClient = new();

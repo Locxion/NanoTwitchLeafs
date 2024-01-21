@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Security.Authentication;
 using log4net;
-using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Interfaces;
 using Newtonsoft.Json;
 using SuperSocket.ClientEngine;
@@ -13,7 +12,7 @@ class HypeRateService : IHypeRateService
 {
     private readonly ISettingsService _settingsService;
     public event EventHandler<int> OnHeartRateReceived;
-    private readonly ILog _logger = LogManager.GetLogger(typeof(NanoController));
+    private readonly ILog _logger = LogManager.GetLogger(typeof(HypeRateService));
     private readonly string _websocketUrl = $"wss://app.hyperate.io/socket/websocket?token={Constants.ServiceCredentials.HyperateApi.ApiKey}";
     private WebSocket _webSocket;
     private bool _isConnected;

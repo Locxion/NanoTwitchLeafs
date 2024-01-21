@@ -7,7 +7,6 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using log4net;
-using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Interfaces;
 using NanoTwitchLeafs.Objects;
 using Newtonsoft.Json;
@@ -16,7 +15,7 @@ namespace NanoTwitchLeafs.Services;
 
 class StreamLabsAuthService : IStreamLabsAuthService
 {
-    private readonly ILog _logger = LogManager.GetLogger(typeof(StreamlabsController));
+    private readonly ILog _logger = LogManager.GetLogger(typeof(StreamLabsAuthService));
 
     private readonly ISettingsService _settingsService;
     private const string RedirectUri = "http://127.0.0.1:1234/";

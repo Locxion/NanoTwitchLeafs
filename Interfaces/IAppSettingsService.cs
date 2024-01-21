@@ -1,5 +1,4 @@
-﻿using NanoTwitchLeafs.Controller;
-using NanoTwitchLeafs.Objects;
+﻿using NanoTwitchLeafs.Objects;
 
 namespace NanoTwitchLeafs.Interfaces;
 

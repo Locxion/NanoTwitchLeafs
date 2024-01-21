@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using AutoUpdaterDotNET;
 using log4net;
-using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Interfaces;
 using NanoTwitchLeafs.Objects;
 using NanoTwitchLeafs.Windows;
@@ -16,7 +15,7 @@ namespace NanoTwitchLeafs.Services;
 
 public class UpdateService : IUpdateService
 {
-    private readonly ILog _logger = LogManager.GetLogger(typeof(UpdateController));
+    private readonly ILog _logger = LogManager.GetLogger(typeof(UpdateService));
 
     private readonly string _githubUrl = $"https://api.github.com/repos/{Constants.GITHUB_OWNER}/{Constants.GITHUB_REPO}/releases/latest";
     public UpdateService()

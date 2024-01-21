@@ -18,7 +18,7 @@ public class TwitchInstanceService : ITwitchInstanceService
     private readonly ITwitchAuthService _authService;
     public event EventHandler<ChatMessage> OnChatMessageReceived;
     public event EventHandler<TwitchEvent> OnTwitchEventReceived;
-    private readonly ILog _logger = LogManager.GetLogger(typeof(AppSettingsService));
+    private readonly ILog _logger = LogManager.GetLogger(typeof(TwitchInstanceService));
 
     public bool LoginFailed = false;
     

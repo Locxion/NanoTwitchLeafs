@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using log4net;
-using NanoTwitchLeafs.Controller;
 using TwitchLib.Api;
 using TwitchLib.Api.Core.Exceptions;
 

@@ -5,7 +5,6 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using log4net;
-using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Interfaces;
 using NanoTwitchLeafs.Objects;
 using Newtonsoft.Json;
@@ -16,7 +15,7 @@ namespace NanoTwitchLeafs.Services;
 public class TwitchAuthService : ITwitchAuthService
 {
     private readonly ISettingsService _settingsService;
-    private readonly ILog _logger = LogManager.GetLogger(typeof(TwitchController));
+    private readonly ILog _logger = LogManager.GetLogger(typeof(TwitchAuthService));
     private const string TwitchApiAddress = "https://id.twitch.tv/oauth2";
     private const string AuthorizationEndpoint = "/authorize";
     private const string TokenEndpoint = "/token";

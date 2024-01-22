@@ -12,7 +12,7 @@ public interface ITwitchInstanceService
 
     public bool IsConnected();
 
-    void Connect(string username, string channel, string auth);
+    void Connect(string username, string channel, string auth,bool isBroadcaster = false);
     Task SendMessage(string message);
     Task Disconnect();
 

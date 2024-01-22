@@ -459,6 +459,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Interfaces\IStreamingPlatformService.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Colors\ColorConverting.cs" />
     <Compile Include="Colors\HsbColor.cs" />
@@ -515,6 +516,7 @@
     <Compile Include="Services\HypeRateService.cs" />
     <Compile Include="Services\NanoService.cs" />
     <Compile Include="Services\SettingsService.cs" />
+    <Compile Include="Services\StreamingPlatformService.cs" />
     <Compile Include="Services\StreamLabsAuthService.cs" />
     <Compile Include="Services\StreamLabsService.cs" />
     <Compile Include="Services\TriggerRepositoryService.cs" />

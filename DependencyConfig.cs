@@ -3,6 +3,7 @@ using NanoTwitchLeafs.Interfaces;
 using NanoTwitchLeafs.Objects;
 using NanoTwitchLeafs.Services;
 using NanoTwitchLeafs.Windows;
+using TwitchLib.EventSub.Websockets.Extensions;
 
 namespace NanoTwitchLeafs;
 
@@ -12,35 +13,37 @@ public static class DependencyConfig
     {
         var serviceProvider = new ServiceCollection()
             //Windows
-            .AddTransient<MainWindow>()
-            .AddTransient<ResponsesWindow>()
             .AddTransient<AppInfoWindow>()
-            .AddTransient<TwitchLinkWindow>()
             .AddTransient<BlacklistWindow>()
-            .AddTransient<PairingWindow>()
-            .AddTransient<TriggerWindow>()
             .AddTransient<DevicesInfoWindow>()
+            .AddTransient<MainWindow>()
+            .AddTransient<PairingWindow>()
+            .AddTransient<ResponsesWindow>()
+            .AddTransient<TriggerDetailWindow>()
+            .AddTransient<TriggerWindow>()
+            .AddTransient<TwitchLinkWindow>()
             //Services
             .AddSingleton<IAnalyticsService, AnalyticsService>()
-            .AddTransient<IUpdateService, UpdateService>()
-            .AddSingleton<IStreamLabsService, StreamLabsService>()
-            .AddSingleton<IStreamLabsAuthService, StreamLabsAuthService>()
-            .AddSingleton<IHypeRateService, HypeRateService>()
-            .AddSingleton<ISettingsService, SettingsService>()
             .AddSingleton<IAppSettingsService, AppSettingsService>()
-            .AddSingleton<INanoService, NanoService>()
-            .AddSingleton<ITriggerService, TriggerService>()
             .AddSingleton<IDatabaseService<TriggerSetting>, DatabaseService<TriggerSetting>>()
+            .AddSingleton<IHypeRateService, HypeRateService>()
+            .AddSingleton<INanoService, NanoService>()
+            .AddSingleton<ISettingsService, SettingsService>()
+            .AddSingleton<IStreamingPlatformService, StreamingPlatformService>()
+            .AddSingleton<IStreamLabsAuthService, StreamLabsAuthService>()
+            .AddSingleton<IStreamLabsService, StreamLabsService>()
             .AddSingleton<ITriggerRepositoryService, TriggerRepositoryService>()
-            .AddTransient<ITwitchInstanceService, TwitchInstanceService>()
-            .AddTransient<ITwitchEventSubService, TwitchEventSubService>()
+            .AddSingleton<ITriggerService, TriggerService>()
             .AddTransient<ITwitchAuthService, TwitchAuthService>()
+            .AddTransient<ITwitchEventSubService, TwitchEventSubService>()
+            .AddTransient<ITwitchInstanceService, TwitchInstanceService>()
             .AddTransient<ITwitchPubSubService, TwitchPubSubService>()
-            .AddHostedService<TwitchEventSubService>()
+            .AddTransient<IUpdateService, UpdateService>()
+            //.AddHostedService<TwitchEventSubService>()
+            .AddTwitchLibEventSubWebsockets()
             // Hier füge deine Abhängigkeiten hinzu
             // .AddTransient<Interface, Implementierung>()
             .BuildServiceProvider();
-            
         return serviceProvider;
     }
 }

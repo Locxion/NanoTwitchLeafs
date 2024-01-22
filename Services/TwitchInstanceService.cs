@@ -48,7 +48,7 @@ public class TwitchInstanceService : ITwitchInstanceService
     /// <param name="username">Twitch User</param>
     /// <param name="channel">Channel to Join</param>
     /// <param name="auth">OAuth from Twitch User</param>
-    public async void Connect(string username, string channel, string auth)
+    public async void Connect(string username, string channel, string auth, bool isBroadcaster)
     {
         _logger.Info($"Connecting with TwitchClient {username} to Channel {channel}...");
         if (string.IsNullOrWhiteSpace(username) ||
@@ -70,8 +70,11 @@ public class TwitchInstanceService : ITwitchInstanceService
             _client.Initialize(credentials, channel);
             _client.OnConnected += ClientOnConnected;
             _client.OnIncorrectLogin += ClientOnIncorrectLogin;
-            _client.OnJoinedChannel += ClientOnJoinedChannel;
-            _client.OnMessageReceived += ClientOnMessageReceived;
+            if (!isBroadcaster)
+            {
+                _client.OnJoinedChannel += ClientOnJoinedChannel;
+                _client.OnMessageReceived += ClientOnMessageReceived;
+            }
             _client.OnSendReceiveData += ClientOnSendReceiveData;
             _client.OnRaidNotification += ClientOnRaidNotification;
 

@@ -29,6 +29,7 @@ public class TwitchEventSubService : BackgroundService, ITwitchEventSubService
 
     public async Task Connect()
     {
+        // TODO what are this tokens?
         await ExecuteAsync(new CancellationToken());
     }
     public async Task Disconnect()

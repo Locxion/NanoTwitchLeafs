@@ -14,6 +14,10 @@ public class AppSettingsService : IAppSettingsService
 
     private readonly ILog _logger = LogManager.GetLogger(typeof(AppSettingsService));
 
+    public AppSettingsService()
+    {
+    }
+    
     /// <summary>
     /// Loads Settings from Settings Path
     /// </summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using NanoTwitchLeafs.Objects;
 
 namespace NanoTwitchLeafs.Interfaces;

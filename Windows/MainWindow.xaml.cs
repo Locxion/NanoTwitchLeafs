@@ -4,13 +4,11 @@ using log4net.Core;
 using log4net.Repository.Hierarchy;
 using NanoTwitchLeafs.Colors;
 using NanoTwitchLeafs.Objects;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -45,13 +43,14 @@ namespace NanoTwitchLeafs.Windows
 		private readonly IUpdateService _updateService;
 		private readonly INanoService _nanoService;
 		private readonly ITriggerService _triggerService;
+		private readonly IStreamingPlatformService _streamingPlatformService;
 		private readonly TaskbarIcon _tbi = new TaskbarIcon();
 		private readonly ServiceProvider _serviceProvider = DependencyConfig.ConfigureServices();
 		#region Init
 
-		public MainWindow(SettingsService settingsService, IAnalyticsService analyticsService, IHypeRateService hypeRateService,
+		public MainWindow(ISettingsService settingsService, IAnalyticsService analyticsService, IHypeRateService hypeRateService,
 			IStreamLabsService streamLabsService, IStreamLabsAuthService streamLabsAuthService, IUpdateService updateService,
-			INanoService nanoService, ITriggerService triggerService)
+			INanoService nanoService, ITriggerService triggerService, IStreamingPlatformService streamingPlatformService)
 		{
 			_settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
 			_analyticsService = analyticsService ?? throw new ArgumentNullException(nameof(analyticsService));
@@ -61,6 +60,7 @@ namespace NanoTwitchLeafs.Windows
 			_updateService = updateService ?? throw new ArgumentNullException(nameof(updateService));
 			_nanoService = nanoService ?? throw new ArgumentNullException(nameof(nanoService));
 			_triggerService = triggerService ?? throw new ArgumentNullException(nameof(triggerService));
+			_streamingPlatformService = streamingPlatformService ?? throw new ArgumentNullException(nameof(streamingPlatformService));
 			// Load settings for Language
 
 			// Set Language before Init of Window
@@ -94,11 +94,6 @@ namespace NanoTwitchLeafs.Windows
 #if DEBUG
 			_tbi.ToolTipText = $"NanoTwitchLeafs {typeof(AppInfoWindow).Assembly.GetName().Version} - DEBUG";
 #endif
-
-			_logger.Info("Initialize Twitch Controller");
-			_twitchController = _serviceProvider.GetService<TwitchController>();
-			_twitchController.OnChatMessageReceived += _twitchController_OnChatMessageReceived;
-			_twitchController.OnCallLoadingWindow += OnCallLoadingWindow;
 
 			_logger.Info("Initialize HypeRate Events");
 			_hypeRateService.OnHeartRateReceived += HypeRateServiceOnHeartRateReceived;
@@ -426,7 +421,6 @@ namespace NanoTwitchLeafs.Windows
 		private void ConnectTwitchAccount_Button_Click(object sender, RoutedEventArgs e)
 		{
 			var twitchLinkWindow = _serviceProvider.GetRequiredService<TwitchLinkWindow>();
-			twitchLinkWindow._twitchController = _twitchController;
 			twitchLinkWindow.Owner = this;
 			twitchLinkWindow.ShowDialog();
 		}
@@ -441,7 +435,7 @@ namespace NanoTwitchLeafs.Windows
 			_settingsService.CurrentSettings.BroadcasterAvatarUrl = null;
 			_settingsService.CurrentSettings.BotAvatarUrl = null;
 			_settingsService.CurrentSettings.ChannelName = null;
-			if (_twitchController.Client != null && _twitchController.Client.IsConnected)
+			if (_streamingPlatformService.IsConnected())
 			{
 				DisconnectFromChat();
 			}
@@ -454,7 +448,7 @@ namespace NanoTwitchLeafs.Windows
 
 		private void ConnectChat_Button_Click(object sender, RoutedEventArgs e)
 		{
-			ConnectToChat();
+			ConnectStreamingServices();
 		}
 
 		private void DisconnectChat_Button_Click(object sender, RoutedEventArgs e)
@@ -638,7 +632,7 @@ namespace NanoTwitchLeafs.Windows
 		{
 			string username = _settingsService.CurrentSettings.BotName;
 			string message = sendMessage_TextBox.Text;
-			_twitchController.SendMessageToChat(message);
+			_streamingPlatformService.SendMessage(message);
 			_triggerService.HandleMessage(new ChatMessage(username, true, true, true, message, new Color()));
 			sendMessage_TextBox.Text = "";
 
@@ -661,10 +655,9 @@ namespace NanoTwitchLeafs.Windows
 
 		private void NanoCmd_Button_Click(object sender, RoutedEventArgs e)
 		{
-			TriggerWindow triggerWindow = new TriggerWindow()
-			{
-				Owner = this
-			};
+			TriggerWindow triggerWindow = _serviceProvider.GetRequiredService<TriggerWindow>();
+			triggerWindow.Owner = this;
+			
 
 			if (!CheckForDuplicateWindow(triggerWindow))
 			{
@@ -699,10 +692,9 @@ namespace NanoTwitchLeafs.Windows
 
 		private void nanoPairing_Button_Click(object sender, RoutedEventArgs e)
 		{
-			PairingWindow pairingWindow = new PairingWindow()
-			{
-				Owner = this
-			};
+			PairingWindow pairingWindow = _serviceProvider.GetRequiredService<PairingWindow>();
+			pairingWindow.Owner = this;
+			
 
 			if (!CheckForDuplicateWindow(pairingWindow))
 			{
@@ -962,11 +954,11 @@ namespace NanoTwitchLeafs.Windows
 
 		#region Methods
 
-		private void ConnectToChat()
+		private void ConnectStreamingServices()
 		{
 			try
 			{
-				_twitchController.Connect();
+				_streamingPlatformService.Connect();
 				ConnectChat_Button.IsEnabled = false;
 				DisconnectChat_Button.IsEnabled = true;
 				sendMessage_TextBox.IsEnabled = true;
@@ -983,7 +975,7 @@ namespace NanoTwitchLeafs.Windows
 		{
 			try
 			{
-				_twitchController.Disconnect();
+				_streamingPlatformService.Disconnect();
 				ConnectChat_Button.IsEnabled = true;
 				DisconnectChat_Button.IsEnabled = false;
 				sendMessage_TextBox.IsEnabled = false;
@@ -1083,7 +1075,7 @@ namespace NanoTwitchLeafs.Windows
 				return;
 			}
 
-			_twitchController.SendMessageToChat(message);
+			_streamingPlatformService.SendMessage(message);
 		}
 
 		private async Task<bool> TestNanoConnection()
@@ -1181,7 +1173,7 @@ namespace NanoTwitchLeafs.Windows
 			}
 
 			_logger.Info("[Auto Connection] NanoLeaf Settings ... OK");
-			_logger.Info("[Auto Connection] Try NanoLeaf Pairing ...");
+			_logger.Info("[Auto Connection] Try NanoLeaf Connection Test ...");
 
 			if (!await TestNanoConnection())
 			{
@@ -1189,7 +1181,7 @@ namespace NanoTwitchLeafs.Windows
 				return;
 			}
 
-			_logger.Info("[Auto Connection] NanoLeaf Paring ... OK");
+			_logger.Info("[Auto Connection] NanoLeaf Connection ... OK");
 			_logger.Info("[Auto Connection] Try to connect to HypeRate ...");
 
 			if (!string.IsNullOrWhiteSpace(_settingsService.CurrentSettings.HypeRateId) && !await TestHypeRateConnection())
@@ -1197,24 +1189,29 @@ namespace NanoTwitchLeafs.Windows
 				_logger.Error("[Auto Connection] Could not connect to HypeRateIO ... ");
 				return;
 			}
-			HypeRateConnect_Button.IsEnabled = false;
-			HypeRateDisconnect_Button.IsEnabled = true;
 
-			_logger.Info("[Auto Connection] Connected to HypeRateIO ... OK");
+			if (_hypeRateService.IsConnected())
+			{
+				HypeRateConnect_Button.IsEnabled = false;
+				HypeRateDisconnect_Button.IsEnabled = true;
+				_logger.Info("[Auto Connection] Connected to HypeRateIO ... OK");
+			}
+
 			_logger.Info("[Auto Connection] Try to connect to Streamlabs ...");
-
 			if (!string.IsNullOrWhiteSpace(_settingsService.CurrentSettings.StreamlabsInformation.StreamlabsSocketToken) && !await TestStreamlabsConnection())
 			{
 				_logger.Error("[Auto Connection] Could not connect to Streamlabs ... ");
 				return;
 			}
 
-			StreamlabsConnectButton.IsEnabled = false;
-			StreamlabsDisconnectButton.IsEnabled = true;
+			if (_streamLabsService.IsConnected())
+			{
+				StreamlabsConnectButton.IsEnabled = false;
+				StreamlabsDisconnectButton.IsEnabled = true;
+				_logger.Info("[Auto Connection] Try to connect to Twitch ...");
+			}
 
-			_logger.Info("[Auto Connection] Try to connect to Twitch ...");
-
-			ConnectToChat();
+			ConnectStreamingServices();
 		}
 
 		private async Task<bool> TestStreamlabsConnection()

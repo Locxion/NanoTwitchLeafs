@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using log4net;
 using NanoTwitchLeafs.Enums;
 using NanoTwitchLeafs.Interfaces;

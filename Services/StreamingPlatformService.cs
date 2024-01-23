@@ -2,11 +2,13 @@
 using System.Threading.Tasks;
 using log4net;
 using NanoTwitchLeafs.Interfaces;
+using ChatMessage = NanoTwitchLeafs.Objects.ChatMessage;
 
 namespace NanoTwitchLeafs.Services;
 
 class StreamingPlatformService : IStreamingPlatformService
 {
+    public event EventHandler<ChatMessage> OnMessageReceived;
     private readonly ISettingsService _settingsService;
     private readonly ITwitchInstanceService _twitchInstanceServiceBroadcaster;
     private readonly ITwitchInstanceService _twitchInstanceServiceChatBot;
@@ -23,7 +25,7 @@ class StreamingPlatformService : IStreamingPlatformService
         _twitchPubSubService = twitchPubSubService ?? throw new ArgumentNullException(nameof(twitchPubSubService));
         _twitchEventSubService = twitchEventSubService ?? throw new ArgumentNullException(nameof(twitchEventSubService));
     }
-    
+
     public async Task Connect()
     {
         await ConnectTwitchServices();
@@ -32,14 +34,25 @@ class StreamingPlatformService : IStreamingPlatformService
 
     private async Task ConnectTwitchServices()
     {
-        _twitchInstanceServiceChatBot.Connect(_settingsService.CurrentSettings.BotName, _settingsService.CurrentSettings.ChannelName, _settingsService.CurrentSettings.BotAuthObject.Access_Token);
+        await _twitchInstanceServiceChatBot.Connect(_settingsService.CurrentSettings.BotName, _settingsService.CurrentSettings.ChannelName, _settingsService.CurrentSettings.BotAuthObject.Access_Token);
+        _twitchInstanceServiceChatBot.OnChatMessageReceived += TwitchInstanceServiceChatBotOnChatMessageReceived;
         
         if (_settingsService.CurrentSettings.ChannelName != _settingsService.CurrentSettings.BotName)
         {
-            _twitchInstanceServiceBroadcaster.Connect(_settingsService.CurrentSettings.ChannelName, _settingsService.CurrentSettings.ChannelName, _settingsService.CurrentSettings.BroadcasterAuthObject.Access_Token, true);
+            await _twitchInstanceServiceBroadcaster.Connect(_settingsService.CurrentSettings.ChannelName, _settingsService.CurrentSettings.ChannelName, _settingsService.CurrentSettings.BroadcasterAuthObject.Access_Token, true);
         }
-        _twitchPubSubService.Connect();
+        await _twitchPubSubService.Connect();
         await _twitchEventSubService.Connect();
+    }
+
+    private void TwitchInstanceServiceChatBotOnChatMessageReceived(object sender, ChatMessage message)
+    {
+        RelayMessage(message);
+    }
+
+    private void RelayMessage(ChatMessage message)
+    {
+        OnMessageReceived?.Invoke(this, message);
     }
 
     public async Task Disconnect()
@@ -50,11 +63,14 @@ class StreamingPlatformService : IStreamingPlatformService
 
     private void DisconnectTwitchServices()
     {
-        _twitchInstanceServiceChatBot.Disconnect();
+        if (_twitchInstanceServiceChatBot.IsConnected())
+            _twitchInstanceServiceChatBot.Disconnect();
         if (_twitchInstanceServiceBroadcaster.IsConnected())
             _twitchInstanceServiceBroadcaster.Disconnect();
-        _twitchPubSubService.Disconnect();
-        _twitchEventSubService.Disconnect();
+        if(_twitchPubSubService.IsConnected())
+            _twitchPubSubService.Disconnect();
+        if(_twitchEventSubService.IsConnected())
+            _twitchEventSubService.Disconnect();
     }
 
     public bool IsConnected()

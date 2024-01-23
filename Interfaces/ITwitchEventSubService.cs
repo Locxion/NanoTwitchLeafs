@@ -7,6 +7,7 @@ namespace NanoTwitchLeafs.Interfaces;
 public interface ITwitchEventSubService
 {
     event EventHandler<TwitchEvent> OnTwitchEvent;
+    bool IsConnected();
     Task Connect();
     Task Disconnect();
 }

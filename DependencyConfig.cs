@@ -23,6 +23,7 @@ public static class DependencyConfig
             .AddTransient<TriggerWindow>()
             .AddTransient<TwitchLinkWindow>()
             //Services
+            .AddLogging()
             .AddSingleton<IAnalyticsService, AnalyticsService>()
             .AddSingleton<IAppSettingsService, AppSettingsService>()
             .AddSingleton<IDatabaseService<TriggerSetting>, DatabaseService<TriggerSetting>>()

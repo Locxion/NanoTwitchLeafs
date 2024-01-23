@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using log4net;
+using Microsoft.Extensions.DependencyInjection;
 using NanoTwitchLeafs.Colors;
 using NanoTwitchLeafs.Enums;
 using NanoTwitchLeafs.Interfaces;
@@ -23,6 +24,7 @@ class TriggerService : ITriggerService
 {
     private readonly ILog _logger = LogManager.GetLogger(typeof(TriggerService));
 
+    private readonly IStreamingPlatformService _streamingPlatformService;
     private readonly ISettingsService _settingsService;
     private readonly ITwitchInstanceService _twitchInstanceService;
     private readonly ITwitchPubSubService _twitchPubSubService;
@@ -45,8 +47,9 @@ class TriggerService : ITriggerService
     
     #region Constructor
 
-    public TriggerService(ISettingsService settingsService, ITwitchInstanceService twitchInstanceService, ITwitchPubSubService twitchPubSubService, ITwitchEventSubService twitchEventSubService, ITriggerRepositoryService triggerRepositoryService, IHypeRateService hypeRateService, IStreamLabsService streamLabsService, INanoService nanoService)
+    public TriggerService(IStreamingPlatformService streamingPlatformService,ISettingsService settingsService, ITwitchInstanceService twitchInstanceService, ITwitchPubSubService twitchPubSubService, ITwitchEventSubService twitchEventSubService, ITriggerRepositoryService triggerRepositoryService, IHypeRateService hypeRateService, IStreamLabsService streamLabsService, INanoService nanoService)
     {
+        _streamingPlatformService = streamingPlatformService ?? throw new ArgumentNullException(nameof(streamingPlatformService));
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _twitchInstanceService = twitchInstanceService ?? throw new ArgumentNullException(nameof(twitchInstanceService));
         _twitchPubSubService = twitchPubSubService ?? throw new ArgumentNullException(nameof(twitchPubSubService));
@@ -56,8 +59,9 @@ class TriggerService : ITriggerService
         _streamLabsService = streamLabsService ?? throw new ArgumentNullException(nameof(streamLabsService));
         _nanoService = nanoService ?? throw new ArgumentNullException(nameof(nanoService));
 
+        //Chat Messages
+        _streamingPlatformService.OnMessageReceived += OnChatMessageReceived;
         //Twitch Events
-        _twitchInstanceService.OnChatMessageReceived += OnChatMessageReceived;
         _twitchInstanceService.OnTwitchEventReceived += OnTwitchEventReceived;
         //Twitch PubSub Events
         _twitchPubSubService.OnTwitchEventReceived += OnTwitchEventReceived;
@@ -878,7 +882,12 @@ class TriggerService : ITriggerService
     /// <exception cref="NotImplementedException"></exception>
     public void AddToQueue(QueueObject obj)
     {
-        throw new NotImplementedException();
+        if (obj == null)
+            return;
+
+        _queue.Post(obj);
+        _logger.Debug($"Added {obj.TriggerSetting.Trigger}-Trigger to queue");
+        RefreshRemainingQueueElements();
     }
 
     /// <summary>
@@ -1066,16 +1075,7 @@ class TriggerService : ITriggerService
     }
     private void SendMessageToChat(string message)
     {
-        var formattedMessage = $"{DateTime.Now.ToLongTimeString()}: >>>>> - {message}";
-        ((MainWindow)Current.MainWindow)?.twitchChat_ListBox.Dispatcher.Invoke(() =>
-        {
-            ((MainWindow)Current.MainWindow)._twitchChat.Add(formattedMessage);
-            ((MainWindow)Current.MainWindow).twitchChat_ListBox.Items.Refresh();
-            ((MainWindow)Current.MainWindow).UpdateScrollBar(((MainWindow)App.Current.MainWindow).twitchChat_ListBox);
-        });
-        
-        // TODO How to get the right Instance?
-        _twitchInstanceService.SendMessage(message);
+        _streamingPlatformService.SendMessage(message);
     }
 
     private void SendWhisper(string username, string message)

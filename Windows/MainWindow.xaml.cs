@@ -16,7 +16,6 @@ using System.Windows.Media.Imaging;
 using Microsoft.Extensions.DependencyInjection;
 using NanoTwitchLeafs.Enums;
 using NanoTwitchLeafs.Interfaces;
-using NanoTwitchLeafs.Services;
 using Application = System.Windows.Application;
 using ComboBox = System.Windows.Controls.ComboBox;
 using ListBox = System.Windows.Controls.ListBox;
@@ -61,13 +60,13 @@ namespace NanoTwitchLeafs.Windows
 			_nanoService = nanoService ?? throw new ArgumentNullException(nameof(nanoService));
 			_triggerService = triggerService ?? throw new ArgumentNullException(nameof(triggerService));
 			_streamingPlatformService = streamingPlatformService ?? throw new ArgumentNullException(nameof(streamingPlatformService));
-			// Load settings for Language
 
 			// Set Language before Init of Window
 			Constants.SetCultureInfo(_settingsService.CurrentSettings.Language);
 
 			// Init Window and Controls
 			InitializeComponent();
+			_streamingPlatformService.OnMessageReceived += StreamingPlatformServiceOnMessageReceived;
 
 			_tbi.Icon = new System.Drawing.Icon(@"nanotwitchleafs.ico");
 			_tbi.TrayMouseDoubleClick += NotifyIcon_Click;
@@ -115,6 +114,10 @@ namespace NanoTwitchLeafs.Windows
 			}
 		}
 
+		private void StreamingPlatformServiceOnMessageReceived(object sender, ChatMessage chatMessage)
+		{
+			InsetMessageIntoChatBox(chatMessage);
+		}
 
 		private void ItemExit_Click(object sender, RoutedEventArgs e)
 		{
@@ -633,10 +636,14 @@ namespace NanoTwitchLeafs.Windows
 			string username = _settingsService.CurrentSettings.BotName;
 			string message = sendMessage_TextBox.Text;
 			_streamingPlatformService.SendMessage(message);
-			_triggerService.HandleMessage(new ChatMessage(username, true, true, true, message, new Color()));
+			var chatMessage = new ChatMessage(StreamingPlatformEnum.OwnMsg, username, true, true, true, message, new Color());
+			_triggerService.HandleMessage(chatMessage);
 			sendMessage_TextBox.Text = "";
+		}
 
-			string formattedMessage = $"{DateTime.Now.ToLongTimeString()}: {username} - {message}";
+		private void InsetMessageIntoChatBox(ChatMessage chatMessage)
+		{
+			string formattedMessage = $"[{DateTime.Now.ToLongTimeString()}][{chatMessage.Platform}] {chatMessage.Username}: {chatMessage.Message}";
 
 			_logger.Info(formattedMessage);
 

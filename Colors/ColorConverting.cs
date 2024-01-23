@@ -12,6 +12,17 @@ namespace NanoTwitchLeafs.Colors
 	/// </remarks>
 	internal static class ColorConverting
 	{
+		public static RgbColor GenerateRandomRgbColor()
+		{
+			var random = new Random();;
+			var randomR = (byte)random.Next(256);
+			var randomG = (byte)random.Next(256);
+			var randomB = (byte)random.Next(256);
+			const byte randomA = 254;
+
+			return new RgbColor(randomR, randomG, randomB, randomA);
+		}
+		
 		/// <summary>
 		/// Converts a System.Drawing.Color to RgbColor
 		/// </summary>

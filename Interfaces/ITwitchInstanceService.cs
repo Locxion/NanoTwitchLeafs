@@ -11,8 +11,9 @@ public interface ITwitchInstanceService
     event EventHandler<TwitchEvent> OnTwitchEventReceived;
 
     public bool IsConnected();
+    public bool IsBroadcaster();
 
-    void Connect(string username, string channel, string auth,bool isBroadcaster = false);
+    Task Connect(string username, string channel, string auth,bool isBroadcaster = false);
     Task SendMessage(string message);
     Task Disconnect();
 

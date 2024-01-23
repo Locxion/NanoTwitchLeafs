@@ -48,9 +48,9 @@ class AnalyticsService : IAnalyticsService
 
     public void StartKeepAlive()
     {
-        KeepAlive();
+              KeepAlive();
     }
-
+    
     private async void KeepAlive()
     {
         while (true)
@@ -66,7 +66,9 @@ class AnalyticsService : IAnalyticsService
 
     public async void SendPing(PingType pingType, string message = "")
     {
+#if !DEBUG
         await SendPing(BuildMessage(pingType, message));
+#endif
     }
 
     private AnalyticsPing BuildMessage(PingType pingType, string message)

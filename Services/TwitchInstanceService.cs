@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using log4net;
+using NanoTwitchLeafs.Colors;
 using NanoTwitchLeafs.Enums;
 using NanoTwitchLeafs.Interfaces;
 using NanoTwitchLeafs.Objects;
@@ -19,11 +21,8 @@ public class TwitchInstanceService : ITwitchInstanceService
     public event EventHandler<ChatMessage> OnChatMessageReceived;
     public event EventHandler<TwitchEvent> OnTwitchEventReceived;
     private readonly ILog _logger = LogManager.GetLogger(typeof(TwitchInstanceService));
-
-    public bool LoginFailed = false;
-    
     private readonly TwitchClient _client = new ();
-    private bool _isBroadcaster = false;
+    private bool _isBroadcaster;
     private string _userName;
     private string _channel;
 
@@ -36,10 +35,19 @@ public class TwitchInstanceService : ITwitchInstanceService
     /// <summary>
     /// Checks if the TwitchClient is connected to the Server.
     /// </summary>
-    /// <returns>True if connection is successfull.</returns>
+    /// <returns>True if connection is successful.</returns>
     public bool IsConnected()
     {
         return _client.IsConnected;
+    }
+
+    /// <summary>
+    /// Checks if the TwitchClient is a Broadcaster Account (Only for Events, no Chat ability)
+    /// </summary>
+    /// <returns></returns>
+    public bool IsBroadcaster()
+    {
+        return _isBroadcaster;
     }
 
     /// <summary>
@@ -48,7 +56,8 @@ public class TwitchInstanceService : ITwitchInstanceService
     /// <param name="username">Twitch User</param>
     /// <param name="channel">Channel to Join</param>
     /// <param name="auth">OAuth from Twitch User</param>
-    public async void Connect(string username, string channel, string auth, bool isBroadcaster)
+    /// <param name="isBroadcaster">If the Instance is a Bot or a Broadcaster Instance</param>
+    public async Task Connect(string username, string channel, string auth, bool isBroadcaster)
     {
         _logger.Info($"Connecting with TwitchClient {username} to Channel {channel}...");
         if (string.IsNullOrWhiteSpace(username) ||
@@ -84,9 +93,6 @@ public class TwitchInstanceService : ITwitchInstanceService
         {
             _logger.Error("Twitch Chat connection Failed!");
             _logger.Error(e);
-        }
-        finally
-        {
             await Disconnect();
         }
     }
@@ -99,8 +105,12 @@ public class TwitchInstanceService : ITwitchInstanceService
     {
         if (!_client.IsConnected)
             return;
+
+        var chatMessage = new ChatMessage(StreamingPlatformEnum.OwnMsg, _settingsService.CurrentSettings.BotName, true, true, true, message,ColorConverting.RgbToDrawingColor(ColorConverting.GenerateRandomRgbColor()));
+        
+        OnChatMessageReceived.Invoke(this,chatMessage);
+        
         await _client.SendMessageAsync(_settingsService.CurrentSettings.ChannelName, message);
-        _logger.Info($"-> {message}");
     }
     /// <summary>
     /// Disconnects the Twitch Client und handles the Unsubscribing from Events
@@ -134,9 +144,9 @@ public class TwitchInstanceService : ITwitchInstanceService
 
     private Task ClientOnMessageReceived(object sender, OnMessageReceivedArgs e)
     {
-        var message = new ChatMessage(e.ChatMessage.Username, e.ChatMessage.IsSubscriber, e.ChatMessage.IsModerator, e.ChatMessage.IsVip, e.ChatMessage.Message,
+        var message = new ChatMessage(StreamingPlatformEnum.Twitch, e.ChatMessage.Username, e.ChatMessage.IsSubscriber, e.ChatMessage.IsModerator, e.ChatMessage.IsVip, e.ChatMessage.Message,
             ColorTranslator.FromHtml(e.ChatMessage.HexColor));
-        _logger.Info($"{message.Username} - {message.Message}");
+        _logger.Debug($"{message.Username} - {message.Message}");
         OnChatMessageReceived?.Invoke(this, message);
         return Task.CompletedTask;
     }
@@ -151,14 +161,12 @@ public class TwitchInstanceService : ITwitchInstanceService
             {
                 await SendMessage(message);
             }
-            _logger.Info($"-> {message}");
         }
     }
 
     private async Task ClientOnIncorrectLogin(object sender, OnIncorrectLoginArgs e)
     {
-        var newAuth = await _authService.GetAuthToken(HelperClass.GetTwitchApiCredentials(_settingsService.CurrentSettings),
-            _isBroadcaster);
+        var newAuth = await _authService.GetAuthToken(HelperClass.GetTwitchApiCredentials(_settingsService.CurrentSettings), _isBroadcaster);
         if (_isBroadcaster)
         {
             _settingsService.CurrentSettings.BroadcasterAuthObject = newAuth;
@@ -168,7 +176,6 @@ public class TwitchInstanceService : ITwitchInstanceService
             _settingsService.CurrentSettings.BotAuthObject = newAuth;
         }
         _settingsService.SaveSettings();
-        LoginFailed = true;
     }
 
     private async Task ClientOnConnected(object sender, OnConnectedEventArgs e)

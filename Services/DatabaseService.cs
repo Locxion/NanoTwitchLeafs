@@ -7,15 +7,17 @@ namespace NanoTwitchLeafs.Services
 {
 	public class DatabaseService<T> : IDatabaseService<T> where T : new()
 	{
-		private readonly string _databasePath;
+		private string _databasePath= Constants.DATABASE_PATH;
 		private readonly ILog _logger = LogManager.GetLogger(typeof(DatabaseService<T>));
-
-		public DatabaseService(string databaseFileName)
+		public DatabaseService()
 		{
-			_databasePath = databaseFileName;
-
 			_logger.Info($"Initialize Database Controller for '{typeof(T).Name}'");
 			CreateTable();
+		}
+
+		public void SetDatabasePath(string path)
+		{
+			_databasePath = path;
 		}
 
 		/// <summary>

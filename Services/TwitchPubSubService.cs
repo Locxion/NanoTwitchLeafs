@@ -16,7 +16,7 @@ class TwitchPubSubService : ITwitchPubSubService
 
     private readonly ILog _logger = LogManager.GetLogger(typeof(TwitchPubSubService));
     private readonly ISettingsService _settingsService;
-    private readonly TwitchPubSub _client = new();
+    private readonly TwitchPubSub _client;
     private TwitchAPI _api;
     private string _userId = "";
     private bool _connected;
@@ -24,6 +24,7 @@ class TwitchPubSubService : ITwitchPubSubService
     public TwitchPubSubService(ISettingsService settingsService)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
+        _client = new TwitchPubSub();
     }
 
     public bool IsConnected()
@@ -34,7 +35,7 @@ class TwitchPubSubService : ITwitchPubSubService
     /// <summary>
     /// Connects to the Twitch PubSub Service and Events
     /// </summary>
-    public async void Connect()
+    public async Task Connect()
     {
         _api = new TwitchAPI
         {
@@ -43,7 +44,7 @@ class TwitchPubSubService : ITwitchPubSubService
                 ClientId = HelperClass.GetTwitchApiCredentials(_settingsService.CurrentSettings).ClientId
             }
         };
-
+        _logger.Debug($"Getting UserID for Channel: {_settingsService.CurrentSettings.ChannelName}");
         _userId = await HelperClass.GetUserId(_api, _settingsService.CurrentSettings, _settingsService.CurrentSettings.ChannelName);
         if (_userId == null)
         {
@@ -60,25 +61,22 @@ class TwitchPubSubService : ITwitchPubSubService
             _client.OnListenResponse += OnListenResponse;
             _client.OnBitsReceivedV2 += OnBitsReceivedV2;
             _client.OnChannelPointsRewardRedeemed += OnChannelPointsRewardRedeemed;
-        
-            _client.Connect();
+            _logger.Debug($"Connecting to Twitch PubSub Service with UserId: {_userId}");
+            await _client.ConnectAsync();
         }
         catch (Exception e)
         {
             _logger.Error("Twitch PubSub connection failed!");
             _logger.Error(e);
-        }
-        finally
-        {
-            Disconnect();
+            await Disconnect();
         }
     }
 
-    private void OnPubSubServiceError(object sender, OnPubSubServiceErrorArgs e)
+    private async void OnPubSubServiceError(object sender, OnPubSubServiceErrorArgs e)
     {
         _logger.Error("Twitch PubSub connection failed!");
         _logger.Error(e.Exception);
-        Disconnect();
+        await Disconnect();
     }
 
     private void OnChannelPointsRewardRedeemed(object sender, OnChannelPointsRewardRedeemedArgs e)
@@ -115,7 +113,7 @@ class TwitchPubSubService : ITwitchPubSubService
     {
         _connected = true;
         _logger.Info("Connected to Twitch PubSub Service!");
-        _logger.Info($"Trying to Connect to PubSub-Stream on {_settingsService.CurrentSettings.ChannelName}");
+        _logger.Info($"Trying to Connect to PubSub-Streams on Channel {_settingsService.CurrentSettings.ChannelName} Id: {_userId}");
 
         _client.ListenToBitsEventsV2(_userId);
         _client.ListenToChannelPoints(_userId);
@@ -124,14 +122,14 @@ class TwitchPubSubService : ITwitchPubSubService
     /// <summary>
     /// Disconnects from Twitch PubSub Service and Events
     /// </summary>
-    public void Disconnect()
+    public async Task Disconnect()
     {
         _client.OnPubSubServiceError -= OnPubSubServiceError;
         _client.OnPubSubServiceConnected += OnPubSubServiceConnected;
         _client.OnListenResponse += OnListenResponse;
         _client.OnBitsReceivedV2 += OnBitsReceivedV2;
         _client.OnChannelPointsRewardRedeemed += OnChannelPointsRewardRedeemed;
-        _client.Disconnect();
+        await _client.DisconnectAsync();
         _connected = false;
     }
 }

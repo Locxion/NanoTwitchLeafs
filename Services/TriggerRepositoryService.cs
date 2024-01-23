@@ -15,6 +15,7 @@ namespace NanoTwitchLeafs.Services
         public TriggerRepositoryService(IDatabaseService<TriggerSetting> databaseService)
         {
             _dbService = databaseService ?? throw new ArgumentNullException(nameof(databaseService));
+            _dbService.SetDatabasePath(Constants.DATABASE_PATH);
         }
 
         public List<TriggerSetting> GetList()

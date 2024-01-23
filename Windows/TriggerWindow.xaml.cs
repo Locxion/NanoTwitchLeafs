@@ -9,19 +9,18 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using NanoTwitchLeafs.Interfaces;
-using NanoTwitchLeafs.Services;
 
 namespace NanoTwitchLeafs.Windows
 {
     public partial class TriggerWindow : Window
     {
         private readonly ILog _logger = LogManager.GetLogger(typeof(TriggerWindow));
-        private readonly TriggerRepositoryService _triggerRepositoryService;
+        private readonly ITriggerRepositoryService _triggerRepositoryService;
         private readonly ISettingsService _settingsService;
         private readonly ITriggerService _triggerService;
         private readonly INanoService _nanoService;
 
-        public TriggerWindow(TriggerRepositoryService triggerRepositoryService, ISettingsService settingsService, ITriggerService triggerService, INanoService nanoService)
+        public TriggerWindow(ITriggerRepositoryService triggerRepositoryService, ISettingsService settingsService, ITriggerService triggerService, INanoService nanoService)
         {
             _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
             _triggerService = triggerService ?? throw new ArgumentNullException(nameof(triggerService));

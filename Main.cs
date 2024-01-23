@@ -59,7 +59,9 @@ public static class Main
             Logger.Error($"Exception terminated Program: {args.IsTerminating}");
             Logger.Error(args.ExceptionObject);
         };
-
+        // Load Service Credentials
+        LoadServiceCredentials();
+        
         // Set Log Level
         if (settingsService.CurrentSettings.DebugEnabled)
         {
@@ -79,9 +81,6 @@ public static class Main
         var analyticsService = serviceProvider.GetService<IAnalyticsService>();
         analyticsService.SendPing(PingType.Start, "Hello World!");
         analyticsService.StartKeepAlive();
-        
-        // Load Service Credentials
-        LoadServiceCredentials();
     }
 
     private static void LoadServiceCredentials()

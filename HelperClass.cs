@@ -123,15 +123,15 @@ namespace NanoTwitchLeafs
 		/// Gets UserId for Username from Twitch API with provided Api, Settings, and Username
 		/// </summary>
 		/// <param name="api"></param>
-		/// <param name="appSettings"></param>
+		/// <param name="accessToken">Access Token with the right Scopes</param>
 		/// <param name="userName"></param>
 		/// <returns></returns>
-		public static async Task<string> GetUserId(TwitchAPI api, AppSettings appSettings, string userName)
+		public static async Task<string> GetUserId(TwitchAPI api, string accessToken, string userName)
 		{
 			try
 			{
 				var user = await api.Helix.Users.GetUsersAsync(null, new List<string> { userName.ToLower() },
-					appSettings.BroadcasterAuthObject.Access_Token);
+					accessToken);
 				return user.Users[0].Id;
 			}
 			catch (BadScopeException e)

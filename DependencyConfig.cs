@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using NanoTwitchLeafs.Interfaces;
 using NanoTwitchLeafs.Objects;
 using NanoTwitchLeafs.Services;
@@ -23,7 +24,7 @@ public static class DependencyConfig
             .AddTransient<TriggerWindow>()
             .AddTransient<TwitchLinkWindow>()
             //Services
-            .AddLogging()
+            .AddLogging(x=> x.AddConsole().SetMinimumLevel(LogLevel.Trace))
             .AddSingleton<IAnalyticsService, AnalyticsService>()
             .AddSingleton<IAppSettingsService, AppSettingsService>()
             .AddSingleton<IDatabaseService<TriggerSetting>, DatabaseService<TriggerSetting>>()
@@ -35,13 +36,13 @@ public static class DependencyConfig
             .AddSingleton<IStreamLabsService, StreamLabsService>()
             .AddSingleton<ITriggerRepositoryService, TriggerRepositoryService>()
             .AddSingleton<ITriggerService, TriggerService>()
-            .AddTransient<ITwitchAuthService, TwitchAuthService>()
-            .AddTransient<ITwitchEventSubService, TwitchEventSubService>()
+            .AddSingleton<ITwitchAuthService, TwitchAuthService>()
+            .AddSingleton<ITwitchEventSubService, TwitchEventSubService>()
             .AddTransient<ITwitchInstanceService, TwitchInstanceService>()
-            .AddTransient<ITwitchPubSubService, TwitchPubSubService>()
-            .AddTransient<IUpdateService, UpdateService>()
-            //.AddHostedService<TwitchEventSubService>()
+            .AddSingleton<ITwitchPubSubService, TwitchPubSubService>()
+            .AddSingleton<IUpdateService, UpdateService>()
             .AddTwitchLibEventSubWebsockets()
+            //.AddHostedService<EventSub>()
             // Hier füge deine Abhängigkeiten hinzu
             // .AddTransient<Interface, Implementierung>()
             .BuildServiceProvider();

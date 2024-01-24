@@ -45,7 +45,7 @@ class TwitchPubSubService : ITwitchPubSubService
             }
         };
         _logger.Debug($"Getting UserID for Channel: {_settingsService.CurrentSettings.ChannelName}");
-        _userId = await HelperClass.GetUserId(_api, _settingsService.CurrentSettings, _settingsService.CurrentSettings.ChannelName);
+        _userId = await HelperClass.GetUserId(_api, _settingsService.CurrentSettings.BroadcasterAuthObject.Access_Token, _settingsService.CurrentSettings.ChannelName);
         if (_userId == null)
         {
             _logger.Error($"Could not get User Id for User/Channel {_settingsService.CurrentSettings.ChannelName} from TwitchApi!");

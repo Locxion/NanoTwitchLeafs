@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using log4net;
@@ -6,26 +7,37 @@ using Microsoft.Extensions.Hosting;
 using NanoTwitchLeafs.Enums;
 using NanoTwitchLeafs.Interfaces;
 using NanoTwitchLeafs.Objects;
+using TwitchLib.Api;
+using TwitchLib.Api.Core.Enums;
 using TwitchLib.EventSub.Websockets;
 using TwitchLib.EventSub.Websockets.Core.EventArgs;
 using TwitchLib.EventSub.Websockets.Core.EventArgs.Channel;
 
 namespace NanoTwitchLeafs.Services;
-public class TwitchEventSubService : BackgroundService, ITwitchEventSubService
+public class TwitchEventSubService : ITwitchEventSubService
 {
     public event EventHandler<TwitchEvent> OnTwitchEvent;
     private readonly ILog _logger = LogManager.GetLogger(typeof(TwitchEventSubService));
     private readonly EventSubWebsocketClient _eventSubWebsocketClient;
-    private bool _IsConnected;
-
-    public TwitchEventSubService(EventSubWebsocketClient eventSubWebsocketClient)
+    private readonly ISettingsService _settingsService;
+    private TwitchAPI _twitchApi = new();
+    private bool _isConnected;
+    public TwitchEventSubService(EventSubWebsocketClient eventSubWebsocketClient, ISettingsService settingsService)
     {
         _eventSubWebsocketClient = eventSubWebsocketClient ?? throw new ArgumentNullException(nameof(eventSubWebsocketClient));
+        _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _eventSubWebsocketClient.WebsocketConnected += EventSubWebsocketClientOnWebsocketConnected;
         _eventSubWebsocketClient.WebsocketDisconnected += EventSubWebsocketClientOnWebsocketDisconnected;
         _eventSubWebsocketClient.WebsocketReconnected += EventSubWebsocketClientOnWebsocketReconnected;
         _eventSubWebsocketClient.ErrorOccurred += EventSubWebsocketClientOnErrorOccurred;
         _eventSubWebsocketClient.ChannelFollow += EventSubWebsocketClientOnChannelFollow;
+        
+        _twitchApi.Settings.ClientId = HelperClass.GetTwitchApiCredentials(_settingsService.CurrentSettings).ClientId;
+        // Has to be Application AccessToken
+        // https://dev.twitch.tv/docs/authentication/getting-tokens-oauth/#client-credentials-grant-flow
+        // TODO get and manage Application AccessToken
+        _twitchApi.Settings.AccessToken = "rvw4e3vmdvvvphc3qp2rxzfkoucp57";
+        //_twitchApi.Settings.AccessToken = _settingsService.CurrentSettings.BroadcasterAuthObject.Access_Token;
     }
 
     private Task EventSubWebsocketClientOnChannelFollow(object sender, ChannelFollowArgs args)
@@ -52,8 +64,7 @@ public class TwitchEventSubService : BackgroundService, ITwitchEventSubService
     private async Task EventSubWebsocketClientOnWebsocketDisconnected(object sender, EventArgs args)
     {
         _logger.Warn($"Websocket {_eventSubWebsocketClient.SessionId} disconnected!");
-        _logger.Warn(args.ToString());
-        _IsConnected = false;
+        _isConnected = false;
         // Don't do this in production. You should implement a better reconnect strategy with exponential backoff
         while (!await _eventSubWebsocketClient.ReconnectAsync())
         {
@@ -62,35 +73,32 @@ public class TwitchEventSubService : BackgroundService, ITwitchEventSubService
         }
     }
 
-    private Task EventSubWebsocketClientOnWebsocketConnected(object sender, WebsocketConnectedArgs args)
+    private async Task EventSubWebsocketClientOnWebsocketConnected(object sender, WebsocketConnectedArgs args)
     {
         _logger.Info($"Websocket {_eventSubWebsocketClient.SessionId} connected!");
-        _IsConnected = true;
-        if (!args.IsRequestedReconnect)
-        {
-           // sub here
-        }
-        return Task.CompletedTask;
+        _isConnected = true;
+        if (args.IsRequestedReconnect)
+            return;
+        _logger.Info("Try to Subscribe to EventSub Endpoints ...");
+        var userId = await HelperClass.GetUserId(_twitchApi, "rvw4e3vmdvvvphc3qp2rxzfkoucp57",
+            _settingsService.CurrentSettings.ChannelName);
+        _logger.Debug($"{userId}");
+        var condition = new Dictionary<string, string> { { "broadcaster_user_id", userId }, {"moderator_user_id", userId} };
+        await _twitchApi.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.follow", "2", condition, EventSubTransportMethod.Websocket,
+            _eventSubWebsocketClient.SessionId, accessToken: _settingsService.CurrentSettings.BroadcasterAuthObject.Access_Token);
     }
 
     public bool IsConnected()
     {
-        return _IsConnected;
+        return _isConnected;
     }
 
     public async Task Connect()
     {
-        await ExecuteAsync(new CancellationToken());
+        await _eventSubWebsocketClient.ConnectAsync();
+        //await _eventSubWebsocketClient.ConnectAsync(new Uri("ws://localhost:8080/ws"));
     }
     public async Task Disconnect()
-    {
-        await StopAsync(new CancellationToken());
-    }
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-    {
-        await _eventSubWebsocketClient.ConnectAsync();
-    }
-    public override async Task StopAsync(CancellationToken cancellationToken)
     {
         await _eventSubWebsocketClient.DisconnectAsync();
     }

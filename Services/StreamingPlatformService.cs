@@ -34,14 +34,14 @@ class StreamingPlatformService : IStreamingPlatformService
 
     private async Task ConnectTwitchServices()
     {
-        await _twitchInstanceServiceChatBot.Connect(_settingsService.CurrentSettings.BotName, _settingsService.CurrentSettings.ChannelName, _settingsService.CurrentSettings.BotAuthObject.Access_Token);
-        _twitchInstanceServiceChatBot.OnChatMessageReceived += TwitchInstanceServiceChatBotOnChatMessageReceived;
+        //await _twitchInstanceServiceChatBot.Connect(_settingsService.CurrentSettings.BotName, _settingsService.CurrentSettings.ChannelName, _settingsService.CurrentSettings.BotAuthObject.Access_Token);
+        //_twitchInstanceServiceChatBot.OnChatMessageReceived += TwitchInstanceServiceChatBotOnChatMessageReceived;
         
         if (_settingsService.CurrentSettings.ChannelName != _settingsService.CurrentSettings.BotName)
         {
             await _twitchInstanceServiceBroadcaster.Connect(_settingsService.CurrentSettings.ChannelName, _settingsService.CurrentSettings.ChannelName, _settingsService.CurrentSettings.BroadcasterAuthObject.Access_Token, true);
         }
-        await _twitchPubSubService.Connect();
+        //await _twitchPubSubService.Connect();
         await _twitchEventSubService.Connect();
     }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using log4net;
+using Microsoft.Extensions.Logging;
 using NanoTwitchLeafs.Enums;
 using NanoTwitchLeafs.Interfaces;
 using NanoTwitchLeafs.Objects;
@@ -21,10 +22,10 @@ class TwitchPubSubService : ITwitchPubSubService
     private string _userId = "";
     private bool _connected;
 
-    public TwitchPubSubService(ISettingsService settingsService)
+    public TwitchPubSubService(ISettingsService settingsService, ILogger<TwitchPubSub> logger)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
-        _client = new TwitchPubSub();
+        _client = new TwitchPubSub(logger);
     }
 
     public bool IsConnected()
@@ -51,6 +52,7 @@ class TwitchPubSubService : ITwitchPubSubService
             _logger.Error($"Could not get User Id for User/Channel {_settingsService.CurrentSettings.ChannelName} from TwitchApi!");
             // TODO Move MSG Box into Main Window
             //MessageBox.Show(Properties.Resources.Code_PubSub_MessageBox_ConnectError, Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
+            await Disconnect();
             return;
         }
 
@@ -109,7 +111,7 @@ class TwitchPubSubService : ITwitchPubSubService
         }
     }
 
-    private void OnPubSubServiceConnected(object sender, EventArgs e)
+    private async void OnPubSubServiceConnected(object sender, EventArgs e)
     {
         _connected = true;
         _logger.Info("Connected to Twitch PubSub Service!");
@@ -117,6 +119,7 @@ class TwitchPubSubService : ITwitchPubSubService
 
         _client.ListenToBitsEventsV2(_userId);
         _client.ListenToChannelPoints(_userId);
+        await _client.SendTopicsAsync(_settingsService.CurrentSettings.BroadcasterAuthObject.Access_Token);
     }
 
     /// <summary>
@@ -129,6 +132,7 @@ class TwitchPubSubService : ITwitchPubSubService
         _client.OnListenResponse += OnListenResponse;
         _client.OnBitsReceivedV2 += OnBitsReceivedV2;
         _client.OnChannelPointsRewardRedeemed += OnChannelPointsRewardRedeemed;
+        await _client.SendTopicsAsync(_settingsService.CurrentSettings.BroadcasterAuthObject.Access_Token, true);
         await _client.DisconnectAsync();
         _connected = false;
     }

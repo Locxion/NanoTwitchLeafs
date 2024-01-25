@@ -20,7 +20,7 @@ public class TwitchAuthService : ITwitchAuthService
     private const string AuthorizationEndpoint = "/authorize";
     private const string TokenEndpoint = "/token";
     private const string TwitchScopesBot = "scope=chat:edit chat:read whispers:read whispers:edit user:manage:whispers";
-    private const string TwitchScopesChannelOwner = "scope=chat:edit chat:read whispers:read whispers:edit user:manage:whispers bits:read channel:read:subscriptions channel:read:hype_train channel:read:redemptions channel:manage:redemptions moderator:read:followers";
+    private const string TwitchScopesChannelOwner = "scope=chat:edit chat:read whispers:read whispers:edit user:manage:whispers bits:read channel:read:subscriptions channel:read:hype_train channel:read:redemptions channel:manage:redemptions moderator:read:followers user:read:email";
 
     private const string RedirectUri = "http://127.0.0.1:1234";
 

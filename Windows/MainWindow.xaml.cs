@@ -433,6 +433,7 @@ namespace NanoTwitchLeafs.Windows
 			TwitchLinkAvatar_Image.Source = new BitmapImage(new Uri("/NanoTwitchLeafs;component/Assets/nanotwitchleafs_error_logo.png", UriKind.Relative));
 			_settingsService.CurrentSettings.BroadcasterAvatarUrl = null;
 			_settingsService.CurrentSettings.BotAvatarUrl = null;
+			_settingsService.CurrentSettings.BotName = null;
 			_settingsService.CurrentSettings.BotAuthObject = null;
 			_settingsService.CurrentSettings.BroadcasterAuthObject = null;
 			_settingsService.CurrentSettings.BroadcasterAvatarUrl = null;

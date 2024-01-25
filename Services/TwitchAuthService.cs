@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using log4net;
@@ -18,11 +21,15 @@ public class TwitchAuthService : ITwitchAuthService
     private readonly ILog _logger = LogManager.GetLogger(typeof(TwitchAuthService));
     private const string TwitchApiAddress = "https://id.twitch.tv/oauth2";
     private const string AuthorizationEndpoint = "/authorize";
-    private const string TokenEndpoint = "/token";
     private const string TwitchScopesBot = "scope=chat:edit chat:read whispers:read whispers:edit user:manage:whispers";
     private const string TwitchScopesChannelOwner = "scope=chat:edit chat:read whispers:read whispers:edit user:manage:whispers bits:read channel:read:subscriptions channel:read:hype_train channel:read:redemptions channel:manage:redemptions moderator:read:followers user:read:email";
 
     private const string RedirectUri = "http://127.0.0.1:1234";
+#if DEBUG
+    private const string AnalyticsServerUrl = "https://localhost:7244/api";
+#elif RELEASE
+    private const string AnalyticsServerUrl = "https://analytics.nanotwitchleafs.de/api";
+#endif
 
     public TwitchAuthService(ISettingsService settingsService)
     {
@@ -107,7 +114,24 @@ public class TwitchAuthService : ITwitchAuthService
 
         _logger.Debug("Authorization code: " + code);
 
-        return await PerformCodeExchange(code, apiCredentials);
+        return await PerformCodeExchange(code);
+    }
+
+    private async Task<OAuthObject> PerformCodeExchange(string code)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get,$"{AnalyticsServerUrl}/api/twitchauth/{code}");
+
+        using var httpClient = new HttpClient();
+        httpClient.BaseAddress = new Uri(AnalyticsServerUrl);
+        httpClient.Timeout = TimeSpan.FromSeconds(10);
+        var response = await httpClient.SendAsync(request);
+        if (!response.IsSuccessStatusCode)
+        {
+            _logger.Error("Server rejected Auth Request.");
+            _logger.Error($"StatusCode: {response.StatusCode}");
+            return null;
+        }
+        return await response.Content.ReadFromJsonAsync<OAuthObject>();
     }
 
     /// <summary>
@@ -129,73 +153,5 @@ public class TwitchAuthService : ITwitchAuthService
 
         var getUsersResponse = await api.Helix.Users.GetUsersAsync(null, [userName], token);
         return getUsersResponse.Users[0].ProfileImageUrl;
-    }
-
-
-    private async Task<OAuthObject> PerformCodeExchange(string code, TwitchApiCredentials apiCredentials, bool isRefresh = false)
-    {
-        _logger.Info("Exchanging code for tokens...");
-        string tokenRequestBody = "";
-
-        if (!isRefresh)
-        {
-            //builds the  request
-            tokenRequestBody = $"code={code}&redirect_uri={Uri.EscapeDataString(RedirectUri)}&client_id={apiCredentials.ClientId}&client_secret={apiCredentials.ClientSecret}&grant_type=authorization_code";
-        }
-        else
-        {
-            //builds the  request
-            tokenRequestBody = $"refresh_token={code}&client_id={apiCredentials.ClientId}&client_secret={apiCredentials.ClientSecret}&grant_type=refresh_token";
-        }
-
-        //sends the request
-        var tokenRequest = (HttpWebRequest)WebRequest.Create($"{TwitchApiAddress}{TokenEndpoint}");
-        tokenRequest.Method = "POST";
-        tokenRequest.ContentType = "application/x-www-form-urlencoded";
-        tokenRequest.Accept = "Accept=text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
-        tokenRequest.ProtocolVersion = HttpVersion.Version10;
-
-        var byteVersion = Encoding.ASCII.GetBytes(tokenRequestBody);
-        tokenRequest.ContentLength = byteVersion.Length;
-        var stream = tokenRequest.GetRequestStream();
-        await stream.WriteAsync(byteVersion, 0, byteVersion.Length);
-        stream.Close();
-
-        try
-        {
-            //gets the response
-            var tokenResponse = await tokenRequest.GetResponseAsync();
-            using (var reader = new StreamReader(tokenResponse.GetResponseStream()))
-            {
-                //reads response body
-                string responseText = await reader.ReadToEndAsync();
-                _logger.Debug("Response: " + responseText);
-
-                responseText = responseText.Remove(136) + "}";
-
-                //converts to dictionary
-                dynamic tokenEndpointDecoded = JsonConvert.DeserializeObject(responseText);
-
-                return new OAuthObject { Access_Token = tokenEndpointDecoded["access_token"], Refresh_Token = tokenEndpointDecoded["refresh_token"], Expires_In = tokenEndpointDecoded["expires_in"] };
-            }
-        }
-        catch (WebException ex)
-        {
-            if (ex.Status == WebExceptionStatus.ProtocolError)
-            {
-                if (ex.Response is HttpWebResponse response)
-                {
-                    _logger.Debug("HTTP: " + response.StatusCode);
-                    using (var reader = new StreamReader(response.GetResponseStream()))
-                    {
-                        //reads response body
-                        string responseText = await reader.ReadToEndAsync();
-                        _logger.Debug("Response: " + responseText);
-                    }
-                }
-            }
-        }
-
-        return null;
     }
 }

@@ -17,14 +17,15 @@ class TwitchPubSubService : ITwitchPubSubService
 
     private readonly ILog _logger = LogManager.GetLogger(typeof(TwitchPubSubService));
     private readonly ISettingsService _settingsService;
+    private readonly ITwitchAuthService _twitchAuthService;
     private readonly TwitchPubSub _client;
-    private TwitchAPI _api;
     private string _userId = "";
     private bool _connected;
 
-    public TwitchPubSubService(ISettingsService settingsService, ILogger<TwitchPubSub> logger)
+    public TwitchPubSubService(ISettingsService settingsService, ILogger<TwitchPubSub> logger, ITwitchAuthService twitchAuthService)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
+        _twitchAuthService = twitchAuthService ?? throw new ArgumentNullException(nameof(twitchAuthService));
         _client = new TwitchPubSub(logger);
     }
 
@@ -38,15 +39,8 @@ class TwitchPubSubService : ITwitchPubSubService
     /// </summary>
     public async Task Connect()
     {
-        _api = new TwitchAPI
-        {
-            Settings =
-            {
-                ClientId = HelperClass.GetTwitchApiCredentials(_settingsService.CurrentSettings).ClientId
-            }
-        };
         _logger.Debug($"Getting UserID for Channel: {_settingsService.CurrentSettings.ChannelName}");
-        _userId = await HelperClass.GetUserId(_api, _settingsService.CurrentSettings.BroadcasterAuthObject.Access_Token, _settingsService.CurrentSettings.ChannelName);
+        _userId = await GetUserId(_settingsService.CurrentSettings.ChannelName);
         if (_userId == null)
         {
             _logger.Error($"Could not get User Id for User/Channel {_settingsService.CurrentSettings.ChannelName} from TwitchApi!");
@@ -73,7 +67,10 @@ class TwitchPubSubService : ITwitchPubSubService
             await Disconnect();
         }
     }
-
+    private async Task<string> GetUserId(string channel)
+    {
+         return await _twitchAuthService.GetUserId(channel);
+    }
     private async void OnPubSubServiceError(object sender, OnPubSubServiceErrorArgs e)
     {
         _logger.Error("Twitch PubSub connection failed!");

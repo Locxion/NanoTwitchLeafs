@@ -119,32 +119,6 @@ namespace NanoTwitchLeafs
 
 			return result;
 		}
-		/// <summary>
-		/// Gets UserId for Username from Twitch API with provided Api, Settings, and Username
-		/// </summary>
-		/// <param name="api"></param>
-		/// <param name="accessToken">Access Token with the right Scopes</param>
-		/// <param name="userName"></param>
-		/// <returns></returns>
-		public static async Task<string> GetUserId(TwitchAPI api, string accessToken, string userName)
-		{
-			try
-			{
-				var user = await api.Helix.Users.GetUsersAsync(null, new List<string> { userName.ToLower() },
-					accessToken);
-				return user.Users[0].Id;
-			}
-			catch (BadScopeException e)
-			{
 
-				_logger.Error("Could not get UserId. Bad Scopes for Access Token", e);
-				return null;
-			}
-			catch (Exception e)
-			{
-				_logger.Error("Could not get UserId from Api", e);
-				return null;
-			}
-		}
 	}
 }

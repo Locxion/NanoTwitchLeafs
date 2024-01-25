@@ -5,6 +5,7 @@ namespace NanoTwitchLeafs.Interfaces;
 
 public interface ITwitchAuthService
 {
-    Task<OAuthObject> GetAuthToken(TwitchApiCredentials apiCredentials, bool isBroadcaster);
+    Task<OAuthObject> GetUserAuthToken(TwitchApiCredentials apiCredentials, bool isBroadcaster);
+    Task<string> GetUserId(string userName);
     Task<string> GetAvatarUrl(string username, string token);
 }

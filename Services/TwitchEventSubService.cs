@@ -20,12 +20,14 @@ public class TwitchEventSubService : ITwitchEventSubService
     private readonly ILog _logger = LogManager.GetLogger(typeof(TwitchEventSubService));
     private readonly EventSubWebsocketClient _eventSubWebsocketClient;
     private readonly ISettingsService _settingsService;
+    private readonly ITwitchAuthService _twitchAuthService;
     private TwitchAPI _twitchApi = new();
     private bool _isConnected;
-    public TwitchEventSubService(EventSubWebsocketClient eventSubWebsocketClient, ISettingsService settingsService)
+    public TwitchEventSubService(EventSubWebsocketClient eventSubWebsocketClient, ISettingsService settingsService, ITwitchAuthService twitchAuthService)
     {
         _eventSubWebsocketClient = eventSubWebsocketClient ?? throw new ArgumentNullException(nameof(eventSubWebsocketClient));
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
+        _twitchAuthService = twitchAuthService ?? throw new ArgumentNullException(nameof(twitchAuthService));
         _eventSubWebsocketClient.WebsocketConnected += EventSubWebsocketClientOnWebsocketConnected;
         _eventSubWebsocketClient.WebsocketDisconnected += EventSubWebsocketClientOnWebsocketDisconnected;
         _eventSubWebsocketClient.WebsocketReconnected += EventSubWebsocketClientOnWebsocketReconnected;
@@ -33,11 +35,6 @@ public class TwitchEventSubService : ITwitchEventSubService
         _eventSubWebsocketClient.ChannelFollow += EventSubWebsocketClientOnChannelFollow;
         
         _twitchApi.Settings.ClientId = HelperClass.GetTwitchApiCredentials(_settingsService.CurrentSettings).ClientId;
-        // Has to be Application AccessToken
-        // https://dev.twitch.tv/docs/authentication/getting-tokens-oauth/#client-credentials-grant-flow
-        // TODO get and manage Application AccessToken
-        _twitchApi.Settings.AccessToken = "rvw4e3vmdvvvphc3qp2rxzfkoucp57";
-        //_twitchApi.Settings.AccessToken = _settingsService.CurrentSettings.BroadcasterAuthObject.Access_Token;
     }
 
     private Task EventSubWebsocketClientOnChannelFollow(object sender, ChannelFollowArgs args)
@@ -80,12 +77,18 @@ public class TwitchEventSubService : ITwitchEventSubService
         if (args.IsRequestedReconnect)
             return;
         _logger.Info("Try to Subscribe to EventSub Endpoints ...");
-        var userId = await HelperClass.GetUserId(_twitchApi, "rvw4e3vmdvvvphc3qp2rxzfkoucp57",
-            _settingsService.CurrentSettings.ChannelName);
+
+        var userId = await GetUserId(_settingsService.CurrentSettings.ChannelName);
+
         _logger.Debug($"{userId}");
         var condition = new Dictionary<string, string> { { "broadcaster_user_id", userId }, {"moderator_user_id", userId} };
         await _twitchApi.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.follow", "2", condition, EventSubTransportMethod.Websocket,
             _eventSubWebsocketClient.SessionId, accessToken: _settingsService.CurrentSettings.BroadcasterAuthObject.Access_Token);
+    }
+
+    private async Task<string> GetUserId(string channel)
+    {
+        return await _twitchAuthService.GetUserId(channel);
     }
 
     public bool IsConnected()

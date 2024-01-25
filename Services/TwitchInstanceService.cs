@@ -166,7 +166,7 @@ public class TwitchInstanceService : ITwitchInstanceService
 
     private async Task ClientOnIncorrectLogin(object sender, OnIncorrectLoginArgs e)
     {
-        var newAuth = await _authService.GetAuthToken(HelperClass.GetTwitchApiCredentials(_settingsService.CurrentSettings), _isBroadcaster);
+        var newAuth = await _authService.GetUserAuthToken(HelperClass.GetTwitchApiCredentials(_settingsService.CurrentSettings), _isBroadcaster);
         if (_isBroadcaster)
         {
             _settingsService.CurrentSettings.BroadcasterAuthObject = newAuth;

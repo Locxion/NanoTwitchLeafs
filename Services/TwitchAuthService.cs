@@ -12,6 +12,7 @@ using NanoTwitchLeafs.Interfaces;
 using NanoTwitchLeafs.Objects;
 using Newtonsoft.Json;
 using TwitchLib.Api;
+using TwitchLib.Api.Core.Exceptions;
 
 namespace NanoTwitchLeafs.Services;
 
@@ -30,12 +31,17 @@ public class TwitchAuthService : ITwitchAuthService
 #elif RELEASE
     private const string AnalyticsServerUrl = "https://analytics.nanotwitchleafs.de/api";
 #endif
+    private TwitchAPI _twitchApi = new ();
+    private OAuthObject _applicationOAuth;
 
     public TwitchAuthService(ISettingsService settingsService)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
+        _twitchApi.Settings.ClientId = HelperClass.GetTwitchApiCredentials(_settingsService.CurrentSettings).ClientId;
     }
-    public async Task<OAuthObject> GetAuthToken(TwitchApiCredentials apiCredentials, bool isBroadcaster)
+
+
+    public async Task<OAuthObject> GetUserAuthToken(TwitchApiCredentials apiCredentials, bool isBroadcaster)
     {
         //Source from: https:github.com/googlesamples/oauth-apps-for-windows/blob/master/OAuthDesktopApp/OAuthDesktopApp/MainWindow.xaml.cs
         //Creates an HttpListener to listen for requests on that redirect URI.
@@ -117,9 +123,26 @@ public class TwitchAuthService : ITwitchAuthService
         return await PerformCodeExchange(code);
     }
 
+    private async Task<OAuthObject> GetApplicationOAuth(bool expired = false)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get,$"{AnalyticsServerUrl}/twitchauth/apptoken/{expired}");
+
+        using var httpClient = new HttpClient();
+        httpClient.BaseAddress = new Uri(AnalyticsServerUrl);
+        httpClient.Timeout = TimeSpan.FromSeconds(10);
+        var response = await httpClient.SendAsync(request);
+        if (!response.IsSuccessStatusCode)
+        {
+            _logger.Error("Server rejected Auth Request.");
+            _logger.Error($"StatusCode: {response.StatusCode}");
+            return null;
+        }
+        return await response.Content.ReadFromJsonAsync<OAuthObject>();    
+    }
+
     private async Task<OAuthObject> PerformCodeExchange(string code)
     {
-        var request = new HttpRequestMessage(HttpMethod.Get,$"{AnalyticsServerUrl}/api/twitchauth/{code}");
+        var request = new HttpRequestMessage(HttpMethod.Get,$"{AnalyticsServerUrl}/twitchauth/usertoken/{code}");
 
         using var httpClient = new HttpClient();
         httpClient.BaseAddress = new Uri(AnalyticsServerUrl);
@@ -132,6 +155,38 @@ public class TwitchAuthService : ITwitchAuthService
             return null;
         }
         return await response.Content.ReadFromJsonAsync<OAuthObject>();
+    }
+    
+    /// <summary>
+    /// Gets UserId for Username from Twitch API with provided Api, Settings, and Username
+    /// </summary>
+    /// <param name="userName"></param>
+    /// <returns>UserId as String</returns>
+    public async Task<string> GetUserId(string userName)
+    {
+        _applicationOAuth = await GetApplicationOAuth();
+        try
+        {
+            var user = await _twitchApi.Helix.Users.GetUsersAsync(null, [userName.ToLower()],
+                _applicationOAuth.Access_Token);
+            return user.Users[0].Id;
+        }
+        catch (BadScopeException e)
+        {
+            _logger.Error("Could not get UserId. Bad Scopes for Access Token", e);
+            return null;
+        }
+        catch (TokenExpiredException e)
+        {
+            _logger.Error("Could not get UserId from Api - Access Token Expired");
+            _applicationOAuth = await GetApplicationOAuth(true);
+            return await GetUserId(userName);
+        }
+        catch (Exception e)
+        {
+            _logger.Error("Could not get UserId from Api", e);
+            return null;
+        }
     }
 
     /// <summary>

@@ -119,7 +119,18 @@ class TwitchPubSubService : ITwitchPubSubService
 
         _client.ListenToBitsEventsV2(_userId);
         _client.ListenToChannelPoints(_userId);
-        await _client.SendTopicsAsync(_settingsService.CurrentSettings.BroadcasterAuthObject.Access_Token);
+        _logger.Debug($"Sending Auth Topics ...");
+
+        if (_settingsService.CurrentSettings.ChannelName.ToLower() != _settingsService.CurrentSettings.BotName.ToLower())
+        {
+            // SendTopics accepts an oauth optionally, which is necessary for some topics
+            await _client.SendTopicsAsync(_settingsService.CurrentSettings.BroadcasterAuthObject.Access_Token);
+        }
+        else
+        {
+            // SendTopics accepts an oauth optionally, which is necessary for some topics
+            await _client.SendTopicsAsync(_settingsService.CurrentSettings.BotAuthObject.Access_Token);
+        }    
     }
 
     /// <summary>

@@ -99,7 +99,6 @@ public class TwitchEventSubService : ITwitchEventSubService
     public async Task Connect()
     {
         await _eventSubWebsocketClient.ConnectAsync();
-        //await _eventSubWebsocketClient.ConnectAsync(new Uri("ws://localhost:8080/ws"));
     }
     public async Task Disconnect()
     {

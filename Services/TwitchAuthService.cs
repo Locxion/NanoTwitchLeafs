@@ -26,11 +26,8 @@ public class TwitchAuthService : ITwitchAuthService
     private const string TwitchScopesChannelOwner = "scope=chat:edit chat:read whispers:read whispers:edit user:manage:whispers bits:read channel:read:subscriptions channel:read:hype_train channel:read:redemptions channel:manage:redemptions moderator:read:followers user:read:email";
 
     private const string RedirectUri = "http://127.0.0.1:1234";
-#if DEBUG
-    private const string AnalyticsServerUrl = "https://localhost:7244/api";
-#elif RELEASE
     private const string AnalyticsServerUrl = "https://analytics.nanotwitchleafs.de/api";
-#endif
+
     private TwitchAPI _twitchApi = new ();
     private OAuthObject _applicationOAuth;
 
@@ -120,16 +117,38 @@ public class TwitchAuthService : ITwitchAuthService
 
         _logger.Debug("Authorization code: " + code);
 
-        return await PerformCodeExchange(code);
+        return await GetUserOAuth(code);
     }
 
-    private async Task<OAuthObject> GetApplicationOAuth(bool expired = false)
+    private async Task<ServiceResponse<OAuthObject>> GetApplicationOAuth(bool expired = false)
     {
-        var request = new HttpRequestMessage(HttpMethod.Get,$"{AnalyticsServerUrl}/twitchauth/apptoken/{expired}");
-
+        _logger.Debug("Requesting ApplicationOAuth ...");
+        var requestEndpoint = $"{AnalyticsServerUrl}/twitchauth/appoauth";
+        if (expired)
+        {
+            requestEndpoint = $"{AnalyticsServerUrl}/twitchauth/appoauth/renew";
+        }
+        var request = new HttpRequestMessage(HttpMethod.Get,requestEndpoint);
         using var httpClient = new HttpClient();
-        httpClient.BaseAddress = new Uri(AnalyticsServerUrl);
-        httpClient.Timeout = TimeSpan.FromSeconds(10);
+        var response = await httpClient.SendAsync(request);
+        if (!response.IsSuccessStatusCode)
+        {
+            _logger.Error("Server rejected Auth Request.");
+            _logger.Error($"StatusCode: {response.StatusCode}");
+            return new ServiceResponse<OAuthObject> {Success = false, Message =$"Server rejected Auth Request. StatusCode: {response.StatusCode}" };
+        }
+        var serviceResponse = await response.Content.ReadFromJsonAsync<ServiceResponse<OAuthObject>>();
+        if (!serviceResponse.Success)
+        {
+            _logger.Error(serviceResponse.Message);
+        }
+        return serviceResponse;
+    }
+
+    private async Task<OAuthObject> GetUserOAuth(string code)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get,$"{AnalyticsServerUrl}/twitchauth/useroauth/{code}");
+        using var httpClient = new HttpClient();
         var response = await httpClient.SendAsync(request);
         if (!response.IsSuccessStatusCode)
         {
@@ -137,24 +156,12 @@ public class TwitchAuthService : ITwitchAuthService
             _logger.Error($"StatusCode: {response.StatusCode}");
             return null;
         }
-        return await response.Content.ReadFromJsonAsync<OAuthObject>();    
-    }
-
-    private async Task<OAuthObject> PerformCodeExchange(string code)
-    {
-        var request = new HttpRequestMessage(HttpMethod.Get,$"{AnalyticsServerUrl}/twitchauth/usertoken/{code}");
-
-        using var httpClient = new HttpClient();
-        httpClient.BaseAddress = new Uri(AnalyticsServerUrl);
-        httpClient.Timeout = TimeSpan.FromSeconds(10);
-        var response = await httpClient.SendAsync(request);
-        if (!response.IsSuccessStatusCode)
+        var serviceResponse = await response.Content.ReadFromJsonAsync<ServiceResponse<OAuthObject>>();
+        if (!serviceResponse.Success)
         {
-            _logger.Error("Server rejected Auth Request.");
-            _logger.Error($"StatusCode: {response.StatusCode}");
-            return null;
+            _logger.Error(serviceResponse.Message);
         }
-        return await response.Content.ReadFromJsonAsync<OAuthObject>();
+        return serviceResponse.Data;
     }
     
     /// <summary>
@@ -164,7 +171,16 @@ public class TwitchAuthService : ITwitchAuthService
     /// <returns>UserId as String</returns>
     public async Task<string> GetUserId(string userName)
     {
-        _applicationOAuth = await GetApplicationOAuth();
+        _logger.Debug($"Getting UserId for {userName} ... ");
+        var response = await GetApplicationOAuth();
+        if (!response.Success)
+        {
+            _logger.Error("Could not get UserId!");
+            _logger.Error(response.Message);
+            return "";
+        }
+
+        _applicationOAuth = response.Data;
         try
         {
             var user = await _twitchApi.Helix.Users.GetUsersAsync(null, [userName.ToLower()],
@@ -179,7 +195,13 @@ public class TwitchAuthService : ITwitchAuthService
         catch (TokenExpiredException e)
         {
             _logger.Error("Could not get UserId from Api - Access Token Expired");
-            _applicationOAuth = await GetApplicationOAuth(true);
+            var response2 = await GetApplicationOAuth(true);
+            if (!response2.Success)
+            {
+                _logger.Error("Could not get UserId!");
+                _logger.Error(response2.Message);
+                return "";
+            }
             return await GetUserId(userName);
         }
         catch (Exception e)

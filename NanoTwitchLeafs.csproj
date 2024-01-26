@@ -502,6 +502,7 @@
     <Compile Include="Objects\QueueObject.cs" />
     <Compile Include="Objects\Responses.cs" />
     <Compile Include="Objects\ServiceCredentials.cs" />
+    <Compile Include="Objects\ServiceResponse.cs" />
     <Compile Include="Objects\StreamlabsEvent.cs" />
     <Compile Include="Objects\StreamlabsInformation.cs" />
     <Compile Include="Objects\TriggerListObject.cs" />

@@ -12,6 +12,10 @@ namespace NanoTwitchLeafs.Colors
 	/// </remarks>
 	internal static class ColorConverting
 	{
+		/// <summary>
+		/// Generates a Random Color
+		/// </summary>
+		/// <returns></returns>
 		public static RgbColor GenerateRandomRgbColor()
 		{
 			var random = new Random();;

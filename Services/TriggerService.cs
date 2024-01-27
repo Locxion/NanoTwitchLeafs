@@ -9,7 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using log4net;
-using Microsoft.Extensions.DependencyInjection;
 using NanoTwitchLeafs.Colors;
 using NanoTwitchLeafs.Enums;
 using NanoTwitchLeafs.Interfaces;
@@ -569,7 +568,8 @@ class TriggerService : ITriggerService
 
         if (chatMessage.Color.IsEmpty)
         {
-            return;
+            _logger.Warn($"User {chatMessage.Username} has no Color set. Generating Random Color ...");
+            chatMessage.Color = ColorConverting.RgbToDrawingColor(ColorConverting.GenerateRandomRgbColor());
         }
 
         var queueObject = new QueueObject(trigger, chatMessage.Username, false, chatMessage.Color);

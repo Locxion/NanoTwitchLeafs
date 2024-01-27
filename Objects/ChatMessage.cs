@@ -11,7 +11,7 @@ namespace NanoTwitchLeafs.Objects
         public bool IsModerator { get; set; }
         public bool IsVip { get; set; }
         public string Message { get; set; }
-        public Color Color { get; }
+        public Color Color { get; set; }
 
         public ChatMessage(StreamingPlatformEnum platform, string username, bool isSubscriber, bool isModerator, bool isVip, string message, Color color)
         {

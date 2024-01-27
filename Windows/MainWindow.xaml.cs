@@ -1241,5 +1241,15 @@ namespace NanoTwitchLeafs.Windows
 		}
 
 		#endregion
-    }
+
+		private void Export_Settings_Button_OnClick(object sender, RoutedEventArgs e)
+		{
+			if (MessageBox.Show(Properties.Resources.General_MessageBox_ExportSettings_Text,
+				    Properties.Resources.General_MessageBox_ExportSettings_Title, MessageBoxButton.YesNo,
+				    MessageBoxImage.Question) == MessageBoxResult.Yes)
+			{
+				_settingsService.ExportSettings();
+			}
+		}
+	}
 }

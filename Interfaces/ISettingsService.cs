@@ -10,4 +10,6 @@ public interface ISettingsService
     void SaveSettings();
 
     AppSettings ReturnBlankSettings();
+
+    void ExportSettings();
 }

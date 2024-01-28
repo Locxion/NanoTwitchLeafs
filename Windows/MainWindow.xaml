@@ -57,7 +57,7 @@
                     <Button x:Name="eventRestart_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_RestartQueue}" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Click="EventRestart_Button_Click" Padding="5,1" />
                 </Grid>
             </TabItem>
-            <TabItem Header="{x:Static p:Resources.Window_Main_Tabs_Settings_Title}" Margin="1,0,-1,0" Height="22">
+            <TabItem x:Name="settings_TabItem" Header="{x:Static p:Resources.Window_Main_Tabs_Settings_Title}" Margin="1,0,-1,0" Height="22">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -71,7 +71,8 @@
                     <Button x:Name="responses_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_Edit}" HorizontalAlignment="Right" Margin="0,59,10,0" VerticalAlignment="Top" Click="Responses_Button_Click" Padding="5,1" />
                     <CheckBox x:Name="autoConnect_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Autoconnect}" HorizontalAlignment="Left" Margin="10,22,0,0" VerticalAlignment="Top" Click="AutoConnect_Checkbox_Click" Width="212" />
                     <Button x:Name="Open_Dir_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_OpenDebugDir}" VerticalAlignment="Bottom" Click="Open_Dir_Button_Click" HorizontalContentAlignment="Center" Margin="10,0,10,30" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_ResetBrightness}" HorizontalAlignment="Left" Margin="10,197,0,0" VerticalAlignment="Top" Height="26" Width="174" />
+                    <Button x:Name="Export_Settings_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_ExportSettings}" VerticalAlignment="Bottom" Click="Export_Settings_Button_OnClick" HorizontalContentAlignment="Center" Margin="10,0,10,55" />
+                    <Label x:Name="Reset_Brightness_Label" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_ResetBrightness}" HorizontalAlignment="Left" Margin="10,197,0,0" VerticalAlignment="Top" Height="26" Width="174" />
                     <TextBox x:Name="brightnessReset_TextBox" HorizontalAlignment="Right" Height="23" Margin="0,198,44,0" TextWrapping="Wrap" Text="50" VerticalAlignment="Top" Width="46" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
                     <Button x:Name="resetBrightness_Button" Content="{x:Static p:Resources.General_Button_OK}" HorizontalAlignment="Right" Margin="0,200,10,0" VerticalAlignment="Top" Click="ResetBrightness_Button_Click" Padding="5,1" />
                     <CheckBox x:Name="blacklist_CheckBox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Blocklist}" HorizontalAlignment="Left" Margin="10,91,0,0" VerticalAlignment="Top" Height="15" Width="163" Click="blacklist_CheckBox_Click" />

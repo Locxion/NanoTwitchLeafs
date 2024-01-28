@@ -1,39 +1,33 @@
 ﻿using log4net;
 using NanoTwitchLeafs.Colors;
-using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Enums;
 using NanoTwitchLeafs.Objects;
-using NanoTwitchLeafs.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using NanoTwitchLeafs.Interfaces;
 
 namespace NanoTwitchLeafs.Windows
 {
     public partial class TriggerWindow : Window
     {
         private readonly ILog _logger = LogManager.GetLogger(typeof(TriggerWindow));
-        private readonly CommandRepository _commandRepository;
-        private readonly NanoController _nanoController;
-        private readonly AppSettings _appSettings;
-        private readonly StreamlabsController _streamlabsController;
-        private readonly HypeRateIOController _hypeRateIoController;
-        private readonly TriggerLogicController _triggerLogicController;
-        public readonly TwitchPubSubController _twitchPubSubController;
+        private readonly ITriggerRepositoryService _triggerRepositoryService;
+        private readonly ISettingsService _settingsService;
+        private readonly ITriggerService _triggerService;
+        private readonly INanoService _nanoService;
 
-        public TriggerWindow(CommandRepository commandRepository, NanoController nanoController, AppSettings appSettings, StreamlabsController streamlabsController, HypeRateIOController hypeRateIoController, TriggerLogicController triggerLogicController, TwitchPubSubController twitchPubSubController = null)
+        public TriggerWindow(ITriggerRepositoryService triggerRepositoryService, ISettingsService settingsService, ITriggerService triggerService, INanoService nanoService)
         {
-            _commandRepository = commandRepository ?? throw new ArgumentNullException(nameof(commandRepository));
-            _nanoController = nanoController ?? throw new ArgumentNullException(nameof(nanoController));
-            _appSettings = appSettings ?? throw new ArgumentNullException(nameof(appSettings));
-            _streamlabsController = streamlabsController;
-            _hypeRateIoController = hypeRateIoController;
-            _triggerLogicController = triggerLogicController ?? throw new ArgumentNullException(nameof(triggerLogicController));
-            _twitchPubSubController = twitchPubSubController;
-            Constants.SetCultureInfo(_appSettings.Language);
+            _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
+            _triggerService = triggerService ?? throw new ArgumentNullException(nameof(triggerService));
+            _nanoService = nanoService ?? throw new ArgumentNullException(nameof(nanoService));
+            _triggerRepositoryService = triggerRepositoryService ?? throw new ArgumentNullException(nameof(triggerRepositoryService));
+
+            Constants.SetCultureInfo(_settingsService.CurrentSettings.Language);
             InitializeComponent();
 
             LoadTrigger();
@@ -41,25 +35,25 @@ namespace NanoTwitchLeafs.Windows
 
         private void LoadTrigger()
         {
-            List<TriggerSetting> triggerSettings = _commandRepository.GetList().ToList();
+            var triggerSettings = _triggerRepositoryService.GetList().ToList();
             triggerSettings.OrderBy(x => x.ID);
-            List<TriggerListObject> TriggerListItems = new List<TriggerListObject>();
-            foreach (TriggerSetting triggerSetting in triggerSettings)
+            var triggerListItems = new List<TriggerListObject>();
+            foreach (var triggerSetting in triggerSettings)
             {
-                int OnOffSliderValue = 0;
-                var OnOffSliderBackground = Brushes.White;
+                var onFffSliderValue = 0;
+                SolidColorBrush onOffSliderBackground;
                 if (triggerSetting.IsActive.HasValue && triggerSetting.IsActive.Value)
                 {
-                    OnOffSliderValue = 0;
-                    OnOffSliderBackground = Brushes.LimeGreen;
+                    onFffSliderValue = 0;
+                    onOffSliderBackground = Brushes.LimeGreen;
                 }
                 else
                 {
-                    OnOffSliderValue = 1;
-                    OnOffSliderBackground = Brushes.White;
+                    onFffSliderValue = 1;
+                    onOffSliderBackground = Brushes.White;
                 }
 
-                string soundEffect = "X";
+                var soundEffect = "X";
                 if (!string.IsNullOrWhiteSpace(triggerSetting.SoundFilePath))
                 {
                     string[] soundEffectArray = triggerSetting.SoundFilePath.Split('\\');
@@ -67,7 +61,7 @@ namespace NanoTwitchLeafs.Windows
                     soundEffect = soundEffectArray[soundEffectArray.Length - 1];
                 }
 
-                string vipsubmod = "Vip[N] Sub[N] Mod[N]";
+                var vipsubmod = "Vip[N] Sub[N] Mod[N]";
                 if (triggerSetting.VipOnly)
                 {
                     vipsubmod = vipsubmod.Replace("Vip[N]", "Vip[Y]");
@@ -81,7 +75,7 @@ namespace NanoTwitchLeafs.Windows
                     vipsubmod = vipsubmod.Replace("Mod[N]", "Mod[Y]");
                 }
 
-                Button editButton = new Button
+                var editButton = new Button
                 {
                     Width = 40,
                     Height = 22,
@@ -93,7 +87,7 @@ namespace NanoTwitchLeafs.Windows
 
                 editButton.Click += EditButton_Click;
 
-                Button delete_Button = new Button
+                var deleteButton = new Button
                 {
                     Width = 40,
                     Height = 22,
@@ -103,12 +97,12 @@ namespace NanoTwitchLeafs.Windows
                     Content = Properties.Resources.Window_Trigger_Button_Delete
                 };
 
-                delete_Button.Click += DeleteButton_Click;
+                deleteButton.Click += DeleteButton_Click;
 
-                TriggerListObject triggerListObject = new TriggerListObject
+                var triggerListObject = new TriggerListObject
                 {
-                    OnOffSliderValue = OnOffSliderValue,
-                    OnOffSliderBackground = OnOffSliderBackground,
+                    OnOffSliderValue = onFffSliderValue,
+                    OnOffSliderBackground = onOffSliderBackground,
                     ID = triggerSetting.ID.ToString(),
                     Trigger = triggerSetting.Trigger,
                     Command = triggerSetting.CMD,
@@ -135,18 +129,18 @@ namespace NanoTwitchLeafs.Windows
                     triggerListObject.Background = new SolidColorBrush(color);
                 }
 
-                TriggerListItems.Add(triggerListObject);
+                triggerListItems.Add(triggerListObject);
                 _logger.Debug($"Loading Trigger with id {triggerSetting.ID}.");
             }
-            TriggerListItems = TriggerListItems.OrderBy(x => x.Trigger).ToList();
-            Trigger_Listview.ItemsSource = TriggerListItems;
+            triggerListItems = triggerListItems.OrderBy(x => x.Trigger).ToList();
+            Trigger_Listview.ItemsSource = triggerListItems;
             _logger.Info($"Loaded {triggerSettings.Count} Triggers from Database.");
         }
 
         private void OnOffSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             bool IsActive;
-            Slider slider = (Slider)sender;
+            var slider = (Slider)sender;
             if (e.NewValue == 0)
             {
                 slider.Background = Brushes.LimeGreen;
@@ -161,10 +155,10 @@ namespace NanoTwitchLeafs.Windows
             var dataContext = slider.DataContext as TriggerListObject;
             var triggerId = int.Parse(dataContext.ID);
 
-            List<TriggerSetting> triggerSettings = _commandRepository.GetList();
-            TriggerSetting triggerSetting = triggerSettings.Where(l => l.ID == triggerId).FirstOrDefault();
+            var triggerSettings = _triggerRepositoryService.GetList();
+            var triggerSetting = triggerSettings.FirstOrDefault(l => l.ID == triggerId);
             triggerSetting.IsActive = IsActive;
-            _commandRepository.Update(triggerSetting);
+            _triggerRepositoryService.Update(triggerSetting);
             _logger.Info($"Trigger with the ID {triggerSetting.ID} is now updated to IsActive: {IsActive}.");
         }
 
@@ -174,9 +168,9 @@ namespace NanoTwitchLeafs.Windows
             var dataContext = button.DataContext as TriggerListObject;
 
             var triggerId = int.Parse(dataContext.ID);
-            List<TriggerSetting> triggerSettings = _commandRepository.GetList();
-            TriggerSetting triggerSetting = triggerSettings.Where(l => l.ID == triggerId).FirstOrDefault();
-            _commandRepository.Delete(triggerSetting);
+            var triggerSettings = _triggerRepositoryService.GetList();
+            var triggerSetting = triggerSettings.FirstOrDefault(l => l.ID == triggerId);
+            _triggerRepositoryService.Delete(triggerSetting);
             LoadTrigger();
         }
 
@@ -187,11 +181,11 @@ namespace NanoTwitchLeafs.Windows
             var dataContext = button.DataContext as TriggerListObject;
 
             var triggerId = int.Parse(dataContext.ID);
-            List<TriggerSetting> triggerSettings = _commandRepository.GetList();
-            TriggerSetting triggerSetting = triggerSettings.Where(l => l.ID == triggerId).FirstOrDefault();
+            var triggerSettings = _triggerRepositoryService.GetList();
+            var triggerSetting = triggerSettings.FirstOrDefault(l => l.ID == triggerId);
 
             var obj = new QueueObject(triggerSetting, "Test");
-            _triggerLogicController.AddToQueue(obj);
+            _triggerService.AddToQueue(obj);
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
@@ -200,8 +194,8 @@ namespace NanoTwitchLeafs.Windows
             var dataContext = button.DataContext as TriggerListObject;
 
             var triggerId = int.Parse(dataContext.ID);
-            List<TriggerSetting> triggerSettings = _commandRepository.GetList();
-            TriggerSetting triggerSetting = triggerSettings.Where(l => l.ID == triggerId).FirstOrDefault();
+            var triggerSettings = _triggerRepositoryService.GetList();
+            var triggerSetting = triggerSettings.FirstOrDefault(l => l.ID == triggerId);
 
             OpenTriggerDetails(triggerSetting);
         }
@@ -213,18 +207,19 @@ namespace NanoTwitchLeafs.Windows
 
         private async void OpenTriggerDetails(TriggerSetting triggerSetting = null)
         {
-            var effectList = await _nanoController.GetEffectList(_appSettings.NanoSettings.NanoLeafDevices[0]);
+            var effectList = await _nanoService.GetEffectList(_settingsService.CurrentSettings.NanoSettings.NanoLeafDevices[0]);
 
             if (effectList == null)
             {
-                this.Close();
+                Close();
                 _logger.Error("Connection failed! Couldn't get Effect List!");
-                System.Windows.MessageBox.Show(Properties.Resources.Code_Trigger_MessageBox_EffectList, Properties.Resources.General_MessageBox_Error_Title);
+                MessageBox.Show(Properties.Resources.Code_Trigger_MessageBox_EffectList, Properties.Resources.General_MessageBox_Error_Title);
                 return;
             }
 
-            Window triggerDetailWindow = new TriggerDetailWindow(_appSettings, _commandRepository, effectList, _streamlabsController, _hypeRateIoController, triggerSetting, _twitchPubSubController)
+            Window triggerDetailWindow = new TriggerDetailWindow()
             {
+                _triggerSetting = triggerSetting,
                 Owner = this
             };
             triggerDetailWindow.Closed += TriggerDetailWindow_Closed;

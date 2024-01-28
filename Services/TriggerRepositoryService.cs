@@ -1,28 +1,28 @@
-﻿using NanoTwitchLeafs.Controller;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using NanoTwitchLeafs.Enums;
 using NanoTwitchLeafs.Interfaces;
 using NanoTwitchLeafs.Objects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace NanoTwitchLeafs.Repositories
+namespace NanoTwitchLeafs.Services
 {
-    public class CommandRepository
+    public class TriggerRepositoryService : ITriggerRepositoryService
     {
-        private readonly IDatabaseController<TriggerSetting> _dbController;
+        private readonly IDatabaseService<TriggerSetting> _dbService;
         private List<TriggerSetting> _cachedCommands;
 
-        public CommandRepository(IDatabaseController<TriggerSetting> databaseController)
+        public TriggerRepositoryService(IDatabaseService<TriggerSetting> databaseService)
         {
-            _dbController = databaseController ?? throw new ArgumentNullException(nameof(databaseController));
+            _dbService = databaseService ?? throw new ArgumentNullException(nameof(databaseService));
+            _dbService.SetDatabasePath(Constants.DATABASE_PATH);
         }
 
         public List<TriggerSetting> GetList()
         {
             if (_cachedCommands == null)
             {
-                _cachedCommands = _dbController.Load();
+                _cachedCommands = _dbService.Load();
 
                 _cachedCommands.ForEach(triggerSetting =>
                 {
@@ -64,7 +64,7 @@ namespace NanoTwitchLeafs.Repositories
         {
             if (_cachedCommands == null)
             {
-                _cachedCommands = _dbController.Load();
+                _cachedCommands = _dbService.Load();
             }
 
             return _cachedCommands.Count;
@@ -87,7 +87,7 @@ namespace NanoTwitchLeafs.Repositories
 
         public void Update(TriggerSetting trigger)
         {
-            _dbController.Update(trigger);
+            _dbService.Update(trigger);
 
             var dbCommand = _cachedCommands.RemoveAll(dbCmd => dbCmd.ID == trigger.ID);
             _cachedCommands.Add(trigger);
@@ -95,21 +95,21 @@ namespace NanoTwitchLeafs.Repositories
 
         public void Insert(TriggerSetting trigger)
         {
-            _dbController.Save(trigger);
+            _dbService.Save(trigger);
 
             _cachedCommands.Add(trigger);
         }
 
         public void Delete(TriggerSetting trigger)
         {
-            _dbController.Delete(trigger);
+            _dbService.Delete(trigger);
 
             var dbCommand = _cachedCommands.RemoveAll(dbCmd => dbCmd.ID == trigger.ID);
         }
 
         public void ClearAll()
         {
-            _dbController.ClearTable();
+            _dbService.ClearTable();
 
             _cachedCommands = new List<TriggerSetting>();
         }

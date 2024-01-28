@@ -1,6 +1,6 @@
-﻿using NanoTwitchLeafs.Controller;
-using System;
+﻿using System;
 using System.Windows;
+using NanoTwitchLeafs.Services;
 
 namespace NanoTwitchLeafs.Windows
 {
@@ -9,18 +9,18 @@ namespace NanoTwitchLeafs.Windows
     /// </summary>
     public partial class InputDialogWindow : Window
     {
-        private readonly NanoController _nanoController;
+        private readonly NanoService _nanoService;
 
-        public InputDialogWindow(NanoController nanoController, string languageCode)
+        public InputDialogWindow(NanoService nanoService, string languageCode)
         {
             Constants.SetCultureInfo(languageCode);
             InitializeComponent();
-            _nanoController = nanoController ?? throw new ArgumentNullException(nameof(nanoController));
+            _nanoService = nanoService ?? throw new ArgumentNullException(nameof(nanoService));
         }
 
         private void InputDialog_Button_Click(object sender, RoutedEventArgs e)
         {
-            _nanoController.TempName = inputDialog_TextBox.Text;
+            _nanoService.TempName = inputDialog_TextBox.Text;
 
             Close();
         }

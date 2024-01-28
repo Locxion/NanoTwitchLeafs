@@ -1,19 +1,21 @@
 ﻿using log4net;
-using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Objects;
 using System;
-using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Microsoft.Extensions.Logging;
+using NanoTwitchLeafs.Interfaces;
 using TwitchLib.Client;
+using TwitchLib.Client.Enums;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
 using TwitchLib.Communication.Events;
+using OnConnectedEventArgs = TwitchLib.Client.Events.OnConnectedEventArgs;
+
 // ReSharper disable InconsistentNaming
 
 namespace NanoTwitchLeafs.Windows
@@ -23,10 +25,9 @@ namespace NanoTwitchLeafs.Windows
 	/// </summary>
 	public partial class TwitchLinkWindow : Window
 	{
-		private readonly ILog _logger = LogManager.GetLogger(typeof(TriggerLogicController));
-		private readonly AppSettings _appSettings;
-		private readonly TwitchController _twitchController;
-		private readonly AppSettingsController _appSettingsController;
+		private readonly ISettingsService _settingsService;
+		private readonly ITwitchAuthService _authService;
+		private readonly ILog _logger = LogManager.GetLogger(typeof(TwitchLinkWindow));
 		private bool _doubleAccount = false;
 		private string _broadCasterAccountName;
 		private string _botAccountName;
@@ -35,12 +36,11 @@ namespace NanoTwitchLeafs.Windows
 		private OAuthObject _broadcasterAuthObject;
 		private OAuthObject _botAuthObject;
 
-		public TwitchLinkWindow(AppSettings appSettings, TwitchController twitchController, AppSettingsController appSettingsController)
+		public TwitchLinkWindow(ISettingsService settingsService , ITwitchAuthService authService)
 		{
-			_appSettings = appSettings ?? throw new ArgumentNullException(nameof(appSettings));
-			_twitchController = twitchController ?? throw new ArgumentNullException(nameof(twitchController));
-			_appSettingsController = appSettingsController ?? throw new ArgumentNullException(nameof(appSettingsController));
-			Constants.SetCultureInfo(_appSettings.Language);
+			_settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
+			_authService = authService ?? throw new ArgumentNullException(nameof(authService));
+			Constants.SetCultureInfo(_settingsService.CurrentSettings.Language);
 			InitializeComponent();
 		}
 
@@ -169,7 +169,7 @@ namespace NanoTwitchLeafs.Windows
 			if (isBroadcaster)
 			{
 				_broadCasterAccountName = accountName;
-				_broadcasterAuthObject = await _twitchController.GetAuthToken(HelperClass.GetTwitchApiCredentials(_appSettings), true);
+				_broadcasterAuthObject = await _authService.GetAuthToken(true);
 
 				if (_broadcasterAuthObject == null)
 				{
@@ -182,7 +182,7 @@ namespace NanoTwitchLeafs.Windows
 
 				try
 				{
-					_broadCasterAvatarUrl = new Uri(await _twitchController.GetAvatarUrl(accountName, _broadcasterAuthObject.Access_Token));
+					_broadCasterAvatarUrl = new Uri(await _authService.GetAvatarUrl(accountName, _broadcasterAuthObject.Access_Token));
 					BroadcasterAvatar_Image.Source = new BitmapImage(_broadCasterAvatarUrl);
 				}
 				catch (Exception e)
@@ -200,7 +200,7 @@ namespace NanoTwitchLeafs.Windows
 			else
 			{
 				_botAccountName = accountName;
-				_botAuthObject = await _twitchController.GetAuthToken(HelperClass.GetTwitchApiCredentials(_appSettings), false);
+				_botAuthObject = await _authService.GetAuthToken(false);
 
 				if (_botAuthObject == null)
 				{
@@ -213,7 +213,7 @@ namespace NanoTwitchLeafs.Windows
 
 				try
 				{
-					_botAccountAvatarUrl = new Uri(await _twitchController.GetAvatarUrl(accountName, _botAuthObject.Access_Token));
+					_botAccountAvatarUrl = new Uri(await _authService.GetAvatarUrl(accountName, _botAuthObject.Access_Token));
 					BotAccountAvatar_Image.Source = new BitmapImage(_botAccountAvatarUrl);
 				}
 				catch (Exception e)
@@ -262,7 +262,16 @@ namespace NanoTwitchLeafs.Windows
 		private async Task<bool> TestConnection(string username, string auth, bool isBroadcaster)
 		{ 
 			// Setup Twitch Client for first "Bot" connection
-			var client = new TwitchClient();
+			// var loggerFactory = LoggerFactory.Create(builder =>
+			// {
+			// 	builder.;
+			// });
+			var factory = LoggerFactory.Create(x =>
+			{
+				x.SetMinimumLevel(LogLevel.Trace);
+				x.AddConsole();
+			});
+			var client = new TwitchClient(null, ClientProtocol.WebSocket, null, factory);
 			var credentials = new ConnectionCredentials(username, "oauth:" + auth, disableUsernameCheck: true);
 			client.Initialize(credentials);
 			// Setup TaskCompetitionSource
@@ -272,71 +281,99 @@ namespace NanoTwitchLeafs.Windows
 			var disconnectTcs = new TaskCompletionSource<bool>();
 
 			// Setup Events
-			void OnBotClientConnected(object sender, OnConnectedArgs args)
+			client.OnConnected += OnBotClientOnConnected ;
+			Task OnBotClientOnConnected(object sender, OnConnectedEventArgs args)
 			{
 				connectTcs.SetResult(true);
+				return Task.CompletedTask;
+			}
+			
+			client.OnIncorrectLogin += OnBotClientIncorrectLogin;
+			Task OnBotClientIncorrectLogin(object sender, OnIncorrectLoginArgs e)
+			{
+				connectTcs.SetResult(false);
+				return Task.CompletedTask; 
 			}
 
-			client.OnConnected += OnBotClientConnected;
-
-			void OnBotClientIncorrectLogin(object sender, OnIncorrectLoginArgs args) => connectTcs.SetResult(false);
-
-			client.OnIncorrectLogin += OnBotClientIncorrectLogin;
-
-			void OnBotClientJoinedChannel(object sender, OnJoinedChannelArgs args)
+			client.OnJoinedChannel += OnBotClientJoinedChannel;
+			Task OnBotClientJoinedChannel(object sender, OnJoinedChannelArgs args)
 			{
 				if (client.TwitchUsername != args.Channel)
 				{
 					joinTcs.SetResult(false);
-					return;
+					return Task.CompletedTask; 
 				}
 				joinTcs.SetResult(true);
+				return Task.CompletedTask; 
 			}
 
-			client.OnJoinedChannel += OnBotClientJoinedChannel;
-
-			void OnBotClientDisconnected(object sender, OnDisconnectedEventArgs args) => disconnectTcs.SetResult(true);
-
 			client.OnDisconnected += OnBotClientDisconnected;
-
-			void OnBotClientFailureToReceiveJoinConfirmation(object sender, OnFailureToReceiveJoinConfirmationArgs args) => joinTcs.SetResult(false);
+			Task OnBotClientDisconnected(object sender, OnDisconnectedEventArgs args)
+			{
+				disconnectTcs.SetResult(true);
+				return Task.CompletedTask;
+			}
 
 			client.OnFailureToReceiveJoinConfirmation += OnBotClientFailureToReceiveJoinConfirmation;
+			Task OnBotClientFailureToReceiveJoinConfirmation(object sender, OnFailureToReceiveJoinConfirmationArgs args)
+			{
+				joinTcs.SetResult(false);
+				return Task.CompletedTask;
+			}
+
 			client.OnMessageReceived += BotClientOnOnMessageReceived;
-			
-			void BotClientOnOnMessageReceived(object sender, OnMessageReceivedArgs e)
+			Task BotClientOnOnMessageReceived(object sender, OnMessageReceivedArgs e)
 			{
 				if (e.ChatMessage.Message == "Testing NanoTwitchLeafs Chat Connection")
 				{
 					sendMsgTcs.SetResult(true);
 				}
+
+				return Task.CompletedTask;
 			}
 			
-			client.OnLog+= OnBotClientLog;
-			void OnBotClientLog(object sender, OnLogArgs e)
+			client.OnConnectionError += ClientOnOnConnectionError;
+			Task ClientOnOnConnectionError(object sender, OnConnectionErrorArgs e)
+			{
+				var message = "[TwitchConsole] " + e.Error;
+				SendMessageToListBox(message);
+				return Task.CompletedTask;
+			}
+			
+			client.OnSendReceiveData += ClientOnOnSendReceiveData;
+			Task ClientOnOnSendReceiveData(object sender, OnSendReceiveDataArgs e)
 			{
 				var message = "[TwitchConsole] " + e.Data;
 				SendMessageToListBox(message);
+				return Task.CompletedTask;
 			}
+
+			// Event no longer Exists in 4.0
+			// client.log+= OnBotClientLog;
+			// void OnBotClientLog(object sender, OnLogArgs e)
+			// {
+			// 	var message = "[TwitchConsole] " + e.Data;
+			// 	SendMessageToListBox(message);
+			// }
 
 			try
 			{
 				// Connect to Twitch
-				var isConnected = client.Connect();
+				var isConnected = await client.ConnectAsync();
 				if (!isConnected)
 				{
 					_logger.Error("Could not connect to Twitch Server!");
 					return false;
 				}
 
-				// Wait for Connect or IncorrectLogin Event - Timeout Delay 2 Seconds
-				var connectResultTask = await Task.WhenAny(connectTcs.Task, Task.Delay(TimeSpan.FromSeconds(2)));
+				// Wait for Connect or IncorrectLogin Event - Timeout Delay 5 Seconds
+				var connectResultTask = await Task.WhenAny(connectTcs.Task, Task.Delay(TimeSpan.FromSeconds(5)));
 				if (connectResultTask != connectTcs.Task)
 				{
 					_logger.Error("Could not connect to Twitch Server! Timeout reached!");
 					return false;
 				}
-
+				
 				var connectResult = await connectTcs.Task;
 				if (!connectResult)
 				{
@@ -351,7 +388,7 @@ namespace NanoTwitchLeafs.Windows
 
 				// Try to Join Channel
 
-				client.JoinChannel(client.TwitchUsername);
+				await client.JoinChannelAsync(client.TwitchUsername);
 
 				var joinResultTask = await Task.WhenAny(joinTcs.Task, Task.Delay(TimeSpan.FromSeconds(2)));
 				if (joinResultTask != joinTcs.Task)
@@ -373,7 +410,7 @@ namespace NanoTwitchLeafs.Windows
 				SendMessageToListBox("Send Test Message to Chat: 'Testing NanoTwitchLeafs Chat Connection'");
 
 				// Send Test Message to Twitch Channel
-				client.SendMessage(_broadCasterAccountName, "Testing NanoTwitchLeafs Chat Connection");
+				_ = client.SendMessageAsync(_broadCasterAccountName, "Testing NanoTwitchLeafs Chat Connection");
 
 				// Disabled til we can really confirm that the Message was sent
 				/*var sendMsgResultTask = await Task.WhenAny(sendMsgTcs.Task, Task.Delay(TimeSpan.FromSeconds(2)));
@@ -392,7 +429,7 @@ namespace NanoTwitchLeafs.Windows
 				SetProgress(3, isBroadcaster);
 
 				// Disconnect from Twitch Server
-				client.Disconnect();
+				await client.DisconnectAsync();
 
 				var disconnectResultTask = await Task.WhenAny(disconnectTcs.Task, Task.Delay(TimeSpan.FromSeconds(2)));
 				if (disconnectResultTask != disconnectTcs.Task)
@@ -417,7 +454,7 @@ namespace NanoTwitchLeafs.Windows
 			}
 			finally
 			{
-				client.OnConnected -= OnBotClientConnected;
+				client.OnConnected -= OnBotClientOnConnected;
 				client.OnIncorrectLogin -= OnBotClientIncorrectLogin;
 				client.OnJoinedChannel -= OnBotClientJoinedChannel;
 				client.OnDisconnected -= OnBotClientDisconnected;
@@ -509,34 +546,34 @@ namespace NanoTwitchLeafs.Windows
 
 		private void SaveSettings()
 		{
-			_appSettings.BotName = _broadCasterAccountName;
-			_appSettings.BotAvatarUrl = _broadCasterAvatarUrl;
-			_appSettings.BotAuthObject = _broadcasterAuthObject;
-			_appSettings.BroadcasterAvatarUrl = _broadCasterAvatarUrl;
-			_appSettings.BroadcasterAuthObject = _broadcasterAuthObject;
+			_settingsService.CurrentSettings.BotName = _broadCasterAccountName;
+			_settingsService.CurrentSettings.BotAvatarUrl = _broadCasterAvatarUrl;
+			_settingsService.CurrentSettings.BotAuthObject = _broadcasterAuthObject;
+			_settingsService.CurrentSettings.BroadcasterAvatarUrl = _broadCasterAvatarUrl;
+			_settingsService.CurrentSettings.BroadcasterAuthObject = _broadcasterAuthObject;
 			if (_doubleAccount)
 			{
-				_appSettings.BotName = _botAccountName;
-				_appSettings.BotAvatarUrl = _botAccountAvatarUrl;
-				_appSettings.BotAuthObject = _botAuthObject;
+				_settingsService.CurrentSettings.BotName = _botAccountName;
+				_settingsService.CurrentSettings.BotAvatarUrl = _botAccountAvatarUrl;
+				_settingsService.CurrentSettings.BotAuthObject = _botAuthObject;
 			}
 
-			_appSettings.ChannelName = _broadCasterAccountName;
+			_settingsService.CurrentSettings.ChannelName = _broadCasterAccountName;
 
-			_appSettingsController.SaveSettings(_appSettings);
+			_settingsService.SaveSettings();
 		}
 
 		#endregion
 
 		private void TwitchLink_Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			if (_appSettings.BroadcasterAvatarUrl == null || _broadcasterAuthObject == null)
+			if (_settingsService.CurrentSettings.BroadcasterAvatarUrl == null || _broadcasterAuthObject == null)
 			{
 				return;
 			}
 
-			((MainWindow)App.Current.MainWindow).TwitchLinkAvatar_Image.Source = new BitmapImage(_appSettings.BroadcasterAvatarUrl);
-			((MainWindow)App.Current.MainWindow).TwitchLink_Label.Content = $"Connected to Twitch Channel {_appSettings.ChannelName}";
+			((MainWindow)App.Current.MainWindow).TwitchLinkAvatar_Image.Source = new BitmapImage(_settingsService.CurrentSettings.BroadcasterAvatarUrl);
+			((MainWindow)App.Current.MainWindow).TwitchLink_Label.Content = $"Connected to Twitch Channel {_settingsService.CurrentSettings.ChannelName}";
 			((MainWindow)App.Current.MainWindow).ConnectTwitchAccount_Button.IsEnabled = false;
 			((MainWindow)App.Current.MainWindow).DisconnectTwitchAccount_Button.IsEnabled = true;
 			((MainWindow)App.Current.MainWindow).ConnectChat_Button.IsEnabled = true;

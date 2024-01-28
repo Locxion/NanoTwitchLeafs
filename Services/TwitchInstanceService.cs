@@ -106,7 +106,7 @@ public class TwitchInstanceService : ITwitchInstanceService
         if (!_client.IsConnected)
             return;
 
-        var chatMessage = new ChatMessage(StreamingPlatformEnum.OwnMsg, _settingsService.CurrentSettings.BotName, true, true, true, message,ColorConverting.RgbToDrawingColor(ColorConverting.GenerateRandomRgbColor()));
+        var chatMessage = new ChatMessage(StreamingPlatformEnum.Sent, _settingsService.CurrentSettings.BotName, true, true, true, message,ColorConverting.RgbToDrawingColor(ColorConverting.GenerateRandomRgbColor()));
         
         OnChatMessageReceived.Invoke(this,chatMessage);
         

@@ -637,7 +637,7 @@ namespace NanoTwitchLeafs.Windows
 			string username = _settingsService.CurrentSettings.BotName;
 			string message = sendMessage_TextBox.Text;
 			_streamingPlatformService.SendMessage(message);
-			var chatMessage = new ChatMessage(StreamingPlatformEnum.OwnMsg, username, true, true, true, message, new Color());
+			var chatMessage = new ChatMessage(StreamingPlatformEnum.Sent, username, true, true, true, message, new Color());
 			_triggerService.HandleMessage(chatMessage);
 			sendMessage_TextBox.Text = "";
 		}

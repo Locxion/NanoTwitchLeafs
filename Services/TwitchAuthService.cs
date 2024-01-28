@@ -242,14 +242,18 @@ public class TwitchAuthService : ITwitchAuthService
     public async Task<string> GetUserId(string userName)
     {
         _logger.Debug($"Getting UserId for {userName} ... ");
-        var response = await GetApplicationOAuth();
-        if (!response.Success)
-        {
-            _logger.Error("Could not get UserId!");
-            _logger.Error(response.Message);
-            return "";
-        }
-        _applicationOAuth = response.Data;
+        // TODO change the token to apptoken when server problems solved
+        // var response = await GetApplicationOAuth();
+        // if (!response.Success)
+        // {
+        //     _logger.Error("Could not get UserId!");
+        //     _logger.Error(response.Message);
+        //     return "";
+        // }
+        // _applicationOAuth = response.Data;
+
+        _applicationOAuth = _settingsService.CurrentSettings.BroadcasterAuthObject;
+        
         try
         {
             var user = await _twitchApi.Helix.Users.GetUsersAsync(null, [userName.ToLower()],

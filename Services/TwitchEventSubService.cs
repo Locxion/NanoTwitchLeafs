@@ -21,7 +21,7 @@ public class TwitchEventSubService : ITwitchEventSubService
     private readonly EventSubWebsocketClient _eventSubWebsocketClient;
     private readonly ISettingsService _settingsService;
     private readonly ITwitchAuthService _twitchAuthService;
-    private TwitchAPI _twitchApi = new();
+    private readonly TwitchAPI _twitchApi = new();
     private bool _isConnected;
     public TwitchEventSubService(EventSubWebsocketClient eventSubWebsocketClient, ISettingsService settingsService, ITwitchAuthService twitchAuthService)
     {
@@ -72,7 +72,8 @@ public class TwitchEventSubService : ITwitchEventSubService
 
     private async Task EventSubWebsocketClientOnWebsocketConnected(object sender, WebsocketConnectedArgs args)
     {
-        _logger.Info($"Websocket {_eventSubWebsocketClient.SessionId} connected!");
+        _logger.Info("Successfully connected to Twitch EventSub Websocket!");
+        _logger.Debug($"Websocket {_eventSubWebsocketClient.SessionId} connected!");
         _isConnected = true;
         if (args.IsRequestedReconnect)
             return;
@@ -97,6 +98,7 @@ public class TwitchEventSubService : ITwitchEventSubService
 
     public async Task Connect()
     {
+        _logger.Info("Connecting to Twitch EventSub Websocket ...");
         await _eventSubWebsocketClient.ConnectAsync();
     }
     public async Task Disconnect()

@@ -2,6 +2,6 @@
 
 public enum StreamingPlatformEnum
 {
-    OwnMsg,
+    Sent,
     Twitch
 }

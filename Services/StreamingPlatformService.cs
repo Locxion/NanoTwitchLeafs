@@ -34,13 +34,21 @@ class StreamingPlatformService : IStreamingPlatformService
 
     private async Task ConnectTwitchServices()
     {
-        await _twitchInstanceServiceChatBot.Connect(_settingsService.CurrentSettings.BotName, _settingsService.CurrentSettings.ChannelName, _settingsService.CurrentSettings.BotAuthObject.Access_Token);
+        await _twitchInstanceServiceChatBot.Connect(_settingsService.CurrentSettings.BotName, _settingsService.CurrentSettings.ChannelName, _settingsService.CurrentSettings.BotAuthObject);
         _twitchInstanceServiceChatBot.OnChatMessageReceived += TwitchInstanceServiceChatBotOnChatMessageReceived;
         
         if (_settingsService.CurrentSettings.ChannelName != _settingsService.CurrentSettings.BotName)
         {
-            await _twitchInstanceServiceBroadcaster.Connect(_settingsService.CurrentSettings.ChannelName, _settingsService.CurrentSettings.ChannelName, _settingsService.CurrentSettings.BroadcasterAuthObject.Access_Token, true);
+            _logger.Warn("Double Account setup detected. Connecting with Broadcaster Account ...");
+            await _twitchInstanceServiceBroadcaster.Connect(_settingsService.CurrentSettings.ChannelName, _settingsService.CurrentSettings.ChannelName, _settingsService.CurrentSettings.BroadcasterAuthObject, true);
         }
+
+        while (!_twitchInstanceServiceChatBot.IsConnected())
+        {
+            _logger.Debug("Waiting for TwitchClient connection ...");
+            await Task.Delay(1500);
+        }
+        
         await _twitchPubSubService.Connect();
         await _twitchEventSubService.Connect();
     }

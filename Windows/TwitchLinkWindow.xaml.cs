@@ -546,19 +546,19 @@ namespace NanoTwitchLeafs.Windows
 
 		private void SaveSettings()
 		{
-			_settingsService.CurrentSettings.BotName = _broadCasterAccountName;
+			_settingsService.CurrentSettings.BotName = _broadCasterAccountName.ToLower();
 			_settingsService.CurrentSettings.BotAvatarUrl = _broadCasterAvatarUrl;
 			_settingsService.CurrentSettings.BotAuthObject = _broadcasterAuthObject;
 			_settingsService.CurrentSettings.BroadcasterAvatarUrl = _broadCasterAvatarUrl;
 			_settingsService.CurrentSettings.BroadcasterAuthObject = _broadcasterAuthObject;
 			if (_doubleAccount)
 			{
-				_settingsService.CurrentSettings.BotName = _botAccountName;
+				_settingsService.CurrentSettings.BotName = _botAccountName.ToLower();
 				_settingsService.CurrentSettings.BotAvatarUrl = _botAccountAvatarUrl;
 				_settingsService.CurrentSettings.BotAuthObject = _botAuthObject;
 			}
 
-			_settingsService.CurrentSettings.ChannelName = _broadCasterAccountName;
+			_settingsService.CurrentSettings.ChannelName = _broadCasterAccountName.ToLower();
 
 			_settingsService.SaveSettings();
 		}

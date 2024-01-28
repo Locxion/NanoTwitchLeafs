@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using log4net;
 using NanoTwitchLeafs.Colors;
 using NanoTwitchLeafs.Enums;
@@ -25,6 +26,9 @@ public class TwitchInstanceService : ITwitchInstanceService
     private bool _isBroadcaster;
     private string _userName;
     private string _channel;
+    private OAuthObject _oAuthObject;
+    private bool _isConnected;
+    private bool _firstTry = true;
 
     public TwitchInstanceService(ISettingsService settingsService, ITwitchAuthService authService)
     {
@@ -38,7 +42,7 @@ public class TwitchInstanceService : ITwitchInstanceService
     /// <returns>True if connection is successful.</returns>
     public bool IsConnected()
     {
-        return _client.IsConnected;
+        return _isConnected;
     }
 
     /// <summary>
@@ -55,14 +59,15 @@ public class TwitchInstanceService : ITwitchInstanceService
     /// </summary>
     /// <param name="username">Twitch User</param>
     /// <param name="channel">Channel to Join</param>
-    /// <param name="auth">OAuth from Twitch User</param>
+    /// <param name="oAuthObject"></param>
     /// <param name="isBroadcaster">If the Instance is a Bot or a Broadcaster Instance</param>
-    public async Task Connect(string username, string channel, string auth, bool isBroadcaster)
+    public async Task Connect(string username, string channel, OAuthObject oAuthObject, bool isBroadcaster)
     {
+        _oAuthObject = oAuthObject;
         _logger.Info($"Connecting with TwitchClient {username} to Channel {channel}...");
         if (string.IsNullOrWhiteSpace(username) ||
             string.IsNullOrWhiteSpace(channel) ||
-            string.IsNullOrWhiteSpace(auth))
+            string.IsNullOrWhiteSpace(oAuthObject.Access_Token))
         {
             _logger.Error("Error on Login Credentials!");
             return;
@@ -73,7 +78,7 @@ public class TwitchInstanceService : ITwitchInstanceService
         if (string.Equals(_channel, _userName, StringComparison.CurrentCultureIgnoreCase))
             _isBroadcaster = true;
         
-        var credentials = new ConnectionCredentials(username, auth);
+        var credentials = new ConnectionCredentials(username, oAuthObject.Access_Token);
         try
         {
             _client.Initialize(credentials, channel);
@@ -124,6 +129,7 @@ public class TwitchInstanceService : ITwitchInstanceService
         _client.OnMessageReceived -= ClientOnMessageReceived;
         _client.OnSendReceiveData -= ClientOnSendReceiveData;
         await _client.DisconnectAsync();
+        _isConnected = false;
     }
     private Task ClientOnRaidNotification(object sender, OnRaidNotificationArgs e)
     {
@@ -166,20 +172,43 @@ public class TwitchInstanceService : ITwitchInstanceService
 
     private async Task ClientOnIncorrectLogin(object sender, OnIncorrectLoginArgs e)
     {
-        var newAuth = await _authService.GetAuthToken(_isBroadcaster);
-        if (_isBroadcaster)
+        _isConnected = false;
+        _logger.Warn($"Got IncorrectLogin from Twitch for {e.Exception.Username}");
+
+        if (!_firstTry)
+        {
+            _logger.Error("Could not connect to Twitch Chat! Please re-link your Twitch Account!");
+            MessageBox.Show(Properties.Resources.Code_Twitch_MessageBox_LoginIncorrect, Properties.Resources.General_MessageBox_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
+        }
+        
+        var newAuth = await _authService.RefreshToken(_oAuthObject);
+
+        if (_settingsService.CurrentSettings.ChannelName.ToLower() == _settingsService.CurrentSettings.BotName.ToLower())
         {
             _settingsService.CurrentSettings.BroadcasterAuthObject = newAuth;
+            _settingsService.CurrentSettings.BotAuthObject = newAuth;
         }
         else
         {
-            _settingsService.CurrentSettings.BotAuthObject = newAuth;
+            if (_isBroadcaster)
+            {
+                _settingsService.CurrentSettings.BroadcasterAuthObject = newAuth;
+            }
+            else
+            {
+                _settingsService.CurrentSettings.BotAuthObject = newAuth;
+            } 
         }
+        _oAuthObject = newAuth;
         _settingsService.SaveSettings();
+        _firstTry = false;
+        await Connect(_userName, _settingsService.CurrentSettings.ChannelName, _oAuthObject, _isBroadcaster);
     }
 
     private async Task ClientOnConnected(object sender, OnConnectedEventArgs e)
     {
+        _isConnected = true;
         _logger.Info($"Connection with {_userName} successful! Trying to join Channel: {_channel}...");
         await _client.JoinChannelAsync(_channel);
     }

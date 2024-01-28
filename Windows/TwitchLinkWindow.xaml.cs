@@ -169,7 +169,7 @@ namespace NanoTwitchLeafs.Windows
 			if (isBroadcaster)
 			{
 				_broadCasterAccountName = accountName;
-				_broadcasterAuthObject = await _authService.GetUserAuthToken(HelperClass.GetTwitchApiCredentials(_settingsService.CurrentSettings), true);
+				_broadcasterAuthObject = await _authService.GetAuthToken(true);
 
 				if (_broadcasterAuthObject == null)
 				{
@@ -200,7 +200,7 @@ namespace NanoTwitchLeafs.Windows
 			else
 			{
 				_botAccountName = accountName;
-				_botAuthObject = await _authService.GetUserAuthToken(HelperClass.GetTwitchApiCredentials(_settingsService.CurrentSettings), false);
+				_botAuthObject = await _authService.GetAuthToken(false);
 
 				if (_botAuthObject == null)
 				{

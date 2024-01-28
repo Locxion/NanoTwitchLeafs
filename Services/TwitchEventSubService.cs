@@ -80,7 +80,6 @@ public class TwitchEventSubService : ITwitchEventSubService
 
         var userId = await GetUserId(_settingsService.CurrentSettings.ChannelName);
 
-        _logger.Debug($"{userId}");
         var condition = new Dictionary<string, string> { { "broadcaster_user_id", userId }, {"moderator_user_id", userId} };
         await _twitchApi.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.follow", "2", condition, EventSubTransportMethod.Websocket,
             _eventSubWebsocketClient.SessionId, accessToken: _settingsService.CurrentSettings.BroadcasterAuthObject.Access_Token);

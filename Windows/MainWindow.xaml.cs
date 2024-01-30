@@ -20,6 +20,9 @@ using Application = System.Windows.Application;
 using ComboBox = System.Windows.Controls.ComboBox;
 using ListBox = System.Windows.Controls.ListBox;
 using MessageBox = System.Windows.MessageBox;
+using Google.Protobuf.WellKnownTypes;
+using System.Security.Policy;
+using System.Windows.Shapes;
 
 namespace NanoTwitchLeafs.Windows
 {
@@ -223,13 +226,13 @@ namespace NanoTwitchLeafs.Windows
 				response_CheckBox.IsChecked = _settingsService.CurrentSettings.ChatResponse;
 
 				// Nano Settings
-				nanoCmd_Button.IsEnabled = _settingsService.CurrentSettings.TriggerSettings.TriggerEnabled;
-				nanoCmd_Checkbox.IsChecked = _settingsService.CurrentSettings.TriggerSettings.TriggerEnabled;
-				nanoCooldown_Checkbox.IsChecked = _settingsService.CurrentSettings.TriggerSettings.CooldownEnabled;
-				nanoCooldownIgnore_Checkbox.IsEnabled = _settingsService.CurrentSettings.TriggerSettings.CooldownIgnore;
-				nanoCooldown_TextBox.Text = _settingsService.CurrentSettings.TriggerSettings.Cooldown.ToString();
-				commandRestore_CheckBox.IsChecked = _settingsService.CurrentSettings.TriggerSettings.ChangeBackOnCommand;
-				keywordRestore_Checkbox.IsChecked = _settingsService.CurrentSettings.TriggerSettings.ChangeBackOnKeyword;
+				trigger_Button.IsEnabled = _settingsService.CurrentSettings.TriggerSettings.TriggerEnabled;
+				trigger_Checkbox.IsChecked = _settingsService.CurrentSettings.TriggerSettings.TriggerEnabled;
+                trigger_Cooldown_Checkbox.IsChecked = _settingsService.CurrentSettings.TriggerSettings.CooldownEnabled;
+                trigger_CooldownIgnore_Checkbox.IsEnabled = _settingsService.CurrentSettings.TriggerSettings.CooldownIgnore;
+                trigger_Cooldown_TextBox.Text = _settingsService.CurrentSettings.TriggerSettings.Cooldown.ToString();
+				trigger_commandRestore_CheckBox.IsChecked = _settingsService.CurrentSettings.TriggerSettings.ChangeBackOnCommand;
+                trigger_keywordRestore_Checkbox.IsChecked = _settingsService.CurrentSettings.TriggerSettings.ChangeBackOnKeyword;
 
 				// App Settings
 				autoIPRefresh_Checkbox.IsChecked = _settingsService.CurrentSettings.AutoIpRefresh;
@@ -409,7 +412,7 @@ namespace NanoTwitchLeafs.Windows
 
 		private async void SetBaseColor_Button_Click(object sender, RoutedEventArgs e)
 		{
-			if (ColorPicker.SelectedColor == null)
+			if (nano_ColorPicker.SelectedColor == null)
 			{
 				MessageBox.Show(Properties.Resources.Window_TriggerDetail_ColorPicker_Error,
 					Properties.Resources.General_MessageBox_Error_Title);
@@ -417,7 +420,7 @@ namespace NanoTwitchLeafs.Windows
 			}
 			foreach (var device in _settingsService.CurrentSettings.NanoSettings.NanoLeafDevices)
 			{
-				var pickerColor = ColorPicker.SelectedColor.Value;
+				var pickerColor = nano_ColorPicker.SelectedColor.Value;
 				var color = new RgbColor(pickerColor.R, pickerColor.G, pickerColor.B, 255);
 				await _nanoService.SetColor(device, color);
 			}
@@ -611,11 +614,11 @@ namespace NanoTwitchLeafs.Windows
 			_settingsService.CurrentSettings.ChatResponse = (bool)response_CheckBox.IsChecked;
 
 			// Nano Settings
-			_settingsService.CurrentSettings.TriggerSettings.TriggerEnabled = (bool)nanoCmd_Checkbox.IsChecked;
-			_settingsService.CurrentSettings.TriggerSettings.CooldownEnabled = (bool)nanoCooldown_Checkbox.IsChecked;
-			_settingsService.CurrentSettings.TriggerSettings.Cooldown = Convert.ToInt32(nanoCooldown_TextBox.Text);
-			_settingsService.CurrentSettings.TriggerSettings.ChangeBackOnCommand = (bool)commandRestore_CheckBox.IsChecked;
-			_settingsService.CurrentSettings.TriggerSettings.ChangeBackOnKeyword = (bool)keywordRestore_Checkbox.IsChecked;
+			_settingsService.CurrentSettings.TriggerSettings.TriggerEnabled = (bool)trigger_Checkbox.IsChecked;
+			_settingsService.CurrentSettings.TriggerSettings.CooldownEnabled = (bool)trigger_Cooldown_Checkbox.IsChecked;
+			_settingsService.CurrentSettings.TriggerSettings.Cooldown = Convert.ToInt32(trigger_Cooldown_TextBox.Text);
+			_settingsService.CurrentSettings.TriggerSettings.ChangeBackOnCommand = (bool)trigger_commandRestore_CheckBox.IsChecked;
+			_settingsService.CurrentSettings.TriggerSettings.ChangeBackOnKeyword = (bool)trigger_keywordRestore_Checkbox.IsChecked;
 
 			// App Settings
 			_settingsService.CurrentSettings.AutoIpRefresh = (bool)autoIPRefresh_Checkbox.IsChecked;
@@ -688,19 +691,19 @@ namespace NanoTwitchLeafs.Windows
             }
 #endif
 
-			if (nanoCmd_Checkbox.IsChecked == true)
+			if (trigger_Checkbox.IsChecked == true)
 			{
-				nanoCmd_Button.IsEnabled = true;
+				trigger_Button.IsEnabled = true;
 				_settingsService.CurrentSettings.TriggerSettings.TriggerEnabled = true;
 			}
-			else if (nanoCmd_Checkbox.IsChecked == false)
+			else if (trigger_Checkbox.IsChecked == false)
 			{
-				nanoCmd_Button.IsEnabled = false;
+                trigger_Button.IsEnabled = false;
 				_settingsService.CurrentSettings.TriggerSettings.TriggerEnabled = false;
 			}
 		}
-
-		private void nanoPairing_Button_Click(object sender, RoutedEventArgs e)
+        
+        private void nanoPairing_Button_Click(object sender, RoutedEventArgs e)
 		{
 			PairingWindow pairingWindow = _serviceProvider.GetRequiredService<PairingWindow>();
 			pairingWindow.Owner = this;
@@ -817,32 +820,32 @@ namespace NanoTwitchLeafs.Windows
 
 		private void NanoCooldown_TextBox_TextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
 		{
-			_settingsService.CurrentSettings.TriggerSettings.Cooldown = Convert.ToInt32(nanoCooldown_TextBox.Text);
+			_settingsService.CurrentSettings.TriggerSettings.Cooldown = Convert.ToInt32(trigger_Cooldown_TextBox.Text);
 		}
 
 		private void NanoCooldown_TextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
-			_settingsService.CurrentSettings.TriggerSettings.Cooldown = Convert.ToInt32(nanoCooldown_TextBox.Text);
+			_settingsService.CurrentSettings.TriggerSettings.Cooldown = Convert.ToInt32(trigger_Cooldown_TextBox.Text);
 		}
 
 		private void NanoCooldown_Checkbox_Click(object sender, RoutedEventArgs e)
 		{
-			_settingsService.CurrentSettings.TriggerSettings.CooldownEnabled = (bool)nanoCooldown_Checkbox.IsChecked;
-			_settingsService.CurrentSettings.TriggerSettings.Cooldown = Convert.ToInt32(nanoCooldown_TextBox.Text);
+			_settingsService.CurrentSettings.TriggerSettings.CooldownEnabled = (bool)trigger_Cooldown_Checkbox.IsChecked;
+			_settingsService.CurrentSettings.TriggerSettings.Cooldown = Convert.ToInt32(trigger_Cooldown_TextBox.Text);
 
 			if (_settingsService.CurrentSettings.TriggerSettings.CooldownEnabled)
 			{
 				SendChatResponse(string.Format(Properties.Resources.Code_Main_ChatMessage_CooldownON, _settingsService.CurrentSettings.TriggerSettings.Cooldown));
-				nanoCooldownIgnore_Checkbox.IsEnabled = true;
+                trigger_CooldownIgnore_Checkbox.IsEnabled = true;
 				_logger.Info("Cooldown enabled!");
-				nanoCooldown_TextBox.IsEnabled = false;
+                trigger_Cooldown_TextBox.IsEnabled = false;
 			}
 			else
 			{
 				SendChatResponse(Properties.Resources.Code_Main_ChatMessage_CooldownOFF);
-				nanoCooldownIgnore_Checkbox.IsEnabled = false;
+                trigger_CooldownIgnore_Checkbox.IsEnabled = false;
 				_logger.Info("Cooldown disabled!");
-				nanoCooldown_TextBox.IsEnabled = true;
+                trigger_Cooldown_TextBox.IsEnabled = true;
 			}
 		}
 
@@ -858,12 +861,12 @@ namespace NanoTwitchLeafs.Windows
 
 		private void KeywordRestore_Checkbox_Click(object sender, RoutedEventArgs e)
 		{
-			_settingsService.CurrentSettings.TriggerSettings.ChangeBackOnKeyword = (bool)keywordRestore_Checkbox.IsChecked;
+			_settingsService.CurrentSettings.TriggerSettings.ChangeBackOnKeyword = (bool)trigger_keywordRestore_Checkbox.IsChecked;
 		}
 
 		private void CommandRestore_CheckBox_Click(object sender, RoutedEventArgs e)
 		{
-			_settingsService.CurrentSettings.TriggerSettings.ChangeBackOnCommand = (bool)commandRestore_CheckBox.IsChecked;
+			_settingsService.CurrentSettings.TriggerSettings.ChangeBackOnCommand = (bool)trigger_commandRestore_CheckBox.IsChecked;
 		}
 
 		private void AutoRestoreHelp_Button_Click(object sender, RoutedEventArgs e)
@@ -957,7 +960,7 @@ namespace NanoTwitchLeafs.Windows
 
 		private void NanoCooldownIgnore_Checkbox_Click(object sender, RoutedEventArgs e)
 		{
-			_settingsService.CurrentSettings.TriggerSettings.CooldownIgnore = nanoCooldownIgnore_Checkbox.IsEnabled;
+			_settingsService.CurrentSettings.TriggerSettings.CooldownIgnore = trigger_CooldownIgnore_Checkbox.IsEnabled;
 		}
 
 		#endregion
@@ -1047,7 +1050,7 @@ namespace NanoTwitchLeafs.Windows
 
 			if (_settingsService.CurrentSettings.TriggerSettings.CooldownEnabled)
 			{
-				nanoCooldown_TextBox.IsEnabled = false;
+				trigger_Cooldown_TextBox.IsEnabled = false;
 			}
 
 			if (_settingsService.CurrentSettings.UseOwnServiceCredentials)
@@ -1120,11 +1123,11 @@ namespace NanoTwitchLeafs.Windows
 
 					if (_settingsService.CurrentSettings.TriggerSettings.TriggerEnabled)
 					{
-						nanoCmd_Button.IsEnabled = true;
+                        trigger_Button.IsEnabled = true;
 					}
 					else
 					{
-						nanoCmd_Button.IsEnabled = false;
+						trigger_Button.IsEnabled = false;
 					}
 
 					nanoInfo_TextBox.Text += $"Name: {device.PublicName}" + Environment.NewLine;
@@ -1254,9 +1257,49 @@ namespace NanoTwitchLeafs.Windows
 			}
 		}
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private async void govee_refresh_Button_Click(object sender, RoutedEventArgs e)
         {
-			var devices = await _goveeService.GetDevices();
+            var devices = await _goveeService.GetDevices();
+			_settingsService.CurrentSettings.GoveeSettings.GoveeDevices = devices;
+			govee_devices_Textbox.Clear();
+			foreach (var device in _settingsService.CurrentSettings.GoveeSettings.GoveeDevices)
+			{
+                govee_devices_Textbox.Text += $"Name: {device.DeviceName}" + Environment.NewLine;
+                govee_devices_Textbox.Text += $"Model: {device.Model}" + Environment.NewLine;
+                govee_devices_Textbox.Text += $"Is On: {device.Properties.Online}" + Environment.NewLine;
+                govee_devices_Textbox.Text += $"--------------------------------" + Environment.NewLine;
+            }
+            govee_devices_Textbox.Text += $"Devices Total: {_settingsService.CurrentSettings.GoveeSettings.GoveeDevices.Count}" + Environment.NewLine;
+			_settingsService.SaveSettings();
         }
-    }
+
+        private async void govee_SetBaseColor_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private async void govee_resetBrightness_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Govee_api_Textbox_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+	        _settingsService.CurrentSettings.GoveeSettings.GoveeApiKey = govee_api_Textbox.Text;
+	        if(!string.IsNullOrWhiteSpace(_settingsService.CurrentSettings.GoveeSettings.GoveeApiKey) &&
+	           _settingsService.CurrentSettings.GoveeSettings.GoveeApiKey.Length  == 36)
+	        {
+		        govee_SetBaseColor_Button.IsEnabled = true;
+		        govee_resetBrightness_Button.IsEnabled = true;
+	        }
+	        else
+
+            {
+				_logger.Error("Govee Api Key no valid Format! Has to be like xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx!");
+				MessageBox.Show("Govee Api Key no valid Format! Has to be like xxxxxxxx - xxxx - xxxx - xxxx - xxxxxxxxxxxx!", Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
+			    govee_SetBaseColor_Button.IsEnabled = false;
+		        govee_resetBrightness_Button.IsEnabled = false;
+	        }
+	        _settingsService.SaveSettings();        
+        }
+	}
 }

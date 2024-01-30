@@ -915,7 +915,7 @@ class TriggerService : ITriggerService
     {
         Current.Dispatcher.Invoke(() =>
         {
-            (((MainWindow)Current.MainWindow)!).nanoQueueCount_TextBox.Text = _queue.Count.ToString();
+            (((MainWindow)Current.MainWindow)!).trigger_QueueCount_TextBox.Text = _queue.Count.ToString();
         });
     }
     #endregion

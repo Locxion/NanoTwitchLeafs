@@ -31,38 +31,73 @@
                     <TextBlock x:Name="help_TextBlock" HorizontalAlignment="Center" Margin="10,0,10,10" TextWrapping="Wrap" Text="Help Command TextBlock" Height="42" VerticalAlignment="Bottom" Width="205" TextAlignment="Center" />
                 </Grid>
             </TabItem>
-            <TabItem x:Name="nanoConfig_TabItem" Header="{x:Static p:Resources.Window_Main_Tabs_Nano_Title}" Margin="1,0,-1,0" Height="22">
+            <TabItem x:Name="devicesConfig_TabItem" Header="Devices" Margin="1,0,-1,0" Height="22" Grid.Column="1">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="nanoPairing_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_Pairing}" HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top" Click="nanoPairing_Button_Click" Padding="5,1" />
-                    <Button x:Name="nanoTestConnection_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_Test}" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Click="NanoTestConnection_Button_Click" IsEnabled="False" Padding="5,1" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_Status}" HorizontalAlignment="Left" Margin="7,138,0,0" VerticalAlignment="Top" AutomationProperties.HelpText="You can find the IP Adress of the Device in the Nanoleaf App Settings or on your Router Settings" Width="46" />
-                    <CheckBox x:Name="nanoCmd_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_EnableTrigger}" HorizontalAlignment="Left" Margin="6,33,0,0" VerticalAlignment="Top" Click="NanoCmd_Checkbox_Click" Width="108" />
-                    <Button x:Name="nanoCmd_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_EditTrigger}" HorizontalAlignment="Right" Margin="0,29,10,0" VerticalAlignment="Top" Click="NanoCmd_Button_Click" IsEnabled="False" Padding="5,1" />
-                    <TextBox x:Name="nanoInfo_TextBox" Height="150" Margin="10,162,10,0" TextWrapping="Wrap" Text="{x:Static p:Resources.Window_Main_Tabs_Nano_Textbox_Text}" VerticalAlignment="Top" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto" IsEnabled="False" />
-                    <CheckBox x:Name="nanoCooldown_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_EnableCooldown}" HorizontalAlignment="Left" Margin="6,55,0,0" VerticalAlignment="Top" Click="NanoCooldown_Checkbox_Click" Width="119" />
-                    <TextBox x:Name="nanoCooldown_TextBox" HorizontalAlignment="Center" Margin="140,53,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextInput="NanoCooldown_TextBox_TextInput" LostFocus="NanoCooldown_TextBox_LostFocus" Width="25" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_Seconds}" HorizontalAlignment="Right" Margin="0,49,10,0" VerticalAlignment="Top" />
-                    <Button x:Name="eventReset_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_ResetQueue}" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Click="EventReset_Button_Click" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_EventsInQueue}" HorizontalAlignment="Left" Margin="7,313,0,0" VerticalAlignment="Top" Width="115" />
-                    <TextBox x:Name="nanoQueueCount_TextBox" HorizontalAlignment="Right" Height="20" Margin="0,316,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_AutoRestore}" HorizontalAlignment="Left" Margin="4,87,0,0" VerticalAlignment="Top" Height="26" Width="195" />
-                    <Button x:Name="autoRestoreHelp_Button" Content="?" HorizontalAlignment="Right" Margin="0,108,10,0" VerticalAlignment="Top" Width="11" Click="AutoRestoreHelp_Button_Click" Height="23" />
-                    <CheckBox x:Name="commandRestore_CheckBox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_onCommand}" HorizontalAlignment="Left" Margin="7,113,0,0" VerticalAlignment="Top" Click="CommandRestore_CheckBox_Click" Padding="5,-1,5,0" />
-                    <CheckBox x:Name="keywordRestore_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_onKeyword}" HorizontalAlignment="Right" Margin="0,113,27,0" VerticalAlignment="Top" Height="15" Click="KeywordRestore_Checkbox_Click" Padding="5,-1,5,0" />
-                    <CheckBox x:Name="nanoCooldownIgnore_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_ModeratorIgnorCooldown}" HorizontalAlignment="Left" Margin="6,75,0,0" VerticalAlignment="Top" Click="NanoCooldownIgnore_Checkbox_Click" Width="209" IsEnabled="False" />
-                    <Button x:Name="showDevices_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_ManageDevices}" HorizontalAlignment="Right" Margin="0,136,10,0" VerticalAlignment="Top" Click="ShowDevices_Button_Click" Padding="5,1" />
-                    <Button x:Name="eventRestart_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_RestartQueue}" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Click="EventRestart_Button_Click" Padding="5,1" />
+                    <TabControl x:Name="devices_TabControl">
+                        <TabItem x:Name="nanoConfig_TabItem" Header="{x:Static p:Resources.Window_Main_Tabs_Nano_Title}" Margin="1,0,-1,0" Height="22">
+                            <Grid Background="#FFE5E5E5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="nanoPairing_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_Pairing}" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Click="nanoPairing_Button_Click" Padding="5,1" Width="127" />
+                                <Button x:Name="nanoTestConnection_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_Test}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Click="NanoTestConnection_Button_Click" IsEnabled="False" Padding="5,1" Width="132" />
+                                <Label Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_Status}" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" AutomationProperties.HelpText="You can find the IP Adress of the Device in the Nanoleaf App Settings or on your Router Settings" Width="46" RenderTransformOrigin="0.475,-3.773" />
+                                <TextBox x:Name="nanoInfo_TextBox" Height="244" Margin="10,56,10,0" TextWrapping="Wrap" Text="{x:Static p:Resources.Window_Main_Tabs_Nano_Textbox_Text}" VerticalAlignment="Top" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto" IsEnabled="False" />
+                                <Button x:Name="showDevices_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_ManageDevices}" Margin="10,0,10,7" VerticalAlignment="Bottom" Click="ShowDevices_Button_Click" Padding="5,1" />
+                                <Label x:Name="Reset_Brightness_Label" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_ResetBrightness}" HorizontalAlignment="Left" Margin="10,377,0,0" VerticalAlignment="Top" Height="26" Width="174" />
+                                <TextBox x:Name="brightnessReset_TextBox" HorizontalAlignment="Right" Height="23" Margin="0,380,44,0" TextWrapping="Wrap" Text="50" VerticalAlignment="Top" Width="46" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                                <Button x:Name="resetBrightness_Button" Content="{x:Static p:Resources.General_Button_OK}" HorizontalAlignment="Right" Margin="0,381,10,0" VerticalAlignment="Top" Click="ResetBrightness_Button_Click" Padding="5,1" />
+                                <Label Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_SetEffect}" HorizontalAlignment="Left" Margin="10,305,0,0" VerticalAlignment="Top" Padding="5,0" />
+                                <ComboBox x:Name="Effects_ComboBox" HorizontalAlignment="Left" Margin="76,326,0,0" VerticalAlignment="Top" Width="186" Height="25" />
+                                <Button x:Name="LoadEffects_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_LoadEffects}" HorizontalAlignment="Left" Margin="10,328,0,0" VerticalAlignment="Top" Width="61" Click="LoadEffects_Button_Click" />
+                                <Button x:Name="SetBaseEffect_Button" Content="{x:Static p:Resources.General_Button_OK}" HorizontalAlignment="Right" Margin="0,329,10,0" VerticalAlignment="Top" Click="SetBaseEffect_Button_Click" Padding="5,1" />
+                                <Button x:Name="SetBaseColor_Button" Content="{x:Static p:Resources.General_Button_OK}" HorizontalAlignment="Right" Margin="0,355,10,0" VerticalAlignment="Top" Click="SetBaseColor_Button_Click" Padding="5,1" />
+                                <xctk:ColorPicker x:Name="nano_ColorPicker" Margin="10,354,0,0" IsEnabled="True" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top" Width="252" />
+                                <CheckBox x:Name="autoIPRefresh_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_AutoIPRefresh}" HorizontalAlignment="Left" Margin="10,407,0,0" VerticalAlignment="Top" Click="autoIPRefresh_Checkbox_Click" Padding="4,-1,5,0" />
+                            </Grid>
+                        </TabItem>
+                        <TabItem x:Name="goovieConfig_TabItem" Header="Govee" Margin="1,0,-1,0" Height="22">
+                            <Grid Background="#FFE5E5E5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="govee_refresh_Button" Content="Refresh Devices" Margin="10,64,10,0" VerticalAlignment="Top" Click="govee_refresh_Button_Click"/>
+                                <Label x:Name="govee_Api_Label" Content="Govee Api Key:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                                <TextBox x:Name="govee_api_Textbox" Margin="10,40,10,0" TextWrapping="Wrap" Text="Paste your Govee API Key Here" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" LostFocus="Govee_api_Textbox_OnLostFocus"/>
+                                <TextBox x:Name="govee_devices_Textbox" IsEnabled="False" Margin="10,89,10,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Height="270"/>
+                                <Label Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_SetEffect}" HorizontalAlignment="Left" Margin="10,0,0,68" VerticalAlignment="Bottom" Padding="5,0" />
+                                <xctk:ColorPicker x:Name="govee_ColorPicker" Margin="10,0,0,40" IsEnabled="True" Height="22" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="252" />
+                                <Button x:Name="govee_SetBaseColor_Button" Content="{x:Static p:Resources.General_Button_OK}" HorizontalAlignment="Right" Margin="0,0,10,41" VerticalAlignment="Bottom" Click="govee_SetBaseColor_Button_Click" Padding="5,1" IsEnabled="False" />
+                                <Label x:Name="govee_Reset_Brightness_Label" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_ResetBrightness}" HorizontalAlignment="Left" Margin="10,0,0,9" VerticalAlignment="Bottom" Height="26" Width="174" />
+                                <TextBox x:Name="govee_brightnessReset_TextBox" HorizontalAlignment="Right" Height="23" Margin="0,0,44,9" TextWrapping="Wrap" Text="50" VerticalAlignment="Bottom" Width="46" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                                <Button x:Name="govee_resetBrightness_Button" Content="{x:Static p:Resources.General_Button_OK}" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Click="govee_resetBrightness_Button_Click" Padding="5,1" IsEnabled="False" />
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="nanoGovee_TabItem" Header="Govee" Margin="1,0,-1,0" Height="22">
+            <TabItem x:Name="triggerConfig_TabItem" Header="Trigger" Margin="1,0,-1,0" Height="22">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <Button Content="Get Devices" HorizontalAlignment="Center" Margin="0,52,0,0" VerticalAlignment="Top" Width="292" Click="Button_Click"/>
+                    <CheckBox x:Name="trigger_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_EnableTrigger}" HorizontalAlignment="Left" Margin="7,10,0,0" VerticalAlignment="Top" Click="NanoCmd_Checkbox_Click" Width="108" />
+                    <Button x:Name="trigger_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_EditTrigger}" HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top" Click="NanoCmd_Button_Click" IsEnabled="False" Padding="5,1" />
+                    <CheckBox x:Name="trigger_Cooldown_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_EnableCooldown}" HorizontalAlignment="Left" Margin="7,30,0,0" VerticalAlignment="Top" Click="NanoCooldown_Checkbox_Click" Width="119" />
+                    <TextBox x:Name="trigger_Cooldown_TextBox" HorizontalAlignment="Left" Margin="205,30,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextInput="NanoCooldown_TextBox_TextInput" LostFocus="NanoCooldown_TextBox_LostFocus" Width="30" />
+                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_Seconds}" HorizontalAlignment="Right" Margin="0,26,10,0" VerticalAlignment="Top" />
+                    <Button x:Name="trigger_EventReset_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_ResetQueue}" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Click="EventReset_Button_Click" />
+                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_EventsInQueue}" HorizontalAlignment="Left" Margin="10,136,0,0" VerticalAlignment="Top" Width="115" />
+                    <TextBox x:Name="trigger_QueueCount_TextBox" HorizontalAlignment="Right" Height="20" Margin="0,142,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_AutoRestore}" HorizontalAlignment="Left" Margin="7,73,0,0" VerticalAlignment="Top" Height="26" Width="195" />
+                    <Button x:Name="trigger_autoRestoreHelp_Button" Content="?" HorizontalAlignment="Right" Margin="0,99,10,0" VerticalAlignment="Top" Width="11" Click="AutoRestoreHelp_Button_Click" Height="23" />
+                    <CheckBox x:Name="trigger_commandRestore_CheckBox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_onCommand}" HorizontalAlignment="Left" Margin="10,104,0,0" VerticalAlignment="Top" Click="CommandRestore_CheckBox_Click" Padding="5,-1,5,0" />
+                    <CheckBox x:Name="trigger_keywordRestore_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_onKeyword}" HorizontalAlignment="Right" Margin="0,104,33,0" VerticalAlignment="Top" Height="15" Click="KeywordRestore_Checkbox_Click" Padding="5,-1,5,0" />
+                    <CheckBox x:Name="trigger_CooldownIgnore_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_ModeratorIgnorCooldown}" HorizontalAlignment="Left" Margin="7,53,0,0" VerticalAlignment="Top" Click="NanoCooldownIgnore_Checkbox_Click" Width="209" IsEnabled="False" />
+                    <Button x:Name="trigger_eventRestart_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_RestartQueue}" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Click="EventRestart_Button_Click" Padding="5,1" />
                 </Grid>
             </TabItem>
             <TabItem x:Name="settings_TabItem" Header="{x:Static p:Resources.Window_Main_Tabs_Settings_Title}" Margin="1,0,-1,0" Height="22">
@@ -80,19 +115,9 @@
                     <CheckBox x:Name="autoConnect_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Autoconnect}" HorizontalAlignment="Left" Margin="10,22,0,0" VerticalAlignment="Top" Click="AutoConnect_Checkbox_Click" Width="212" />
                     <Button x:Name="Open_Dir_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_OpenDebugDir}" VerticalAlignment="Bottom" Click="Open_Dir_Button_Click" HorizontalContentAlignment="Center" Margin="10,0,10,30" />
                     <Button x:Name="Export_Settings_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_ExportSettings}" VerticalAlignment="Bottom" Click="Export_Settings_Button_OnClick" HorizontalContentAlignment="Center" Margin="10,0,10,55" />
-                    <Label x:Name="Reset_Brightness_Label" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_ResetBrightness}" HorizontalAlignment="Left" Margin="10,197,0,0" VerticalAlignment="Top" Height="26" Width="174" />
-                    <TextBox x:Name="brightnessReset_TextBox" HorizontalAlignment="Right" Height="23" Margin="0,198,44,0" TextWrapping="Wrap" Text="50" VerticalAlignment="Top" Width="46" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-                    <Button x:Name="resetBrightness_Button" Content="{x:Static p:Resources.General_Button_OK}" HorizontalAlignment="Right" Margin="0,200,10,0" VerticalAlignment="Top" Click="ResetBrightness_Button_Click" Padding="5,1" />
                     <CheckBox x:Name="blacklist_CheckBox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Blocklist}" HorizontalAlignment="Left" Margin="10,91,0,0" VerticalAlignment="Top" Height="15" Width="163" Click="blacklist_CheckBox_Click" />
                     <Button x:Name="blacklist_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_Edit}" HorizontalAlignment="Right" Margin="0,89,10,0" VerticalAlignment="Top" Click="blacklist_Button_Click" Padding="5,1" />
                     <Button x:Name="CheckForUpdate_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_UpdateCheck}" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" Click="CheckForUpdate_Button_Click" Margin="10,0,10,5" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_SetEffect}" HorizontalAlignment="Left" Margin="5,128,0,0" VerticalAlignment="Top" Padding="5,0" />
-                    <ComboBox x:Name="Effects_ComboBox" HorizontalAlignment="Left" Margin="77,147,0,0" VerticalAlignment="Top" Width="191" Height="25" />
-                    <Button x:Name="LoadEffects_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_LoadEffects}" HorizontalAlignment="Left" Margin="11,149,0,0" VerticalAlignment="Top" Width="61" Click="LoadEffects_Button_Click" />
-                    <Button x:Name="SetBaseEffect_Button" Content="{x:Static p:Resources.General_Button_OK}" HorizontalAlignment="Right" Margin="0,150,10,0" VerticalAlignment="Top" Click="SetBaseEffect_Button_Click" Padding="5,1" />
-                    <Button x:Name="SetBaseColor_Button" Content="{x:Static p:Resources.General_Button_OK}" HorizontalAlignment="Right" Margin="0,174,10,0" VerticalAlignment="Top" Click="SetBaseColor_Button_Click" Padding="5,1" />
-                    <xctk:ColorPicker x:Name="ColorPicker" Margin="11,174,0,0" IsEnabled="True" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top" Width="257" />
-                    <CheckBox x:Name="autoIPRefresh_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_AutoIPRefresh}" HorizontalAlignment="Left" Margin="10,227,0,0" VerticalAlignment="Top" Click="autoIPRefresh_Checkbox_Click" Padding="4,-1,5,0" />
                     <Label Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Language}" HorizontalAlignment="Left" Margin="5,268,0,0" VerticalAlignment="Top" Padding="5,0" />
                     <ComboBox x:Name="language_Combobox" Margin="10,291,10,0" VerticalAlignment="Top" SelectionChanged="language_Combobox_SelectionChanged" />
                     <CheckBox ToolTip="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_ToolTip_AnalyticsChannelName}" x:Name="analyticsChannel_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Analytics}" HorizontalAlignment="Right" Margin="0,247,10,0" VerticalAlignment="Top" Click="analyticsChannel_Checkbox_Click" Padding="4,-1,5,0" />

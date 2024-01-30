@@ -25,7 +25,7 @@ public class GoveeService : IGoveeService
     public GoveeService(ISettingsService settingsService)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
-        _httpClient.DefaultRequestHeaders.Add("Govee-API-Key", _settingsService.CurrentSettings.GoveeApiKey );
+        _httpClient.DefaultRequestHeaders.Add("Govee-API-Key", _settingsService.CurrentSettings.GoveeSettings.GoveeApiKey );
     }
     
     public async Task<List<GoveeDevice>> GetDevices()

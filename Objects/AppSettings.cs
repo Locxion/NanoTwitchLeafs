@@ -28,7 +28,6 @@ namespace NanoTwitchLeafs.Objects
 			TwitchClientSecret = "";
 			StreamlabsClientId = "";
 			StreamlabsClientSecret = "";
-			GoveeApiKey = "";
 		}
 		public TriggerSettings TriggerSettings
 		{
@@ -40,11 +39,7 @@ namespace NanoTwitchLeafs.Objects
 			get { return Get(() => GoveeSettings); }
 			set { Set(() => GoveeSettings, value); }
 		}
-		public string GoveeApiKey
-		{
-			get { return Get(() => GoveeApiKey); }
-			set { Set(() => GoveeApiKey, value); }
-		}
+
 		public bool AnalyticsChannelName
 		{
 			get { return Get(() => AnalyticsChannelName); }

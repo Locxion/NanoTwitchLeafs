@@ -42,7 +42,7 @@ class TriggerService : ITriggerService
     private BufferBlock<QueueObject> _queue = new();
     private const int ChatMessageDelay = 1750;
     private int _lastHeartRate;
-    private TriggerSetting _lastTrigger;
+    private Trigger _lastTrigger;
     
     #region Constructor
 
@@ -170,7 +170,7 @@ class TriggerService : ITriggerService
                 await Task.Delay(ChatMessageDelay);
                 SendWhisper(chatMessage.Username, $"General Settings: Autostart: {_settingsService.CurrentSettings.AutoConnect}, Responses: {_settingsService.CurrentSettings.ChatResponse}, WhisperMode: {_settingsService.CurrentSettings.WhisperMode}.");
                 await Task.Delay(ChatMessageDelay);
-                SendWhisper(chatMessage.Username, $"CoolDown: {_settingsService.CurrentSettings.NanoSettings.CooldownEnabled}-{_settingsService.CurrentSettings.NanoSettings.Cooldown}, ChangeBack on Commands: {_settingsService.CurrentSettings.NanoSettings.ChangeBackOnCommand} - Keywords: {_settingsService.CurrentSettings.NanoSettings.ChangeBackOnKeyword}.");
+                SendWhisper(chatMessage.Username, $"CoolDown: {_settingsService.CurrentSettings.TriggerSettings.CooldownEnabled}-{_settingsService.CurrentSettings.TriggerSettings.Cooldown}, ChangeBack on Commands: {_settingsService.CurrentSettings.TriggerSettings.ChangeBackOnCommand} - Keywords: {_settingsService.CurrentSettings.TriggerSettings.ChangeBackOnKeyword}.");
                 await Task.Delay(ChatMessageDelay);
                 SendWhisper(chatMessage.Username, $"Events in Queue: {_queue.Count}, Command Prefix: '{_settingsService.CurrentSettings.CommandPrefix}'.");
                 break;
@@ -181,12 +181,12 @@ class TriggerService : ITriggerService
                 break;
 
             case "get trigger":
-                List<TriggerSetting> triggers = _triggerRepositoryService.GetList();
+                List<Trigger> triggers = _triggerRepositoryService.GetList();
                 SendWhisper(chatMessage.Username, $"There are {triggers.Count} Triggers configured:");
                 await Task.Delay(ChatMessageDelay);
                 foreach (var trigger in triggers)
                 {
-                    SendWhisper(chatMessage.Username, $"ID {trigger.ID},Active: {trigger.IsActive}, {trigger.Trigger}, {trigger.CMD}, {trigger.Effect}, Dur: {trigger.Duration}, Amount: {trigger.Amount}, Bright: {trigger.Brightness}, CD: {trigger.Cooldown}, Vip: {trigger.VipOnly}, Sub: {trigger.SubscriberOnly}, Mod: {trigger.ModeratorOnly}.");
+                    SendWhisper(chatMessage.Username, $"ID {trigger.ID},Active: {trigger.IsActive}, {trigger.Type}, {trigger.CMD}, {trigger.Effect}, Dur: {trigger.Duration}, Amount: {trigger.Amount}, Bright: {trigger.Brightness}, CD: {trigger.Cooldown}, Vip: {trigger.VipOnly}, Sub: {trigger.SubscriberOnly}, Mod: {trigger.ModeratorOnly}.");
                     await Task.Delay(ChatMessageDelay);
                 }
                 SendWhisper(chatMessage.Username, $"List complete.");
@@ -219,8 +219,8 @@ class TriggerService : ITriggerService
                 duration = 5;
             }
 
-            var triggerSetting = new TriggerSetting { Brightness = 100, Duration = duration, Effect = effect, IsColor = false };
-            var queueObject = new QueueObject(triggerSetting, $"{chatMessage.Username}[Developer]");
+            var trigger = new Trigger { Brightness = 100, Duration = duration, Effect = effect, IsColor = false };
+            var queueObject = new QueueObject(trigger, $"{chatMessage.Username}[Developer]");
             AddToQueue(queueObject);
         }
         if (message.StartsWith("set rgb"))
@@ -239,8 +239,8 @@ class TriggerService : ITriggerService
                 duration1 = 5;
             }
 
-            var triggerSetting = new TriggerSetting { Brightness = 100, Duration = duration1, Effect = effect, IsColor = true, R = Convert.ToByte(rgbArray[0]), G = Convert.ToByte(rgbArray[1]), B = Convert.ToByte(rgbArray[2]) };
-            var queueObject = new QueueObject(triggerSetting, $"{chatMessage.Username} [Developer]");
+            var trigger = new Trigger { Brightness = 100, Duration = duration1, Effect = effect, IsColor = true, R = Convert.ToByte(rgbArray[0]), G = Convert.ToByte(rgbArray[1]), B = Convert.ToByte(rgbArray[2]) };
+            var queueObject = new QueueObject(trigger, $"{chatMessage.Username} [Developer]");
             AddToQueue(queueObject);
         }
     }
@@ -265,7 +265,7 @@ class TriggerService : ITriggerService
         }
 
         // Get Object matching to the Command
-        TriggerSetting trigger = _triggerRepositoryService.GetByCommandName(chatMessage.Message);
+        Trigger trigger = _triggerRepositoryService.GetByCommandName(chatMessage.Message);
 
         if (trigger == null)
         {
@@ -274,7 +274,7 @@ class TriggerService : ITriggerService
         }
 
         // Response, when trigger is disabled
-        if (!_settingsService.CurrentSettings.NanoSettings.TriggerEnabled)
+        if (!_settingsService.CurrentSettings.TriggerSettings.TriggerEnabled)
         {
             if (_settingsService.CurrentSettings.WhisperMode)
             {
@@ -294,7 +294,7 @@ class TriggerService : ITriggerService
         }
 
         //Check for Moderator // Broadcaster Only Command
-        if (trigger.ModeratorOnly && trigger.Trigger == TriggerTypeEnum.Command.ToString())
+        if (trigger.ModeratorOnly && trigger.Type == TriggerTypeEnum.Command.ToString())
         {
             if (!chatMessage.IsModerator && chatMessage.Username != _settingsService.CurrentSettings.ChannelName)
             {
@@ -309,7 +309,7 @@ class TriggerService : ITriggerService
                 return true;
             }
 
-            if (_settingsService.CurrentSettings.NanoSettings.ChangeBackOnCommand)
+            if (_settingsService.CurrentSettings.TriggerSettings.ChangeBackOnCommand)
             {
                 queueObject = new QueueObject(trigger, chatMessage.Username);
                 AddToQueue(queueObject);
@@ -322,9 +322,9 @@ class TriggerService : ITriggerService
         }
 
         //Check for Moderator Ignore CoolDown
-        if (chatMessage.IsModerator && _settingsService.CurrentSettings.NanoSettings.CooldownIgnore)
+        if (chatMessage.IsModerator && _settingsService.CurrentSettings.TriggerSettings.CooldownIgnore)
         {
-            if (_settingsService.CurrentSettings.NanoSettings.ChangeBackOnCommand)
+            if (_settingsService.CurrentSettings.TriggerSettings.ChangeBackOnCommand)
             {
                 queueObject = new QueueObject(trigger, chatMessage.Username);
                 AddToQueue(queueObject);
@@ -338,7 +338,7 @@ class TriggerService : ITriggerService
 
         // Check if Global CoolDown is enabled and over
         double seconds = (DateTime.Now - _lastGlobalCoolDown).TotalSeconds;
-        if (_settingsService.CurrentSettings.NanoSettings.CooldownEnabled && seconds < _settingsService.CurrentSettings.NanoSettings.Cooldown)
+        if (_settingsService.CurrentSettings.TriggerSettings.CooldownEnabled && seconds < _settingsService.CurrentSettings.TriggerSettings.Cooldown)
         {
             if (_settingsService.CurrentSettings.WhisperMode)
             {
@@ -396,7 +396,7 @@ class TriggerService : ITriggerService
         DateTime triggerDatTime = DateTime.Now;
 
         // Check if Auto Restore is true
-        if (_settingsService.CurrentSettings.NanoSettings.ChangeBackOnCommand)
+        if (_settingsService.CurrentSettings.TriggerSettings.ChangeBackOnCommand)
         {
             queueObject = new QueueObject(trigger, chatMessage.Username);
             AddToQueue(queueObject);
@@ -421,7 +421,7 @@ class TriggerService : ITriggerService
 
         _lastNanoHelp = DateTime.Now;
 
-        if (!_settingsService.CurrentSettings.NanoSettings.TriggerEnabled)
+        if (!_settingsService.CurrentSettings.TriggerSettings.TriggerEnabled)
         {
             if (_settingsService.CurrentSettings.WhisperMode)
             {
@@ -435,25 +435,25 @@ class TriggerService : ITriggerService
             return;
         }
 
-        List<TriggerSetting> activeCommands = new List<TriggerSetting>();
-        List<TriggerSetting> moderatorCommands = new List<TriggerSetting>();
-        List<TriggerSetting> activeKeywords = new List<TriggerSetting>();
+        List<Trigger> activeCommands = new List<Trigger>();
+        List<Trigger> moderatorCommands = new List<Trigger>();
+        List<Trigger> activeKeywords = new List<Trigger>();
 
-        foreach (TriggerSetting triggerSetting in _triggerRepositoryService.GetList())
+        foreach (var trigger in _triggerRepositoryService.GetList())
         {
-            if (!triggerSetting.ModeratorOnly && triggerSetting.Trigger == TriggerTypeEnum.Command.ToString())
+            if (!trigger.ModeratorOnly && trigger.Type == TriggerTypeEnum.Command.ToString())
             {
-                activeCommands.Add(triggerSetting);
+                activeCommands.Add(trigger);
             }
 
-            if (triggerSetting.ModeratorOnly && triggerSetting.Trigger == TriggerTypeEnum.Command.ToString())
+            if (trigger.ModeratorOnly && trigger.Type == TriggerTypeEnum.Command.ToString())
             {
-                moderatorCommands.Add(triggerSetting);
+                moderatorCommands.Add(trigger);
             }
 
-            if (triggerSetting.Trigger == TriggerTypeEnum.Keyword.ToString())
+            if (trigger.Type == TriggerTypeEnum.Keyword.ToString())
             {
-                activeKeywords.Add(triggerSetting);
+                activeKeywords.Add(trigger);
             }
         }
 
@@ -498,7 +498,7 @@ class TriggerService : ITriggerService
     private void HandleKeywordTrigger(ChatMessage chatMessage)
     {
         QueueObject queueObject;
-        TriggerSetting trigger = GetTriggerSettingFromMessage(chatMessage.Message, chatMessage.IsSubscriber, chatMessage.IsModerator);
+        Trigger trigger = GetTriggerFromMessage(chatMessage.Message, chatMessage.IsSubscriber, chatMessage.IsModerator);
 
         if (trigger == null)
         {
@@ -510,9 +510,9 @@ class TriggerService : ITriggerService
             return;
         }
 
-        if ((chatMessage.IsModerator && _settingsService.CurrentSettings.NanoSettings.CooldownIgnore) || chatMessage.Username == _settingsService.CurrentSettings.ChannelName)
+        if ((chatMessage.IsModerator && _settingsService.CurrentSettings.TriggerSettings.CooldownIgnore) || chatMessage.Username == _settingsService.CurrentSettings.ChannelName)
         {
-            if (_settingsService.CurrentSettings.NanoSettings.ChangeBackOnKeyword)
+            if (_settingsService.CurrentSettings.TriggerSettings.ChangeBackOnKeyword)
             {
                 queueObject = new QueueObject(trigger, chatMessage.Username, true);
                 AddToQueue(queueObject);
@@ -528,7 +528,7 @@ class TriggerService : ITriggerService
 
         DateTime triggerDateTime = DateTime.Now;
         // Check if CoolDown is enabled and over
-        if (_settingsService.CurrentSettings.NanoSettings.CooldownEnabled && ((DateTime.Now - _lastGlobalCoolDown).TotalSeconds < _settingsService.CurrentSettings.NanoSettings.Cooldown))
+        if (_settingsService.CurrentSettings.TriggerSettings.CooldownEnabled && ((DateTime.Now - _lastGlobalCoolDown).TotalSeconds < _settingsService.CurrentSettings.TriggerSettings.Cooldown))
         {
             return;
         }
@@ -538,7 +538,7 @@ class TriggerService : ITriggerService
             return;
         }
 
-        if (_settingsService.CurrentSettings.NanoSettings.ChangeBackOnKeyword)
+        if (_settingsService.CurrentSettings.TriggerSettings.ChangeBackOnKeyword)
         {
             queueObject = new QueueObject(trigger, chatMessage.Username, true);
             AddToQueue(queueObject);
@@ -581,7 +581,7 @@ class TriggerService : ITriggerService
     {
         QueueObject queueObject = null;
         var donationTrigger = _triggerRepositoryService.GetList()
-            .Where(x => x.Trigger == "Donation")
+            .Where(x => x.Type == "Donation")
             .OrderBy(x => x.Amount)
             .ToList();
 
@@ -608,11 +608,11 @@ class TriggerService : ITriggerService
     {
         QueueObject queueObject = null;
         var heartTrigger = _triggerRepositoryService.GetList()
-            .Where(x => x.Trigger == "HypeRate")
+            .Where(x => x.Type == "HypeRate")
             .OrderBy(x => x.Amount)
             .ToList();
 
-        TriggerSetting newTrigger = new TriggerSetting();
+        Trigger newTrigger = new Trigger();
 
         foreach (var trigger in heartTrigger)
         {
@@ -638,7 +638,7 @@ class TriggerService : ITriggerService
                 return;
             }
 
-            queueObject.TriggerSetting.Duration = 0;
+            queueObject.Trigger.Duration = 0;
             AddToQueue(queueObject);
             _lastTrigger = newTrigger;
         }
@@ -649,7 +649,7 @@ class TriggerService : ITriggerService
             return;
         QueueObject queueObject = null;
         var bitsTrigger = _triggerRepositoryService.GetList()
-            .Where(x => x.Trigger == TriggerTypeEnum.Bits.ToString())
+            .Where(x => x.Type == TriggerTypeEnum.Bits.ToString())
             .OrderBy(x => x.Amount)
             .ToList();
 
@@ -682,7 +682,7 @@ class TriggerService : ITriggerService
             {
                 continue;
             }
-            if (trigger.Trigger == TriggerTypeEnum.ChannelPoints.ToString() && trigger.ChannelPointsGuid == guid)
+            if (trigger.Type == TriggerTypeEnum.ChannelPoints.ToString() && trigger.ChannelPointsGuid == guid)
             {
                 QueueObject queueObject = new QueueObject(trigger, $"{username}-ChannelPoints");
                 AddToQueue(queueObject);
@@ -712,7 +712,7 @@ class TriggerService : ITriggerService
                     {
                         continue;
                     }
-                    if (trigger.Trigger != triggerEnum)
+                    if (trigger.Type != triggerEnum)
                         continue;
 
                     QueueObject queueObject = new QueueObject(trigger, $"TwitchEvent-{triggerEnum}");
@@ -726,7 +726,7 @@ class TriggerService : ITriggerService
 
                 QueueObject queueObject1 = null;
                 var hostTrigger = _triggerRepositoryService.GetList()
-                    .Where(x => x.Trigger == TriggerTypeEnum.Raid.ToString())
+                    .Where(x => x.Type == TriggerTypeEnum.Raid.ToString())
                     .OrderBy(x => x.Amount)
                     .ToList();
 
@@ -758,7 +758,7 @@ class TriggerService : ITriggerService
 
         QueueObject queueObject = null;
         var bombTrigger = _triggerRepositoryService.GetList()
-            .Where(x => x.Trigger == eventEnum)
+            .Where(x => x.Type == eventEnum)
             .OrderBy(x => x.Amount)
             .ToList();
 
@@ -853,15 +853,15 @@ class TriggerService : ITriggerService
 
                     RefreshRemainingQueueElements();
 
-                    if (!string.IsNullOrWhiteSpace(queueObject.TriggerSetting.SoundFilePath))
+                    if (!string.IsNullOrWhiteSpace(queueObject.Trigger.SoundFilePath))
                     {
                         _logger.Debug("Found Sound File Path ...");
-                        PlaySound(queueObject.TriggerSetting.SoundFilePath, queueObject.TriggerSetting.Volume.GetValueOrDefault(50));
+                        PlaySound(queueObject.Trigger.SoundFilePath, queueObject.Trigger.Volume.GetValueOrDefault(50));
                     }
 
-                    if (queueObject.TriggerSetting.Trigger == TriggerTypeEnum.UsernameColor.ToString())
+                    if (queueObject.Trigger.Type == TriggerTypeEnum.UsernameColor.ToString())
                     {
-                        await SendColorToSinglePanel(queueObject.Color, queueObject.TriggerSetting.Brightness);
+                        await SendColorToSinglePanel(queueObject.Color, queueObject.Trigger.Brightness);
                     }
                     else
                     {
@@ -886,7 +886,7 @@ class TriggerService : ITriggerService
             return;
 
         _queue.Post(obj);
-        _logger.Debug($"Added {obj.TriggerSetting.Trigger}-Trigger to queue");
+        _logger.Debug($"Added {obj.Trigger.Type}-Trigger to queue");
         RefreshRemainingQueueElements();
     }
 
@@ -922,27 +922,27 @@ class TriggerService : ITriggerService
 
     #region Methods
 
-    private TriggerSetting GetTriggerSettingFromMessage(string message, bool isSubscriber, bool isModerator)
+    private Trigger GetTriggerFromMessage(string message, bool isSubscriber, bool isModerator)
     {
-        foreach (TriggerSetting triggerSetting in _triggerRepositoryService.GetList())
+        foreach (var trigger in _triggerRepositoryService.GetList())
         {
-            if (triggerSetting.SubscriberOnly && isSubscriber == false)
+            if (trigger.SubscriberOnly && isSubscriber == false)
                 continue;
 
-            if (triggerSetting.ModeratorOnly && isModerator == false)
+            if (trigger.ModeratorOnly && isModerator == false)
                 continue;
 
-            if (triggerSetting.Trigger != TriggerTypeEnum.Keyword.ToString())
+            if (trigger.Type != TriggerTypeEnum.Keyword.ToString())
             {
                 continue;
             }
 
-            string[] keywordArray = triggerSetting.CMD.Split(',');
+            string[] keywordArray = trigger.CMD.Split(',');
             foreach (var keyword in keywordArray)
             {
                 if (message.IndexOf(keyword, 0, StringComparison.CurrentCultureIgnoreCase) != -1)
                 {
-                    return triggerSetting;
+                    return trigger;
                 }
             }
         }
@@ -954,7 +954,7 @@ class TriggerService : ITriggerService
 
     private async Task SendEffectToController(QueueObject queueObject)
     {
-        _logger.Debug($"Set Effect '{queueObject.TriggerSetting.Effect}' for {queueObject.TriggerSetting.Duration} Seconds on {_settingsService.CurrentSettings.NanoSettings.NanoLeafDevices.Count} Devices");
+        _logger.Debug($"Set Effect '{queueObject.Trigger.Effect}' for {queueObject.Trigger.Duration} Seconds on {_settingsService.CurrentSettings.NanoSettings.NanoLeafDevices.Count} Devices");
         Dictionary<NanoLeafDevice, NanoLeafState> currentStates = new Dictionary<NanoLeafDevice, NanoLeafState>();
         foreach (var device in _settingsService.CurrentSettings.NanoSettings.NanoLeafDevices)
         {
@@ -966,37 +966,37 @@ class TriggerService : ITriggerService
 
         foreach (var device in _settingsService.CurrentSettings.NanoSettings.NanoLeafDevices)
         {
-            _logger.Debug($"Set Effect '{queueObject.TriggerSetting.Effect}' on {device.PublicName} for {queueObject.TriggerSetting.Duration} Seconds");
-            if (!queueObject.TriggerSetting.IsColor)
+            _logger.Debug($"Set Effect '{queueObject.Trigger.Effect}' on {device.PublicName} for {queueObject.Trigger.Duration} Seconds");
+            if (!queueObject.Trigger.IsColor)
             {
-                await _nanoService.SetEffect(device, queueObject.TriggerSetting.Effect);
+                await _nanoService.SetEffect(device, queueObject.Trigger.Effect);
             }
             else
             {
-                var color = new RgbColor(queueObject.TriggerSetting.R, queueObject.TriggerSetting.G, queueObject.TriggerSetting.B, 255);
+                var color = new RgbColor(queueObject.Trigger.R, queueObject.Trigger.G, queueObject.Trigger.B, 255);
                 await _nanoService.SetColor(device, color);
             }
-            await _nanoService.SetBrightness(device, queueObject.TriggerSetting.Brightness);
+            await _nanoService.SetBrightness(device, queueObject.Trigger.Brightness);
         }
 
         if (!queueObject.Username.Contains("TwitchEvent"))
         {
             string response;
-            if (!queueObject.TriggerSetting.IsColor)
+            if (!queueObject.Trigger.IsColor)
             {
-                response = _settingsService.CurrentSettings.Responses.CommandDurationResponse.Replace("{username}", queueObject.Username).Replace("{effect}", queueObject.TriggerSetting.Effect).Replace("{duration}", queueObject.TriggerSetting.Duration.ToString());
+                response = _settingsService.CurrentSettings.Responses.CommandDurationResponse.Replace("{username}", queueObject.Username).Replace("{effect}", queueObject.Trigger.Effect).Replace("{duration}", queueObject.Trigger.Duration.ToString());
             }
             else
             {
-                response = _settingsService.CurrentSettings.Responses.CommandDurationResponse.Replace("{username}", queueObject.Username).Replace("{effect}", new RgbColor(queueObject.TriggerSetting.R, queueObject.TriggerSetting.G, queueObject.TriggerSetting.B, 255).ToString()).Replace("{duration}", queueObject.TriggerSetting.Duration.ToString());
+                response = _settingsService.CurrentSettings.Responses.CommandDurationResponse.Replace("{username}", queueObject.Username).Replace("{effect}", new RgbColor(queueObject.Trigger.R, queueObject.Trigger.G, queueObject.Trigger.B, 255).ToString()).Replace("{duration}", queueObject.Trigger.Duration.ToString());
             }
             if (!string.IsNullOrWhiteSpace(response))
                 SendChatResponse(response);
         }
 
-        if (queueObject.TriggerSetting.Duration != 0)
+        if (queueObject.Trigger.Duration != 0)
         {
-            await Task.Delay(Convert.ToInt32(queueObject.TriggerSetting.Duration) * 1000);
+            await Task.Delay(Convert.ToInt32(queueObject.Trigger.Duration) * 1000);
 
             _logger.Debug($"Change back to last state on {_settingsService.CurrentSettings.NanoSettings.NanoLeafDevices.Count} Devices");
             foreach (var device in _settingsService.CurrentSettings.NanoSettings.NanoLeafDevices)

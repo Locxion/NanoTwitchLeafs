@@ -443,6 +443,7 @@
     </ApplicationDefinition>
     <Compile Include="Enums\StreamingPlatformEnum.cs" />
     <Compile Include="Interfaces\IDeviceService.cs" />
+    <Compile Include="Interfaces\IGoveeService.cs" />
     <Compile Include="Interfaces\IStreamingPlatformService.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Colors\ColorConverting.cs" />
@@ -473,6 +474,9 @@
     <Compile Include="Objects\AnalyticsPing.cs" />
     <Compile Include="Objects\AppInformation.cs" />
     <Compile Include="Objects\GithubReleaseInfo.cs" />
+    <Compile Include="Objects\GoveeDevice.cs" />
+    <Compile Include="Objects\GoveeSettings.cs" />
+    <Compile Include="Objects\GoveeState.cs" />
     <Compile Include="Objects\HeartRateMessage.cs" />
     <Compile Include="Objects\NanoleafControllerInfo.cs" />
     <Compile Include="Objects\NotifyHandlerHelper.cs" />
@@ -547,7 +551,7 @@
     </Compile>
     <Compile Include="Enums\TriggerTypeEnum.cs" />
     <Compile Include="Objects\AppSettings.cs" />
-    <Compile Include="Objects\TriggerSetting.cs" />
+    <Compile Include="Objects\Trigger.cs" />
     <Compile Include="Objects\CommandUIRowObject.cs" />
     <Compile Include="Objects\NanoSettings.cs" />
     <Compile Include="Windows\TwitchLinkWindow.xaml.cs">

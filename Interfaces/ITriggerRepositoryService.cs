@@ -6,14 +6,14 @@ namespace NanoTwitchLeafs.Interfaces;
 
 public interface ITriggerRepositoryService
 {
-    List<TriggerSetting> GetList();
+    List<Trigger> GetList();
     bool TriggerOfTypeExists(TriggerTypeEnum triggerTypeType);
-    TriggerSetting GetTriggerOfType(TriggerTypeEnum triggerTypeEnum);
+    Trigger GetTriggerOfType(TriggerTypeEnum triggerTypeEnum);
     int GetCount();
-    TriggerSetting GetByCommandName(string triggerCommand);
-    void Update(TriggerSetting trigger);
-    void Insert(TriggerSetting trigger);
-    void Delete(TriggerSetting trigger);
+    Trigger GetByCommandName(string triggerCommand);
+    void Update(Trigger trigger);
+    void Insert(Trigger trigger);
+    void Delete(Trigger trigger);
     void ClearAll();
 
 }

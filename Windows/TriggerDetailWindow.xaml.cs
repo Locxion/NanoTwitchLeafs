@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using NanoTwitchLeafs.Interfaces;
 using NanoTwitchLeafs.Services;
+using Trigger = NanoTwitchLeafs.Objects.Trigger;
 
 namespace NanoTwitchLeafs.Windows
 {
@@ -30,7 +31,7 @@ namespace NanoTwitchLeafs.Windows
 		private readonly ILog _logger = LogManager.GetLogger(typeof(TriggerWindow));
 
 		private string _channelPointsGuid;
-		public TriggerSetting TriggerSetting;
+		public Trigger Trigger;
 
 		public TriggerDetailWindow(ISettingsService settingsService, INanoService nanoService, IHypeRateService hypeRateService,IStreamLabsService streamLabsService, ITwitchPubSubService twitchPubSubService, ITriggerRepositoryService triggerRepositoryService)
 		{
@@ -84,11 +85,11 @@ namespace NanoTwitchLeafs.Windows
 				Effect_ComboBox.Items.Add(effect);
 			}
 
-			if (TriggerSetting == null)
+			if (Trigger == null)
 				return;
 			
 			// Set On/Off Slider State
-			if (TriggerSetting.IsActive == true)
+			if (Trigger.IsActive == true)
 			{
 				OnOff_Slider.Value = 0;
 				OnOff_Slider.Background = Brushes.LimeGreen;
@@ -102,14 +103,14 @@ namespace NanoTwitchLeafs.Windows
 			// Set Selected Item in Effect Dropdown
 			foreach (string effect in Effect_ComboBox.Items)
 			{
-				if (effect == TriggerSetting.Effect)
+				if (effect == Trigger.Effect)
 				{
 					Effect_ComboBox.SelectedItem = effect;
 				}
 			}
 
 			// Set Radio Button for Effect or Color
-			if (TriggerSetting.IsColor)
+			if (Trigger.IsColor)
 			{
 				Effect_RadioButton.IsChecked = false;
 				Effect_ComboBox.IsEnabled = false;
@@ -119,15 +120,15 @@ namespace NanoTwitchLeafs.Windows
 			}
 
 			// Set Color Picker to saved Color
-			Color color = new Color { R = TriggerSetting.R, G = TriggerSetting.G, B = TriggerSetting.B, A = 255 };
+			Color color = new Color { R = Trigger.R, G = Trigger.G, B = Trigger.B, A = 255 };
 			ColorPicker.SelectedColor = color;
 
 			// Fill Command/Keyword Textbox
-			CommandKeyword_Textbox.Text = TriggerSetting.CMD;
+			CommandKeyword_Textbox.Text = Trigger.CMD;
 
 			// Fill SoundeffectPath Textbox
-			SoundFilePath_Textbox.Text = TriggerSetting.SoundFilePath;
-			if (!string.IsNullOrWhiteSpace(TriggerSetting.SoundFilePath))
+			SoundFilePath_Textbox.Text = Trigger.SoundFilePath;
+			if (!string.IsNullOrWhiteSpace(Trigger.SoundFilePath))
 			{
 				SoundFilePath_Textbox.IsEnabled = true;
 			}
@@ -145,21 +146,21 @@ namespace NanoTwitchLeafs.Windows
 			}
 
 			// Fill Options Texboxes and Checkboxes
-			Duration_Textbox.Text = TriggerSetting.Duration.ToString();
-			Brightness_Textbox.Text = TriggerSetting.Brightness.ToString();
-			Amount_Textbox.Text = TriggerSetting.Amount.ToString();
-			Cooldown_Textbox.Text = TriggerSetting.Cooldown.ToString();
-			Volume_Textbox.Text = TriggerSetting.Volume.ToString();
-			_channelPointsGuid = TriggerSetting.ChannelPointsGuid;
+			Duration_Textbox.Text = Trigger.Duration.ToString();
+			Brightness_Textbox.Text = Trigger.Brightness.ToString();
+			Amount_Textbox.Text = Trigger.Amount.ToString();
+			Cooldown_Textbox.Text = Trigger.Cooldown.ToString();
+			Volume_Textbox.Text = Trigger.Volume.ToString();
+			_channelPointsGuid = Trigger.ChannelPointsGuid;
 
-			Viponly_Checkbox.IsChecked = TriggerSetting.VipOnly;
-			Subonly_Checkbox.IsChecked = TriggerSetting.SubscriberOnly;
-			Modonly_Checkbox.IsChecked = TriggerSetting.ModeratorOnly;
+			Viponly_Checkbox.IsChecked = Trigger.VipOnly;
+			Subonly_Checkbox.IsChecked = Trigger.SubscriberOnly;
+			Modonly_Checkbox.IsChecked = Trigger.ModeratorOnly;
 
-			if (TriggerSetting.ChannelPointsGuid != null && TriggerSetting.ChannelPointsGuid != "{00000000-0000-0000-0000-000000000000}")
+			if (Trigger.ChannelPointsGuid != null && Trigger.ChannelPointsGuid != "{00000000-0000-0000-0000-000000000000}")
 			{
 				Dispatcher.BeginInvoke(new Action(() => channelPointsDetection_Label.Foreground = Brushes.Green));
-				Dispatcher.BeginInvoke(new Action(() => channelPointsDetection_Label.Content = string.Format(Properties.Resources.Code_TriggerDetail_Label_CPGuidSet, TriggerSetting.ChannelPointsGuid)));
+				Dispatcher.BeginInvoke(new Action(() => channelPointsDetection_Label.Content = string.Format(Properties.Resources.Code_TriggerDetail_Label_CPGuidSet, Trigger.ChannelPointsGuid)));
 			}
 
 			SetControlsEnabled();
@@ -170,7 +171,7 @@ namespace NanoTwitchLeafs.Windows
 		private void SetControlsEnabled()
 		{
 			// Set Controls Enabled State && Radio Buttons
-			switch (TriggerSetting.Trigger)
+			switch (Trigger.Type)
 			{
 				case "Command":
 					Cmd_RadioButton.IsChecked = true;
@@ -181,7 +182,7 @@ namespace NanoTwitchLeafs.Windows
 					Modonly_Checkbox.IsEnabled = true;
 					Cooldown_Textbox.IsEnabled = true;
 					Channelpoints_Grid.Visibility = Visibility.Hidden;
-					if (_settingsService.CurrentSettings.NanoSettings.ChangeBackOnCommand)
+					if (_settingsService.CurrentSettings.TriggerSettings.ChangeBackOnCommand)
 					{
 						Duration_Textbox.IsEnabled = true;
 					}
@@ -320,7 +321,7 @@ namespace NanoTwitchLeafs.Windows
 					Modonly_Checkbox.IsEnabled = true;
 					Cooldown_Textbox.IsEnabled = true;
 					Channelpoints_Grid.Visibility = Visibility.Hidden;
-					if (_settingsService.CurrentSettings.NanoSettings.ChangeBackOnKeyword)
+					if (_settingsService.CurrentSettings.TriggerSettings.ChangeBackOnKeyword)
 					{
 						Duration_Textbox.IsEnabled = true;
 					}
@@ -408,17 +409,17 @@ namespace NanoTwitchLeafs.Windows
 			}
 
 			// Get all Triggers
-			List<TriggerSetting> triggerSettings = _triggerRepositoryService.GetList().ToList();
+			List<Trigger> triggers = _triggerRepositoryService.GetList().ToList();
 
 			// If Trigger already exists
-			if (TriggerSetting != null)
+			if (Trigger != null)
 			{
 				// Search for existing Trigger and Remove it from List
-				foreach (TriggerSetting setting in triggerSettings)
+				foreach (Trigger trigger in triggers)
 				{
-					if (setting.ID == TriggerSetting.ID)
+					if (trigger.ID == Trigger.ID)
 					{
-						triggerSettings.Remove(setting);
+						triggers.Remove(trigger);
 						break;
 					}
 				}
@@ -544,8 +545,8 @@ namespace NanoTwitchLeafs.Windows
 			// Replace Comma with Point
 			Amount_Textbox.Text = Amount_Textbox.Text.Replace(",", ".");
 
-			// Create new TriggerSetting
-			TriggerSetting newTriggerSetting = new TriggerSetting
+			// Create new Trigger
+			Trigger newTrigger = new Trigger
 			{
 				CMD = CommandKeyword_Textbox.Text,
 				IsActive = isActive,
@@ -559,27 +560,27 @@ namespace NanoTwitchLeafs.Windows
 				B = color.B,
 				Amount = Convert.ToDouble(Amount_Textbox.Text),
 				Volume = Convert.ToInt32(Volume_Textbox.Text),
-				Trigger = triggerType,
+				Type = triggerType,
 				SoundFilePath = SoundFilePath_Textbox.Text,
 				VipOnly = (bool)Viponly_Checkbox.IsChecked,
 				ModeratorOnly = (bool)Modonly_Checkbox.IsChecked,
 				SubscriberOnly = (bool)Subonly_Checkbox.IsChecked
 			};
 
-			if (newTriggerSetting.ChannelPointsGuid == "{00000000-0000-0000-0000-000000000000}")
+			if (newTrigger.ChannelPointsGuid == "{00000000-0000-0000-0000-000000000000}")
 			{
-				newTriggerSetting.ChannelPointsGuid = _channelPointsGuid;
+				newTrigger.ChannelPointsGuid = _channelPointsGuid;
 			}
 
 			// Add New Trigger Setting to the existing Triggers in List
-			triggerSettings.Add(newTriggerSetting);
+			triggers.Add(newTrigger);
 
 			// Clear Database
 			_triggerRepositoryService.ClearAll();
 
 			// Read correct Index and insert to Database
 			int index = 0;
-			foreach (TriggerSetting trigger in triggerSettings)
+			foreach (Trigger trigger in triggers)
 			{
 				trigger.ID = index;
 				_logger.Debug($"Insert Trigger Setting with ID {index} into Repository.");
@@ -587,7 +588,7 @@ namespace NanoTwitchLeafs.Windows
 				index++;
 			}
 
-			_logger.Info($"Saved Trigger to Database. There are currently {triggerSettings.Count} Trigger.");
+			_logger.Info($"Saved Trigger to Database. There are currently {triggers.Count} Trigger.");
 			MessageBox.Show(Properties.Resources.General_MessageBox_SettingsSaved, Properties.Resources.General_MessageBox_Sucess_Title, MessageBoxButton.OK, MessageBoxImage.Information);
 			Close();
 		}
@@ -759,7 +760,7 @@ namespace NanoTwitchLeafs.Windows
 				Modonly_Checkbox.IsEnabled = true;
 				Cooldown_Textbox.IsEnabled = true;
 				Channelpoints_Grid.Visibility = Visibility.Hidden;
-				if (_settingsService.CurrentSettings.NanoSettings.ChangeBackOnCommand)
+				if (_settingsService.CurrentSettings.TriggerSettings.ChangeBackOnCommand)
 				{
 					Duration_Textbox.IsEnabled = true;
 				}
@@ -898,7 +899,7 @@ namespace NanoTwitchLeafs.Windows
 				Modonly_Checkbox.IsEnabled = true;
 				Cooldown_Textbox.IsEnabled = true;
 				Channelpoints_Grid.Visibility = Visibility.Hidden;
-				if (_settingsService.CurrentSettings.NanoSettings.ChangeBackOnKeyword)
+				if (_settingsService.CurrentSettings.TriggerSettings.ChangeBackOnKeyword)
 				{
 					Duration_Textbox.IsEnabled = true;
 				}

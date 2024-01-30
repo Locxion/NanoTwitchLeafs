@@ -9,26 +9,26 @@ namespace NanoTwitchLeafs.Services
 {
     public class TriggerRepositoryService : ITriggerRepositoryService
     {
-        private readonly IDatabaseService<TriggerSetting> _dbService;
-        private List<TriggerSetting> _cachedCommands;
+        private readonly IDatabaseService<Trigger> _dbService;
+        private List<Trigger> _cachedCommands;
 
-        public TriggerRepositoryService(IDatabaseService<TriggerSetting> databaseService)
+        public TriggerRepositoryService(IDatabaseService<Trigger> databaseService)
         {
             _dbService = databaseService ?? throw new ArgumentNullException(nameof(databaseService));
             _dbService.SetDatabasePath(Constants.DATABASE_PATH);
         }
 
-        public List<TriggerSetting> GetList()
+        public List<Trigger> GetList()
         {
             if (_cachedCommands == null)
             {
                 _cachedCommands = _dbService.Load();
 
-                _cachedCommands.ForEach(triggerSetting =>
+                _cachedCommands.ForEach(trigger =>
                 {
                     // if null return default value
-                    triggerSetting.IsActive ??= true;
-                    triggerSetting.Volume ??= 50;
+                    trigger.IsActive ??= true;
+                    trigger.Volume ??= 50;
                 });
             }
 
@@ -40,20 +40,20 @@ namespace NanoTwitchLeafs.Services
             var triggerList = GetList();
             foreach (var trigger in triggerList)
             {
-                if (trigger.Trigger == triggerTypeType.ToString())
+                if (trigger.Type == triggerTypeType.ToString())
                     return true;
             }
 
             return false;
         }
 
-        public TriggerSetting GetTriggerOfType(TriggerTypeEnum triggerTypeEnum)
+        public Trigger GetTriggerOfType(TriggerTypeEnum triggerTypeEnum)
         {
             var triggerList = GetList();
             {
                 foreach (var trigger in triggerList)
                 {
-                    if (trigger.Trigger == triggerTypeEnum.ToString())
+                    if (trigger.Type == triggerTypeEnum.ToString())
                         return trigger;
                 }
             }
@@ -70,11 +70,11 @@ namespace NanoTwitchLeafs.Services
             return _cachedCommands.Count;
         }
 
-        public TriggerSetting GetByCommandName(string triggerCommand)
+        public Trigger GetByCommandName(string triggerCommand)
         {
-            List<TriggerSetting> triggerList = GetList();
+            List<Trigger> triggerList = GetList();
 
-            foreach (TriggerSetting trigger in triggerList)
+            foreach (Trigger trigger in triggerList)
             {
                 if (trigger.CMD == triggerCommand)
                 {
@@ -85,7 +85,7 @@ namespace NanoTwitchLeafs.Services
             return null;
         }
 
-        public void Update(TriggerSetting trigger)
+        public void Update(Trigger trigger)
         {
             _dbService.Update(trigger);
 
@@ -93,14 +93,14 @@ namespace NanoTwitchLeafs.Services
             _cachedCommands.Add(trigger);
         }
 
-        public void Insert(TriggerSetting trigger)
+        public void Insert(Trigger trigger)
         {
             _dbService.Save(trigger);
 
             _cachedCommands.Add(trigger);
         }
 
-        public void Delete(TriggerSetting trigger)
+        public void Delete(Trigger trigger)
         {
             _dbService.Delete(trigger);
 
@@ -111,7 +111,7 @@ namespace NanoTwitchLeafs.Services
         {
             _dbService.ClearTable();
 
-            _cachedCommands = new List<TriggerSetting>();
+            _cachedCommands = new List<Trigger>();
         }
     }
 }

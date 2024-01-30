@@ -57,6 +57,14 @@
                     <Button x:Name="eventRestart_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_RestartQueue}" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Click="EventRestart_Button_Click" Padding="5,1" />
                 </Grid>
             </TabItem>
+            <TabItem x:Name="nanoGovee_TabItem" Header="Govee" Margin="1,0,-1,0" Height="22">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Button Content="Get Devices" HorizontalAlignment="Center" Margin="0,52,0,0" VerticalAlignment="Top" Width="292" Click="Button_Click"/>
+                </Grid>
+            </TabItem>
             <TabItem x:Name="settings_TabItem" Header="{x:Static p:Resources.Window_Main_Tabs_Settings_Title}" Margin="1,0,-1,0" Height="22">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>

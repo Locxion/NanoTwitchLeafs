@@ -13,6 +13,8 @@ namespace NanoTwitchLeafs.Objects
 			BroadcasterAuthObject = new OAuthObject();
 			CommandPrefix = "!";
 			NanoSettings = new NanoSettings();
+			GoveeSettings = new GoveeSettings();
+			TriggerSettings = new TriggerSettings();
 			InstanceID = Guid.NewGuid();
 			AppVersion = typeof(AppInfoWindow).Assembly.GetName().Version;
 			AnalyticsChannelName = true;
@@ -26,8 +28,23 @@ namespace NanoTwitchLeafs.Objects
 			TwitchClientSecret = "";
 			StreamlabsClientId = "";
 			StreamlabsClientSecret = "";
+			GoveeApiKey = "";
 		}
-
+		public TriggerSettings TriggerSettings
+		{
+			get { return Get(() => TriggerSettings); }
+			set { Set(() => TriggerSettings, value); }
+		}
+		public GoveeSettings GoveeSettings
+		{
+			get { return Get(() => GoveeSettings); }
+			set { Set(() => GoveeSettings, value); }
+		}
+		public string GoveeApiKey
+		{
+			get { return Get(() => GoveeApiKey); }
+			set { Set(() => GoveeApiKey, value); }
+		}
 		public bool AnalyticsChannelName
 		{
 			get { return Get(() => AnalyticsChannelName); }

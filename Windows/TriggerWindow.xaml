@@ -30,7 +30,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Trigger}" Width="100" DisplayMemberBinding="{Binding Trigger}" />
+                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Trigger}" Width="100" DisplayMemberBinding="{Binding Type}" />
                     <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Command}" Width="120" DisplayMemberBinding="{Binding Command}" />
 
                     <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Effect}" Width="100">

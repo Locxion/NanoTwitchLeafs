@@ -43,13 +43,14 @@ namespace NanoTwitchLeafs.Windows
 		private readonly INanoService _nanoService;
 		private readonly ITriggerService _triggerService;
 		private readonly IStreamingPlatformService _streamingPlatformService;
-		private readonly TaskbarIcon _tbi = new TaskbarIcon();
+        private readonly IGoveeService _goveeService;
+        private readonly TaskbarIcon _tbi = new TaskbarIcon();
 		private readonly ServiceProvider _serviceProvider = DependencyConfig.ServiceProvider;
 		#region Init
 
 		public MainWindow(ISettingsService settingsService, IAnalyticsService analyticsService, IHypeRateService hypeRateService,
 			IStreamLabsService streamLabsService, IStreamLabsAuthService streamLabsAuthService, IUpdateService updateService,
-			INanoService nanoService, ITriggerService triggerService, IStreamingPlatformService streamingPlatformService)
+			INanoService nanoService, ITriggerService triggerService, IStreamingPlatformService streamingPlatformService, IGoveeService goveeService)
 		{
 			_settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
 			_analyticsService = analyticsService ?? throw new ArgumentNullException(nameof(analyticsService));
@@ -60,9 +61,10 @@ namespace NanoTwitchLeafs.Windows
 			_nanoService = nanoService ?? throw new ArgumentNullException(nameof(nanoService));
 			_triggerService = triggerService ?? throw new ArgumentNullException(nameof(triggerService));
 			_streamingPlatformService = streamingPlatformService ?? throw new ArgumentNullException(nameof(streamingPlatformService));
+            _goveeService = goveeService ?? throw new ArgumentNullException(nameof(goveeService));
 
-			// Set Language before Init of Window
-			Constants.SetCultureInfo(_settingsService.CurrentSettings.Language);
+            // Set Language before Init of Window
+            Constants.SetCultureInfo(_settingsService.CurrentSettings.Language);
 
 			// Init Window and Controls
 			InitializeComponent();
@@ -221,13 +223,13 @@ namespace NanoTwitchLeafs.Windows
 				response_CheckBox.IsChecked = _settingsService.CurrentSettings.ChatResponse;
 
 				// Nano Settings
-				nanoCmd_Button.IsEnabled = _settingsService.CurrentSettings.NanoSettings.TriggerEnabled;
-				nanoCmd_Checkbox.IsChecked = _settingsService.CurrentSettings.NanoSettings.TriggerEnabled;
-				nanoCooldown_Checkbox.IsChecked = _settingsService.CurrentSettings.NanoSettings.CooldownEnabled;
-				nanoCooldownIgnore_Checkbox.IsEnabled = _settingsService.CurrentSettings.NanoSettings.CooldownIgnore;
-				nanoCooldown_TextBox.Text = _settingsService.CurrentSettings.NanoSettings.Cooldown.ToString();
-				commandRestore_CheckBox.IsChecked = _settingsService.CurrentSettings.NanoSettings.ChangeBackOnCommand;
-				keywordRestore_Checkbox.IsChecked = _settingsService.CurrentSettings.NanoSettings.ChangeBackOnKeyword;
+				nanoCmd_Button.IsEnabled = _settingsService.CurrentSettings.TriggerSettings.TriggerEnabled;
+				nanoCmd_Checkbox.IsChecked = _settingsService.CurrentSettings.TriggerSettings.TriggerEnabled;
+				nanoCooldown_Checkbox.IsChecked = _settingsService.CurrentSettings.TriggerSettings.CooldownEnabled;
+				nanoCooldownIgnore_Checkbox.IsEnabled = _settingsService.CurrentSettings.TriggerSettings.CooldownIgnore;
+				nanoCooldown_TextBox.Text = _settingsService.CurrentSettings.TriggerSettings.Cooldown.ToString();
+				commandRestore_CheckBox.IsChecked = _settingsService.CurrentSettings.TriggerSettings.ChangeBackOnCommand;
+				keywordRestore_Checkbox.IsChecked = _settingsService.CurrentSettings.TriggerSettings.ChangeBackOnKeyword;
 
 				// App Settings
 				autoIPRefresh_Checkbox.IsChecked = _settingsService.CurrentSettings.AutoIpRefresh;
@@ -609,11 +611,11 @@ namespace NanoTwitchLeafs.Windows
 			_settingsService.CurrentSettings.ChatResponse = (bool)response_CheckBox.IsChecked;
 
 			// Nano Settings
-			_settingsService.CurrentSettings.NanoSettings.TriggerEnabled = (bool)nanoCmd_Checkbox.IsChecked;
-			_settingsService.CurrentSettings.NanoSettings.CooldownEnabled = (bool)nanoCooldown_Checkbox.IsChecked;
-			_settingsService.CurrentSettings.NanoSettings.Cooldown = Convert.ToInt32(nanoCooldown_TextBox.Text);
-			_settingsService.CurrentSettings.NanoSettings.ChangeBackOnCommand = (bool)commandRestore_CheckBox.IsChecked;
-			_settingsService.CurrentSettings.NanoSettings.ChangeBackOnKeyword = (bool)keywordRestore_Checkbox.IsChecked;
+			_settingsService.CurrentSettings.TriggerSettings.TriggerEnabled = (bool)nanoCmd_Checkbox.IsChecked;
+			_settingsService.CurrentSettings.TriggerSettings.CooldownEnabled = (bool)nanoCooldown_Checkbox.IsChecked;
+			_settingsService.CurrentSettings.TriggerSettings.Cooldown = Convert.ToInt32(nanoCooldown_TextBox.Text);
+			_settingsService.CurrentSettings.TriggerSettings.ChangeBackOnCommand = (bool)commandRestore_CheckBox.IsChecked;
+			_settingsService.CurrentSettings.TriggerSettings.ChangeBackOnKeyword = (bool)keywordRestore_Checkbox.IsChecked;
 
 			// App Settings
 			_settingsService.CurrentSettings.AutoIpRefresh = (bool)autoIPRefresh_Checkbox.IsChecked;
@@ -689,12 +691,12 @@ namespace NanoTwitchLeafs.Windows
 			if (nanoCmd_Checkbox.IsChecked == true)
 			{
 				nanoCmd_Button.IsEnabled = true;
-				_settingsService.CurrentSettings.NanoSettings.TriggerEnabled = true;
+				_settingsService.CurrentSettings.TriggerSettings.TriggerEnabled = true;
 			}
 			else if (nanoCmd_Checkbox.IsChecked == false)
 			{
 				nanoCmd_Button.IsEnabled = false;
-				_settingsService.CurrentSettings.NanoSettings.TriggerEnabled = false;
+				_settingsService.CurrentSettings.TriggerSettings.TriggerEnabled = false;
 			}
 		}
 
@@ -815,22 +817,22 @@ namespace NanoTwitchLeafs.Windows
 
 		private void NanoCooldown_TextBox_TextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
 		{
-			_settingsService.CurrentSettings.NanoSettings.Cooldown = Convert.ToInt32(nanoCooldown_TextBox.Text);
+			_settingsService.CurrentSettings.TriggerSettings.Cooldown = Convert.ToInt32(nanoCooldown_TextBox.Text);
 		}
 
 		private void NanoCooldown_TextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
-			_settingsService.CurrentSettings.NanoSettings.Cooldown = Convert.ToInt32(nanoCooldown_TextBox.Text);
+			_settingsService.CurrentSettings.TriggerSettings.Cooldown = Convert.ToInt32(nanoCooldown_TextBox.Text);
 		}
 
 		private void NanoCooldown_Checkbox_Click(object sender, RoutedEventArgs e)
 		{
-			_settingsService.CurrentSettings.NanoSettings.CooldownEnabled = (bool)nanoCooldown_Checkbox.IsChecked;
-			_settingsService.CurrentSettings.NanoSettings.Cooldown = Convert.ToInt32(nanoCooldown_TextBox.Text);
+			_settingsService.CurrentSettings.TriggerSettings.CooldownEnabled = (bool)nanoCooldown_Checkbox.IsChecked;
+			_settingsService.CurrentSettings.TriggerSettings.Cooldown = Convert.ToInt32(nanoCooldown_TextBox.Text);
 
-			if (_settingsService.CurrentSettings.NanoSettings.CooldownEnabled)
+			if (_settingsService.CurrentSettings.TriggerSettings.CooldownEnabled)
 			{
-				SendChatResponse(string.Format(Properties.Resources.Code_Main_ChatMessage_CooldownON, _settingsService.CurrentSettings.NanoSettings.Cooldown));
+				SendChatResponse(string.Format(Properties.Resources.Code_Main_ChatMessage_CooldownON, _settingsService.CurrentSettings.TriggerSettings.Cooldown));
 				nanoCooldownIgnore_Checkbox.IsEnabled = true;
 				_logger.Info("Cooldown enabled!");
 				nanoCooldown_TextBox.IsEnabled = false;
@@ -856,12 +858,12 @@ namespace NanoTwitchLeafs.Windows
 
 		private void KeywordRestore_Checkbox_Click(object sender, RoutedEventArgs e)
 		{
-			_settingsService.CurrentSettings.NanoSettings.ChangeBackOnKeyword = (bool)keywordRestore_Checkbox.IsChecked;
+			_settingsService.CurrentSettings.TriggerSettings.ChangeBackOnKeyword = (bool)keywordRestore_Checkbox.IsChecked;
 		}
 
 		private void CommandRestore_CheckBox_Click(object sender, RoutedEventArgs e)
 		{
-			_settingsService.CurrentSettings.NanoSettings.ChangeBackOnCommand = (bool)commandRestore_CheckBox.IsChecked;
+			_settingsService.CurrentSettings.TriggerSettings.ChangeBackOnCommand = (bool)commandRestore_CheckBox.IsChecked;
 		}
 
 		private void AutoRestoreHelp_Button_Click(object sender, RoutedEventArgs e)
@@ -955,7 +957,7 @@ namespace NanoTwitchLeafs.Windows
 
 		private void NanoCooldownIgnore_Checkbox_Click(object sender, RoutedEventArgs e)
 		{
-			_settingsService.CurrentSettings.NanoSettings.CooldownIgnore = nanoCooldownIgnore_Checkbox.IsEnabled;
+			_settingsService.CurrentSettings.TriggerSettings.CooldownIgnore = nanoCooldownIgnore_Checkbox.IsEnabled;
 		}
 
 		#endregion
@@ -1043,7 +1045,7 @@ namespace NanoTwitchLeafs.Windows
 				autoConnect_Checkbox.IsChecked = false;
 			}
 
-			if (_settingsService.CurrentSettings.NanoSettings.CooldownEnabled)
+			if (_settingsService.CurrentSettings.TriggerSettings.CooldownEnabled)
 			{
 				nanoCooldown_TextBox.IsEnabled = false;
 			}
@@ -1116,7 +1118,7 @@ namespace NanoTwitchLeafs.Windows
 						return false;
 					}
 
-					if (_settingsService.CurrentSettings.NanoSettings.TriggerEnabled)
+					if (_settingsService.CurrentSettings.TriggerSettings.TriggerEnabled)
 					{
 						nanoCmd_Button.IsEnabled = true;
 					}
@@ -1251,5 +1253,10 @@ namespace NanoTwitchLeafs.Windows
 				_settingsService.ExportSettings();
 			}
 		}
-	}
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+			var devices = await _goveeService.GetDevices();
+        }
+    }
 }

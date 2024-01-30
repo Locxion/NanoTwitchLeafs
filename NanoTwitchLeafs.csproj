@@ -493,6 +493,7 @@
     <Compile Include="Objects\StreamlabsEvent.cs" />
     <Compile Include="Objects\StreamlabsInformation.cs" />
     <Compile Include="Objects\TriggerListObject.cs" />
+    <Compile Include="Objects\TriggerSettings.cs" />
     <Compile Include="Objects\TwitchEvent.cs" />
     <Compile Include="Properties\Resources.de-DE.Designer.cs">
       <DependentUpon>Resources.de-DE.resx</DependentUpon>

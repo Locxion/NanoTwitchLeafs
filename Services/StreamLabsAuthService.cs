@@ -20,7 +20,7 @@ class StreamLabsAuthService : IStreamLabsAuthService
     private readonly ISettingsService _settingsService;
     private const string RedirectUri = "http://127.0.0.1:1234/";
 
-    private const string StreamlabsApi = "https://streamlabs.com/api/v1.0";
+    private const string StreamlabsApi = "https://streamlabs.com/api/v2.0";
     private const string AuthorizationEndpoint = "/authorize";
     private const string TokenEndpoint = "/token";
     private const string SocketTokenEndpoint = "/socket/token";
@@ -200,7 +200,7 @@ class StreamLabsAuthService : IStreamLabsAuthService
         var response = await client.GetAsync(StreamlabsApi + SocketTokenEndpoint + $"?access_token={_settingsService.CurrentSettings.StreamlabsInformation.StreamlabsAToken}");
         if (!response.IsSuccessStatusCode)
         {
-            return "";
+            return ""; 
         }
 
         var responseString = await response.Content.ReadAsStringAsync();

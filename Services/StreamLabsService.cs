@@ -15,7 +15,7 @@ class StreamLabsService : IStreamLabsService
     private readonly ISettingsService _settingsService;
     public event EventHandler<StreamlabsEvent> OnDonationReceived;
     private const string RedirectUri = "http://127.0.0.1:1234/";
-    private const string StreamlabsApi = "https://streamlabs.com/api/v1.0";
+    private const string StreamlabsApi = "https://streamlabs.com/api/v2.0";
     private const string AuthorizationEndpoint = "/authorize";
     private const string TokenEndpoint = "/token";
     private const string SocketTokenEndpoint = "/socket/token";

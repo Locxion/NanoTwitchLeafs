@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Microsoft.Extensions.DependencyInjection;
 using NanoTwitchLeafs.Interfaces;
 
 namespace NanoTwitchLeafs.Windows
@@ -215,13 +216,12 @@ namespace NanoTwitchLeafs.Windows
                 _logger.Error("Connection failed! Couldn't get Effect List!");
                 MessageBox.Show(Properties.Resources.Code_Trigger_MessageBox_EffectList, Properties.Resources.General_MessageBox_Error_Title);
                 return;
-            }
+            }       
+            var serviceProvider = DependencyConfig.ServiceProvider;
 
-            Window triggerDetailWindow = new TriggerDetailWindow()
-            {
-                _triggerSetting = triggerSetting,
-                Owner = this
-            };
+            var triggerDetailWindow = serviceProvider.GetRequiredService<TriggerDetailWindow>();
+            triggerDetailWindow.TriggerSetting = triggerSetting;
+            triggerDetailWindow.Owner = this;
             triggerDetailWindow.Closed += TriggerDetailWindow_Closed;
             triggerDetailWindow.Show();
         }

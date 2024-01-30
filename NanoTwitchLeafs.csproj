@@ -201,12 +201,6 @@
     <Reference Include="Renci.SshNet, Version=2023.0.1.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
       <HintPath>packages\SSH.NET.2023.0.1\lib\net462\Renci.SshNet.dll</HintPath>
     </Reference>
-    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>packages\Serilog.3.1.1\lib\net471\Serilog.dll</HintPath>
-    </Reference>
-    <Reference Include="Serilog.Extensions.Logging, Version=7.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>packages\Serilog.Extensions.Logging.8.0.0\lib\net462\Serilog.Extensions.Logging.dll</HintPath>
-    </Reference>
     <Reference Include="SQLite-net, Version=1.8.116.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\sqlite-net-pcl.1.8.116\lib\netstandard2.0\SQLite-net.dll</HintPath>
     </Reference>
@@ -448,6 +442,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Enums\StreamingPlatformEnum.cs" />
+    <Compile Include="Interfaces\IDeviceService.cs" />
     <Compile Include="Interfaces\IStreamingPlatformService.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Colors\ColorConverting.cs" />

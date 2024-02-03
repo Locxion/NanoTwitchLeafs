@@ -5,11 +5,11 @@ namespace NanoTwitchLeafs.Objects
 	public class Trigger
 	{
 		[PrimaryKey]
-		public int ID { get; set; }
+		public int Id { get; set; }
 
 		public bool? IsActive { get; set; } = true;
 		public string Type { get; set; }
-		public string CMD { get; set; }
+		public string ChatCommand { get; set; }
 		public bool IsColor { get; set; } = false;
 		public string Effect { get; set; }
 		public byte R { get; set; } = 255;

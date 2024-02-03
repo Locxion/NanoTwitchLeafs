@@ -124,7 +124,7 @@ namespace NanoTwitchLeafs.Windows
 			ColorPicker.SelectedColor = color;
 
 			// Fill Command/Keyword Textbox
-			CommandKeyword_Textbox.Text = Trigger.CMD;
+			CommandKeyword_Textbox.Text = Trigger.ChatCommand;
 
 			// Fill SoundeffectPath Textbox
 			SoundFilePath_Textbox.Text = Trigger.SoundFilePath;
@@ -165,7 +165,7 @@ namespace NanoTwitchLeafs.Windows
 
 			SetControlsEnabled();
 
-			Checkbox_Click(null, null);
+            ModifierCheckbox_Click(null, null);
 		}
 
 		private void SetControlsEnabled()
@@ -417,7 +417,7 @@ namespace NanoTwitchLeafs.Windows
 				// Search for existing Trigger and Remove it from List
 				foreach (Trigger trigger in triggers)
 				{
-					if (trigger.ID == Trigger.ID)
+					if (trigger.Id == Trigger.Id)
 					{
 						triggers.Remove(trigger);
 						break;
@@ -548,7 +548,7 @@ namespace NanoTwitchLeafs.Windows
 			// Create new Trigger
 			Trigger newTrigger = new Trigger
 			{
-				CMD = CommandKeyword_Textbox.Text,
+				ChatCommand = CommandKeyword_Textbox.Text,
 				IsActive = isActive,
 				Brightness = Convert.ToInt32(Brightness_Textbox.Text),
 				Cooldown = Convert.ToDouble(Cooldown_Textbox.Text),
@@ -582,7 +582,7 @@ namespace NanoTwitchLeafs.Windows
 			int index = 0;
 			foreach (Trigger trigger in triggers)
 			{
-				trigger.ID = index;
+				trigger.Id = index;
 				_logger.Debug($"Insert Trigger Setting with ID {index} into Repository.");
 				_triggerRepositoryService.Insert(trigger);
 				index++;
@@ -732,7 +732,7 @@ namespace NanoTwitchLeafs.Windows
 
 		#endregion
 
-		private void Checkbox_Click(object sender, RoutedEventArgs e)
+		private void ModifierCheckbox_Click(object sender, RoutedEventArgs e)
 		{
 			var titles = new List<string>();
 			if (Viponly_Checkbox.IsChecked == true)

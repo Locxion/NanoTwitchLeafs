@@ -76,7 +76,7 @@ namespace NanoTwitchLeafs.Services
 
             foreach (Trigger trigger in triggerList)
             {
-                if (trigger.CMD == triggerCommand)
+                if (trigger.ChatCommand == triggerCommand)
                 {
                     return trigger;
                 }
@@ -89,7 +89,7 @@ namespace NanoTwitchLeafs.Services
         {
             _dbService.Update(trigger);
 
-            var dbCommand = _cachedCommands.RemoveAll(dbCmd => dbCmd.ID == trigger.ID);
+            var dbCommand = _cachedCommands.RemoveAll(dbCmd => dbCmd.Id == trigger.Id);
             _cachedCommands.Add(trigger);
         }
 
@@ -104,7 +104,7 @@ namespace NanoTwitchLeafs.Services
         {
             _dbService.Delete(trigger);
 
-            var dbCommand = _cachedCommands.RemoveAll(dbCmd => dbCmd.ID == trigger.ID);
+            var dbCommand = _cachedCommands.RemoveAll(dbCmd => dbCmd.Id == trigger.Id);
         }
 
         public void ClearAll()

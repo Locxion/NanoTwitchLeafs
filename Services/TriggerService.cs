@@ -186,7 +186,7 @@ class TriggerService : ITriggerService
                 await Task.Delay(ChatMessageDelay);
                 foreach (var trigger in triggers)
                 {
-                    SendWhisper(chatMessage.Username, $"ID {trigger.ID},Active: {trigger.IsActive}, {trigger.Type}, {trigger.CMD}, {trigger.Effect}, Dur: {trigger.Duration}, Amount: {trigger.Amount}, Bright: {trigger.Brightness}, CD: {trigger.Cooldown}, Vip: {trigger.VipOnly}, Sub: {trigger.SubscriberOnly}, Mod: {trigger.ModeratorOnly}.");
+                    SendWhisper(chatMessage.Username, $"ID {trigger.Id},Active: {trigger.IsActive}, {trigger.Type}, {trigger.ChatCommand}, {trigger.Effect}, Dur: {trigger.Duration}, Amount: {trigger.Amount}, Bright: {trigger.Brightness}, CD: {trigger.Cooldown}, Vip: {trigger.VipOnly}, Sub: {trigger.SubscriberOnly}, Mod: {trigger.ModeratorOnly}.");
                     await Task.Delay(ChatMessageDelay);
                 }
                 SendWhisper(chatMessage.Username, $"List complete.");
@@ -352,7 +352,7 @@ class TriggerService : ITriggerService
         }
 
         // Check for Trigger CoolDown
-        if (_triggerCoolDowns.ContainsKey(trigger.ID))
+        if (_triggerCoolDowns.ContainsKey(trigger.Id))
         {
             if (_settingsService.CurrentSettings.WhisperMode)
             {
@@ -401,14 +401,14 @@ class TriggerService : ITriggerService
             queueObject = new QueueObject(trigger, chatMessage.Username);
             AddToQueue(queueObject);
             _lastGlobalCoolDown = DateTime.Now;
-            _triggerCoolDowns.Add(trigger.ID, triggerDatTime.AddSeconds(trigger.Cooldown));
+            _triggerCoolDowns.Add(trigger.Id, triggerDatTime.AddSeconds(trigger.Cooldown));
             return true;
         }
 
         queueObject = new QueueObject(trigger, chatMessage.Username);
         AddToQueue(queueObject);
         _lastGlobalCoolDown = DateTime.Now;
-        _triggerCoolDowns.Add(trigger.ID, triggerDatTime.AddSeconds(trigger.Cooldown));
+        _triggerCoolDowns.Add(trigger.Id, triggerDatTime.AddSeconds(trigger.Cooldown));
         return true;
     }
     
@@ -462,15 +462,15 @@ class TriggerService : ITriggerService
         var currentKeywordsAnswerStringBuilder = new StringBuilder("Active Keywords:");
         foreach (var command in activeCommands)
         {
-            currentCommandsAnswerStringBuilder.Append($" - [{_settingsService.CurrentSettings.CommandPrefix}{command.CMD}]");
+            currentCommandsAnswerStringBuilder.Append($" - [{_settingsService.CurrentSettings.CommandPrefix}{command.ChatCommand}]");
         }
         foreach (var command in moderatorCommands)
         {
-            currentModCommandsAnswerStringBuilder.Append($" - [{_settingsService.CurrentSettings.CommandPrefix}{command.CMD}]");
+            currentModCommandsAnswerStringBuilder.Append($" - [{_settingsService.CurrentSettings.CommandPrefix}{command.ChatCommand}]");
         }
         foreach (var command in activeKeywords)
         {
-            currentKeywordsAnswerStringBuilder.Append($" - [{command.CMD}]");
+            currentKeywordsAnswerStringBuilder.Append($" - [{command.ChatCommand}]");
         }
 
         if (activeCommands.Count == 0)
@@ -533,7 +533,7 @@ class TriggerService : ITriggerService
             return;
         }
 
-        if (_triggerCoolDowns.ContainsKey(trigger.ID))
+        if (_triggerCoolDowns.ContainsKey(trigger.Id))
         {
             return;
         }
@@ -543,14 +543,14 @@ class TriggerService : ITriggerService
             queueObject = new QueueObject(trigger, chatMessage.Username, true);
             AddToQueue(queueObject);
             _lastGlobalCoolDown = DateTime.Now;
-            _triggerCoolDowns.Add(trigger.ID, triggerDateTime.AddSeconds(trigger.Cooldown));
+            _triggerCoolDowns.Add(trigger.Id, triggerDateTime.AddSeconds(trigger.Cooldown));
             return;
         }
 
         queueObject = new QueueObject(trigger, chatMessage.Username, true);
         AddToQueue(queueObject);
         _lastGlobalCoolDown = DateTime.Now;
-        _triggerCoolDowns.Add(trigger.ID, triggerDateTime.AddSeconds(trigger.Cooldown));
+        _triggerCoolDowns.Add(trigger.Id, triggerDateTime.AddSeconds(trigger.Cooldown));
     }
 	
     private void HandleUsernameColorTrigger(ChatMessage chatMessage)
@@ -632,7 +632,7 @@ class TriggerService : ITriggerService
 
         if (queueObject != null)
         {
-            if (_lastTrigger == null || _lastTrigger.ID == newTrigger.ID)
+            if (_lastTrigger == null || _lastTrigger.Id == newTrigger.Id)
             {
                 _lastTrigger = newTrigger;
                 return;
@@ -937,7 +937,7 @@ class TriggerService : ITriggerService
                 continue;
             }
 
-            string[] keywordArray = trigger.CMD.Split(',');
+            string[] keywordArray = trigger.ChatCommand.Split(',');
             foreach (var keyword in keywordArray)
             {
                 if (message.IndexOf(keyword, 0, StringComparison.CurrentCultureIgnoreCase) != -1)

@@ -38,7 +38,7 @@ namespace NanoTwitchLeafs.Windows
         private void LoadTrigger()
         {
             var triggers = _triggerRepositoryService.GetList().ToList();
-            triggers.OrderBy(x => x.ID);
+            triggers.OrderBy(x => x.Id);
             var triggerListItems = new List<TriggerListObject>();
             foreach (var trigger in triggers)
             {
@@ -82,7 +82,7 @@ namespace NanoTwitchLeafs.Windows
                     Width = 40,
                     Height = 22,
                     Margin = new Thickness(12, 3, 0, 3),
-                    Name = "TriggerEdit_Button_" + trigger.ID.ToString(),
+                    Name = "TriggerEdit_Button_" + trigger.Id.ToString(),
                     HorizontalAlignment = HorizontalAlignment.Center,
                     Content = Properties.Resources.Window_Trigger_Button_Edit
                 };
@@ -94,7 +94,7 @@ namespace NanoTwitchLeafs.Windows
                     Width = 40,
                     Height = 22,
                     Margin = new Thickness(12, 3, 0, 3),
-                    Name = "TriggerDelete_Button_" + trigger.ID.ToString(),
+                    Name = "TriggerDelete_Button_" + trigger.Id.ToString(),
                     HorizontalAlignment = HorizontalAlignment.Center,
                     Content = Properties.Resources.Window_Trigger_Button_Delete
                 };
@@ -105,9 +105,9 @@ namespace NanoTwitchLeafs.Windows
                 {
                     OnOffSliderValue = onFffSliderValue,
                     OnOffSliderBackground = onOffSliderBackground,
-                    ID = trigger.ID.ToString(),
+                    ID = trigger.Id.ToString(),
                     Trigger = trigger.Type,
-                    Command = trigger.CMD,
+                    Command = trigger.ChatCommand,
                     Sound = soundEffect,
                     Duration = trigger.Duration.ToString(),
                     Brightness = trigger.Brightness.ToString(),
@@ -132,7 +132,7 @@ namespace NanoTwitchLeafs.Windows
                 }
 
                 triggerListItems.Add(triggerListObject);
-                _logger.Debug($"Loading Trigger with id {trigger.ID}.");
+                _logger.Debug($"Loading Trigger with id {trigger.Id}.");
             }
             triggerListItems = triggerListItems.OrderBy(x => x.Trigger).ToList();
             Trigger_Listview.ItemsSource = triggerListItems;
@@ -158,10 +158,10 @@ namespace NanoTwitchLeafs.Windows
             var triggerId = int.Parse(dataContext.ID);
 
             var triggers = _triggerRepositoryService.GetList();
-            var trigger = triggers.FirstOrDefault(l => l.ID == triggerId);
+            var trigger = triggers.FirstOrDefault(l => l.Id == triggerId);
             trigger.IsActive = IsActive;
             _triggerRepositoryService.Update(trigger);
-            _logger.Info($"Trigger with the ID {trigger.ID} is now updated to IsActive: {IsActive}.");
+            _logger.Info($"Trigger with the ID {trigger.Id} is now updated to IsActive: {IsActive}.");
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
@@ -171,7 +171,7 @@ namespace NanoTwitchLeafs.Windows
 
             var triggerId = int.Parse(dataContext.ID);
             var triggers = _triggerRepositoryService.GetList();
-            var trigger = triggers.FirstOrDefault(l => l.ID == triggerId);
+            var trigger = triggers.FirstOrDefault(l => l.Id == triggerId);
             _triggerRepositoryService.Delete(trigger);
             LoadTrigger();
         }
@@ -184,7 +184,7 @@ namespace NanoTwitchLeafs.Windows
 
             var triggerId = int.Parse(dataContext.ID);
             var triggers = _triggerRepositoryService.GetList();
-            var trigger = triggers.FirstOrDefault(l => l.ID == triggerId);
+            var trigger = triggers.FirstOrDefault(l => l.Id == triggerId);
 
             var obj = new QueueObject(trigger, "Test");
             _triggerService.AddToQueue(obj);
@@ -197,7 +197,7 @@ namespace NanoTwitchLeafs.Windows
 
             var triggerId = int.Parse(dataContext.ID);
             var triggers = _triggerRepositoryService.GetList();
-            var trigger = triggers.FirstOrDefault(l => l.ID == triggerId);
+            var trigger = triggers.FirstOrDefault(l => l.Id == triggerId);
 
             OpenTriggerDetails(trigger);
         }

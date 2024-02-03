@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using GoveeCSharpConnector.Interfaces;
+using GoveeCSharpConnector.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NanoTwitchLeafs.Interfaces;
 using NanoTwitchLeafs.Objects;
@@ -36,6 +38,8 @@ public static class DependencyConfig
             .AddSingleton<IDatabaseService<Trigger>, DatabaseService<Trigger>>()
             .AddSingleton<IDeviceService, DeviceService>()
             .AddSingleton<IGoveeService, GoveeService>()
+            .AddSingleton<IGoveeApiService, GoveeApiService>()
+            .AddSingleton<IGoveeUdpService, GoveeUdpService>()
             .AddSingleton<IHypeRateService, HypeRateService>()
             .AddSingleton<INanoService, NanoService>()
             .AddSingleton<ISettingsService, SettingsService>()

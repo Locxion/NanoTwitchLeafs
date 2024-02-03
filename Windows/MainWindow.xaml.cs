@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,9 +21,9 @@ using Application = System.Windows.Application;
 using ComboBox = System.Windows.Controls.ComboBox;
 using ListBox = System.Windows.Controls.ListBox;
 using MessageBox = System.Windows.MessageBox;
-using Google.Protobuf.WellKnownTypes;
-using System.Security.Policy;
-using System.Windows.Shapes;
+using GoveeCSharpConnector.Interfaces;
+
+// ReSharper disable PossibleInvalidOperationException
 
 namespace NanoTwitchLeafs.Windows
 {
@@ -103,6 +104,9 @@ namespace NanoTwitchLeafs.Windows
 			_hypeRateService.OnHeartRateReceived += HypeRateServiceOnHeartRateReceived;
 			_hypeRateService.OnConnect += HypeRateServiceOnOnConnect;
 			_hypeRateService.OnDisconnect += HypeRateServiceOnOnDisconnect;
+
+			if (!string.IsNullOrWhiteSpace(_settingsService.CurrentSettings.GoveeSettings.GoveeApiKey))
+				_goveeService.GoveeApiKey = _settingsService.CurrentSettings.GoveeSettings.GoveeApiKey;
 			
 			// Initialize Data
 			_logger.Info("Initialize Data");
@@ -225,7 +229,7 @@ namespace NanoTwitchLeafs.Windows
 				commandPrefix_TextBox.Text = _settingsService.CurrentSettings.CommandPrefix;
 				response_CheckBox.IsChecked = _settingsService.CurrentSettings.ChatResponse;
 
-				// Nano Settings
+				// Trigger Settings
 				trigger_Button.IsEnabled = _settingsService.CurrentSettings.TriggerSettings.TriggerEnabled;
 				trigger_Checkbox.IsChecked = _settingsService.CurrentSettings.TriggerSettings.TriggerEnabled;
                 trigger_Cooldown_Checkbox.IsChecked = _settingsService.CurrentSettings.TriggerSettings.CooldownEnabled;
@@ -233,7 +237,16 @@ namespace NanoTwitchLeafs.Windows
                 trigger_Cooldown_TextBox.Text = _settingsService.CurrentSettings.TriggerSettings.Cooldown.ToString();
 				trigger_commandRestore_CheckBox.IsChecked = _settingsService.CurrentSettings.TriggerSettings.ChangeBackOnCommand;
                 trigger_keywordRestore_Checkbox.IsChecked = _settingsService.CurrentSettings.TriggerSettings.ChangeBackOnKeyword;
-
+				
+                // Govee Settings
+                govee_api_Textbox.Text = _settingsService.CurrentSettings.GoveeSettings.GoveeApiKey;
+                if (_settingsService.CurrentSettings.GoveeSettings.GoveeDevices.Count != 0)
+                {
+	                govee_SetBaseColor_Button.IsEnabled = true;
+	                govee_resetBrightness_Button.IsEnabled = true;
+	                FillGoveeDeviceTextBox();
+                }
+                
 				// App Settings
 				autoIPRefresh_Checkbox.IsChecked = _settingsService.CurrentSettings.AutoIpRefresh;
 				debugCmd_Checkbox.IsChecked = _settingsService.CurrentSettings.DebugEnabled;
@@ -800,12 +813,8 @@ namespace NanoTwitchLeafs.Windows
 
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
+			_analyticsService.SendPing(PingType.Stop, "Shutting down ...");
 		}
-
-		private void Application_Exit(object sender, ExitEventArgs e)
-		{
-		}
-
 		private void autoIPRefresh_Checkbox_Click(object sender, RoutedEventArgs e)
 		{
 			if (autoIPRefresh_Checkbox.IsChecked == true)
@@ -918,18 +927,12 @@ namespace NanoTwitchLeafs.Windows
 				devicesInfoWindow.Show();
 			}
 		}
-
-		private void FaqLink_Button_Click(object sender, RoutedEventArgs e)
-		{
-			Process.Start("https://nanotwitchleafs.de/faq/");
-		}
-
 		private async void ResetBrightness_Button_Click(object sender, RoutedEventArgs e)
 		{
 			try
 			{
-				int brightness = Convert.ToInt32(brightnessReset_TextBox.Text);
-				if (brightness < 0 || brightness > 100)
+				var brightness = Convert.ToInt32(brightnessReset_TextBox.Text);
+				if (brightness is < 0 or > 100)
 				{
 					MessageBox.Show(Properties.Resources.Code_Main_MessageBox_Value0100, Properties.Resources.General_MessageBox_Error_Title);
 					return;
@@ -1011,19 +1014,12 @@ namespace NanoTwitchLeafs.Windows
 				FileName = "cmd.exe"
 			};
 			Process.Start(info);
-			this.Close();
+			Close();
 		}
 
-		private bool CheckForDuplicateWindow(Window newWindow)
+		private static bool CheckForDuplicateWindow(Window newWindow)
 		{
-			var count = 0;
-			foreach (Window window in App.Current.Windows)
-			{
-				if (window.Name == newWindow.Name)
-				{
-					count++;
-				}
-			}
+			var count = Application.Current.Windows.Cast<Window>().Count(window => window.Name == newWindow.Name);
 
 			return count != 1;
 		}
@@ -1261,44 +1257,70 @@ namespace NanoTwitchLeafs.Windows
         {
             var devices = await _goveeService.GetDevices();
 			_settingsService.CurrentSettings.GoveeSettings.GoveeDevices = devices;
-			govee_devices_Textbox.Clear();
-			foreach (var device in _settingsService.CurrentSettings.GoveeSettings.GoveeDevices)
-			{
-                govee_devices_Textbox.Text += $"Name: {device.DeviceName}" + Environment.NewLine;
-                govee_devices_Textbox.Text += $"Model: {device.Model}" + Environment.NewLine;
-                govee_devices_Textbox.Text += $"Is On: {device.Properties.Online}" + Environment.NewLine;
-                govee_devices_Textbox.Text += $"--------------------------------" + Environment.NewLine;
-            }
-            govee_devices_Textbox.Text += $"Devices Total: {_settingsService.CurrentSettings.GoveeSettings.GoveeDevices.Count}" + Environment.NewLine;
+			FillGoveeDeviceTextBox();
 			_settingsService.SaveSettings();
+        }
+
+        private void FillGoveeDeviceTextBox()
+        {
+	        govee_devices_Textbox.Clear();
+	        foreach (var device in _settingsService.CurrentSettings.GoveeSettings.GoveeDevices)
+	        {
+		        govee_devices_Textbox.Text += $"Name: {device.DeviceName}" + Environment.NewLine;
+		        govee_devices_Textbox.Text += $"Model: {device.Model}" + Environment.NewLine;
+		        govee_devices_Textbox.Text += $"--------------------------------" + Environment.NewLine;
+	        }
+	        govee_devices_Textbox.Text += $"Devices Total: {_settingsService.CurrentSettings.GoveeSettings.GoveeDevices.Count}" + Environment.NewLine;
         }
 
         private async void govee_SetBaseColor_Button_Click(object sender, RoutedEventArgs e)
         {
+	        var color = govee_ColorPicker.SelectedColor;
+	        if (color is null)
+	        {
+		        MessageBox.Show(Properties.Resources.Window_TriggerDetail_ColorPicker_Error,
+			        Properties.Resources.General_MessageBox_Error_Title);
+		        return;
+	        }
 
+	        foreach (var device in _settingsService.CurrentSettings.GoveeSettings.GoveeDevices)
+	        {
+		        _logger.Debug($"Set Color R:{color.Value.R} G:{color.Value.G} B:{color.Value.B} to Device {device.DeviceName}");
+		        await _goveeService.SetColor(device, new GoveeCSharpConnector.Objects.RgbColor(color.Value.R, color.Value.G, color.Value.B));
+	        }
         }
 
         private async void govee_resetBrightness_Button_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-        private void Govee_api_Textbox_OnLostFocus(object sender, RoutedEventArgs e)
-        {
-	        _settingsService.CurrentSettings.GoveeSettings.GoveeApiKey = govee_api_Textbox.Text;
-	        if(!string.IsNullOrWhiteSpace(_settingsService.CurrentSettings.GoveeSettings.GoveeApiKey) &&
-	           _settingsService.CurrentSettings.GoveeSettings.GoveeApiKey.Length  == 36)
+	        var value = Convert.ToInt16(govee_brightnessReset_TextBox.Text);
+	        if (value is < 0 or > 100)
 	        {
-		        govee_SetBaseColor_Button.IsEnabled = true;
-		        govee_resetBrightness_Button.IsEnabled = true;
+		        MessageBox.Show(Properties.Resources.Code_Main_MessageBox_Value0100, Properties.Resources.General_MessageBox_Error_Title);
+		        return;
 	        }
-	        else
 
-            {
-				_logger.Error("Govee Api Key no valid Format! Has to be like xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx!");
-				MessageBox.Show("Govee Api Key no valid Format! Has to be like xxxxxxxx - xxxx - xxxx - xxxx - xxxxxxxxxxxx!", Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
-			    govee_SetBaseColor_Button.IsEnabled = false;
-		        govee_resetBrightness_Button.IsEnabled = false;
+	        foreach (var device in _settingsService.CurrentSettings.GoveeSettings.GoveeDevices)
+	        {
+		        _logger.Debug($"Set Brightness to {value}% to Device {device.DeviceName}");
+		        await _goveeService.SetBrightness(device, value);
 	        }
+        }
+        private void Govee_api_TextBox_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+	        if (govee_api_Textbox.Text.Length != 36 && !string.IsNullOrWhiteSpace(govee_api_Textbox.Text))
+	        {
+		        _logger.Error("Govee Api Key no valid Format! Has to be like xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx!");
+		        MessageBox.Show("Govee Api Key no valid Format! Has to be like xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx!", Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
+		        govee_SetBaseColor_Button.IsEnabled = false;
+		        govee_resetBrightness_Button.IsEnabled = false;
+		        _settingsService.CurrentSettings.GoveeSettings.GoveeApiKey = "";
+		        _settingsService.SaveSettings();        
+		        return;
+	        }
+	        _settingsService.CurrentSettings.GoveeSettings.GoveeApiKey = govee_api_Textbox.Text;
+	        _goveeService.GoveeApiKey = govee_api_Textbox.Text;
+	        govee_SetBaseColor_Button.IsEnabled = true;
+	        govee_resetBrightness_Button.IsEnabled = true;
 	        _settingsService.SaveSettings();        
         }
 	}

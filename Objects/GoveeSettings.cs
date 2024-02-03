@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GoveeCSharpConnector.Objects;
 
 namespace NanoTwitchLeafs.Objects;
 

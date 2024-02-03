@@ -66,9 +66,9 @@
                                 </Grid.ColumnDefinitions>
                                 <Button x:Name="govee_refresh_Button" Content="Refresh Devices" Margin="10,64,10,0" VerticalAlignment="Top" Click="govee_refresh_Button_Click"/>
                                 <Label x:Name="govee_Api_Label" Content="Govee Api Key:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                                <TextBox x:Name="govee_api_Textbox" Margin="10,40,10,0" TextWrapping="Wrap" Text="Paste your Govee API Key Here" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" LostFocus="Govee_api_Textbox_OnLostFocus"/>
-                                <TextBox x:Name="govee_devices_Textbox" IsEnabled="False" Margin="10,89,10,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Height="270"/>
-                                <Label Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_SetEffect}" HorizontalAlignment="Left" Margin="10,0,0,68" VerticalAlignment="Bottom" Padding="5,0" />
+                                <TextBox x:Name="govee_api_Textbox" Margin="10,40,10,0" TextWrapping="Wrap" Text="Paste your Govee API Key Here" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" LostFocus="Govee_api_TextBox_OnLostFocus"/>
+                                <TextBox x:Name="govee_devices_Textbox" IsEnabled="False" Margin="10,89,10,0" TextWrapping="Wrap" Text="No Devices Found! Please refresh Devices!" VerticalAlignment="Top" Height="260"/>
+                                <Label Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_SetEffect}" HorizontalAlignment="Left" Margin="10,0,0,67" VerticalAlignment="Bottom" Padding="5,0" />
                                 <xctk:ColorPicker x:Name="govee_ColorPicker" Margin="10,0,0,40" IsEnabled="True" Height="22" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="252" />
                                 <Button x:Name="govee_SetBaseColor_Button" Content="{x:Static p:Resources.General_Button_OK}" HorizontalAlignment="Right" Margin="0,0,10,41" VerticalAlignment="Bottom" Click="govee_SetBaseColor_Button_Click" Padding="5,1" IsEnabled="False" />
                                 <Label x:Name="govee_Reset_Brightness_Label" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_ResetBrightness}" HorizontalAlignment="Left" Margin="10,0,0,9" VerticalAlignment="Bottom" Height="26" Width="174" />

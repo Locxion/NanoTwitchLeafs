@@ -110,6 +110,9 @@
     <Reference Include="Google.Protobuf, Version=3.25.2.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
       <HintPath>packages\Google.Protobuf.3.25.2\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
+    <Reference Include="GoveeCSharpConnector, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\GoveeCSharpConnector.1.1.2\lib\netstandard2.0\GoveeCSharpConnector.dll</HintPath>
+    </Reference>
     <Reference Include="H.Engine.IO, Version=1.2.16.0, Culture=neutral, PublicKeyToken=56a250a977deb371, processorArchitecture=MSIL">
       <HintPath>packages\H.Engine.IO.1.2.16\lib\net462\H.Engine.IO.dll</HintPath>
     </Reference>
@@ -443,7 +446,6 @@
     </ApplicationDefinition>
     <Compile Include="Enums\StreamingPlatformEnum.cs" />
     <Compile Include="Interfaces\IDeviceService.cs" />
-    <Compile Include="Interfaces\IGoveeService.cs" />
     <Compile Include="Interfaces\IStreamingPlatformService.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Colors\ColorConverting.cs" />
@@ -474,9 +476,7 @@
     <Compile Include="Objects\AnalyticsPing.cs" />
     <Compile Include="Objects\AppInformation.cs" />
     <Compile Include="Objects\GithubReleaseInfo.cs" />
-    <Compile Include="Objects\GoveeDevice.cs" />
     <Compile Include="Objects\GoveeSettings.cs" />
-    <Compile Include="Objects\GoveeState.cs" />
     <Compile Include="Objects\HeartRateMessage.cs" />
     <Compile Include="Objects\NanoleafControllerInfo.cs" />
     <Compile Include="Objects\NotifyHandlerHelper.cs" />

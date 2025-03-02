@@ -27,6 +27,7 @@ namespace NanoTwitchLeafs.Controller
 		private readonly CommandRepository _commandRepository;
 		private readonly NanoController _nanoController;
 		private readonly TwitchPubSubController _twitchPubSubController;
+		private readonly TwitchEventSubController _twitchEventSubController;
 
 		private readonly Dictionary<int, DateTime> _triggerCoolDowns = new Dictionary<int, DateTime>();
 		private DateTime _lastGlobalCooldown;
@@ -41,25 +42,30 @@ namespace NanoTwitchLeafs.Controller
 		private const int ChatMessageDelay = 1750;
 		private int _lastHeartRate;
 		private TriggerSetting _lastTrigger;
+		
 
 		public TriggerLogicController(AppSettings settings, TwitchController twitchController, CommandRepository commandRepository,
-									  NanoController nanoController, TwitchPubSubController twitchPubSubController, StreamlabsController streamLabsController, HypeRateIOController hypeRateIoController)
+									  NanoController nanoController, TwitchPubSubController twitchPubSubController, TwitchEventSubController twitchEventSubController, StreamlabsController streamLabsController, HypeRateIOController hypeRateIoController)
 		{
 			_appSettings = settings;
 			_twitchController = twitchController;
 			_commandRepository = commandRepository;
 			_nanoController = nanoController;
 			_twitchPubSubController = twitchPubSubController;
+			_twitchEventSubController = twitchEventSubController;
+			
 
 			_lastGlobalCooldown = DateTime.Now;
 			_lastNanoHelp = DateTime.Now;
 
 			_twitchController.OnChatMessageReceived += HandleMessage;
 			_twitchController.OnTwitchEventReceived += HandleTwitchEventTrigger;
-			_twitchPubSubController.OnBitsReceived += HandleTwitchPubSubEventBits;
-			_twitchPubSubController.OnFollow += HandleTwitchPubSubEventFollow;
-			_twitchPubSubController.OnChannelPointsRedeemed += HandleChannelPointsTrigger;
-			_twitchController.OnHostEvent += HandleHostEventTrigger;
+			_twitchPubSubController.OnBitsReceived += HandleBits;
+			_twitchPubSubController.OnFollow += HandleFollow;
+			_twitchPubSubController.OnChannelPointsRedeemed += HandleChannelPoints;
+			_twitchEventSubController.OnFollow += HandleFollow;
+			_twitchEventSubController.OnChannelPointsRedeemed += HandleChannelPoints;
+			_twitchEventSubController.OnBitsReceived += HandleBits;
 			hypeRateIoController.OnHeartRateRecieved += HypeRateIoControllerOnHeartRateReceived;
 			streamLabsController.OnDonationRecieved += StreamLabsControllerOnDonationReceived;
 			RunQueueHandler();
@@ -292,14 +298,14 @@ namespace NanoTwitchLeafs.Controller
 			});
 		}
 
-		private void HandleTwitchPubSubEventFollow(string username)
+		private void HandleFollow(string username)
 		{
 			if (CheckBlacklist(username))
 				return;
 			HandleTwitchEventTrigger(username, "Follower", false, 0);
 		}
 
-		private void HandleTwitchPubSubEventBits(string username, int amount)
+		private void HandleBits(string username, int amount)
 		{
 			if (CheckBlacklist(username))
 				return;
@@ -328,7 +334,7 @@ namespace NanoTwitchLeafs.Controller
 			}
 		}
 
-		private void HandleChannelPointsTrigger(string username, string message, Guid guid)
+		private void HandleChannelPoints(string username, string message, Guid guid)
 		{
 			if (CheckBlacklist(username))
 				return;
@@ -398,42 +404,6 @@ namespace NanoTwitchLeafs.Controller
 					continue;
 				}
 				// Check if the amount of subs are higher than this trigger requires.
-				if (amount < trigger.Amount)
-					break;
-
-				queueObject = new QueueObject(trigger, username);
-			}
-
-			if (queueObject != null)
-			{
-				AddToQueue(queueObject);
-			}
-		}
-
-		private void HandleHostEventTrigger(int amount, string username, bool isRaid)
-		{
-			if (CheckBlacklist(username))
-				return;
-
-			var eventType = TriggerTypeEnum.Host.ToString();
-			if (isRaid)
-			{
-				eventType = TriggerTypeEnum.Raid.ToString();
-			}
-
-			QueueObject queueObject = null;
-			var hostTrigger = _commandRepository.GetList()
-				.Where(x => x.Trigger == eventType)
-				.OrderBy(x => x.Amount)
-				.ToList();
-
-			foreach (var trigger in hostTrigger)
-			{
-				if (!trigger.IsActive.HasValue || !trigger.IsActive.Value)
-				{
-					continue;
-				}
-				// Check if the amount of viewers are higher than this trigger requires.
 				if (amount < trigger.Amount)
 					break;
 

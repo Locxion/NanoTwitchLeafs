@@ -15,11 +15,14 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using Microsoft.Extensions.DependencyInjection;
 using NanoTwitchLeafs.Enums;
+using TwitchLib.EventSub.Websockets.Extensions;
 using Application = System.Windows.Application;
 using ComboBox = System.Windows.Controls.ComboBox;
 using ListBox = System.Windows.Controls.ListBox;
@@ -50,6 +53,7 @@ namespace NanoTwitchLeafs.Windows
 		private readonly UpdateController _updateController;
 		private readonly AnalyticsController _analyticsController;
 		private readonly TaskbarIcon _tbi = new TaskbarIcon();
+		private readonly TwitchEventSubController _twitchEventSubController;
 
 		#region Init
 
@@ -143,11 +147,20 @@ namespace NanoTwitchLeafs.Windows
 			_twitchPubSubController = new TwitchPubSubController();
 			_twitchController.TwitchPubSubController = _twitchPubSubController;
 
+			var serviceCollection = new ServiceCollection();
+			serviceCollection.AddTwitchLibEventSubWebsockets();
+			serviceCollection.AddLogging();
+			
+			var serviceProvider = serviceCollection.BuildServiceProvider();
+			
+			_logger.Info("Initialize TwitchEventSub Controller");
+			_twitchEventSubController = new TwitchEventSubController(serviceProvider, _appSettings);
+			_twitchController.EventSubController = _twitchEventSubController;
+			
 			_logger.Info("Initialize Nano Controller");
 			_nanoController = new NanoController(_appSettings);
 
 			_logger.Info("Initialize Trigger Command Repository");
-
 			_commandRepository = new CommandRepository(new DatabaseController<TriggerSetting>(Constants.DATABASE_PATH));
 
 			_logger.Info("Initialize HypeRate Controller");
@@ -163,7 +176,7 @@ namespace NanoTwitchLeafs.Windows
 			{
 				//This has to be Last!
 				_logger.Info("Initialize Trigger Logic Controller");
-				_triggerLogicController = new TriggerLogicController(_appSettings, _twitchController, _commandRepository, _nanoController, _twitchPubSubController, _streamlabsController, _hypeRatecontroller);
+				_triggerLogicController = new TriggerLogicController(_appSettings, _twitchController, _commandRepository, _nanoController, _twitchPubSubController,_twitchEventSubController, _streamlabsController, _hypeRatecontroller);
 			}
 			catch (Exception ex)
 			{

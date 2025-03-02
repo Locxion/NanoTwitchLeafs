@@ -17,21 +17,21 @@ using TwitchLib.Api;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
+using TwitchLib.Communication.Clients;
 using TwitchLib.Communication.Events;
+using TwitchLib.Communication.Models;
 using ChatMessage = NanoTwitchLeafs.Objects.ChatMessage;
 using MessageBox = System.Windows.MessageBox;
 
 namespace NanoTwitchLeafs.Controller
 {
-	public delegate void ConsoleMessageReceived(string message);
-
 	public delegate void ChatMessageReceived(ChatMessage message);
 
 	public delegate void TwitchEventReceived(string username, string twitchEvent, bool isAnonymous = false, int amount = 1);
 
 	public delegate void CallLoadingWindow(bool state);
 
-	public delegate void HostEvent(int amount, string username, bool isRaid = false);
+	public delegate void RaidEvent(int amount, string username, bool isRaid = false);
 
 	public class TwitchController
 	{
@@ -51,9 +51,12 @@ namespace NanoTwitchLeafs.Controller
 		private TwitchAPI _api;
 		private AppSettings _appSettings;
 		public TwitchPubSubController TwitchPubSubController;
+		public TwitchEventSubController EventSubController;
 		private readonly AppSettingsController _appSettingsController;
 
 		public List<string> ChannelModerator { get; set; }
+		
+
 		private bool _firstTryToConnectBotAccount = true;
 		private bool _firstTryToConnectBroadcasterAccount = true;
 
@@ -63,7 +66,7 @@ namespace NanoTwitchLeafs.Controller
 
 		public event TwitchEventReceived OnTwitchEventReceived;
 
-		public event HostEvent OnHostEvent;
+		public event RaidEvent OnRaidEvent;
 
 		public event CallLoadingWindow OnCallLoadingWindow;
 
@@ -121,8 +124,9 @@ namespace NanoTwitchLeafs.Controller
 				return;
 
 			ConnectionCredentials credentials = new ConnectionCredentials(_appSettings.BotName.ToLower(), "oauth:" + _appSettings.BotAuthObject.Access_Token);
-
-			Client = new TwitchClient();
+			var clientOptions = new ClientOptions();
+			WebSocketClient customClient = new WebSocketClient(clientOptions);
+			Client = new TwitchClient(customClient);
 			Client.Initialize(credentials, _appSettings.ChannelName.ToLower());
 
 			Client.OnLog += Client_OnLog;
@@ -266,6 +270,8 @@ namespace NanoTwitchLeafs.Controller
 			{
 				TwitchPubSubController.Connect(_appSettings);
 			}
+
+			EventSubController.StartAsync();
 		}
 
 		private void BroadCasterClient_OnConnected(object sender, OnConnectedArgs e)
@@ -328,6 +334,7 @@ namespace NanoTwitchLeafs.Controller
 				}
 			}
 
+			EventSubController.StopAsync();
 			OnCallLoadingWindow?.Invoke(false);
 		}
 
@@ -359,7 +366,7 @@ namespace NanoTwitchLeafs.Controller
 		private void OnRaidNotification(object sender, OnRaidNotificationArgs e)
 		{
 			_logger.Debug($"Received Raid form {e.RaidNotification.DisplayName}");
-			OnHostEvent?.Invoke(Convert.ToInt32(e.RaidNotification.MsgParamViewerCount), e.RaidNotification.DisplayName, true);
+			OnRaidEvent?.Invoke(Convert.ToInt32(e.RaidNotification.MsgParamViewerCount), e.RaidNotification.DisplayName, true);
 		}
 
 		// private void OnBeingHosted(object sender, OnBeingHostedArgs e)

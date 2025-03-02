@@ -15,11 +15,8 @@ using TwitchLib.PubSub.Events;
 namespace NanoTwitchLeafs.Controller
 {
     public delegate void OnFollow(string username);
-
     public delegate void OnBitsReceived(string username, int amount);
-
     public delegate void OnChannelPointsRedeemed(string username, string promt, Guid guid);
-
     public class TwitchPubSubController : IDisposable
     {
         private TwitchPubSub _client;

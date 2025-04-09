@@ -268,7 +268,7 @@ namespace NanoTwitchLeafs.Controller
 
 			if (Client.IsConnected && (_appSettings.BotName.ToLower() == _appSettings.ChannelName.ToLower()))
 			{
-				TwitchPubSubController.Connect(_appSettings);
+				//TwitchPubSubController.Connect(_appSettings);
 			}
 
 			EventSubController.StartAsync();

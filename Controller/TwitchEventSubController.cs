@@ -19,9 +19,7 @@ public class TwitchEventSubController : IDisposable
     private TwitchAPI _api;
     private readonly AppSettings _appSettings;
     public event OnFollow OnFollow;
-
     public event OnBitsReceived OnBitsReceived;
-
     public event OnChannelPointsRedeemed OnChannelPointsRedeemed;
     public TwitchEventSubController(ServiceProvider serviceProvider, AppSettings appSettings)
     {
@@ -61,28 +59,34 @@ public class TwitchEventSubController : IDisposable
             */
             _logger.Info($"Websocket {_eventSubWebsocketClient.SessionId} connected!");
 
-            if (!e.IsRequestedReconnect)
+            if (e.IsRequestedReconnect)
             {
-                _api = new TwitchAPI();
-			
-                _api.Settings.ClientId = HelperClass.GetTwitchApiCredentials(_appSettings).ClientId;
-                _api.Settings.AccessToken = _appSettings.BotAuthObject.Access_Token;
-                var broadcasterId = await HelperClass.GetUserId(_api, _appSettings, _appSettings.ChannelName);
-                var conditions = new Dictionary<string, string>()
-                {
-                    { "broadcaster_user_id", broadcasterId  }
-                };
-
-                var followSubscriptionResponse = await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.follow", "2", conditions,
-                    EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId);
-                _logger.Debug(followSubscriptionResponse.ToString());
+                return;
             }
+            _api = new TwitchAPI();
+			
+            _api.Settings.ClientId = HelperClass.GetTwitchApiCredentials(_appSettings).ClientId;
+            _api.Settings.AccessToken = _appSettings.BotAuthObject.Access_Token;
+            var broadcasterId = await HelperClass.GetUserId(_api, _appSettings, _appSettings.ChannelName);
+            var conditions = new Dictionary<string, string>()
+            {
+                { "broadcaster_user_id", broadcasterId  }
+            };
+
+            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.follow", "1", conditions,
+                EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId, null, null,  HelperClass.GetTwitchApiCredentials(_appSettings).ClientId, _appSettings.BroadcasterAuthObject.Access_Token);
+            _logger.Debug("Subscribed to event Follows");
+            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.subscribe", "1", conditions,
+                EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId, null, null,  HelperClass.GetTwitchApiCredentials(_appSettings).ClientId, _appSettings.BroadcasterAuthObject.Access_Token);
+            _logger.Debug("Subscribed to event Subscription");
+            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.cheer", "1", conditions,
+                EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId, null, null,  HelperClass.GetTwitchApiCredentials(_appSettings).ClientId, _appSettings.BroadcasterAuthObject.Access_Token);
+            _logger.Debug("Subscribed to event Cheer");
         }
 
         private async Task OnWebsocketDisconnected(object? sender, EventArgs e)
         {
             _logger.Error($"Websocket {_eventSubWebsocketClient.SessionId} disconnected!");
-            _logger.Error($"Websocket disconnected cause: {e}");
 
             // Don't do this in production. You should implement a better reconnect strategy with exponential backoff
             while (!await _eventSubWebsocketClient.ReconnectAsync())

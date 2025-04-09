@@ -21,7 +21,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using NanoTwitchLeafs.Enums;
+using Serilog;
 using TwitchLib.EventSub.Websockets.Extensions;
 using Application = System.Windows.Application;
 using ComboBox = System.Windows.Controls.ComboBox;
@@ -149,7 +151,11 @@ namespace NanoTwitchLeafs.Windows
 
 			var serviceCollection = new ServiceCollection();
 			serviceCollection.AddTwitchLibEventSubWebsockets();
-			serviceCollection.AddLogging();
+			serviceCollection.AddLogging(config =>
+			{
+				config.ClearProviders();
+				config.AddLog4Net("log4net.config");
+			});
 			
 			var serviceProvider = serviceCollection.BuildServiceProvider();
 			

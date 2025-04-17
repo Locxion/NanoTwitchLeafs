@@ -26,7 +26,6 @@ namespace NanoTwitchLeafs.Controller
 		private readonly TwitchController _twitchController;
 		private readonly CommandRepository _commandRepository;
 		private readonly NanoController _nanoController;
-		private readonly TwitchPubSubController _twitchPubSubController;
 		private readonly TwitchEventSubController _twitchEventSubController;
 
 		private readonly Dictionary<int, DateTime> _triggerCoolDowns = new Dictionary<int, DateTime>();
@@ -45,13 +44,12 @@ namespace NanoTwitchLeafs.Controller
 		
 
 		public TriggerLogicController(AppSettings settings, TwitchController twitchController, CommandRepository commandRepository,
-									  NanoController nanoController, TwitchPubSubController twitchPubSubController, TwitchEventSubController twitchEventSubController, StreamlabsController streamLabsController, HypeRateIOController hypeRateIoController)
+									  NanoController nanoController, TwitchEventSubController twitchEventSubController, StreamlabsController streamLabsController, HypeRateIOController hypeRateIoController)
 		{
 			_appSettings = settings;
 			_twitchController = twitchController;
 			_commandRepository = commandRepository;
 			_nanoController = nanoController;
-			_twitchPubSubController = twitchPubSubController;
 			_twitchEventSubController = twitchEventSubController;
 			
 
@@ -59,17 +57,36 @@ namespace NanoTwitchLeafs.Controller
 			_lastNanoHelp = DateTime.Now;
 
 			_twitchController.OnChatMessageReceived += HandleMessage;
-			_twitchController.OnTwitchEventReceived += HandleTwitchEventTrigger;
-			_twitchPubSubController.OnBitsReceived += HandleBits;
-			_twitchPubSubController.OnFollow += HandleFollow;
-			_twitchPubSubController.OnChannelPointsRedeemed += HandleChannelPoints;
+			_twitchEventSubController.OnBitsReceived += HandleBits;
 			_twitchEventSubController.OnFollow += HandleFollow;
 			_twitchEventSubController.OnChannelPointsRedeemed += HandleChannelPoints;
-			_twitchEventSubController.OnBitsReceived += HandleBits;
+			_twitchEventSubController.OnGiftSubscription += OnGiftSubscription;
+			_twitchEventSubController.OnSubscription += OnSubscription;
+			_twitchEventSubController.OnRaid += OnRaid;
 			hypeRateIoController.OnHeartRateRecieved += HypeRateIoControllerOnHeartRateReceived;
 			streamLabsController.OnDonationRecieved += StreamLabsControllerOnDonationReceived;
 			RunQueueHandler();
 			RunCooldownHandler();
+		}
+
+		private void OnRaid(string username, int raiders)
+		{
+			HandleTwitchEventTrigger(username, TriggerTypeEnum.Raid.ToString(), false, raiders);
+		}
+
+		private void OnSubscription(string username, bool isResub)
+		{
+			if (isResub)
+				HandleTwitchEventTrigger(username, TriggerTypeEnum.ReSubscription.ToString(), false, 1);
+			HandleTwitchEventTrigger(username, TriggerTypeEnum.Subscription.ToString(), false, 1);
+		}
+
+		private void OnGiftSubscription(string username, int amount, bool isAnonymous)
+		{
+			bool isBomb = amount > 1;
+			if (isBomb)
+				HandleBombEventTrigger(username, TriggerTypeEnum.GiftBomb.ToString(), isAnonymous, amount);
+			
 		}
 
 		private void StreamLabsControllerOnDonationReceived(double amount, string username)
@@ -302,7 +319,7 @@ namespace NanoTwitchLeafs.Controller
 		{
 			if (CheckBlacklist(username))
 				return;
-			HandleTwitchEventTrigger(username, "Follower", false, 0);
+			HandleTwitchEventTrigger(username, TriggerTypeEnum.Follower.ToString(), false, 0);
 		}
 
 		private void HandleBits(string username, int amount)
@@ -334,7 +351,7 @@ namespace NanoTwitchLeafs.Controller
 			}
 		}
 
-		private void HandleChannelPoints(string username, string message, Guid guid)
+		private void HandleChannelPoints(string username, string message, string guid)
 		{
 			if (CheckBlacklist(username))
 				return;
@@ -345,7 +362,7 @@ namespace NanoTwitchLeafs.Controller
 				{
 					continue;
 				}
-				if (trigger.Trigger == TriggerTypeEnum.ChannelPoints.ToString() && trigger.ChannelPointsGuid == guid.ToString())
+				if (trigger.Trigger == TriggerTypeEnum.ChannelPoints.ToString() && trigger.ChannelPointsGuid == guid)
 				{
 					QueueObject queueObject = new QueueObject(trigger, $"{username}-ChannelPoints");
 					AddToQueue(queueObject);
@@ -357,12 +374,6 @@ namespace NanoTwitchLeafs.Controller
 		{
 			if (CheckBlacklist(username))
 				return;
-
-			if (twitchEvent == TriggerTypeEnum.GiftBomb.ToString() || twitchEvent == TriggerTypeEnum.AnonGiftBomb.ToString())
-			{
-				HandleBombEventTrigger(username, twitchEvent, isAnonymous, amount);
-				return;
-			}
 
 			if (isAnonymous)
 			{

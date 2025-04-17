@@ -345,26 +345,26 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="TwitchLib.Api, Version=3.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\TwitchLib.Api.3.9.0\lib\netstandard2.0\TwitchLib.Api.dll</HintPath>
+    <Reference Include="TwitchLib.Api, Version=3.10.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\TwitchLib.Api.3.10.0-preview-4e0146c\lib\netstandard2.0\TwitchLib.Api.dll</HintPath>
     </Reference>
-    <Reference Include="TwitchLib.Api.Core, Version=3.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\TwitchLib.Api.Core.3.9.0\lib\netstandard2.0\TwitchLib.Api.Core.dll</HintPath>
+    <Reference Include="TwitchLib.Api.Core, Version=3.10.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\TwitchLib.Api.Core.3.10.0-preview-4e0146c\lib\netstandard2.0\TwitchLib.Api.Core.dll</HintPath>
     </Reference>
-    <Reference Include="TwitchLib.Api.Core.Enums, Version=3.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\TwitchLib.Api.Core.Enums.3.9.0\lib\netstandard2.0\TwitchLib.Api.Core.Enums.dll</HintPath>
+    <Reference Include="TwitchLib.Api.Core.Enums, Version=3.10.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\TwitchLib.Api.Core.Enums.3.10.0-preview-4e0146c\lib\netstandard2.0\TwitchLib.Api.Core.Enums.dll</HintPath>
     </Reference>
-    <Reference Include="TwitchLib.Api.Core.Interfaces, Version=3.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\TwitchLib.Api.Core.Interfaces.3.9.0\lib\netstandard2.0\TwitchLib.Api.Core.Interfaces.dll</HintPath>
+    <Reference Include="TwitchLib.Api.Core.Interfaces, Version=3.10.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\TwitchLib.Api.Core.Interfaces.3.10.0-preview-4e0146c\lib\netstandard2.0\TwitchLib.Api.Core.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="TwitchLib.Api.Core.Models, Version=3.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\TwitchLib.Api.Core.Models.3.9.0\lib\netstandard2.0\TwitchLib.Api.Core.Models.dll</HintPath>
+    <Reference Include="TwitchLib.Api.Core.Models, Version=3.10.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\TwitchLib.Api.Core.Models.3.10.0-preview-4e0146c\lib\netstandard2.0\TwitchLib.Api.Core.Models.dll</HintPath>
     </Reference>
-    <Reference Include="TwitchLib.Api.Helix, Version=3.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\TwitchLib.Api.Helix.3.9.0\lib\netstandard2.0\TwitchLib.Api.Helix.dll</HintPath>
+    <Reference Include="TwitchLib.Api.Helix, Version=3.10.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\TwitchLib.Api.Helix.3.10.0-preview-4e0146c\lib\netstandard2.0\TwitchLib.Api.Helix.dll</HintPath>
     </Reference>
-    <Reference Include="TwitchLib.Api.Helix.Models, Version=3.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\TwitchLib.Api.Helix.Models.3.9.0\lib\netstandard2.0\TwitchLib.Api.Helix.Models.dll</HintPath>
+    <Reference Include="TwitchLib.Api.Helix.Models, Version=3.10.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\TwitchLib.Api.Helix.Models.3.10.0-preview-4e0146c\lib\netstandard2.0\TwitchLib.Api.Helix.Models.dll</HintPath>
     </Reference>
     <Reference Include="TwitchLib.Client, Version=3.3.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\TwitchLib.Client.3.3.1\lib\netstandard2.0\TwitchLib.Client.dll</HintPath>
@@ -379,10 +379,10 @@
       <HintPath>packages\TwitchLib.Communication.1.0.6\lib\netstandard2.0\TwitchLib.Communication.dll</HintPath>
     </Reference>
     <Reference Include="TwitchLib.EventSub.Core, Version=2.5.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\TwitchLib.EventSub.Core.2.5.3-preview-7b3edb2\lib\netstandard2.0\TwitchLib.EventSub.Core.dll</HintPath>
+      <HintPath>packages\TwitchLib.EventSub.Core.2.5.3-preview-ce9df77\lib\netstandard2.0\TwitchLib.EventSub.Core.dll</HintPath>
     </Reference>
-    <Reference Include="TwitchLib.EventSub.Websockets, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\TwitchLib.EventSub.Websockets.0.5.0\lib\netstandard2.0\TwitchLib.EventSub.Websockets.dll</HintPath>
+    <Reference Include="TwitchLib.EventSub.Websockets, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\TwitchLib.EventSub.Websockets.0.6.0-preview-6f4cd77\lib\netstandard2.0\TwitchLib.EventSub.Websockets.dll</HintPath>
     </Reference>
     <Reference Include="TwitchLib.PubSub, Version=3.2.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\TwitchLib.PubSub.3.2.6\lib\netstandard2.0\TwitchLib.PubSub.dll</HintPath>
@@ -431,6 +431,7 @@
     <Compile Include="Colors\RgbColor.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Controller\AnalyticsController.cs" />
+    <Compile Include="Controller\CustomEvents.cs" />
     <Compile Include="Controller\HypeRateIOController.cs" />
     <Compile Include="Controller\TwitchEventSubController.cs" />
     <Compile Include="Enums\PingType.cs" />
@@ -466,7 +467,6 @@
     <Compile Include="Windows\AppInfoWindow.xaml.cs">
       <DependentUpon>AppInfoWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controller\TwitchPubSubController.cs" />
     <Compile Include="Objects\ControllerInfo.cs" />
     <Compile Include="Repositories\CommandRepository.cs" />
     <Compile Include="Windows\BlacklistWindow.xaml.cs">

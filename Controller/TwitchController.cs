@@ -1,5 +1,4 @@
 ﻿using log4net;
-using NanoTwitchLeafs.Enums;
 using NanoTwitchLeafs.Objects;
 using Newtonsoft.Json;
 using System;
@@ -7,10 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 using TwitchLib.Api;
@@ -25,75 +21,38 @@ using MessageBox = System.Windows.MessageBox;
 
 namespace NanoTwitchLeafs.Controller
 {
-	public delegate void ChatMessageReceived(ChatMessage message);
-
-	public delegate void TwitchEventReceived(string username, string twitchEvent, bool isAnonymous = false, int amount = 1);
-
-	public delegate void CallLoadingWindow(bool state);
-
-	public delegate void RaidEvent(int amount, string username, bool isRaid = false);
-
 	public class TwitchController
 	{
 		private const string TwitchApiAddress = "https://id.twitch.tv/oauth2";
 		private const string AuthorizationEndpoint = "/authorize";
 		private const string TokenEndpoint = "/token";
-		private const string TwitchScopesBot = "scope=chat:edit chat:read whispers:read whispers:edit user:manage:whispers";
-		private const string TwitchScopesChannelOwner = "scope=chat:edit chat:read whispers:read whispers:edit user:manage:whispers bits:read channel:read:subscriptions channel:read:hype_train channel:read:redemptions channel:manage:redemptions";
+		private const string TwitchScopesBot = "scope=channel:bot user:read:chat chat:edit chat:read whispers:read whispers:edit user:manage:whispers";
+		private const string TwitchScopesChannelOwner = "scope=channel:bot user:read:chat moderator:read:followers chat:edit chat:read whispers:read whispers:edit user:manage:whispers bits:read channel:read:subscriptions channel:read:hype_train channel:read:redemptions channel:manage:redemptions";
 
 		private const string RedirectUri = "http://127.0.0.1:1234";
-
-		private readonly Subject<OnGiftedSubscriptionArgs> _subscriptionSubject = new Subject<OnGiftedSubscriptionArgs>();
-
+		
 		private readonly ILog _logger = LogManager.GetLogger(typeof(TwitchController));
 		public TwitchClient Client;
 		private TwitchClient _broadCasterClient;
 		private TwitchAPI _api;
 		private AppSettings _appSettings;
-		public TwitchPubSubController TwitchPubSubController;
 		public TwitchEventSubController EventSubController;
 		private readonly AppSettingsController _appSettingsController;
 
 		public List<string> ChannelModerator { get; set; }
-		
 
 		private bool _firstTryToConnectBotAccount = true;
 		private bool _firstTryToConnectBroadcasterAccount = true;
-
 		public event EventHandler OnDisconnected;
 
 		public event ChatMessageReceived OnChatMessageReceived;
-
-		public event TwitchEventReceived OnTwitchEventReceived;
-
-		public event RaidEvent OnRaidEvent;
-
+		
 		public event CallLoadingWindow OnCallLoadingWindow;
 
 		public TwitchController(AppSettingsController appSettingsController)
 		{
 			_appSettingsController = appSettingsController ?? throw new ArgumentNullException(nameof(appSettingsController));
 			_appSettings = _appSettingsController.LoadSettings();
-			_subscriptionSubject
-				.Buffer(TimeSpan.FromSeconds(1))
-				.Where(x => x.Count > 0)
-				.Subscribe(messages =>
-				{
-					var groups = messages.GroupBy(x => x.GiftedSubscription.UserId, x => x);
-					foreach (var messageGroup in groups)
-					{
-						if (messageGroup.Count() != 1)
-						{
-							_logger.Debug("Got more Events. Ignore single Gift Subscription Event");
-							continue;
-						}
-
-						_logger.Debug("Sending single Gift Subscription");
-						var e = messageGroup.First();
-						OnTwitchEventReceived?.Invoke(e.GiftedSubscription.DisplayName, TriggerTypeEnum.GiftSubscription.ToString(), e.GiftedSubscription.IsAnonymous);
-					}
-				});
-			
 		}
 
 		/// <summary>
@@ -137,18 +96,6 @@ namespace NanoTwitchLeafs.Controller
 			Client.OnModeratorsReceived += Client_OnModeratorsReceived;
 			Client.OnDisconnected += Client_OnDisconnected;
 			Client.OnIncorrectLogin += Client_OnIncorrectLogin;
-
-			if (_appSettings.BotName.ToLower() == _appSettings.ChannelName.ToLower())
-			{
-				// Effect Event Handlers
-				Client.OnNewSubscriber += OnNewSubscriber;
-				//_client.OnBeingHosted += OnBeingHosted;
-				Client.OnRaidNotification += OnRaidNotification;
-				Client.OnGiftedSubscription += OnGiftedSubscription;
-				Client.OnReSubscriber += OnReSubscriber;
-				Client.OnCommunitySubscription += OnCommunitySubscription;
-			}
-
 			Client.Connect();
 		}
 
@@ -214,13 +161,6 @@ namespace NanoTwitchLeafs.Controller
 				//_broadCasterClient.OnLog += Client_OnLog; //Disabled to prevent spam in the Log
 				_broadCasterClient.OnDisconnected += BroadCasterClient_OnDisconnected;
 
-				// Effect Event Handlers
-				_broadCasterClient.OnNewSubscriber += OnNewSubscriber;
-				//_broadCasterClient.OnBeingHosted += OnBeingHosted;
-				_broadCasterClient.OnRaidNotification += OnRaidNotification;
-				_broadCasterClient.OnGiftedSubscription += OnGiftedSubscription;
-				_broadCasterClient.OnReSubscriber += OnReSubscriber;
-
 				_broadCasterClient.Initialize(credentials, _appSettings.ChannelName.ToLower());
 				_broadCasterClient.Connect();
 				OnCallLoadingWindow?.Invoke(false);
@@ -254,14 +194,6 @@ namespace NanoTwitchLeafs.Controller
 				//_broadCasterClient.OnLog += Client_OnLog; //Disabled to prevent spam in the Log
 				_broadCasterClient.OnDisconnected += BroadCasterClient_OnDisconnected;
 
-				// Effect Event Handlers
-				_broadCasterClient.OnNewSubscriber += OnNewSubscriber;
-				//_broadCasterClient.OnBeingHosted += OnBeingHosted;
-				_broadCasterClient.OnRaidNotification += OnRaidNotification;
-				_broadCasterClient.OnGiftedSubscription += OnGiftedSubscription;
-				_broadCasterClient.OnReSubscriber += OnReSubscriber;
-				_broadCasterClient.OnCommunitySubscription += OnCommunitySubscription;
-
 				_broadCasterClient.Connect();
 				OnCallLoadingWindow?.Invoke(false);
 			}
@@ -278,7 +210,6 @@ namespace NanoTwitchLeafs.Controller
 		{
 			OnCallLoadingWindow?.Invoke(false);
 			_firstTryToConnectBroadcasterAccount = true;
-			TwitchPubSubController.Connect(_appSettings);
 			_logger.Debug($"Connected to {e.AutoJoinChannel} with BroadcasterAccount {e.BotUsername}.");
 		}
 
@@ -304,12 +235,6 @@ namespace NanoTwitchLeafs.Controller
 				Client.OnModeratorsReceived -= Client_OnModeratorsReceived;
 				Client.OnDisconnected -= Client_OnDisconnected;
 				Client.OnIncorrectLogin -= Client_OnIncorrectLogin;
-				Client.OnNewSubscriber -= OnNewSubscriber;
-				//_client.OnBeingHosted -= OnBeingHosted;
-				Client.OnRaidNotification -= OnRaidNotification;
-				Client.OnGiftedSubscription -= OnGiftedSubscription;
-				Client.OnReSubscriber -= OnReSubscriber;
-				Client.OnCommunitySubscription -= OnCommunitySubscription;
 				Client = null;
 			}
 			
@@ -322,14 +247,6 @@ namespace NanoTwitchLeafs.Controller
 					_broadCasterClient.OnIncorrectLogin -= BroadCasterClient_OnIncorrectLogin;
 					//_broadCasterClient.OnLog -= Client_OnLog; //Disabled to prevent spam in the Log
 					_broadCasterClient.OnDisconnected -= BroadCasterClient_OnDisconnected;
-
-					// Effect Event Handlers
-					_broadCasterClient.OnNewSubscriber -= OnNewSubscriber;
-					//_broadCasterClient.OnBeingHosted -= OnBeingHosted;
-					_broadCasterClient.OnRaidNotification -= OnRaidNotification;
-					_broadCasterClient.OnGiftedSubscription -= OnGiftedSubscription;
-					_broadCasterClient.OnReSubscriber -= OnReSubscriber;
-					_broadCasterClient.OnCommunitySubscription -= OnCommunitySubscription;
 					_broadCasterClient = null;
 				}
 			}
@@ -337,44 +254,7 @@ namespace NanoTwitchLeafs.Controller
 			EventSubController.StopAsync();
 			OnCallLoadingWindow?.Invoke(false);
 		}
-
-		private void OnNewSubscriber(object sender, OnNewSubscriberArgs e)
-		{
-			_logger.Debug($"Received New Subscription from {e.Subscriber.DisplayName}.");
-			OnTwitchEventReceived?.Invoke(e.Subscriber.DisplayName, TriggerTypeEnum.Subscription.ToString());
-		}
-
-		private void OnReSubscriber(object sender, OnReSubscriberArgs e)
-		{
-			_logger.Debug($"Received Re-Subscription from {e.ReSubscriber.DisplayName}. Month - {e.ReSubscriber.Months}.");
-			OnTwitchEventReceived?.Invoke(e.ReSubscriber.DisplayName, TriggerTypeEnum.ReSubscription.ToString());
-		}
-
-		private void OnGiftedSubscription(object sender, OnGiftedSubscriptionArgs e)
-		{
-			_logger.Debug($"Received Gift Subscription. Anonymous - {e.GiftedSubscription.IsAnonymous}.");
-
-			_subscriptionSubject.OnNext(e);
-		}
-
-		private void OnCommunitySubscription(object sender, OnCommunitySubscriptionArgs e)
-		{
-			_logger.Debug($"Received Gift Bomb. Anonymous - {e.GiftedSubscription.IsAnonymous}. Amount - {e.GiftedSubscription.MsgParamMassGiftCount}");
-			OnTwitchEventReceived?.Invoke(e.GiftedSubscription.DisplayName, TriggerTypeEnum.GiftBomb.ToString(), e.GiftedSubscription.IsAnonymous, e.GiftedSubscription.MsgParamMassGiftCount);
-		}
-
-		private void OnRaidNotification(object sender, OnRaidNotificationArgs e)
-		{
-			_logger.Debug($"Received Raid form {e.RaidNotification.DisplayName}");
-			OnRaidEvent?.Invoke(Convert.ToInt32(e.RaidNotification.MsgParamViewerCount), e.RaidNotification.DisplayName, true);
-		}
-
-		// private void OnBeingHosted(object sender, OnBeingHostedArgs e)
-		// {
-		//     _logger.Debug($"Received Host form {e.BeingHostedNotification.HostedByChannel}. Viewers - {e.BeingHostedNotification.Viewers}");
-		//     OnHostEvent?.Invoke(e.BeingHostedNotification.Viewers, e.BeingHostedNotification.Channel);
-		// }
-
+		
 		/// <summary>
 		/// Sends Message to connected TwitchChannel
 		/// </summary>

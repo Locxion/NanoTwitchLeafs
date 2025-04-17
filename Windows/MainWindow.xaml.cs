@@ -48,7 +48,6 @@ namespace NanoTwitchLeafs.Windows
 		private readonly TwitchController _twitchController;
 		private readonly NanoController _nanoController;
 		private readonly CommandRepository _commandRepository;
-		private readonly TwitchPubSubController _twitchPubSubController;
 		private readonly StreamlabsController _streamlabsController;
 		private readonly TriggerLogicController _triggerLogicController;
 		private readonly HypeRateIOController _hypeRatecontroller;
@@ -145,9 +144,7 @@ namespace NanoTwitchLeafs.Windows
 			_twitchController.OnChatMessageReceived += _twitchController_OnChatMessageReceived;
 			_twitchController.OnCallLoadingWindow += OnCallLoadingWindow;
 
-			_logger.Info("Initialize TwitchPubSub Controller");
-			_twitchPubSubController = new TwitchPubSubController();
-			_twitchController.TwitchPubSubController = _twitchPubSubController;
+			_logger.Info("Initialize Dependency Injection for TwitchEventSubController");
 
 			var serviceCollection = new ServiceCollection();
 			serviceCollection.AddTwitchLibEventSubWebsockets();
@@ -182,7 +179,7 @@ namespace NanoTwitchLeafs.Windows
 			{
 				//This has to be Last!
 				_logger.Info("Initialize Trigger Logic Controller");
-				_triggerLogicController = new TriggerLogicController(_appSettings, _twitchController, _commandRepository, _nanoController, _twitchPubSubController,_twitchEventSubController, _streamlabsController, _hypeRatecontroller);
+				_triggerLogicController = new TriggerLogicController(_appSettings, _twitchController, _commandRepository, _nanoController, _twitchEventSubController, _streamlabsController, _hypeRatecontroller);
 			}
 			catch (Exception ex)
 			{
@@ -574,7 +571,7 @@ namespace NanoTwitchLeafs.Windows
 			_appSettings.BroadcasterAvatarUrl = null;
 			_appSettings.BotAvatarUrl = null;
 			_appSettings.ChannelName = null;
-			if (_twitchController.Client.IsConnected && _twitchController.Client != null)
+			if (_twitchController.Client != null && _twitchController.Client.IsConnected)
 			{
 				DisconnectFromChat();
 			}
@@ -795,7 +792,7 @@ namespace NanoTwitchLeafs.Windows
 
 		private void NanoCmd_Button_Click(object sender, RoutedEventArgs e)
 		{
-			TriggerWindow triggerWindow = new TriggerWindow(_commandRepository, _nanoController, _appSettings, _streamlabsController, _hypeRatecontroller, _triggerLogicController, _twitchPubSubController)
+			TriggerWindow triggerWindow = new TriggerWindow(_commandRepository, _nanoController, _appSettings, _streamlabsController, _hypeRatecontroller, _triggerLogicController, _twitchEventSubController)
 			{
 				Owner = this
 			};

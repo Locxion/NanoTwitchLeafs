@@ -17,6 +17,7 @@
         Donation,
         UsernameColor,
         GiftBomb,
-        AnonGiftBomb
+        AnonGiftBomb,
+        HypeTrain
     }
 }

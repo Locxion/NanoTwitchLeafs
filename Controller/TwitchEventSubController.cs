@@ -29,6 +29,7 @@ public class TwitchEventSubController : IDisposable
     public event OnGiftSubscription OnGiftSubscription;
     public event OnBitsReceived OnBitsReceived;
     public event OnChannelPointsRedeemed OnChannelPointsRedeemed;
+    private int CurrentHypeTrainLevel = 0;
     public TwitchEventSubController(ServiceProvider serviceProvider, AppSettings appSettings)
     {
         _appSettings = appSettings;
@@ -56,13 +57,16 @@ public class TwitchEventSubController : IDisposable
         _logger.Debug("Received Hype Train End Event");
         var eventData = args.Notification.Payload.Event.Level;
         HandleHypeTrainEvent(eventData);
+        CurrentHypeTrainLevel = 0;
     }
 
     private async Task OnChannelHypeTrainProgress(object sender, ChannelHypeTrainProgressArgs args)
     {
         _logger.Debug("Received Hype Train Progress Event");
         var eventData = args.Notification.Payload.Event.Level;
-        HandleHypeTrainEvent(eventData);
+        if (CurrentHypeTrainLevel < eventData)
+            HandleHypeTrainEvent(eventData);
+        CurrentHypeTrainLevel = eventData;
     }
 
     private async Task OnChannelHypeTrainBegin(object sender, ChannelHypeTrainBeginArgs args)
@@ -70,6 +74,7 @@ public class TwitchEventSubController : IDisposable
         _logger.Debug("Received Hype Train Begin Event");
         var eventData = args.Notification.Payload.Event.Level;
         HandleHypeTrainEvent(eventData);
+        CurrentHypeTrainLevel = eventData;
     }
 
     private void HandleHypeTrainEvent(int level)

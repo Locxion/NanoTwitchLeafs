@@ -168,4 +168,7 @@
   <data name="Window_Main_Tabs_Settings_Button_Edit" xml:space="preserve">
     <value>Bearbeiten</value>
   </data>
+  <data name="Window_TriggerDetail_RadioButton_HypeTrain" xml:space="preserve">
+    <value>HypeTrain</value>
+  </data>
 </root>

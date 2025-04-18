@@ -2155,6 +2155,15 @@ namespace NanoTwitchLeafs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to HypeTrain.
+        /// </summary>
+        public static string Window_TriggerDetail_RadioButton_HypeTrain {
+            get {
+                return ResourceManager.GetString("Window_TriggerDetail_RadioButton_HypeTrain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Keyword.
         /// </summary>
         public static string Window_TriggerDetail_RadioButton_Keyword {

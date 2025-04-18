@@ -63,10 +63,43 @@ namespace NanoTwitchLeafs.Controller
 			_twitchEventSubController.OnGiftSubscription += OnGiftSubscription;
 			_twitchEventSubController.OnSubscription += OnSubscription;
 			_twitchEventSubController.OnRaid += OnRaid;
+			_twitchEventSubController.OnHypeTrainProgress += OnHypeTrainProgress;
 			hypeRateIoController.OnHeartRateRecieved += HypeRateIoControllerOnHeartRateReceived;
 			streamLabsController.OnDonationRecieved += StreamLabsControllerOnDonationReceived;
 			RunQueueHandler();
 			RunCooldownHandler();
+		}
+
+		private void OnHypeTrainProgress(int hypeTrainLevel)
+		{
+			HandleHypeTrainTriggers(hypeTrainLevel);
+		}
+
+		private void HandleHypeTrainTriggers(int hypeTrainLevel)
+		{
+			QueueObject queueObject = null;
+			var hypeTrainTrigger = _commandRepository.GetList()
+				.Where(x => x.Trigger == "HypeTrain")
+				.OrderBy(x => x.Amount)
+				.ToList();
+
+			foreach (var trigger in hypeTrainTrigger)
+			{
+				if (!trigger.IsActive.HasValue || !trigger.IsActive.Value)
+				{
+					continue;
+				}
+				// Check if the amount of level are higher than this trigger requires.
+				if (hypeTrainLevel < trigger.Amount)
+					break;
+
+				queueObject = new QueueObject(trigger, "HypeTrain");
+			}
+
+			if (queueObject != null)
+			{
+				AddToQueue(queueObject);
+			}
 		}
 
 		private void OnRaid(string username, int raiders)
@@ -109,7 +142,7 @@ namespace NanoTwitchLeafs.Controller
 				{
 					continue;
 				}
-				// Check if the amount of bits are higher than this trigger requires.
+				// Check if the amount of the donation are higher than this trigger requires.
 				if (amount < trigger.Amount)
 					break;
 

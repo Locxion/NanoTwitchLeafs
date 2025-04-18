@@ -691,7 +691,7 @@ Klik på knappen Vælg, og find et lydfil, der skal afspilles med denne udløser
 For at fjerne skal du bare slette stien i tekstboksen.
 Beløb:
 Du kan definere flere udløsere med forskellige minimale grænser.
-Hvis du opretter en Bits Trigger med 100 for eksempel ... vil en 99 Bits cheer ikke gøre noget. Hvis nogen hepper på 100+ biter ... bliver effekten udløst.
+Hvis du opretter en Bits Trigger med 100 for eksempel ... vil en 99 Bits cheer ikke gøre noget. Hvis nogen hepper på 100+ biter ... bliver effekten HypeTrain Level.
 Så du kan gøre flere udløsere for ligesom 50+, 100+, 200+ osv ... Bits og værter.
 Varighed og nedkøling:
 Varighed og nedkøling i sekunder. Nedkøling tæller for hver udløser individuelt
@@ -700,7 +700,7 @@ Du kan angive lysstyrken i% for hver udløser. Værdier kan være mellem 0 og 10
 VIP | Sub | Kun mod:
 Hvis du ønsker at give KUN VIP'er, abonnenter eller moderatorer muligheden for at bruge denne kommando eller nøgleord!</value>
     <comment>The link on the dashboard is in german even in the english locale. It should be something like: https://dashboard.twitch.tv/u/yourtwitchname/community/channel-points
-I tried to change myself but I couldn't :P</comment>
+      I tried to change myself but I couldn't :P</comment>
   </data>
   <data name="Window_Trigger_Title" xml:space="preserve">
     <value>Udløser</value>
@@ -826,5 +826,8 @@ Kontroller konsollen eller logfilen for IP-adressen.</value>
   </data>
   <data name="Window_Responses_StartupMessage_CheckBox" xml:space="preserve">
     <value>Startmeddelelse aktiv</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_HypeTrain" xml:space="preserve">
+    <value>HypeTrain</value>
   </data>
 </root>

@@ -41,7 +41,7 @@ namespace NanoTwitchLeafs.Windows
 			Constants.SetCultureInfo(_appSettings.Language);
 			InitializeComponent();
 
-			if (_twitchEventSubController != null && _twitchEventSubController.isConnected)
+			if (_twitchEventSubController != null && _twitchEventSubController.IsConnected)
 			{
 				_twitchEventSubController.OnChannelPointsRedeemed += TwitchEventSubController_OnChannelPointsRedeemed;
 				_channelPointsGuid = "{00000000-0000-0000-0000-000000000000}";
@@ -116,7 +116,7 @@ namespace NanoTwitchLeafs.Windows
 			// Fill Command/Keyword Textbox
 			CommandKeyword_Textbox.Text = TriggerSetting.CMD;
 
-			// Fill SoundeffectPath Textbox
+			// Fill SoundEffectPath Textbox
 			SoundFilePath_Textbox.Text = TriggerSetting.SoundFilePath;
 			if (!string.IsNullOrWhiteSpace(TriggerSetting.SoundFilePath))
 			{
@@ -254,8 +254,8 @@ namespace NanoTwitchLeafs.Windows
 					Channelpoints_Grid.Visibility = Visibility.Hidden;
 					break;
 
-				case "Host":
-					Host_RadioButton.IsChecked = true;
+				case "HypeTrain":
+					HypeTrain_RadioButton.IsChecked = true;
 					CommandKeyword_Textbox.IsEnabled = false;
 					Amount_Textbox.IsEnabled = true;
 					Duration_Textbox.IsEnabled = true;
@@ -435,7 +435,7 @@ namespace NanoTwitchLeafs.Windows
 			{
 				triggerType = TriggerTypeEnum.Bits.ToString();
 			}
-			if (Host_RadioButton.IsChecked == true)
+			if (HypeTrain_RadioButton.IsChecked == true)
 			{
 				triggerType = TriggerTypeEnum.Host.ToString();
 			}
@@ -832,7 +832,7 @@ namespace NanoTwitchLeafs.Windows
 				Channelpoints_Grid.Visibility = Visibility.Hidden;
 			}
 
-			if (Host_RadioButton.IsChecked == true)
+			if (HypeTrain_RadioButton.IsChecked == true)
 			{
 				CommandKeyword_Textbox.IsEnabled = false;
 				Amount_Textbox.IsEnabled = true;
@@ -909,7 +909,7 @@ namespace NanoTwitchLeafs.Windows
 				Modonly_Checkbox.IsEnabled = false;
 				Cooldown_Textbox.IsEnabled = false;
 				Channelpoints_Grid.Visibility = Visibility.Visible;
-				if (!_twitchEventSubController.isConnected)
+				if (!_twitchEventSubController.IsConnected)
 				{
 					MessageBox.Show(Properties.Resources.Code_TriggerDetail_MessageBox_CPNoConnection, Properties.Resources.General_MessageBox_Hint_Title, MessageBoxButton.OK, MessageBoxImage.Information);
 				}

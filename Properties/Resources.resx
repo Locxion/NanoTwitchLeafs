@@ -688,7 +688,7 @@ To Remove just delete the Path in the Textbox.
 Amount:
 You can define several Trigger with different Minimal Limits.
 If you create a Bits/Donation/Heartrate Trigger with 100 for Example ... a 99 Bits cheer will do nothing. If someone cheers 100+ Bits ... the Effect gets triggered.
-So you can do several Triggers for like 50+, 100+, 200+ etc ... Bits/Donations/HeartRate and Hosts.
+So you can do several Triggers for like 50+, 100+, 200+ etc ... Bits/Donations/HeartRate and HypeTrain Level.
 Duration &amp; Cooldown:
 Duration and Cooldown in Seconds. Cooldown counts for each Trigger individually
 Brightness:
@@ -1038,5 +1038,8 @@ Now we Test your Connection to the Chat and Twitch Services!</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Checkbox_ToolTip_AnalyticsChannelName" xml:space="preserve">
     <value>Shares TwitchChannel to Analytics Server. Disable to only share Anonymous Data.</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_HypeTrain" xml:space="preserve">
+    <value>HypeTrain</value>
   </data>
 </root>

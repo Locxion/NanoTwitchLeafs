@@ -210,7 +210,7 @@ namespace NanoTwitchLeafs.Controller
 		{
 			Task.Run(async () =>
 			{
-				_logger.Debug("Start Cooldown Handler ...");
+				_logger.Info("Start Cooldown Handler ...");
 				_cooldownToken = new CancellationTokenSource();
 				var token = _cooldownToken.Token;
 				while (!token.IsCancellationRequested)

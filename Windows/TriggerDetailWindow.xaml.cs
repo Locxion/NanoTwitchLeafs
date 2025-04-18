@@ -437,7 +437,7 @@ namespace NanoTwitchLeafs.Windows
 			}
 			if (HypeTrain_RadioButton.IsChecked == true)
 			{
-				triggerType = TriggerTypeEnum.Host.ToString();
+				triggerType = TriggerTypeEnum.HypeTrain.ToString();
 			}
 			if (Raid_RadioButton.IsChecked == true)
 			{

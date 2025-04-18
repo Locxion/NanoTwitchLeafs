@@ -1,6 +1,5 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
 using log4net;
-using log4net.Config;
 using log4net.Core;
 using log4net.Repository.Hierarchy;
 using NanoTwitchLeafs.Colors;
@@ -15,7 +14,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,7 +21,6 @@ using System.Windows.Media.Imaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NanoTwitchLeafs.Enums;
-using Serilog;
 using TwitchLib.EventSub.Websockets.Extensions;
 using Application = System.Windows.Application;
 using ComboBox = System.Windows.Controls.ComboBox;
@@ -98,7 +95,7 @@ namespace NanoTwitchLeafs.Windows
 #endif
 #if BETA
             _logger.Info($"Start Program - Version: {typeof(AppInfoWindow).Assembly.GetName().Version} - BETA");
-            _tbi.ToolTipText = $"NanoTwitchLeafs {typeof(AppInfoWindow).Assembly.GetName().Version} - Beta";
+            _tbi.ToolTipText = $"NanoTwitchLeafs {typeof(AppInfoWindow).Assembly.GetName().Version} - BETA";
 #endif
 #if DEBUG
 			_logger.Info($"Start Program - Version: {typeof(AppInfoWindow).Assembly.GetName().Version} - DEBUG");
@@ -151,7 +148,8 @@ namespace NanoTwitchLeafs.Windows
 			serviceCollection.AddLogging(config =>
 			{
 				config.ClearProviders();
-				config.AddLog4Net("log4net.config");
+				//config.AddLog4Net("log4net.config");
+				//config.AddConsole();
 			});
 			
 			var serviceProvider = serviceCollection.BuildServiceProvider();

@@ -24,6 +24,8 @@ namespace NanoTwitchLeafs.Controller
         private static readonly string _analyticsServerUrl = "https://localhost:7244/api";
 #elif RELEASE
         private static readonly string _analyticsServerUrl = "https://analytics.nanotwitchleafs.de/api";
+#elif BETA
+        private static readonly string _analyticsServerUrl = "https://analytics.nanotwitchleafs.de/api";
 #endif
         public AnalyticsController(AppSettings appSettings)
         {

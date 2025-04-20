@@ -41,33 +41,7 @@ public class TwitchAuthService : ITwitchAuthService
         _twitchApiCredentials = HelperClass.GetTwitchApiCredentials(_settingsService.CurrentSettings);
         _twitchApi.Settings.ClientId = _twitchApiCredentials.ClientId;
     }
-    public async Task<OAuthObject> RefreshToken(OAuthObject oAuthObject)
-    {
-	    _logger.Info("Refreshing OAuth ...");
-	    if (string.IsNullOrWhiteSpace(oAuthObject.Refresh_Token))
-	    {
-		    _logger.Error("Can not Refresh OAuthObject! RefreshToken is Missing!");
-		    return null;
-	    }
-	    var requestEndpoint = $"{TwitchApiAddress}{TokenEndpoint}";
-	    var contentDict = new Dictionary<string, string>();
-	    contentDict.Add("client_id", _twitchApiCredentials.ClientId);
-	    contentDict.Add("client_secret", _twitchApiCredentials.ClientSecret);
-	    contentDict.Add("grant_type", "refresh_token");
-	    contentDict.Add("refresh_token", $"{oAuthObject.Refresh_Token}");
-	    var content = new FormUrlEncodedContent(contentDict);
-	    using var httpClient = new HttpClient();
-	    httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/x-www-form-urlencoded");
-	    var response = await httpClient.PostAsync($"{TwitchApiAddress}{TokenEndpoint}", content);
-	    if (!response.IsSuccessStatusCode)
-	    {
-		    _logger.Error("Server rejected Auth Request.");
-		    _logger.Error($"StatusCode: {response.StatusCode}");
-		    return null;
-	    }
-	    var newOAuthObject = await response.Content.ReadFromJsonAsync<OAuthObject>();
-	    return newOAuthObject;
-    }
+
 	public async Task<OAuthObject> GetAuthToken(bool isBroadcaster)
 	{
 		//Source from: https:github.com/googlesamples/oauth-apps-for-windows/blob/master/OAuthDesktopApp/OAuthDesktopApp/MainWindow.xaml.cs
@@ -149,6 +123,7 @@ public class TwitchAuthService : ITwitchAuthService
 
 		return await PerformCodeExchange(code);
 	}
+
 	private async Task<OAuthObject> PerformCodeExchange(string code, bool isRefresh = false)
 	{
 		_logger.Info("Exchanging code for tokens...");

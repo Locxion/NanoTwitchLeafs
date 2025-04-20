@@ -23,8 +23,6 @@ class AnalyticsService : IAnalyticsService
     private const string AnalyticsServerUrl = "https://localhost:7244/api";
 #elif RELEASE
     private const string AnalyticsServerUrl = "https://analytics.nanotwitchleafs.de/api";
-#elif BETA
-    private const string AnalyticsServerUrl = "https://analytics.nanotwitchleafs.de/api";
 #endif
     
     public AnalyticsService(ISettingsService settingsService)

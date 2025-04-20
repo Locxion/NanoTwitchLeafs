@@ -147,6 +147,9 @@ public class TwitchEventSubController : IDisposable
             await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.cheer", "1", conditions,
                 EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId);
             _logger.Debug("Subscribed to Event Cheer");
+            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.raid", "1", conditions,
+                EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId);
+            _logger.Debug("Subscribed to Event Raid");
             await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.channel_points_custom_reward_redemption.add", "1", conditions,
                 EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId);
             await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.channel_points_custom_reward_redemption.update", "1", conditions,

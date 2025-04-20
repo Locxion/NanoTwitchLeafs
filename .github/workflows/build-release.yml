@@ -49,7 +49,7 @@ jobs:
       uses: jsdaniell/create-json@v1.2.3
       with:
         name: "ServiceCredentials"
-        dir: './NanoTwitchLeafs/'
+        dir: './'
         json: >
           { 
             "TwitchApiCredentials": {
@@ -64,6 +64,8 @@ jobs:
               "ApiKey": "${{ secrets.HYPERATE_API_KEY }}"
             }
           }       
+    - name: Move credentials into build folder
+      run: mv ServiceCredentials ./NanoTwitchLeafs/
     # Zip Files
     - name: Build ZIP
       run: |

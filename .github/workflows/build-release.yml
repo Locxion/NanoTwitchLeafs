@@ -29,7 +29,7 @@ jobs:
       run: msbuild.exe ./NanoTwitchLeafs.sln /p:platform="Any CPU" /p:configuration="Release"
     # Upload Artifact
     - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.2.2
+      uses: actions/upload-artifact@v4.6.2
       with:
         # Artifact name
         name: NanoTwitchLeafs #.zip will be added automatically

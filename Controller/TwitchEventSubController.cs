@@ -136,7 +136,7 @@ public class TwitchEventSubController : IDisposable
             { "broadcaster_user_id", broadcasterId },
             { "moderator_user_id", broadcasterId }
         };
-        var singleCondition = new Dictionary<string, string>()
+        var raidCondition = new Dictionary<string, string>()
         {
             { "to_broadcaster_user_id", broadcasterId }
         };
@@ -151,7 +151,7 @@ public class TwitchEventSubController : IDisposable
             await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.cheer", "1", doubleConditions,
                 EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId);
             _logger.Debug("Subscribed to Event Cheer");
-            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.raid", "1", singleCondition,
+            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.raid", "1", raidCondition,
                 EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId);
             _logger.Debug("Subscribed to Event Raid");
             await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.channel_points_custom_reward_redemption.add", "1", doubleConditions,
@@ -166,6 +166,7 @@ public class TwitchEventSubController : IDisposable
             await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.hype_train.end", "1", doubleConditions,
                 EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId);
             _logger.Debug("Subscribed to HypeTrain Events");
+            _logger.Info("Subscribed to all needed Events on EventSub Websocket!");
         }
         catch (HttpResponseException ex)
         {

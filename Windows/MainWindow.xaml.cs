@@ -1,6 +1,5 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
 using log4net;
-using log4net.Config;
 using log4net.Core;
 using log4net.Repository.Hierarchy;
 using NanoTwitchLeafs.Colors;
@@ -19,7 +18,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using NanoTwitchLeafs.Enums;
+using TwitchLib.EventSub.Websockets.Extensions;
 using Application = System.Windows.Application;
 using ComboBox = System.Windows.Controls.ComboBox;
 using ListBox = System.Windows.Controls.ListBox;
@@ -43,13 +45,13 @@ namespace NanoTwitchLeafs.Windows
 		private readonly TwitchController _twitchController;
 		private readonly NanoController _nanoController;
 		private readonly CommandRepository _commandRepository;
-		private readonly TwitchPubSubController _twitchPubSubController;
 		private readonly StreamlabsController _streamlabsController;
 		private readonly TriggerLogicController _triggerLogicController;
 		private readonly HypeRateIOController _hypeRatecontroller;
 		private readonly UpdateController _updateController;
 		private readonly AnalyticsController _analyticsController;
 		private readonly TaskbarIcon _tbi = new TaskbarIcon();
+		private readonly TwitchEventSubController _twitchEventSubController;
 
 		#region Init
 
@@ -93,7 +95,7 @@ namespace NanoTwitchLeafs.Windows
 #endif
 #if BETA
             _logger.Info($"Start Program - Version: {typeof(AppInfoWindow).Assembly.GetName().Version} - BETA");
-            _tbi.ToolTipText = $"NanoTwitchLeafs {typeof(AppInfoWindow).Assembly.GetName().Version} - Beta";
+            _tbi.ToolTipText = $"NanoTwitchLeafs {typeof(AppInfoWindow).Assembly.GetName().Version} - BETA";
 #endif
 #if DEBUG
 			_logger.Info($"Start Program - Version: {typeof(AppInfoWindow).Assembly.GetName().Version} - DEBUG");
@@ -139,15 +141,27 @@ namespace NanoTwitchLeafs.Windows
 			_twitchController.OnChatMessageReceived += _twitchController_OnChatMessageReceived;
 			_twitchController.OnCallLoadingWindow += OnCallLoadingWindow;
 
-			_logger.Info("Initialize TwitchPubSub Controller");
-			_twitchPubSubController = new TwitchPubSubController();
-			_twitchController.TwitchPubSubController = _twitchPubSubController;
+			_logger.Info("Initialize Dependency Injection for TwitchEventSubController");
 
+			var serviceCollection = new ServiceCollection();
+			serviceCollection.AddTwitchLibEventSubWebsockets();
+			serviceCollection.AddLogging(config =>
+			{
+				config.ClearProviders();
+				//config.AddLog4Net("log4net.config");
+				//config.AddConsole();
+			});
+			
+			var serviceProvider = serviceCollection.BuildServiceProvider();
+			
+			_logger.Info("Initialize TwitchEventSub Controller");
+			_twitchEventSubController = new TwitchEventSubController(serviceProvider, _appSettings);
+			_twitchController.EventSubController = _twitchEventSubController;
+			
 			_logger.Info("Initialize Nano Controller");
 			_nanoController = new NanoController(_appSettings);
 
 			_logger.Info("Initialize Trigger Command Repository");
-
 			_commandRepository = new CommandRepository(new DatabaseController<TriggerSetting>(Constants.DATABASE_PATH));
 
 			_logger.Info("Initialize HypeRate Controller");
@@ -163,7 +177,7 @@ namespace NanoTwitchLeafs.Windows
 			{
 				//This has to be Last!
 				_logger.Info("Initialize Trigger Logic Controller");
-				_triggerLogicController = new TriggerLogicController(_appSettings, _twitchController, _commandRepository, _nanoController, _twitchPubSubController, _streamlabsController, _hypeRatecontroller);
+				_triggerLogicController = new TriggerLogicController(_appSettings, _twitchController, _commandRepository, _nanoController, _twitchEventSubController, _streamlabsController, _hypeRatecontroller);
 			}
 			catch (Exception ex)
 			{
@@ -555,7 +569,7 @@ namespace NanoTwitchLeafs.Windows
 			_appSettings.BroadcasterAvatarUrl = null;
 			_appSettings.BotAvatarUrl = null;
 			_appSettings.ChannelName = null;
-			if (_twitchController.Client.IsConnected && _twitchController.Client != null)
+			if (_twitchController.Client != null && _twitchController.Client.IsConnected)
 			{
 				DisconnectFromChat();
 			}
@@ -776,7 +790,7 @@ namespace NanoTwitchLeafs.Windows
 
 		private void NanoCmd_Button_Click(object sender, RoutedEventArgs e)
 		{
-			TriggerWindow triggerWindow = new TriggerWindow(_commandRepository, _nanoController, _appSettings, _streamlabsController, _hypeRatecontroller, _triggerLogicController, _twitchPubSubController)
+			TriggerWindow triggerWindow = new TriggerWindow(_commandRepository, _nanoController, _appSettings, _streamlabsController, _hypeRatecontroller, _triggerLogicController, _twitchEventSubController)
 			{
 				Owner = this
 			};

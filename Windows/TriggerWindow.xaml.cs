@@ -22,9 +22,9 @@ namespace NanoTwitchLeafs.Windows
         private readonly StreamlabsController _streamlabsController;
         private readonly HypeRateIOController _hypeRateIoController;
         private readonly TriggerLogicController _triggerLogicController;
-        public readonly TwitchPubSubController _twitchPubSubController;
+        public readonly TwitchEventSubController _twitchEventSubController;
 
-        public TriggerWindow(CommandRepository commandRepository, NanoController nanoController, AppSettings appSettings, StreamlabsController streamlabsController, HypeRateIOController hypeRateIoController, TriggerLogicController triggerLogicController, TwitchPubSubController twitchPubSubController = null)
+        public TriggerWindow(CommandRepository commandRepository, NanoController nanoController, AppSettings appSettings, StreamlabsController streamlabsController, HypeRateIOController hypeRateIoController, TriggerLogicController triggerLogicController, TwitchEventSubController twitchEventSubController = null)
         {
             _commandRepository = commandRepository ?? throw new ArgumentNullException(nameof(commandRepository));
             _nanoController = nanoController ?? throw new ArgumentNullException(nameof(nanoController));
@@ -32,7 +32,7 @@ namespace NanoTwitchLeafs.Windows
             _streamlabsController = streamlabsController;
             _hypeRateIoController = hypeRateIoController;
             _triggerLogicController = triggerLogicController ?? throw new ArgumentNullException(nameof(triggerLogicController));
-            _twitchPubSubController = twitchPubSubController;
+            _twitchEventSubController = twitchEventSubController;
             Constants.SetCultureInfo(_appSettings.Language);
             InitializeComponent();
 
@@ -223,7 +223,7 @@ namespace NanoTwitchLeafs.Windows
                 return;
             }
 
-            Window triggerDetailWindow = new TriggerDetailWindow(_appSettings, _commandRepository, effectList, _streamlabsController, _hypeRateIoController, triggerSetting, _twitchPubSubController)
+            Window triggerDetailWindow = new TriggerDetailWindow(_appSettings, _commandRepository, effectList, _streamlabsController, _hypeRateIoController, triggerSetting, _twitchEventSubController)
             {
                 Owner = this
             };

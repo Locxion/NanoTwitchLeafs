@@ -683,7 +683,7 @@ Klicke den Knopf und wähle eine Sound Datei von deinem Computer aus. Erlaubt si
 Menge:
 Du kannst hiermit mehrere Stufen mit minimalen Werten einstellen bei denen der Trigger aktiviert werden soll.
 Nehmen wir mal einen Bits Trigger mit 100. Dieser wird nur bei 100 oder mehr aktiviert!
-So kannst du verschiedene Effekte und Trigger für 50+, 100+, 200+ Bits/Spenden/Herzrate und Hosts anlegen.
+So kannst du verschiedene Effekte und Trigger für 50+, 100+, 200+ Bits/Spenden/Herzrate und HypeTrain Level anlegen.
 Dauer &amp; Abklingzeit:
 Beides wird in Sekunden angegeben. Die Abklingzeit kann für jeden Trigger separat eingestellt werden.
 Helligkeit:
@@ -1036,5 +1036,8 @@ Jetzt testen wir die Verbindung zu Twitch!</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Checkbox_ToolTip_AnalyticsChannelName" xml:space="preserve">
     <value>Sendet den Twitch Namen zum Analytics Server wenn aktiviert. Deaktivieren um nur anonyme Daten zu senden.</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_HypeTrain" xml:space="preserve">
+    <value>HypeTrain</value>
   </data>
 </root>

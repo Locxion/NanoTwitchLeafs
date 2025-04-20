@@ -46,24 +46,24 @@ jobs:
           name: NanoTwitchLeafs  
     # Create ServiceCredentials
     - name: Create ServiceCredentials file
-      uses: jsdaniell/create-json@v1.2.2
+      uses: jsdaniell/create-json@v1.2.3
       with:
         name: "ServiceCredentials"
-        id: create-json
-        json: '{
-                "TwitchApiCredentials":{
-                    "ClientId":"${{ secrets.TWITCHCLIENTID }}",
-                    "ClientSecret":"${{ secrets.TWITCHSECRET }}"
-                },
-                "StreamLabsApiCedentials":{
-                    "ClientId":"${{ secrets.STREAMLABSCLIENTID }}",
-                    "ClientSecret":"${{ secrets.STREAMLABSSECRET }}"
-                },
-                    "HyperateApi":{
-                    "ApiKey":"${{ secrets.HYPERATE_API_KEY }}"
-                }
-              }'
         dir: './NanoTwitchLeafs/'
+        json: >
+          { 
+            "TwitchApiCredentials": {
+              "ClientId": "${{ secrets.TWITCHCLIENTID }}",
+              "ClientSecret": "${{ secrets.TWITCHSECRET }}"
+            },
+            "StreamLabsApiCedentials": {
+              "ClientId": "${{ secrets.STREAMLABSCLIENTID }}",
+              "ClientSecret": "${{ secrets.STREAMLABSSECRET }}"
+            },
+            "HyperateApi": {
+              "ApiKey": "${{ secrets.HYPERATE_API_KEY }}"
+            }
+          }       
     # Zip Files
     - name: Build ZIP
       run: |

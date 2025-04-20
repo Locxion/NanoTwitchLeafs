@@ -68,9 +68,6 @@ namespace NanoTwitchLeafs.Windows
 		{
 			_doubleAccount = false;
 			ConnectBroadcaster_TabItem.IsSelected = true;
-			BroadcasterAccount_Textbox.Focusable = true;
-			BroadcasterAccount_Textbox.SelectAll();
-			BroadcasterAccount_Textbox.Focus();
 		}
 
 		private void BCBack_Button_Click(object sender, RoutedEventArgs e)
@@ -83,9 +80,6 @@ namespace NanoTwitchLeafs.Windows
 			if (_doubleAccount)
 			{
 				ConnectBot_TabItem.IsSelected = true;
-				BotAccount_Textbox.Focusable = true;
-				BotAccount_Textbox.SelectAll();
-				BotAccount_Textbox.Focus();
 			}
 			else
 			{

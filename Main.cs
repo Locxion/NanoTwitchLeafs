@@ -13,6 +13,7 @@ using NanoTwitchLeafs.Objects;
 using NanoTwitchLeafs.Services;
 using NanoTwitchLeafs.Windows;
 using Newtonsoft.Json;
+using Serilog.Events;
 
 namespace NanoTwitchLeafs;
 
@@ -23,7 +24,7 @@ public static class Main
 
     public static async void Run()
     {
-        var serviceProvider = DependencyConfig.ServiceProvider;
+        var serviceProvider = DependencyConfig.ConfigureServices();
 
         var settingsService = serviceProvider.GetService<ISettingsService>();
         // attach property change event to configuration object and its subsequent elements if any derived NotifyObject

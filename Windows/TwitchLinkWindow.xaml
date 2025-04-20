@@ -25,7 +25,7 @@
                     <TextBlock x:Name="Double_TextBlock" Grid.Column="1" HorizontalAlignment="Left" Margin="10,115,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="246" Width="363" TextAlignment="Center" MouseEnter="TextBlock_MouseEnter" MouseLeave="TextBlock_MouseLeave" MouseDown="Double_TextBlock_MouseDown" Text="{x:Static p:Resources.Window_TwitchLink_Double_Help}" />
                 </Grid>
             </TabItem>
-            <TabItem x:Name="ConnectBroadcaster_TabItem" Header="{x:Static p:Resources.Window_TwitchLink_Tab_Broadcaster}"  IsEnabled="False">
+            <TabItem x:Name="ConnectBroadcaster_TabItem" Header="{x:Static p:Resources.Window_TwitchLink_Tab_Broadcaster}" IsEnabled="False">
                 <Grid x:Name="Broadcaster_Picture" Background="#FFE5E5E5">
                     <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="234" Width="440" Text="{x:Static p:Resources.Window_TwitchLink_Broadcaster_Permissions_Text}" />
                     <Button x:Name="LinkBroadcaster_Button" Content="{x:Static p:Resources.Window_TwitchLink_Button_Link}" HorizontalAlignment="Left" Margin="105,277,0,0" VerticalAlignment="Top" Width="180" Click="LinkBroadcaster_Button_Click" />

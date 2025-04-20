@@ -879,7 +879,7 @@ and then Click the Button below.</value>
     <value>Broadcaster Username</value>
   </data>
   <data name="Window_TwitchLink_Tab_Bot" xml:space="preserve">
-    <value>Bot Account</value>
+    <value>Bot</value>
   </data>
   <data name="Window_TwitchLink_Label_ClickNext" xml:space="preserve">
     <value>Link successful! Click Next &gt;&gt;&gt;</value>

@@ -44,7 +44,7 @@ namespace NanoTwitchLeafs.Windows
 		private readonly ITriggerService _triggerService;
 		private readonly IStreamingPlatformService _streamingPlatformService;
 		private readonly TaskbarIcon _tbi = new TaskbarIcon();
-		private readonly ServiceProvider _serviceProvider = DependencyConfig.ServiceProvider;
+		private readonly ServiceProvider _serviceProvider = DependencyConfig.ConfigureServices();
 		#region Init
 
 		public MainWindow(ISettingsService settingsService, IAnalyticsService analyticsService, IHypeRateService hypeRateService,
@@ -663,7 +663,7 @@ namespace NanoTwitchLeafs.Windows
 
 		private void NanoCmd_Button_Click(object sender, RoutedEventArgs e)
 		{
-			var triggerWindow = _serviceProvider.GetRequiredService<TriggerWindow>();
+			TriggerWindow triggerWindow = _serviceProvider.GetRequiredService<TriggerWindow>();
 			triggerWindow.Owner = this;
 			
 

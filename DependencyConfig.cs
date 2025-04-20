@@ -10,15 +10,9 @@ namespace NanoTwitchLeafs;
 
 public static class DependencyConfig
 {
-    public static ServiceProvider ServiceProvider;
-    static DependencyConfig()
-    {
-        ServiceProvider = ConfigureServices();
-    }
-    
     public static ServiceProvider ConfigureServices()
     {
-        return new ServiceCollection()
+        var serviceProvider = new ServiceCollection()
             //Windows
             .AddTransient<AppInfoWindow>()
             .AddTransient<BlacklistWindow>()
@@ -52,5 +46,6 @@ public static class DependencyConfig
             // Hier füge deine Abhängigkeiten hinzu
             // .AddTransient<Interface, Implementierung>()
             .BuildServiceProvider();
+        return serviceProvider;
     }
 }

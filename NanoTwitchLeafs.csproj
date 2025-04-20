@@ -107,8 +107,14 @@
     <Reference Include="Google.Protobuf, Version=3.30.2.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
       <HintPath>packages\Google.Protobuf.3.30.2\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
-    <Reference Include="H.Socket.IO">
+    <Reference Include="H.Engine.IO, Version=1.2.16.0, Culture=neutral, PublicKeyToken=56a250a977deb371, processorArchitecture=MSIL">
+      <HintPath>packages\H.Engine.IO.1.2.16\lib\net462\H.Engine.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="H.Socket.IO, Version=1.2.16.0, Culture=neutral, PublicKeyToken=56a250a977deb371, processorArchitecture=MSIL">
       <HintPath>packages\H.Socket.IO.1.2.16\lib\net462\H.Socket.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="H.WebSockets, Version=1.2.16.0, Culture=neutral, PublicKeyToken=56a250a977deb371, processorArchitecture=MSIL">
+      <HintPath>packages\H.WebSockets.1.2.16\lib\net451\H.WebSockets.dll</HintPath>
     </Reference>
     <Reference Include="Hardcodet.NotifyIcon.Wpf, Version=2.0.0.0, Culture=neutral, PublicKeyToken=682384a853a08aad, processorArchitecture=MSIL">
       <HintPath>packages\Hardcodet.NotifyIcon.Wpf.2.0.1\lib\net472\Hardcodet.NotifyIcon.Wpf.dll</HintPath>

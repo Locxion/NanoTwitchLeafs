@@ -1,8 +1,7 @@
-﻿using System;
-using log4net;
+﻿using log4net;
+using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Objects;
 using System.Windows;
-using NanoTwitchLeafs.Interfaces;
 
 namespace NanoTwitchLeafs.Windows
 {
@@ -11,13 +10,15 @@ namespace NanoTwitchLeafs.Windows
     /// </summary>
     public partial class BlacklistWindow : Window
     {
-        private readonly ISettingsService _settingsService;
+        private readonly AppSettingsController _appSettingsController;
+        private readonly AppSettings _appSettings;
         private readonly ILog _logger = LogManager.GetLogger(typeof(MainWindow));
 
-        public BlacklistWindow(ISettingsService settingsService)
+        public BlacklistWindow(AppSettingsController appSettingsController, AppSettings appSettings)
         {
-            _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
-            Constants.SetCultureInfo(_settingsService.CurrentSettings.Language);
+            _appSettingsController = appSettingsController;
+            _appSettings = appSettings;
+            Constants.SetCultureInfo(_appSettings.Language);
             InitializeComponent();
 
             FillListBox();
@@ -32,16 +33,16 @@ namespace NanoTwitchLeafs.Windows
                 return;
             }
 
-            if (_settingsService.CurrentSettings.Blacklist.Contains(username))
+            if (_appSettings.Blacklist.Contains(username))
             {
                 MessageBox.Show(Properties.Resources.General_MessageBox_UsernameExists, Properties.Resources.General_MessageBox_Error_Title);
                 return;
             }
 
-            _settingsService.CurrentSettings.Blacklist.Add(username);
+            _appSettings.Blacklist.Add(username);
             _logger.Info(string.Format(Properties.Resources.General_Blacklist_MessageBox_AddedUserX, username));
             blackbox_Input_Textbox.Text = "";
-            _settingsService.SaveSettings();
+            _appSettingsController.SaveSettings(_appSettings);
             FillListBox();
         }
 
@@ -63,12 +64,12 @@ namespace NanoTwitchLeafs.Windows
                 username = blacklist_ListBox.SelectedItem.ToString().ToLower();
             }
 
-            if (_settingsService.CurrentSettings.Blacklist.Contains(username))
+            if (_appSettings.Blacklist.Contains(username))
             {
-                _settingsService.CurrentSettings.Blacklist.Remove(username);
+                _appSettings.Blacklist.Remove(username);
                 _logger.Info(string.Format(Properties.Resources.General_Blacklist_MessageBox_RemovedUserX, username));
             }
-            _settingsService.SaveSettings();
+            _appSettingsController.SaveSettings(_appSettings);
             blackbox_Input_Textbox.Text = "";
 
             FillListBox();
@@ -78,7 +79,7 @@ namespace NanoTwitchLeafs.Windows
         {
             blacklist_ListBox.Items.Clear();
 
-            foreach (string username in _settingsService.CurrentSettings.Blacklist)
+            foreach (string username in _appSettings.Blacklist)
             {
                 blacklist_ListBox.Items.Add(username);
             }

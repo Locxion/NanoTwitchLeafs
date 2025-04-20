@@ -1,23 +1,21 @@
-﻿using System.Collections.Generic;
-using log4net;
+﻿using log4net;
 using NanoTwitchLeafs.Interfaces;
 using SQLite;
+using System.Collections.Generic;
 
-namespace NanoTwitchLeafs.Services
+namespace NanoTwitchLeafs.Controller
 {
-	public class DatabaseService<T> : IDatabaseService<T> where T : new()
+	public class DatabaseController<T> : IDatabaseController<T> where T : new()
 	{
-		private string _databasePath= Constants.DATABASE_PATH;
-		private readonly ILog _logger = LogManager.GetLogger(typeof(DatabaseService<T>));
-		public DatabaseService()
+		private readonly string _databasePath;
+		private readonly ILog _logger = LogManager.GetLogger(typeof(DatabaseController<T>));
+
+		public DatabaseController(string databaseFileName)
 		{
+			_databasePath = databaseFileName;
+
 			_logger.Info($"Initialize Database Controller for '{typeof(T).Name}'");
 			CreateTable();
-		}
-
-		public void SetDatabasePath(string path)
-		{
-			_databasePath = path;
 		}
 
 		/// <summary>

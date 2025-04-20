@@ -1,4 +1,5 @@
 ﻿using log4net;
+using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Objects;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,6 @@ using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
-using NanoTwitchLeafs.Interfaces;
 using Zeroconf;
 
 namespace NanoTwitchLeafs.Windows
@@ -16,17 +16,16 @@ namespace NanoTwitchLeafs.Windows
     /// </summary>
     public partial class PairingWindow : Window
     {
-        private readonly ISettingsService _settingsService;
-        private readonly INanoService _nanoService;
         private readonly ILog _logger = LogManager.GetLogger(typeof(PairingWindow));
-
+        private AppSettings _appSettings;
+        private readonly NanoController _nanoController;
         private IReadOnlyList<IZeroconfHost> networkDevices;
 
-        public PairingWindow(ISettingsService settingsService, INanoService nanoService)
+        public PairingWindow(AppSettings appSettings, NanoController nanoController)
         {
-            _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
-            _nanoService = nanoService ?? throw new ArgumentNullException(nameof(nanoService));
-            Constants.SetCultureInfo(settingsService.CurrentSettings.Language);
+            _appSettings = appSettings;
+            _nanoController = nanoController;
+            Constants.SetCultureInfo(_appSettings.Language);
             InitializeComponent();
             FillDeviceList();
         }
@@ -35,14 +34,14 @@ namespace NanoTwitchLeafs.Windows
         {
             autoDetectIps_ListBox.Items.Clear();
 
-            networkDevices = await _nanoService.GetDevicesInNetwork();
+            networkDevices = await _nanoController.GetDevicesInNetwork();
 
             int count = 0;
 
             foreach (var device in networkDevices)
             {
                 string content = "";
-                if (_settingsService.CurrentSettings.NanoSettings.NanoLeafDevices.Any(x => x.Address == device.IPAddress))
+                if (_appSettings.NanoSettings.NanoLeafDevices.Any(x => x.Address == device.IPAddress))
                 {
                     content = $"{device.DisplayName} -{device.IPAddress}- {Properties.Resources.Code_Pairing_DeviceList_Paired}";
                 }
@@ -75,14 +74,14 @@ namespace NanoTwitchLeafs.Windows
 
             MessageBox.Show(Properties.Resources.Code_Pairing_MessageBox_Pairing, Properties.Resources.Code_Pairing_MessageBox_Pairing_Title);
 
-            networkDevices = await _nanoService.GetDevicesInNetwork();
+            networkDevices = await _nanoController.GetDevicesInNetwork();
 
             int count = 0;
 
             foreach (var device in networkDevices)
             {
                 string content = "";
-                if (_settingsService.CurrentSettings.NanoSettings.NanoLeafDevices.Any(x => x.Address == device.IPAddress))
+                if (_appSettings.NanoSettings.NanoLeafDevices.Any(x => x.Address == device.IPAddress))
                 {
                     content = $"{device.DisplayName} -{device.IPAddress}- {Properties.Resources.Code_Pairing_DeviceList_Paired}";
                 }
@@ -96,7 +95,7 @@ namespace NanoTwitchLeafs.Windows
                 autoDetectIps_ListBox.Items.Add(item);
             }
 
-            networkDevices = networkDevices.Where(x => _settingsService.CurrentSettings.NanoSettings.NanoLeafDevices.All(y => y.Address != x.IPAddress)).ToList();
+            networkDevices = networkDevices.Where(x => _appSettings.NanoSettings.NanoLeafDevices.All(y => y.Address != x.IPAddress)).ToList();
 
             if (count == 0)
             {
@@ -116,13 +115,13 @@ namespace NanoTwitchLeafs.Windows
                         PublicName = Properties.Resources.General_Label_NanoleafDevice,
                         Token = ""
                     };
-                    if (await _nanoService.PairDevice(newNanoLeafDevice))
+                    if (await _nanoController.PairDevice(newNanoLeafDevice))
                     {
                         MessageBox.Show(Properties.Resources.Code_Pairing_MessageBox_PairingSucessfull, Properties.Resources.General_MessageBox_Sucess_Title);
                         _logger.Info("Pair successful!");
-                        NanoleafControllerInfo controllerInfo = await _nanoService.GetControllerInfo(newNanoLeafDevice);
+                        NanoleafControllerInfo controllerInfo = await _nanoController.GetControllerInfo(newNanoLeafDevice);
                         newNanoLeafDevice.DeviceName = controllerInfo.name;
-                        _settingsService.CurrentSettings.NanoSettings.NanoLeafDevices.Add(newNanoLeafDevice);
+                        _appSettings.NanoSettings.NanoLeafDevices.Add(newNanoLeafDevice);
                         ((MainWindow)App.Current.MainWindow).nanoTestConnection_Button.IsEnabled = true;
                         DisplayHelpMessageMultipleDevices();
                         Close();
@@ -160,7 +159,7 @@ namespace NanoTwitchLeafs.Windows
                 return;
             }
 
-            if (_settingsService.CurrentSettings.NanoSettings.NanoLeafDevices.Any(x => x.Address == nanoIP_TextBox.Text))
+            if (_appSettings.NanoSettings.NanoLeafDevices.Any(x => x.Address == nanoIP_TextBox.Text))
             {
                 MessageBox.Show(Properties.Resources.Code_Pairing_MessageBox_AlreadyCon, Properties.Resources.General_MessageBox_Error_Title);
                 return;
@@ -177,13 +176,13 @@ namespace NanoTwitchLeafs.Windows
                     PublicName = Properties.Resources.General_Label_NanoleafDevice,
                     Token = ""
                 };
-                if (await _nanoService.PairDevice(newNanoLeafDevice))
+                if (await _nanoController.PairDevice(newNanoLeafDevice))
                 {
                     MessageBox.Show(Properties.Resources.Code_Pairing_MessageBox_PairingSucessfull, Properties.Resources.General_MessageBox_Sucess_Title);
                     _logger.Info("Pair successful!");
-                    NanoleafControllerInfo controllerInfo = await _nanoService.GetControllerInfo(newNanoLeafDevice);
+                    NanoleafControllerInfo controllerInfo = await _nanoController.GetControllerInfo(newNanoLeafDevice);
                     newNanoLeafDevice.DeviceName = controllerInfo.name;
-                    _settingsService.CurrentSettings.NanoSettings.NanoLeafDevices.Add(newNanoLeafDevice);
+                    _appSettings.NanoSettings.NanoLeafDevices.Add(newNanoLeafDevice);
                     ((MainWindow)App.Current.MainWindow).nanoTestConnection_Button.IsEnabled = true;
 
                     DisplayHelpMessageMultipleDevices();
@@ -219,7 +218,7 @@ namespace NanoTwitchLeafs.Windows
 
         private void DisplayHelpMessageMultipleDevices()
         {
-            if (_settingsService.CurrentSettings.NanoSettings.NanoLeafDevices.Count > 1)
+            if (_appSettings.NanoSettings.NanoLeafDevices.Count > 1)
             {
                 MessageBox.Show(Properties.Resources.Code_Pairing_MessageBox_PairingEffects, Properties.Resources.General_MessageBox_Hint_Title);
                 _logger.Info(Properties.Resources.Code_Pairing_MessageBox_PairingEffects);

@@ -1039,19 +1039,4 @@ Now we Test your Connection to the Chat and Twitch Services!</value>
   <data name="Window_Main_Tabs_Settings_Checkbox_ToolTip_AnalyticsChannelName" xml:space="preserve">
     <value>Shares TwitchChannel to Analytics Server. Disable to only share Anonymous Data.</value>
   </data>
-  <data name="Window_Main_Tabs_Settings_Button_ExportSettings" xml:space="preserve">
-    <value>Export Settings for Debug</value>
-  </data>
-  <data name="General_MessageBox_ExportSettings_Title" xml:space="preserve">
-    <value>Export Settings</value>
-  </data>
-  <data name="General_MessageBox_ExportSettings_Text" xml:space="preserve">
-    <value>You are about to export the Settings of this Application.
-The Settings will be unencrypted for debugging purposes.
-Your Twitch or Streamlabs Login Details will NOT be exported.
-Please save this File and send it to the
-Developer or attach it to your Github Issue!
-
-Do you want to export your Settings?</value>
-  </data>
 </root>

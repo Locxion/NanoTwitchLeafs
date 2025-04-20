@@ -1037,19 +1037,4 @@ Jetzt testen wir die Verbindung zu Twitch!</value>
   <data name="Window_Main_Tabs_Settings_Checkbox_ToolTip_AnalyticsChannelName" xml:space="preserve">
     <value>Sendet den Twitch Namen zum Analytics Server wenn aktiviert. Deaktivieren um nur anonyme Daten zu senden.</value>
   </data>
-  <data name="Window_Main_Tabs_Settings_Button_ExportSettings" xml:space="preserve">
-    <value>Exportiere Einstellung für Debug</value>
-  </data>
-  <data name="General_MessageBox_ExportSettings_Title" xml:space="preserve">
-    <value>Einstellungen exportieren</value>
-  </data>
-  <data name="General_MessageBox_ExportSettings_Text" xml:space="preserve">
-    <value>Du bist dabei die Einstellungen der Software zu exportieren.
-Diese Einstellungen sind zum Zweck der Fehlerbehebung nicht verschlüsselt.
-Deine Twitch oder Streamlabs Login Daten werden NICHT exportiert.
-Bitte speichere die Datei und sende sie dem Entwickler
-oder hänge es an dein Github Issue!
-
-Willst du die Einstellungen wirklich exportieren?</value>
-  </data>
 </root>

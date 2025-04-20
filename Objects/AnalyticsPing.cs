@@ -1,6 +1,5 @@
 ﻿using System;
 using NanoTwitchLeafs.Enums;
-using TwitchLib.Api.Helix.Models.Bits;
 
 namespace NanoTwitchLeafs.Objects
 {

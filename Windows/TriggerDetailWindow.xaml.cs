@@ -1,18 +1,17 @@
 ﻿using log4net;
 using Microsoft.Win32;
+using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Enums;
 using NanoTwitchLeafs.Objects;
+using NanoTwitchLeafs.Repositories;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using NanoTwitchLeafs.Interfaces;
-using NanoTwitchLeafs.Services;
 
 namespace NanoTwitchLeafs.Windows
 {
@@ -21,73 +20,64 @@ namespace NanoTwitchLeafs.Windows
 	/// </summary>
 	public partial class TriggerDetailWindow : Window
 	{
-		private readonly ISettingsService _settingsService;
-		private readonly INanoService _nanoService;
-		private readonly IHypeRateService _hypeRateService;
-		private readonly IStreamLabsService _streamLabsService;
-		private readonly ITwitchPubSubService _twitchPubSubService;
-		private readonly ITriggerRepositoryService _triggerRepositoryService;
+		private readonly CommandRepository _commandRepository;
+		private readonly StreamlabsController _streamlabsController;
+		private readonly HypeRateIOController _hypeRateIoController;
+		private readonly AppSettings _appSettings;
 		private readonly ILog _logger = LogManager.GetLogger(typeof(TriggerWindow));
+		private readonly TwitchPubSubController _twitchPubSubController;
 
 		private string _channelPointsGuid;
-		public TriggerSetting _triggerSetting { get; set; }
+		private TriggerSetting _triggerSetting { get; set; }
 
-		public TriggerDetailWindow(ISettingsService settingsService, INanoService nanoService, IHypeRateService hypeRateService,IStreamLabsService streamLabsService, ITwitchPubSubService twitchPubSubService, ITriggerRepositoryService triggerRepositoryService)
+		public TriggerDetailWindow(AppSettings appSettings, CommandRepository commandRepository, List<string> effectList, StreamlabsController streamlabsController, HypeRateIOController hypeRateIoController, TriggerSetting triggerSetting = null, TwitchPubSubController twitchPubSubController = null)
 		{
-			_settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
-			_nanoService = nanoService ?? throw new ArgumentNullException(nameof(nanoService));
-			_hypeRateService = hypeRateService ?? throw new ArgumentNullException(nameof(hypeRateService));
-			_streamLabsService = streamLabsService ?? throw new ArgumentNullException(nameof(streamLabsService));
-			_twitchPubSubService = twitchPubSubService ?? throw new ArgumentNullException(nameof(twitchPubSubService));
-			_triggerRepositoryService = triggerRepositoryService ?? throw new ArgumentNullException(nameof(triggerRepositoryService));
+			_commandRepository = commandRepository ?? throw new ArgumentNullException(nameof(commandRepository));
+			_streamlabsController = streamlabsController;
+			_hypeRateIoController = hypeRateIoController ?? throw new ArgumentNullException(nameof(hypeRateIoController));
+			_appSettings = appSettings ?? throw new ArgumentNullException(nameof(appSettings));
+			_twitchPubSubController = twitchPubSubController;
 
-
-			Constants.SetCultureInfo(_settingsService.CurrentSettings.Language);
+			Constants.SetCultureInfo(_appSettings.Language);
 			InitializeComponent();
 
-			if (_twitchPubSubService.IsConnected())
+			if (twitchPubSubController != null && twitchPubSubController.isConnected)
 			{
-				_twitchPubSubService.OnTwitchEventReceived += TwitchPubSubServiceOnOnTwitchEventReceived;
+				twitchPubSubController.OnChannelPointsRedeemed += TwitchPubSubController_OnChannelPointsRedeemed;
 				_channelPointsGuid = "{00000000-0000-0000-0000-000000000000}";
 			}
 
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-			InitData();
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+			foreach (var effect in effectList)
+			{
+				Effect_ComboBox.Items.Add(effect);
+			}
 
+			if (triggerSetting != null)
+			{
+				_triggerSetting = triggerSetting;
+				InitData();
+			}
 		}
 
-		private void TwitchPubSubServiceOnOnTwitchEventReceived(object sender, TwitchEvent twitchEvent)
+		private void TwitchPubSubController_OnChannelPointsRedeemed(string username, string promt, Guid guid)
 		{
-			if (twitchEvent.Event != Event.ChannelPointsEvent)
-				return;
-			if (_settingsService.CurrentSettings.ChannelName.ToLower() != twitchEvent.Username.ToLower())
+			if (_appSettings.ChannelName.ToLower() != username.ToLower())
 			{
 				return;
 			}
 
 			Dispatcher.BeginInvoke(new Action(() => channelPointsDetection_Label.Foreground = Brushes.Green));
-			Dispatcher.BeginInvoke(new Action(() => channelPointsDetection_Label.Content = string.Format(Properties.Resources.Code_TriggerDetail_Label_CPGuid, twitchEvent.Message)));
-			_channelPointsGuid = twitchEvent.Message;
+			Dispatcher.BeginInvoke(new Action(() => channelPointsDetection_Label.Content = string.Format(Properties.Resources.Code_TriggerDetail_Label_CPGuid, guid)));
+			_channelPointsGuid = guid.ToString();
 		}
-
 
 		public TriggerDetailWindow()
 		{
 			InitializeComponent();
 		}
 
-		private async Task InitData()
+		private void InitData()
 		{
-			var effectList = await _nanoService.GetEffectList(_settingsService.CurrentSettings.NanoSettings.NanoLeafDevices[0]);
-			foreach (var effect in effectList)
-			{
-				Effect_ComboBox.Items.Add(effect);
-			}
-
-			if (_triggerSetting == null)
-				return;
-			
 			// Set On/Off Slider State
 			if (_triggerSetting.IsActive == true)
 			{
@@ -134,13 +124,13 @@ namespace NanoTwitchLeafs.Windows
 			}
 
 			// Check for HypeRate Service Connected
-			if (!_hypeRateService.IsConnected())
+			if (!_hypeRateIoController._isConnected)
 			{
 				HypeRate_RadioButton.IsEnabled = false;
 			}
 
 			// Check for Streamlabs Websocket Connection
-			if (!_streamLabsService.IsConnected())
+			if (!_streamlabsController._IsSocketConnected)
 			{
 				Donation_RadioButton.IsEnabled = false;
 			}
@@ -182,7 +172,7 @@ namespace NanoTwitchLeafs.Windows
 					Modonly_Checkbox.IsEnabled = true;
 					Cooldown_Textbox.IsEnabled = true;
 					Channelpoints_Grid.Visibility = Visibility.Hidden;
-					if (_settingsService.CurrentSettings.NanoSettings.ChangeBackOnCommand)
+					if (_appSettings.NanoSettings.ChangeBackOnCommand)
 					{
 						Duration_Textbox.IsEnabled = true;
 					}
@@ -321,7 +311,7 @@ namespace NanoTwitchLeafs.Windows
 					Modonly_Checkbox.IsEnabled = true;
 					Cooldown_Textbox.IsEnabled = true;
 					Channelpoints_Grid.Visibility = Visibility.Hidden;
-					if (_settingsService.CurrentSettings.NanoSettings.ChangeBackOnKeyword)
+					if (_appSettings.NanoSettings.ChangeBackOnKeyword)
 					{
 						Duration_Textbox.IsEnabled = true;
 					}
@@ -409,7 +399,7 @@ namespace NanoTwitchLeafs.Windows
 			}
 
 			// Get all Triggers
-			List<TriggerSetting> triggerSettings = _triggerRepositoryService.GetList().ToList();
+			List<TriggerSetting> triggerSettings = _commandRepository.GetList().ToList();
 
 			// If Trigger already exists
 			if (_triggerSetting != null)
@@ -576,7 +566,7 @@ namespace NanoTwitchLeafs.Windows
 			triggerSettings.Add(newTriggerSetting);
 
 			// Clear Database
-			_triggerRepositoryService.ClearAll();
+			_commandRepository.ClearAll();
 
 			// Read correct Index and insert to Database
 			int index = 0;
@@ -584,7 +574,7 @@ namespace NanoTwitchLeafs.Windows
 			{
 				trigger.ID = index;
 				_logger.Debug($"Insert Trigger Setting with ID {index} into Repository.");
-				_triggerRepositoryService.Insert(trigger);
+				_commandRepository.Insert(trigger);
 				index++;
 			}
 
@@ -652,7 +642,7 @@ namespace NanoTwitchLeafs.Windows
 
 		private void TriggerHelp_Button_Click(object sender, RoutedEventArgs e)
 		{
-			TriggerHelpWindow triggerHelpWindow = new TriggerHelpWindow(_settingsService.CurrentSettings.Language)
+			TriggerHelpWindow triggerHelpWindow = new TriggerHelpWindow(_appSettings.Language)
 			{
 				Owner = this
 			};
@@ -760,7 +750,7 @@ namespace NanoTwitchLeafs.Windows
 				Modonly_Checkbox.IsEnabled = true;
 				Cooldown_Textbox.IsEnabled = true;
 				Channelpoints_Grid.Visibility = Visibility.Hidden;
-				if (_settingsService.CurrentSettings.NanoSettings.ChangeBackOnCommand)
+				if (_appSettings.NanoSettings.ChangeBackOnCommand)
 				{
 					Duration_Textbox.IsEnabled = true;
 				}
@@ -899,7 +889,7 @@ namespace NanoTwitchLeafs.Windows
 				Modonly_Checkbox.IsEnabled = true;
 				Cooldown_Textbox.IsEnabled = true;
 				Channelpoints_Grid.Visibility = Visibility.Hidden;
-				if (_settingsService.CurrentSettings.NanoSettings.ChangeBackOnKeyword)
+				if (_appSettings.NanoSettings.ChangeBackOnKeyword)
 				{
 					Duration_Textbox.IsEnabled = true;
 				}
@@ -919,7 +909,7 @@ namespace NanoTwitchLeafs.Windows
 				Modonly_Checkbox.IsEnabled = false;
 				Cooldown_Textbox.IsEnabled = false;
 				Channelpoints_Grid.Visibility = Visibility.Visible;
-				if (!_twitchPubSubService.IsConnected())
+				if (!_twitchPubSubController.isConnected)
 				{
 					MessageBox.Show(Properties.Resources.Code_TriggerDetail_MessageBox_CPNoConnection, Properties.Resources.General_MessageBox_Hint_Title, MessageBoxButton.OK, MessageBoxImage.Information);
 				}

@@ -131,35 +131,39 @@ public class TwitchEventSubController : IDisposable
         _api.Settings.ClientId = HelperClass.GetTwitchApiCredentials(_appSettings).ClientId;
         _api.Settings.AccessToken = _appSettings.BroadcasterAuthObject.Access_Token;
         var broadcasterId = await HelperClass.GetUserId(_api, _appSettings, _appSettings.ChannelName);
-        var conditions = new Dictionary<string, string>()
+        var doubleConditions = new Dictionary<string, string>()
         {
             { "broadcaster_user_id", broadcasterId },
             { "moderator_user_id", broadcasterId }
         };
+        var singleCondition = new Dictionary<string, string>()
+        {
+            { "to_broadcaster_user_id", broadcasterId }
+        };
         try
         {
-            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.follow", "2", conditions,
+            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.follow", "2", doubleConditions,
                 EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId);
             _logger.Debug("Subscribed to Event Follow");
-            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.subscribe", "1", conditions,
+            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.subscribe", "1", doubleConditions,
                 EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId);
             _logger.Debug("Subscribed to Event Subscription");
-            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.cheer", "1", conditions,
+            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.cheer", "1", doubleConditions,
                 EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId);
             _logger.Debug("Subscribed to Event Cheer");
-            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.raid", "1", conditions,
+            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.raid", "1", singleCondition,
                 EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId);
             _logger.Debug("Subscribed to Event Raid");
-            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.channel_points_custom_reward_redemption.add", "1", conditions,
+            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.channel_points_custom_reward_redemption.add", "1", doubleConditions,
                 EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId);
-            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.channel_points_custom_reward_redemption.update", "1", conditions,
+            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.channel_points_custom_reward_redemption.update", "1", doubleConditions,
                 EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId);
             _logger.Debug("Subscribed to ChannelPointRedemption Events");
-            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.hype_train.begin", "1", conditions,
+            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.hype_train.begin", "1", doubleConditions,
                 EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId);
-            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.hype_train.progress", "1", conditions,
+            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.hype_train.progress", "1", doubleConditions,
                 EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId);
-            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.hype_train.end", "1", conditions,
+            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.hype_train.end", "1", doubleConditions,
                 EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId);
             _logger.Debug("Subscribed to HypeTrain Events");
         }

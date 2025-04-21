@@ -70,7 +70,6 @@ jobs:
     # Zip Files
     - name: Build ZIP
       run: |
-        cd ./NanoTwitchLeafs/
         zip -r ../NanoTwitchLeafs.zip .
         cd ../       
     # Create Release

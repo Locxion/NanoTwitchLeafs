@@ -44,15 +44,12 @@ jobs:
       uses: actions/download-artifact@v4.2.1
       with:
           name: NanoTwitchLeafs
-    - name: Check Directory
-      run: |
-        ls -l
     # Create ServiceCredentials
     - name: Create ServiceCredentials file
       uses: jsdaniell/create-json@v1.2.3
       with:
         name: "ServiceCredentials"
-        dir: './NanoTwitchLeafs/'
+        dir: '.'
         json: >
           { 
             "TwitchApiCredentials": {
@@ -66,9 +63,10 @@ jobs:
             "HyperateApi": {
               "ApiKey": "${{ secrets.HYPERATE_API_KEY }}"
             }
-          }       
-    - name: Move credentials into build folder
-      run: mv ServiceCredentials ./NanoTwitchLeafs/
+          }  
+    - name: Check Directory
+      run: |
+        	ls -l
     # Zip Files
     - name: Build ZIP
       run: |

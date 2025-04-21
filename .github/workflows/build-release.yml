@@ -71,7 +71,9 @@ jobs:
     - name: Build ZIP
       run: |
         zip -r ../NanoTwitchLeafs.zip .
-        cd ../       
+        ls -l
+        cd ../
+        ls -l
     # Create Release
     - name: Create Release
       id: create_release

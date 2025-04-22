@@ -2,7 +2,7 @@ name: .NET Core Desktop
 on:
   push:
     tags:
-      - "*"
+      - "*.*.*.*"
 jobs:
   build:
     runs-on: windows-latest  # For a list of available runner types, refer to
@@ -70,28 +70,15 @@ jobs:
     # Zip Files
     - name: Build ZIP
       run: |
-        zip -r ../NanoTwitchLeafs.zip .
-        ls -l
+        zip -r ../NanoTwitchLeafs-${{ github.ref_name }}.zip .
         cd ../
         ls -l
     # Create Release
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create Release and Upload asset
+      uses: softprops/action-gh-release@v2
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        draft: false
-        prerelease: false
-    # Upload Zip Asset
-    - name: Upload release asset
-      uses: actions/upload-release-asset@v1.0.2
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-      with:
+        fail_on_unmatched_files: true
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: NanoTwitchLeafs.zip
-        asset_name: NanoTwitchLeafs-${{ github.ref_name }}.zip
-        asset_content_type: application/zip
+        files: NanoTwitchLeafs-${{ github.ref_name }}.zip
+        token: ${{ github.token }}
+        make_latest: true

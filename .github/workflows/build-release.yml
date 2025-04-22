@@ -73,12 +73,12 @@ jobs:
         zip -r ../NanoTwitchLeafs-${{ github.ref_name }}.zip .
         cd ../
         ls -l
+        pwd
     # Create Release
     - name: Create Release and Upload asset
       uses: softprops/action-gh-release@v2
       with:
         fail_on_unmatched_files: true
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
         files: NanoTwitchLeafs-${{ github.ref_name }}.zip
         token: ${{ github.token }}
         make_latest: true

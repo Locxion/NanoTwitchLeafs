@@ -619,6 +619,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="README.md" />
     <Resource Include="Assets\channelpoints.png" />
     <Resource Include="Assets\nanotwitchleafs_twitch_broadcaster_logo.png" />
     <Resource Include="Assets\nanotwitchleafs_twitch_robot_logo.png" />

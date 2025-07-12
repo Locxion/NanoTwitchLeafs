@@ -8,6 +8,7 @@ using NanoTwitchLeafs.Enums;
 using NanoTwitchLeafs.Objects;
 using NanoTwitchLeafs.Windows;
 using Newtonsoft.Json;
+using TwitchLib.Api;
 
 namespace NanoTwitchLeafs.Controller
 {
@@ -51,7 +52,7 @@ namespace NanoTwitchLeafs.Controller
                 await Task.Delay(5 * 60 *  1000);
                 //await Task.Delay(15 * 1000);
 
-                var ping = BuildMessage(PingType.Ping, "Ping!");
+                var ping =  await BuildMessage(PingType.Ping, "Ping!");
 
                 await SendPing(ping);
             }
@@ -59,11 +60,14 @@ namespace NanoTwitchLeafs.Controller
 
         public async void SendPing(PingType pingType, string message = "")
         {
-            await SendPing(BuildMessage(pingType, message));
+            await SendPing( await BuildMessage(pingType, message));
         }
 
-        private AnalyticsPing BuildMessage(PingType pingType, string message)
+        private async Task<AnalyticsPing> BuildMessage(PingType pingType, string message)
         {
+            var api = new TwitchAPI();
+            api.Settings.ClientId = HelperClass.GetTwitchApiCredentials(_appSettings).ClientId;
+            api.Settings.AccessToken = _appSettings.BotAuthObject.Access_Token;
             var analyticsMessage = new AnalyticsPing()
             {
                 InstanceId = _appSettings.InstanceID,
@@ -76,7 +80,8 @@ namespace NanoTwitchLeafs.Controller
                     AppVersion = typeof(AppInfoWindow).Assembly.GetName().Version,
                     Debug = _appSettings.DebugEnabled,
                     DevicesCount = _appSettings.NanoSettings.NanoLeafDevices.Count
-                }
+                },
+                SubscriberCount = await HelperClass.GetChannelSubscriberCount(api, _appSettings)
             };
             if (_appSettings.AnalyticsChannelName && !string.IsNullOrWhiteSpace(_appSettings.ChannelName))
             {

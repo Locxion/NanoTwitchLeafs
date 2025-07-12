@@ -12,5 +12,6 @@ namespace NanoTwitchLeafs.Objects
         public DateTime Timestamp { get; set; }
         public PingType PingType { get; set; }
         public AppInformation AppInformation { get; set; }
+        public int SubscriberCount { get; set; }
     }
 }

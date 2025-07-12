@@ -147,5 +147,14 @@ namespace NanoTwitchLeafs
 				return null;
 			}
 		}
+
+		public static async Task<int> GetChannelSubscriberCount(TwitchAPI api, AppSettings appSettings)
+		{
+			var userId = await GetUserId(api, appSettings, appSettings.ChannelName);
+			if (userId == null)
+				return 0;
+			var response = await api.Helix.Subscriptions.GetBroadcasterSubscriptionsAsync(userId, 1);
+			return response.Total;
+		}
 	}
 }

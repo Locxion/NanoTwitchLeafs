@@ -41,6 +41,8 @@ namespace NanoTwitchLeafs.Controller
 		private const int ChatMessageDelay = 1750;
 		private int _lastHeartRate;
 		private TriggerSetting _lastTrigger;
+
+		public event Action<string> OnBotMessageSent;
 		
 
 		public TriggerLogicController(AppSettings settings, TwitchController twitchController, CommandRepository commandRepository,
@@ -1095,14 +1097,7 @@ namespace NanoTwitchLeafs.Controller
 		private void SendMessageToChat(string message)
 		{
 			var formattedMessage = $"{DateTime.Now.ToLongTimeString()}: >>>>> - {message}";
-			/* TODO: Fix message into ListBox
-            ((MainWindow)App.Current.MainWindow).twitchChat_ListBox.Dispatcher.Invoke(() =>
-            {
-                ((MainWindow)App.Current.MainWindow)._twitchChat.Add(formattedMessage);
-                ((MainWindow)App.Current.MainWindow).twitchChat_ListBox.Items.Refresh();
-                ((MainWindow)App.Current.MainWindow).UpdateScrollBar(((MainWindow)App.Current.MainWindow).twitchChat_ListBox);
-            });
-            */
+			OnBotMessageSent?.Invoke(formattedMessage);
 			_twitchController.SendMessageToChat(message);
 		}
 

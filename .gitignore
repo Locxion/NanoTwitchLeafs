@@ -264,3 +264,4 @@ __pycache__/
 
 # Wix Tools
 Components.wxs
+.claude/worktrees/distracted-wiles/

@@ -178,6 +178,7 @@ namespace NanoTwitchLeafs.Windows
 				//This has to be Last!
 				_logger.Info("Initialize Trigger Logic Controller");
 				_triggerLogicController = new TriggerLogicController(_appSettings, _twitchController, _commandRepository, _nanoController, _twitchEventSubController, _streamlabsController, _hypeRatecontroller);
+				_triggerLogicController.OnBotMessageSent += _triggerLogicController_OnBotMessageSent;
 			}
 			catch (Exception ex)
 			{
@@ -1201,6 +1202,18 @@ namespace NanoTwitchLeafs.Windows
 		private void _twitchController_OnChatMessageReceived(ChatMessage chatMessage)
 		{
 			string formattedMessage = $"{DateTime.Now.ToLongTimeString()}: {chatMessage.Username} - {chatMessage.Message}";
+
+			twitchChat_ListBox.Dispatcher.Invoke(() =>
+			{
+				_twitchChat.Add(formattedMessage);
+				twitchChat_ListBox.Items.Refresh();
+				UpdateScrollBar(twitchChat_ListBox);
+			});
+		}
+
+		private void _triggerLogicController_OnBotMessageSent(string formattedMessage)
+		{
+			_logger.Info(formattedMessage);
 
 			twitchChat_ListBox.Dispatcher.Invoke(() =>
 			{

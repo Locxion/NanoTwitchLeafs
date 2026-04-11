@@ -70,6 +70,7 @@ namespace NanoTwitchLeafs.Windows
 			Dispatcher.BeginInvoke(new Action(() => channelPointsDetection_Label.Foreground = Brushes.Green));
 			Dispatcher.BeginInvoke(new Action(() => channelPointsDetection_Label.Content = string.Format(Properties.Resources.Code_TriggerDetail_Label_CPGuid, eventData.Reward.Id)));
 			_channelPointsGuid = eventData.Reward.Id;
+			TriggerSetting.CMD = eventData.Reward.Title;
 		}
 
 		public TriggerDetailWindow()

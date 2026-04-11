@@ -66,8 +66,13 @@ namespace NanoTwitchLeafs.Controller
         private async Task<AnalyticsPing> BuildMessage(PingType pingType, string message)
         {
             var api = new TwitchAPI();
-            api.Settings.ClientId = HelperClass.GetTwitchApiCredentials(_appSettings).ClientId;
-            api.Settings.AccessToken = _appSettings.BotAuthObject.Access_Token;
+            int subCount = 0;
+            if (_appSettings.BotAuthObject != null)
+            {
+                api.Settings.ClientId = HelperClass.GetTwitchApiCredentials(_appSettings).ClientId;
+                api.Settings.AccessToken = _appSettings.BotAuthObject.Access_Token;
+                subCount = await HelperClass.GetChannelSubscriberCount(api, _appSettings);
+            }
             var analyticsMessage = new AnalyticsPing()
             {
                 InstanceId = _appSettings.InstanceID,
@@ -81,7 +86,7 @@ namespace NanoTwitchLeafs.Controller
                     Debug = _appSettings.DebugEnabled,
                     DevicesCount = _appSettings.NanoSettings.NanoLeafDevices.Count
                 },
-                SubscriberCount = await HelperClass.GetChannelSubscriberCount(api, _appSettings)
+                SubscriberCount = subCount
             };
             if (_appSettings.AnalyticsChannelName && !string.IsNullOrWhiteSpace(_appSettings.ChannelName))
             {

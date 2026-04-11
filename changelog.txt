@@ -1,5 +1,10 @@
 Changelog for NanoTwitchLeafs
 
+Version x.x.x. - xx.xx.xxxx
+- Updated EventSub Api to V2
+- Fixed Messages send in Chat Window not appearing
+- Show Title of ChannelPoint Reward in the Command/Keyword Column in TriggerWindow
+
 Version 3.1.5.0 - 21.04.2025
 - Removed deprecated Twitch PubSub Api
 - Added new Twitch EventSub Websocket Api

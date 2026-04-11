@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using log4net;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,7 +7,6 @@ using NanoTwitchLeafs.Objects;
 using TwitchLib.Api;
 using TwitchLib.Api.Core.Enums;
 using TwitchLib.Api.Core.Exceptions;
-using TwitchLib.Api.Helix.Models.HypeTrain;
 using TwitchLib.EventSub.Core.EventArgs.Channel;
 using TwitchLib.EventSub.Core.SubscriptionTypes.Channel;
 using TwitchLib.EventSub.Websockets;
@@ -102,7 +100,7 @@ public class TwitchEventSubController : IDisposable
         //if (eventData.Status == "unfulfilled")
         //    return;
         
-        OnChannelPointsRedeemed?.Invoke(eventData.UserName, eventData.UserInput, eventData.Reward.Id);
+        OnChannelPointsRedeemed?.Invoke(eventData);
         _logger.Info($"Received Channel Point Event from {eventData.UserName}. Reward Name: {eventData.Reward.Title}. Reward ID: {eventData.Reward.Id}");
     }
 

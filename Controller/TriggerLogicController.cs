@@ -15,6 +15,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using System.Windows;
+using TwitchLib.EventSub.Core.SubscriptionTypes.Channel;
 using WMPLib;
 
 namespace NanoTwitchLeafs.Controller
@@ -386,9 +387,9 @@ namespace NanoTwitchLeafs.Controller
 			}
 		}
 
-		private void HandleChannelPoints(string username, string message, string guid)
+		private void HandleChannelPoints(ChannelPointsCustomRewardRedemption eventData)
 		{
-			if (CheckBlacklist(username))
+			if (CheckBlacklist(eventData.UserName))
 				return;
 
 			foreach (var trigger in _commandRepository.GetList())
@@ -397,9 +398,9 @@ namespace NanoTwitchLeafs.Controller
 				{
 					continue;
 				}
-				if (trigger.Trigger == TriggerTypeEnum.ChannelPoints.ToString() && trigger.ChannelPointsGuid == guid)
+				if (trigger.Trigger == TriggerTypeEnum.ChannelPoints.ToString() && trigger.ChannelPointsGuid == eventData.Reward.Id)
 				{
-					QueueObject queueObject = new QueueObject(trigger, $"{username}-ChannelPoints");
+					QueueObject queueObject = new QueueObject(trigger, $"{eventData.UserName}-ChannelPoints");
 					AddToQueue(queueObject);
 				}
 			}

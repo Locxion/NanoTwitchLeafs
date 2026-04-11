@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using TwitchLib.EventSub.Core.SubscriptionTypes.Channel;
 
 namespace NanoTwitchLeafs.Windows
 {
@@ -59,16 +60,16 @@ namespace NanoTwitchLeafs.Windows
 			}
 		}
 
-		private void TwitchEventSubController_OnChannelPointsRedeemed(string username, string promt, string guid)
+		private void TwitchEventSubController_OnChannelPointsRedeemed(ChannelPointsCustomRewardRedemption eventData)
 		{
-			if (_appSettings.ChannelName.ToLower() != username.ToLower())
+			if (_appSettings.ChannelName.ToLower() != eventData.UserName.ToLower())
 			{
 				return;
 			}
 
 			Dispatcher.BeginInvoke(new Action(() => channelPointsDetection_Label.Foreground = Brushes.Green));
-			Dispatcher.BeginInvoke(new Action(() => channelPointsDetection_Label.Content = string.Format(Properties.Resources.Code_TriggerDetail_Label_CPGuid, guid)));
-			_channelPointsGuid = guid;
+			Dispatcher.BeginInvoke(new Action(() => channelPointsDetection_Label.Content = string.Format(Properties.Resources.Code_TriggerDetail_Label_CPGuid, eventData.Reward.Id)));
+			_channelPointsGuid = eventData.Reward.Id;
 		}
 
 		public TriggerDetailWindow()

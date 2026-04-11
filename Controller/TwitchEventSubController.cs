@@ -9,10 +9,10 @@ using TwitchLib.Api;
 using TwitchLib.Api.Core.Enums;
 using TwitchLib.Api.Core.Exceptions;
 using TwitchLib.Api.Helix.Models.HypeTrain;
+using TwitchLib.EventSub.Core.EventArgs.Channel;
 using TwitchLib.EventSub.Core.SubscriptionTypes.Channel;
 using TwitchLib.EventSub.Websockets;
 using TwitchLib.EventSub.Websockets.Core.EventArgs;
-using TwitchLib.EventSub.Websockets.Core.EventArgs.Channel;
 
 namespace NanoTwitchLeafs.Controller;
 public class TwitchEventSubController : IDisposable
@@ -47,32 +47,32 @@ public class TwitchEventSubController : IDisposable
         _eventSubWebsocketClient.ChannelCheer += OnChannelCheer;
         _eventSubWebsocketClient.ChannelPointsCustomRewardRedemptionAdd += OnChannelPointsCustomRewardRedemptionAdd;
         _eventSubWebsocketClient.ChannelPointsCustomRewardRedemptionUpdate += OnChannelPointsCustomRewardRedemptionUpdate;
-        _eventSubWebsocketClient.ChannelHypeTrainBegin += OnChannelHypeTrainBegin;
-        _eventSubWebsocketClient.ChannelHypeTrainProgress += OnChannelHypeTrainProgress;
-        _eventSubWebsocketClient.ChannelHypeTrainEnd += OnChannelHypeTrainEnd;
+        _eventSubWebsocketClient.ChannelHypeTrainBeginV2 += OnChannelHypeTrainBegin;
+        _eventSubWebsocketClient.ChannelHypeTrainProgressV2 += OnChannelHypeTrainProgress;
+        _eventSubWebsocketClient.ChannelHypeTrainEndV2 += OnChannelHypeTrainEnd;
     }
 
-    private async Task OnChannelHypeTrainEnd(object sender, ChannelHypeTrainEndArgs args)
+    private async Task OnChannelHypeTrainEnd(object sender, ChannelHypeTrainEndV2Args args)
     {
         _logger.Debug("Received Hype Train End Event");
-        var eventData = args.Notification.Payload.Event.Level;
+        var eventData = args.Payload.Event.Level;
         HandleHypeTrainEvent(eventData);
         CurrentHypeTrainLevel = 0;
     }
 
-    private async Task OnChannelHypeTrainProgress(object sender, ChannelHypeTrainProgressArgs args)
+    private async Task OnChannelHypeTrainProgress(object sender, ChannelHypeTrainProgressV2Args args)
     {
         _logger.Debug("Received Hype Train Progress Event");
-        var eventData = args.Notification.Payload.Event.Level;
+        var eventData = args.Payload.Event.Level;
         if (CurrentHypeTrainLevel < eventData)
             HandleHypeTrainEvent(eventData);
         CurrentHypeTrainLevel = eventData;
     }
 
-    private async Task OnChannelHypeTrainBegin(object sender, ChannelHypeTrainBeginArgs args)
+    private async Task OnChannelHypeTrainBegin(object sender, ChannelHypeTrainBeginV2Args args)
     {
         _logger.Debug("Received Hype Train Begin Event");
-        var eventData = args.Notification.Payload.Event.Level;
+        var eventData = args.Payload.Event.Level;
         HandleHypeTrainEvent(eventData);
         CurrentHypeTrainLevel = eventData;
     }
@@ -86,14 +86,14 @@ public class TwitchEventSubController : IDisposable
     private async Task OnChannelPointsCustomRewardRedemptionUpdate(object sender, ChannelPointsCustomRewardRedemptionArgs args)
     {
         _logger.Debug("Received Channel Point Custom Reward Redemption Update Event");
-        var eventData = args.Notification.Payload.Event;
+        var eventData = args.Payload.Event;
         HandleChannelPointsEvent(eventData);
     }
 
     private async Task OnChannelPointsCustomRewardRedemptionAdd(object sender, ChannelPointsCustomRewardRedemptionArgs args)
     {
         _logger.Debug("Received Channel Point Custom Reward Redemption Add Event");
-        var eventData = args.Notification.Payload.Event;
+        var eventData = args.Payload.Event;
         HandleChannelPointsEvent(eventData);
     }
 
@@ -159,11 +159,11 @@ public class TwitchEventSubController : IDisposable
             await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.channel_points_custom_reward_redemption.update", "1", doubleConditions,
                 EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId);
             _logger.Debug("Subscribed to ChannelPointRedemption Events");
-            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.hype_train.begin", "1", doubleConditions,
+            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.hype_train.begin", "2", doubleConditions,
                 EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId);
-            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.hype_train.progress", "1", doubleConditions,
+            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.hype_train.progress", "2", doubleConditions,
                 EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId);
-            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.hype_train.end", "1", doubleConditions,
+            await _api.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.hype_train.end", "2", doubleConditions,
                 EventSubTransportMethod.Websocket, _eventSubWebsocketClient.SessionId);
             _logger.Debug("Subscribed to HypeTrain Events");
             _logger.Info("Subscribed to all needed Events on EventSub Websocket!");
@@ -200,32 +200,32 @@ public class TwitchEventSubController : IDisposable
 
     private async Task OnChannelFollow(object? sender, ChannelFollowArgs e)
     {
-        var eventData = e.Notification.Payload.Event;
+        var eventData = e.Payload.Event;
         OnFollow?.Invoke(eventData.UserName);
         _logger.Info($"{eventData.UserName} followed {eventData.BroadcasterUserName} at {eventData.FollowedAt}");
     }
     private async Task OnChannelSubscribe(object sender, ChannelSubscribeArgs args)
     {
-        var eventData = args.Notification.Payload.Event;
+        var eventData = args.Payload.Event;
         OnSubscription?.Invoke(eventData.UserName, false);
         _logger.Info($"{eventData.UserName} subscribed to Channel.");
     }
     
     private async Task OnChannelSubscriptionMessage(object sender, ChannelSubscriptionMessageArgs args)
     {
-        var eventData = args.Notification.Payload.Event;
+        var eventData = args.Payload.Event;
         OnSubscription?.Invoke(eventData.UserName, true);
         _logger.Info($"{eventData.UserName} resubscribed to Channel. Month: {eventData.DurationMonths}");
     }        
     private async Task OnChannelSubscriptionGift(object sender, ChannelSubscriptionGiftArgs args)
     {
-        var eventData = args.Notification.Payload.Event;
+        var eventData = args.Payload.Event;
         OnGiftSubscription?.Invoke(eventData.UserName, eventData.Total, eventData.IsAnonymous);
         _logger.Info($"{eventData.UserName} gift subscribed to Channel.");
     }
     private async Task OnChannelCheer(object sender, ChannelCheerArgs args)
     {
-        var eventData = args.Notification.Payload.Event;
+        var eventData = args.Payload.Event;
         if (eventData.IsAnonymous)
             eventData.UserName = "Anonymous";
         OnBitsReceived?.Invoke(eventData.UserName, eventData.Bits);
@@ -234,7 +234,7 @@ public class TwitchEventSubController : IDisposable
 
     private async Task OnChannelRaid(object sender, ChannelRaidArgs args)
     {
-        var eventData = args.Notification.Payload.Event;
+        var eventData = args.Payload.Event;
         OnRaid?.Invoke(eventData.FromBroadcasterUserName, eventData.Viewers);
         _logger.Info($"{eventData.FromBroadcasterUserName} raided the Channel. Amount: {eventData.Viewers}");
     }
@@ -252,8 +252,8 @@ public class TwitchEventSubController : IDisposable
         _eventSubWebsocketClient.ChannelCheer -= OnChannelCheer;
         _eventSubWebsocketClient.ChannelPointsCustomRewardRedemptionAdd -= OnChannelPointsCustomRewardRedemptionAdd;
         _eventSubWebsocketClient.ChannelPointsCustomRewardRedemptionUpdate -= OnChannelPointsCustomRewardRedemptionUpdate;
-        _eventSubWebsocketClient.ChannelHypeTrainBegin -= OnChannelHypeTrainBegin;
-        _eventSubWebsocketClient.ChannelHypeTrainProgress -= OnChannelHypeTrainProgress;
-        _eventSubWebsocketClient.ChannelHypeTrainEnd -= OnChannelHypeTrainEnd;
+        _eventSubWebsocketClient.ChannelHypeTrainBeginV2 -= OnChannelHypeTrainBegin;
+        _eventSubWebsocketClient.ChannelHypeTrainProgressV2 -= OnChannelHypeTrainProgress;
+        _eventSubWebsocketClient.ChannelHypeTrainEndV2 -= OnChannelHypeTrainEnd;
     }
 }

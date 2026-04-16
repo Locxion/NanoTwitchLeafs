@@ -1,4 +1,4 @@
-﻿using Hardcodet.Wpf.TaskbarNotification;
+using Hardcodet.Wpf.TaskbarNotification;
 using log4net;
 using log4net.Core;
 using log4net.Repository.Hierarchy;
@@ -29,10 +29,10 @@ using MessageBox = System.Windows.MessageBox;
 
 namespace NanoTwitchLeafs.Windows
 {
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
-	public partial class MainWindow : Window
+    /// <summary>
+    /// Main application window. Contains all UI logic and controller initialization.
+    /// </summary>
+    public partial class MainWindow : Window
 	{
 		private readonly List<string> _twitchChat = new List<string>();
 		private static readonly ObservableCollection<string> Console = new ObservableCollection<string>();

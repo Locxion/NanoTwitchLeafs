@@ -1,5 +1,8 @@
 ﻿namespace NanoTwitchLeafs.Objects
 {
+    /// <summary>
+    /// OAuth token container for Twitch authentication.
+    /// </summary>
     public class OAuthObject
     {
         public string Access_Token { get; set; }

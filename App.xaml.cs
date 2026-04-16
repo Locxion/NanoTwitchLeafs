@@ -1,4 +1,4 @@
-﻿using log4net;
+using log4net;
 using NanoTwitchLeafs.Windows;
 using System;
 using System.IO;
@@ -8,10 +8,16 @@ using log4net.Config;
 namespace NanoTwitchLeafs
 {
     /// <summary>
-    /// Interaction logic for App.xaml
+    /// Main application entry point. Initializes logging and displays the main window.
     /// </summary>
     public partial class App : Application
     {
+        /// <summary>
+        /// Application startup handler. Creates required directories, initializes logging,
+        /// and displays the main window.
+        /// </summary>
+        /// <param name="sender">Event sender (unused).</param>
+        /// <param name="e">Startup event arguments.</param>
         private async void App_Startup(object sender, StartupEventArgs e)
         {
             // Create Nanoleafs directory.

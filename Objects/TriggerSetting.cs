@@ -1,7 +1,11 @@
-﻿using SQLite;
+using SQLite;
 
 namespace NanoTwitchLeafs.Objects
 {
+    /// <summary>
+    /// Trigger configuration stored in database.
+    /// Defines command, effect, color, sound, and access restrictions.
+    /// </summary>
 	public class TriggerSetting
 	{
 		[PrimaryKey]

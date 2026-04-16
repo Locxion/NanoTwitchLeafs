@@ -1,4 +1,4 @@
-﻿using NanoTwitchLeafs.Controller;
+using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Enums;
 using NanoTwitchLeafs.Interfaces;
 using NanoTwitchLeafs.Objects;
@@ -8,6 +8,9 @@ using System.Linq;
 
 namespace NanoTwitchLeafs.Repositories
 {
+    /// <summary>
+    /// Repository for trigger/command persistence. Manages cached trigger list from SQLite.
+    /// </summary>
     public class CommandRepository
     {
         private readonly IDatabaseController<TriggerSetting> _dbController;

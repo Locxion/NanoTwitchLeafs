@@ -1,4 +1,4 @@
-﻿using log4net;
+using log4net;
 using NanoTwitchLeafs.Colors;
 using NanoTwitchLeafs.Enums;
 using NanoTwitchLeafs.Objects;
@@ -20,6 +20,10 @@ using WMPLib;
 
 namespace NanoTwitchLeafs.Controller
 {
+    /// <summary>
+    /// Core trigger processing engine. Handles Twitch events (chat, bits, follows, subs, etc.)
+    /// and executes corresponding actions (effects, sounds, messages).
+    /// </summary>
 	public class TriggerLogicController 
 	{
 		private readonly ILog _logger = LogManager.GetLogger(typeof(TriggerLogicController));
@@ -43,9 +47,13 @@ namespace NanoTwitchLeafs.Controller
 		private int _lastHeartRate;
 		private TriggerSetting _lastTrigger;
 
+		/// <summary>Fired when bot sends a message to chat.</summary>
 		public event Action<string> OnBotMessageSent;
 		
 
+        /// <summary>
+        /// Initializes the trigger logic controller with required dependencies.
+        /// </summary>
 		public TriggerLogicController(AppSettings settings, TwitchController twitchController, CommandRepository commandRepository,
 									  NanoController nanoController, TwitchEventSubController twitchEventSubController, StreamlabsController streamLabsController, HypeRateIOController hypeRateIoController)
 		{

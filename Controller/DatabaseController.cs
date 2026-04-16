@@ -1,10 +1,14 @@
-﻿using log4net;
+using log4net;
 using NanoTwitchLeafs.Interfaces;
 using SQLite;
 using System.Collections.Generic;
 
 namespace NanoTwitchLeafs.Controller
 {
+    /// <summary>
+    /// Generic SQLite database controller for CRUD operations.
+    /// </summary>
+    /// <typeparam name="T">Entity type.</typeparam>
 	public class DatabaseController<T> : IDatabaseController<T> where T : new()
 	{
 		private readonly string _databasePath;

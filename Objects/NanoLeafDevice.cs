@@ -1,5 +1,8 @@
-﻿namespace NanoTwitchLeafs.Objects
+namespace NanoTwitchLeafs.Objects
 {
+    /// <summary>
+    /// Represents a Nanoleaf device with connection details and state.
+    /// </summary>
     public class NanoLeafDevice : NotifyObject
     {
         public NanoLeafDevice() : base()

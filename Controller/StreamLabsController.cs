@@ -1,4 +1,4 @@
-﻿using H.Socket.IO;
+using H.Socket.IO;
 using log4net;
 using NanoTwitchLeafs.Objects;
 using Newtonsoft.Json;
@@ -14,8 +14,16 @@ using System.Threading.Tasks;
 
 namespace NanoTwitchLeafs.Controller
 {
+    /// <summary>
+    /// Delegate for donation events.
+    /// </summary>
+    /// <param name="amount">Donation amount.</param>
+    /// <param name="username">Donator's username.</param>
 	public delegate void OnDonationRecieved(double amount, string username);
 
+    /// <summary>
+    /// Handles Streamlabs API and WebSocket connection for donations and alerts.
+    /// </summary>
 	public class StreamlabsController
 	{
 		private const string RedirectUri = "http://127.0.0.1:1234/";
@@ -69,10 +77,10 @@ namespace NanoTwitchLeafs.Controller
 			}
 		}
 
-		/// <summary>
-		/// Pulls the ProfileInformation from the Streamlabs Api
-		/// </summary>
-		/// <returns>Profike Information in Json Format</returns>
+        /// <summary>
+        /// Retrieves user profile information from Streamlabs API.
+        /// </summary>
+        /// <returns>Profile information as JSON string.</returns>
 		public async Task<string> GetProfileInformation()
 		{
 			using (var client = new HttpClient())

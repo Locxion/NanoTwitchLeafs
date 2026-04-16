@@ -1,4 +1,4 @@
-﻿using log4net;
+using log4net;
 using NanoTwitchLeafs.Objects;
 using Newtonsoft.Json;
 using System;
@@ -8,12 +8,25 @@ using WebSocket4Net;
 
 namespace NanoTwitchLeafs.Controller
 {
+    /// <summary>
+    /// Fired when heart rate data is received from Hyperate.io.
+    /// </summary>
+    /// <param name="heartRate">Current heart rate value.</param>
     public delegate void OnHeartRateRecieved(int heartRate);
 
+    /// <summary>
+    /// Fired when disconnected from Hyperate.io.
+    /// </summary>
     public delegate void OnHypeRateDisconnected();
 
+    /// <summary>
+    /// Fired when connected to Hyperate.io.
+    /// </summary>
     public delegate void OnHypeRateConnected();
 
+    /// <summary>
+    /// Handles connection to Hyperate.io WebSocket API for heart rate integration.
+    /// </summary>
     public class HypeRateIOController
     {
         private readonly AppSettings _appSettings;

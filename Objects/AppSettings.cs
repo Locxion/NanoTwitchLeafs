@@ -1,9 +1,13 @@
-﻿using NanoTwitchLeafs.Windows;
+using NanoTwitchLeafs.Windows;
 using System;
 using System.Collections.Generic;
 
 namespace NanoTwitchLeafs.Objects
 {
+    /// <summary>
+    /// Application settings including credentials, language, and feature toggles.
+    /// Uses INotifyPropertyChanged for data binding.
+    /// </summary>
 	public class AppSettings : NotifyObject
 	{
 		public AppSettings() : base()

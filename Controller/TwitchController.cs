@@ -1,4 +1,4 @@
-﻿using log4net;
+using log4net;
 using NanoTwitchLeafs.Objects;
 using Newtonsoft.Json;
 using System;
@@ -21,7 +21,11 @@ using MessageBox = System.Windows.MessageBox;
 
 namespace NanoTwitchLeafs.Controller
 {
-	public class TwitchController
+    /// <summary>
+    /// Handles Twitch chat connection, authentication, and messaging.
+    /// Supports both bot and broadcaster accounts with OAuth token refresh.
+    /// </summary>
+    public class TwitchController
 	{
 		private const string TwitchApiAddress = "https://id.twitch.tv/oauth2";
 		private const string AuthorizationEndpoint = "/authorize";
@@ -32,21 +36,27 @@ namespace NanoTwitchLeafs.Controller
 		private const string RedirectUri = "http://127.0.0.1:1234";
 		
 		private readonly ILog _logger = LogManager.GetLogger(typeof(TwitchController));
+        /// <summary>Twitch bot client instance.</summary>
 		public TwitchClient Client;
 		private TwitchClient _broadCasterClient;
 		private TwitchAPI _api;
 		private AppSettings _appSettings;
+        /// <summary>EventSub controller for Twitch events.</summary>
 		public TwitchEventSubController EventSubController;
 		private readonly AppSettingsController _appSettingsController;
 
+        /// <summary>List of channel moderators.</summary>
 		public List<string> ChannelModerator { get; set; }
 
 		private bool _firstTryToConnectBotAccount = true;
 		private bool _firstTryToConnectBroadcasterAccount = true;
+        /// <summary>Fired when disconnected from Twitch.</summary>
 		public event EventHandler OnDisconnected;
 
+        /// <summary>Fired when a chat message is received.</summary>
 		public event ChatMessageReceived OnChatMessageReceived;
 		
+        /// <summary>Fired to show/hide loading window.</summary>
 		public event CallLoadingWindow OnCallLoadingWindow;
 
 		public TwitchController(AppSettingsController appSettingsController)
@@ -56,9 +66,9 @@ namespace NanoTwitchLeafs.Controller
 		}
 
 		/// <summary>
-		/// Connects to Twitch Services with provided AppSettings
-		/// </summary>
-		/// <param name="appSettings"></param>
+        /// Establishes connection to Twitch using stored credentials.
+        /// </summary>
+        /// <param name="appSettings">Application settings containing credentials.</param>
 		public void Connect(AppSettings appSettings)
 		{
 			Client?.Disconnect();
@@ -219,9 +229,9 @@ namespace NanoTwitchLeafs.Controller
 		}
 
 		/// <summary>
-		/// Disconnects from Twitch Services
-		/// </summary>
-		/// <param name="both"></param>
+        /// Disconnects from Twitch services.
+        /// </summary>
+        /// <param name="both">If true, disconnects both bot and broadcaster clients.</param>
 		public void Disconnect(bool both = false)
 		{
 			if (Client is not null && Client.IsConnected)
@@ -256,9 +266,9 @@ namespace NanoTwitchLeafs.Controller
 		}
 		
 		/// <summary>
-		/// Sends Message to connected TwitchChannel
-		/// </summary>
-		/// <param name="message"></param>
+        /// Sends a message to the connected Twitch channel chat.
+        /// </summary>
+        /// <param name="message">Message to send.</param>
 		public void SendMessageToChat(string message)
 		{
 			if (!Client.IsConnected)
@@ -488,11 +498,11 @@ namespace NanoTwitchLeafs.Controller
 		}
 
 		/// <summary>
-		/// Pulls Avatar Url from TwitchUser
-		/// </summary>
-		/// <param name="userName"></param>
-		/// <param name="token"></param>
-		/// <returns>Url as String</returns>
+        /// Retrieves the profile image URL for a Twitch user.
+        /// </summary>
+        /// <param name="userName"> Twitch username.</param>
+        /// <param name="token">Access token.</param>
+        /// <returns>Profile image URL as string.</returns>
 		public async Task<string> GetAvatarUrl(string userName, string token)
 		{
 			var api = new TwitchAPI
